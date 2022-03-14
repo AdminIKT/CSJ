@@ -96,7 +96,9 @@ class AreaController extends Controller
             $request->input('to'),
             $area->getId(),
             $request->input('type'),
-            $request->input('status')
+            $request->input('status'),
+            $request->input('sortBy', 'date'),
+            $request->input('sort', 'desc')
         );
 
         return view('areas.show', [

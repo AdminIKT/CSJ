@@ -61,6 +61,8 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         $area = null, 
         $type = null, 
         $status = null, 
+        $sortBy = null, 
+        $sort = null, 
         $perPage = 5, 
         $pageName= "page")
     {
@@ -90,7 +92,8 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
             $builder->andWhere("o.status = :status")
                 ->setParameter('status', $status);
         }
-        $builder->orderBy('o.date' , 'DESC');
+
+        $builder->orderBy("o.{$sortBy}" , $sort);
 
         return $this->paginate($builder->getQuery(), $perPage, $pageName);
     }
