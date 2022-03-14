@@ -38,7 +38,9 @@ class OrderController extends Controller
             $request->input('to'),
             $request->input('area'),
             $request->input('type'),
-            $request->input('status')
+            $request->input('status'),
+            $request->input('sortBy', 'date'),
+            $request->input('sort', 'desc')
         );
 
         $areas  = $this->em->getRepository(Area::class)->findBy([], ['name' => 'ASC']);

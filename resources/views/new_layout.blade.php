@@ -29,6 +29,9 @@ header {
 #sidebarMenu .nav-link.active {
     background: rgb(112 196 189/ 25%)
 }
+th a.active {
+    color: lightblue;
+}
     </style>
 </head>
 <body>
