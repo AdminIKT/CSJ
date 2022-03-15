@@ -77,7 +77,7 @@ class Order implements \JsonSerializable
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entities\Order\Product", mappedBy="order", cascade={"persist","merge"})
+     * @ORM\OneToMany(targetEntity="App\Entities\Order\Product", mappedBy="order", cascade={"persist","remove"})
      */
     private $products;
 

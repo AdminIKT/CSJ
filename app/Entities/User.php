@@ -82,7 +82,7 @@ class User implements Authenticatable, HasRolesContract
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Order", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="user", cascade={"persist","remove"})
      */
     private $orders;
 

@@ -125,6 +125,21 @@ class UserController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        dd($user);
+        $this->em->remove($user);
+        $this->em->flush();
+
+        return redirect()->back()->with('success', 'Successfully removed');
+    }
+
+    /**
      * @param User $entity
      * @param array $data
      *

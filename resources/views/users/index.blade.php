@@ -21,26 +21,29 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($collection as $user)
+    @foreach ($collection as $entity)
     <tr>
-        <td>@if ($user->getAvatar()) <img src="{{ $user->getAvatar() }}" height="25" width="25" class="rounded-circle"/> @endif</td>
-        <td>{{ $user->getEmail() }}</td>
-        <td>{{ $user->getName() }}</td>
-        <td>{{ implode(", ", $user->getRoles()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
-        <td>{{ implode(", ", $user->getAreas()->map(function ($e) { return "{$e->getName()} ({$e->getType()})"; })->toArray()) }}</td>
-        <td>{{ $user->getCreated()->format("d/m/Y H:i") }}</td>
-        <td>@if ($user->getLastLogin()) {{ $user->getLastLogin()->format("d/m/Y H:i") }} @endif</td>
+        <td>@if ($entity->getAvatar()) <img src="{{ $entity->getAvatar() }}" height="25" width="25" class="rounded-circle"/> @endif</td>
+        <td>{{ $entity->getEmail() }}</td>
+        <td>{{ $entity->getName() }}</td>
+        <td>{{ implode(", ", $entity->getRoles()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
+        <td>{{ implode(", ", $entity->getAreas()->map(function ($e) { return "{$e->getName()} ({$e->getType()})"; })->toArray()) }}</td>
+        <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
+        <td>@if ($entity->getLastLogin()) {{ $entity->getLastLogin()->format("d/m/Y H:i") }} @endif</td>
         <td class="m-0">
+            {{ Form::open([
+                'route' => ['users.destroy', $entity->getId()], 
+                'method' => 'delete',
+            ]) }}
+
             <div class="btn-group btn-group-sm">
-                <a href="{{route('users.show', ['user' => $user->getId()])}}" class="btn btn-outline-secondary">
+                <a href="{{route('users.show', ['user' => $entity->getId()])}}" class="btn btn-outline-secondary">
                     <span data-feather="eye"></span>
                 </a>
-                <a href="{{route('users.edit', ['user' => $user->getId()])}}" class="btn btn-outline-secondary">
+                <a href="{{route('users.edit', ['user' => $entity->getId()])}}" class="btn btn-outline-secondary">
                     <span data-feather="edit-2"></span>
                 </a>
-                <a href="{{route('users.destroy', ['user' => $user->getId()])}}" class="btn btn-outline-secondary">
-                    <span data-feather="trash"></span>
-                </a>
+                {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit', 'disabled' => true]) }}
             </div>
         </td>
     </tr> 

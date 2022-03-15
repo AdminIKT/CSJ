@@ -81,7 +81,7 @@ th a.active {
             </div>
         </div>
 
-        @if (Auth::user()->hasRole('Admin') or true)
+        @admin
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Lists</span>
           <!--<a class="link-secondary" href="#" aria-label="Add a new report">
@@ -107,12 +107,14 @@ th a.active {
               {{ __('Suppliers') }}
             </a>
           </li>
+          <!--
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="bar-chart-2"></span>
               {{ __('Reports') }}
             </a>
           </li>
+          -->
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="layers"></span>
@@ -182,11 +184,23 @@ th a.active {
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="settings"></span>
-              {{ __('Severals') }}
+              {{ __('Límite presuepuesto') }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="settings"></span>
+              {{ __('Límite facturación') }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="settings"></span>
+              {{ __('Parametros de importación') }}
             </a>
           </li>
         </ul>
-        @endif
+        @endadmin
       </div>
     </nav>
 
