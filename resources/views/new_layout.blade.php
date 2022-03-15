@@ -81,6 +81,7 @@ th a.active {
             </div>
         </div>
 
+        @if (Auth::user()->hasRole('Admin') or true)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Lists</span>
           <!--<a class="link-secondary" href="#" aria-label="Add a new report">
@@ -185,6 +186,7 @@ th a.active {
             </a>
           </li>
         </ul>
+        @endif
       </div>
     </nav>
 
