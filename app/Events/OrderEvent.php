@@ -15,13 +15,18 @@ class OrderEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
+     * @var Order 
+     */
+    public $entity;
+
+    /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(\App\Entities\Order $order)
     {
-        //
+        $this->entity = $order;
     }
 
     /**

@@ -19,6 +19,8 @@ class User implements Authenticatable, HasRolesContract
 {
     use HasRoles;
 
+    const SITE_DOMAIN = "@fpsanjorge.com";
+
     /**
      * @var int
      *
@@ -224,6 +226,14 @@ class User implements Authenticatable, HasRolesContract
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShort()
+    {
+        return str_replace(self::SITE_DOMAIN, "", $this->getEmail());
     }
 
     /**

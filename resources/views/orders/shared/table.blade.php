@@ -12,7 +12,7 @@
         </th>
         <th scope="col">{{ __('Area') }}</th>
         <th scope="col">{{ __('Type') }}</th>
-        <th scope="col">{{ __('Products') }}</th>
+        <!--<th scope="col">{{ __('Products') }}</th>-->
         <th scope="col">{{ __('Estimated') }}
             <a class="{{ request()->get('sortBy') == 'estimatedCredit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'estimatedCredit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -49,13 +49,13 @@
             <td><a href="{{ route('orders.show', ['order' => $order->getId()]) }}">{{ $order->getSequence() }}</a></td>
             <td><a href="{{ route('areas.show', ['area' => $order->getArea()->getId()]) }}">{{ $order->getArea()->getName() }}-{{ $order->getArea()->getType() }}</a></td>
             <td>{{ $order->getArea()->getTypeName() }}</td>
-            <td>{{ $order->getProducts()->count() }}</td>
+            <!--<td>{{ $order->getProducts()->count() }}</td>-->
             <td>{{ $order->getEstimatedCredit() }}€</td>
             <td>{{ $order->getStatusName() }}</td>
             <td>@if ($order->getCredit()) {{ $order->getCredit() }}€ @endif</td>
             <td>{{ $order->getDetail() }}</td>
             <td>{{ $order->getDate()->format("d/m/Y H:i") }}</td>
-            <td>{{ $order->getUser()->getName() }}</td>
+            <td>{{ $order->getUser()->getShort() }}</td>
             <td>
             {{ Form::open([
                 'route' => ['orders.destroy', $order->getId()], 

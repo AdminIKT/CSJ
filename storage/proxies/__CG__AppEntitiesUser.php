@@ -282,6 +282,17 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getShort()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getShort', []);
+
+        return parent::getShort();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setAvatar($avatar = NULL)
     {
 

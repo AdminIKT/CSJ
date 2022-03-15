@@ -10,7 +10,8 @@ use App\Http\Controllers\Controller,
 use App\Entities\Area,
     App\Entities\Supplier,
     App\Entities\Order,
-    App\Entities\Order\Product;
+    App\Entities\Order\Product,
+    App\Events\OrderEvent;
 
 class OrderController extends Controller
 {
@@ -91,6 +92,10 @@ class OrderController extends Controller
         $area->addOrder($order)
             ->increaseCompromisedCredit($order->getEstimatedCredit())
             ;
+
+        OrderEvent::dispatch($order);
+
+        $this->em->persist($order);
         $this->em->flush();
         return redirect()->route('orders.show', $order->getId())
                          ->with('success', 'Successfully created');
