@@ -39,6 +39,7 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
+        <th scope="col">{{ __('User') }}</th>
         <th scope="col">{{ __('Actions') }}</th>
     </tr>
     </thead>
@@ -54,6 +55,7 @@
             <td>@if ($order->getCredit()) {{ $order->getCredit() }}€ @endif</td>
             <td>{{ $order->getDetail() }}</td>
             <td>{{ $order->getDate()->format("d/m/Y H:i") }}</td>
+            <td>{{ $order->getUser()->getName() }}</td>
             <td>
             {{ Form::open([
                 'route' => ['orders.destroy', $order->getId()], 

@@ -68,6 +68,13 @@ class Order implements \JsonSerializable
     private $area;
 
     /**
+     * @var User 
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entities\User", inversedBy="orders")
+     */
+    private $user;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entities\Order\Product", mappedBy="order", cascade={"persist","merge"})
@@ -308,6 +315,30 @@ class Order implements \JsonSerializable
     public function getStatusName()
     {
         return self::statusName($this->getStatus());
+    }
+
+    /**
+     * Set user.
+     *
+     * @param User $user
+     *
+     * @return Order
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**

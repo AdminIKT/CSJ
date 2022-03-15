@@ -78,6 +78,13 @@ class User implements Authenticatable, HasRolesContract
     private $areas;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="users")
+     */
+    private $orders;
+
+    /**
      * @var DateTime 
      *
      * @ORM\Column(name="created", type="datetime")
@@ -109,6 +116,7 @@ class User implements Authenticatable, HasRolesContract
     public function __construct()
     {
         $this->areas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -275,6 +283,16 @@ class User implements Authenticatable, HasRolesContract
     public function getAreas()
     {
         return $this->areas;
+    }
+
+    /**
+     * Get users.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 
     /**
