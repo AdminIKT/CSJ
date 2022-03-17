@@ -45,21 +45,25 @@ Route::get('/callback', [Controllers\SocialiteController::class, 'handleProvider
  *  DELETE      /photos/{photo}         destroy     photos.destroy
  */
 Route::resources([
-    'users'       => Controllers\UserController::class,
-    'areas'       => Controllers\AreaController::class,
-    'areas.orders' => Controllers\Area\OrderController::class,
-    'areas.movements' => Controllers\Area\MovementController::class,
-    'departments' => Controllers\DepartmentController::class,
-    'orders'      => Controllers\OrderController::class,
-    'orders.products' => Controllers\Order\ProductController::class,
-    'orders.invoices' => Controllers\Order\InvoiceController::class,
-    'suppliers'   => Controllers\SupplierController::class,
-    'suppliers.contacts' => Controllers\Supplier\ContactController::class,
-    'suppliers.invoiceds' => Controllers\Supplier\InvoicedController::class,
-    'suppliers.incidences' => Controllers\Supplier\IncidenceController::class,
-    'suppliers.orders' => Controllers\Supplier\OrderController::class,
-    'suppliers.movements' => Controllers\Supplier\MovementController::class,
-    'movements'      => Controllers\MovementController::class,
+    'users'                 => Controllers\UserController::class,
+    'areas'                 => Controllers\AreaController::class,
+    'areas.orders'          => Controllers\Area\OrderController::class,
+    'areas.movements'       => Controllers\Area\MovementController::class,
+    'departments'           => Controllers\DepartmentController::class,
+    'orders'                => Controllers\OrderController::class,
+    'orders.products'       => Controllers\Order\ProductController::class,
+    'orders.invoices'       => Controllers\Order\InvoiceController::class,
+    'suppliers'             => Controllers\SupplierController::class,
+    'suppliers.contacts'    => Controllers\Supplier\ContactController::class,
+    'suppliers.invoiceds'   => Controllers\Supplier\InvoicedController::class,
+    'suppliers.incidences'  => Controllers\Supplier\IncidenceController::class,
+    'suppliers.orders'      => Controllers\Supplier\OrderController::class,
+    'suppliers.movements'   => Controllers\Supplier\MovementController::class,
+    'movements'             => Controllers\MovementController::class,
 ], [
     'middleware' => 'auth'
 ]);
+
+Route::get('/imports', [Controllers\Movement\ImportController::class, 'create'])->name('imports.create');
+Route::post('/imports', [Controllers\Movement\ImportController::class, 'list'])->name('imports.list');
+Route::post('/imports.store', [Controllers\Movement\ImportController::class, 'store'])->name('imports.store');

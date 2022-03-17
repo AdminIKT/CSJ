@@ -63,7 +63,7 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         $status = null, 
         $sortBy = null, 
         $sort = null, 
-        $perPage = 5, 
+        $perPage = 10, 
         $pageName= "page")
     {
         $builder = $this->createQueryBuilder('o');

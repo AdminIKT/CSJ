@@ -10,11 +10,14 @@
     <a href="{{ route('orders.invoices.create', ['order' => $entity->getId()]) }}" class="btn btn-sm btn-outline-secondary" target="_blank">
         <span data-feather="file-text"></span> {{ __('pdf') }} 
     </a>
+    <a href="" class="btn btn-sm btn-outline-secondary" target="_blank">
+        <span data-feather="mail"></span> Email 
+    </a>
     <div class="btn-group btn-group-sm" role="group">
         <a href="{{ route('orders.edit', ['order' => $entity->getId()]) }}" class="btn btn-outline-secondary">
             <span data-feather="edit-2"></span>
         </a>
-        {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit', 'disabled' => $entity->isStatus(\App\Entities\Order::STATUS_CREATED) ? false : true]) }}
+        {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit', 'disabled' => $entity->isPending() ? false : true]) }}
     </div>
     {{ Form::close() }}
 @endsection

@@ -132,7 +132,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        dd($user);
         $this->em->remove($user);
         $this->em->flush();
 

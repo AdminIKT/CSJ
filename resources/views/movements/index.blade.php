@@ -1,7 +1,7 @@
 @extends('new_layout')
 @section('title'){{ __('Movements') }}@endsection
 @section('btn-toolbar')
-    <a href="" class="btn btn-sm btn-outline-secondary me-2" title="{{__('Import')}}">
+    <a href="{{ route('imports.create') }}" class="btn btn-sm btn-outline-secondary me-2" title="{{__('Import')}}">
         <span data-feather="download-cloud"></span> {{ __('Import') }}
     </a>
     <a href="{{ route('movements.create') }}" class="btn btn-sm btn-outline-secondary" title="{{__('New')}}">

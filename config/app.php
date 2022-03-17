@@ -254,6 +254,7 @@ return [
         'FormBuilder' => Kris\LaravelFormBuilder\Facades\FormBuilder::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
     ],
 
 ];

@@ -326,6 +326,28 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function isPending()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPending', []);
+
+        return parent::isPending();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPaid()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPaid', []);
+
+        return parent::isPaid();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getStatus()
     {
 

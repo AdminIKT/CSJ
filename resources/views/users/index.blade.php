@@ -43,8 +43,9 @@
                 <a href="{{route('users.edit', ['user' => $entity->getId()])}}" class="btn btn-outline-secondary">
                     <span data-feather="edit-2"></span>
                 </a>
-                {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit', 'disabled' => true]) }}
+                {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
             </div>
+        {{ Form::close() }}
         </td>
     </tr> 
     @endforeach

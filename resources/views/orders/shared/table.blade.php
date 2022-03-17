@@ -68,12 +68,12 @@
                     <a href="{{ route('orders.edit', ['order' => $order->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('Edit') }}">
                         <span data-feather="edit-2"></span>
                     </a>
-                    @if ($order->isStatus(\App\Entities\Order::STATUS_PAID))
+                    @if ($order->isPaid())
                         <a href="" class="btn btn-outline-secondary" title="{{ __('Receive') }}">
                             <span data-feather="package"></span>
                         </a>
                     @endif
-                    {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary' . ($order->isStatus(\App\Entities\Order::STATUS_PAID)?' disabled':''), 'type' => 'submit', 'title' => __('Delete')]) }}
+                    {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary' . ($order->isPaid() ? ' disabled':''), 'type' => 'submit', 'title' => __('Delete')]) }}
                 </div>
             {{ Form::close() }}
             </td>

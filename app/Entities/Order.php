@@ -298,6 +298,22 @@ class Order implements \JsonSerializable
     }
 
     /**
+     * @return bool
+     */
+    public function isPending()
+    {
+        return $this->isStatus(self::STATUS_CREATED);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPaid()
+    {
+        return $this->isStatus(self::STATUS_PAID);
+    }
+
+    /**
      * Get status.
      *
      * @return int
