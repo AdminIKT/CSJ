@@ -7,5 +7,16 @@
     "Order": "Eskaera",
     "Areas": "Areak", 
     "Movements": "Mugimenduak",
-    "Logout": "Saioa itxi"
+    "Logout": "Saioa itxi",
+    "nombre": "Izena",
+    "acronimo": "Akronimoa",
+    "tipo": "Mota",
+    "selecciona": "Aukeratu ...",
+    "codigo_lanbide": "Lanbide kodea",
+    "saldo": "Saldoa",
+    "usuarios": "Erabiltzaileak",
+    "guardar": "Gorde",
+    "cancelar": "Ezeztatu",
+    "departamentos": "Mintegiak",
+    "Actions": "Acciones"
 }

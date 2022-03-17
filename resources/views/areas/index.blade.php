@@ -2,7 +2,7 @@
 @section('title'){{ __('Areas') }}@endsection
 @section('btn-toolbar')
     <a href="{{ route('areas.create') }}" class="btn btn-sm btn-outline-secondary" title="{{__('New')}}">
-        <span data-feather="plus"></span> New
+        <span data-feather="plus"></span> {{__('New')}}
     </a>
 @endsection
 @section('content')
@@ -11,10 +11,10 @@
   <table class="table table-hover table-sm align-middle">
     <thead>
     <tr>
-        <th scope="col">{{ __('Name') }}</th>
-        <th scope="col">{{ __('Acronym') }}</th>
-        <th scope="col">{{ __('Type') }}</th>
-        <th scope="col">{{ __('Departments') }}</th>
+        <th scope="col">{{ __('nombre') }}</th>
+        <th scope="col">{{ __('acronimo') }}</th>
+        <th scope="col">{{ __('tipo') }}</th>
+        <th scope="col">{{ __('departamentos') }}</th>
         <th scope="col">{{ __('Real credit') }}</th>
         <th scope="col">{{ __('Compromised credit') }}</th>
         <th scope="col">{{ __('Available credit') }}</th>

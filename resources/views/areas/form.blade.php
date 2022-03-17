@@ -13,14 +13,14 @@
     {{ method_field($method) }}
 
     <div class="col-md-8 mb-3">
-        {{ Form::label('name', 'Name', ['class' => 'form-label']) }}
+        {{ Form::label('name', __('nombre'), ['class' => 'form-label']) }}
         {{ Form::text('name', old('name', $entity->getName()), ['class' => 'form-control form-control-sm' . ($errors->has('name') ? ' is-invalid':'')]) }}
         @if ($errors->has('name'))
            <div class="invalid-feedback">{!! $errors->first('name') !!}</div>
         @endif
     </div>
     <div class="col-md-4 mb-3">
-        {{ Form::label('acronym', 'Acronym', ['class' => 'form-label']) }}
+        {{ Form::label('acronym', __('acronimo'), ['class' => 'form-label']) }}
         {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control form-control-sm' . ($errors->has('acronym') ? ' is-invalid':'')]) }}
         @if ($errors->has('acronym'))
            <div class="invalid-feedback">{!! $errors->first('acronym') !!}</div>
@@ -28,9 +28,9 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        {{ Form::label('type', 'Tipo', ['class' => 'form-label']) }}
+        {{ Form::label('type', __('tipo'), ['class' => 'form-label']) }}
         {{ Form::select('type', [
-            null => 'Select one',
+            null => __('Selecciona'),
             \App\Entities\Area::TYPE_EQUIPAMIENTO => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_EQUIPAMIENTO),
             \App\Entities\Area::TYPE_FUNGIBLE => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_FUNGIBLE),
             \App\Entities\Area::TYPE_LANBIDE => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_LANBIDE),
@@ -41,7 +41,7 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        {{ Form::label('lcode', 'Lanbide code', ['class' => 'form-label']) }}
+        {{ Form::label('lcode', __('codigo_lanbide'), ['class' => 'form-label']) }}
         {{ Form::text('lcode', old('lcode', $entity->getLCode()), ['class' => 'form-control form-control-sm' . ($errors->has('lcode') ? ' is-invalid':''), 'disabled' => $entity->getType() !== \App\Entities\Area::TYPE_LANBIDE ]) }}
         @if ($errors->has('lcode'))
            <div class="invalid-feedback">{!! $errors->first('lcode') !!}</div>
@@ -49,7 +49,7 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        {{ Form::label('credit', 'Credit', ['class' => 'form-label']) }}
+        {{ Form::label('credit', __('saldo'), ['class' => 'form-label']) }}
         <div class="input-group">
         {{ Form::number('credit', old('credit', $entity->getCredit()), ['class' => 'form-control form-control-sm' . ($errors->has('credit') ? ' is-invalid':''), 'step' => '0.01', 'min' => 0]) }}
         <span class="input-group-text">€</span>
@@ -60,7 +60,7 @@
     </div>
 
     <fieldset class="mb-3">
-        <legend>Users</legend>
+        <legend> {{ __('usuarios') }}</legend>
         @php $cols = 10; $i=0; @endphp
         <table class="table">
         @for ($row=0; $row < count($users)/$cols; $row++)
@@ -80,7 +80,7 @@
     </fieldset>
 
     <fieldset class="mb-3">
-        <legend>Departments</legend>
+        <legend>{{ __('departamentos')}}</legend>
         @php $cols = 10; $i=0; @endphp
         <table class="table">
         @for ($row=0; $row < count($departments)/$cols; $row++)
@@ -100,9 +100,9 @@
     </fieldset>
 
     <div>
-        {{ Form::submit('Save', ['class' => 'btn btn-primary btn-sm float-end']) }}
+        {{ Form::submit(__('guardar'), ['class' => 'btn btn-primary btn-sm float-end']) }}
         <a href="{{ route('areas.index') }}" class="btn btn-sm">
-            Cancel
+            {{ __('cancelar')}}
         </a>
     </div>
 

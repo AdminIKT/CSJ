@@ -24,9 +24,9 @@
   <table class="table table-hover table-sm align-middle">
         <thead>
         <tr>
-            <th>{{ __('Acronym') }}</th>
-            <th>{{ __('Type') }}</th>
-            <th>{{ __('Departments') }}</th>
+            <th>{{ __('acronimo') }}</th>
+            <th>{{ __('tipo') }}</th>
+            <th>{{ __('departamentos') }}</th>
             <th>{{ __('Accounts') }}</th>
             <th>{{ __('Real credit') }}</th>
             <th>{{ __('Compromised credit') }}</th>
@@ -51,10 +51,10 @@
 
 <ul class="nav nav-tabs justify-content-center">
   <li class="nav-item">
-    <a class='nav-link {{request()->is("areas/{$entity->getId()}")?" active":"" }}' href="{{ route('areas.show', ['area' => $entity->getId()]) }}">Orders</a>
+    <a class='nav-link {{request()->is("areas/{$entity->getId()}")?" active":"" }}' href="{{ route('areas.show', ['area' => $entity->getId()]) }}">{{__('Orders')}}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {{request()->is('areas/*/movements')?' active':'' }}" href="{{ route('areas.movements.index', ['area' => $entity->getId()]) }}">Movements</a>
+    <a class="nav-link {{request()->is('areas/*/movements')?' active':'' }}" href="{{ route('areas.movements.index', ['area' => $entity->getId()]) }}">{{__('Movements')}}</a>
   </li>
 </ul>
 
