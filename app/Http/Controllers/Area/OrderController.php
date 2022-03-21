@@ -47,14 +47,22 @@ class OrderController extends Controller
         $collection = $this->em->getRepository(Supplier::class)
                                ->findBy([], ['name' => 'asc']);
 
-        $map = array_combine(
+        $suppliers = array_combine(
             array_map(function($e) { return $e->getId(); }, $collection),
             array_map(function($e) { return $e->getName(); }, $collection),
         );
 
+        $disableds = array_combine(
+            array_map(function($e) { return $e->getId(); }, $collection),
+            array_map(function($e) { 
+                return ['disabled' => null !== ($inv = $e->getInvoiced(date('Y'))) && $inv->getCredit() >= 100]; //FIXME
+            }, $collection),
+        );
+
         return view('areas.orders.create', [
             'area'      => $area,
-            'suppliers' => $map,
+            'suppliers' => $suppliers,
+            'disableds' => $disableds,
             'entity'    => new Order,
         ]); 
     }

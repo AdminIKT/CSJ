@@ -14,14 +14,14 @@ use App\Entities\Order\Product,
  * @ORM\Entity(repositoryClass="App\Repositories\OrderRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Order implements \JsonSerializable
+class Order implements UserAwareInterface, \JsonSerializable
 {
     const STATUS_CREATED  = 0;
     const STATUS_PAID     = 1;
     const STATUS_RECEIVED = 2;
     const STATUS_MOVED    = 3;
 
-    const SEQUENCE_PATTERN = "@(^[A-Z]+)-(E|F|L)-?([\d]*)/([\d]{2})-([\d|-]+)@";
+    const SEQUENCE_PATTERN = "@(^[\w]+)-(E|F|L)-?([\d]*)/([\d]{2})-([\d|-]+)@";
 
     /**
      * @var int

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 
 use App\Events\OrderEvent,
+    App\Events\SupplierEvent,
     App\Events\MovementEvent;
 use App\Listeners\Users,
     App\Listeners\Areas,
@@ -30,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
             Users\LogSuccessfullLogin::class,
         ],
         OrderEvent::class => [
+            Users\EntityInjection::class,
+        ],
+        SupplierEvent::class => [
             Users\EntityInjection::class,
         ],
         MovementEvent::class => [

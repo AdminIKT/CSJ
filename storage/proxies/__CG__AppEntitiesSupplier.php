@@ -66,10 +66,10 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'acceptable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'recommendable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'acceptable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'recommendable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'acceptable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'recommendable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'acceptable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'recommendable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
     }
 
     /**
@@ -343,6 +343,28 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRecommendable', [$recommendable]);
 
         return parent::setRecommendable($recommendable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUser(\App\Entities\User $user)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);
+
+        return parent::setUser($user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUser()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', []);
+
+        return parent::getUser();
     }
 
     /**

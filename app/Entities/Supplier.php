@@ -76,6 +76,13 @@ class Supplier
     private $recommendable = false;
 
     /**
+     * @var User 
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entities\User", inversedBy="suppliers")
+     */
+    private $user;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entities\Supplier\Contact", mappedBy="supplier", cascade={"persist","merge"})
@@ -300,6 +307,30 @@ class Supplier
     {
         $this->recommendable = (bool) $recommendable;
         return $this;
+    }
+
+    /**
+     * Set user.
+     *
+     * @param User $user
+     *
+     * @return Supplier
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**

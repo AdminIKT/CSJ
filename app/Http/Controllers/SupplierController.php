@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
-use App\Entities\Supplier,
+use App\Events\SupplierEvent,
+    App\Entities\Supplier,
     App\Entities\Supplier\Contact,
     App\Http\Requests\SupplierRequest;
 
@@ -62,6 +63,7 @@ class SupplierController extends Controller
     {
         $entity = new Supplier;
         $this->hydrateData($entity, $request->all());
+        SupplierEvent::dispatch($entity);
         $this->em->persist($entity);
         $this->em->flush();
         return redirect()->route('suppliers.index')

@@ -12,29 +12,27 @@
       <thead>
       <tr>
           <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Created</th>
-          <th scope="col">Data</th>
-          <th scope="col">Data</th>
-          <th scope="col">Data</th>
-          <th scope="col">Data</th>
-          <th scope="col">Data</th>
-          <th scope="col">Data</th>
-          <th scope="col">Actions</th>
+          <th scope="col">{{ __('NIF') }}</th>
+          <th scope="col">{{ __('Name') }}</th>
+          <th scope="col">{{ __('City') }}</th>
+          <th scope="col">{{ __('Zip') }}</th>
+          <th scope="col">{{ __('Address') }}</th>
+          <th scope="col">{{ __('User') }}</th>
+          <th scope="col">{{ __('Created') }}</th>
+          <th scope="col">{{ __('Actions') }}</th>
       </tr>
       </thead>
       <tbody>
       @foreach ($collection as $i => $entity)
       <tr>
           <th scope="row">{{ $entity->getId() }}</th>
+          <td>{{ $entity->getNif() }}</td>
           <td>{{ $entity->getName() }}</td>
+          <td>{{ $entity->getCity() }}</td>
+          <td>{{ $entity->getZip() }}</td>
+          <td>{{ $entity->getAddress() }}</td>
+          <td>{{ $entity->getUser()->getShort() }}</td>
           <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
           <td>
           {{ Form::open([
               'route' => ['suppliers.destroy', $entity->getId()], 

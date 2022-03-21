@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Users;
 
-use App\Events\OrderEvent;
+use App\Events\UserAwareEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,10 +29,10 @@ class EntityInjection
      * @param  \App\Events\OrderEvent  $event
      * @return void
      */
-    public function handle(OrderEvent $event)
+    public function handle(UserAwareEvent $event)
     {
-        $order = $event->entity;
-        $order->setUser(Auth::user());
+        $entity = $event->getUserAwareEntity();
+        $entity->setUser(Auth::user());
         $this->em->flush();
     }
 }

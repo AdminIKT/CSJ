@@ -10,12 +10,12 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderEvent implements UserAwareEvent
+class SupplierEvent implements UserAwareEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var Order 
+     * @var Movemment
      */
     public $entity;
 
@@ -24,9 +24,9 @@ class OrderEvent implements UserAwareEvent
      *
      * @return void
      */
-    public function __construct(\App\Entities\Order $order)
+    public function __construct(\App\Entities\Supplier $m)
     {
-        $this->entity = $order;
+        $this->entity = $m;
     }
 
     /**

@@ -4,8 +4,8 @@
     @endif
     <div class="row">
         <div class="col-md-4 mb-1 has-validations">
-            <label for="products[{{$index}}][supplier]">{{__('proveedor')}}</label>
-            {{ Form::select("products[{$index}][supplier]", [null => __('selecciona')] + $suppliers, null, ["class" => "form-select form-select-sm" . ($errors->has("products.{$index}.supplier") ? " is-invalid":"")], [null => ["disabled" => true]]) }}
+            {{ Form::label("products[{$index}][supplier]", __('proveedor'), ['class' => 'form-label']) }}
+            {{ Form::select("products[{$index}][supplier]", [null => __('selecciona')] + $suppliers, old("products[{$index}][supplier]", null), ["class" => "form-select form-select-sm" . ($errors->has("products.{$index}.supplier") ? " is-invalid":"")], [null => ["disabled" => true]] + $disableds) }}
             @if ($errors->has("products.{$index}.supplier"))
                <div class="invalid-feedback">{!! $errors->first("products.{$index}.supplier") !!}</div>
             @endif

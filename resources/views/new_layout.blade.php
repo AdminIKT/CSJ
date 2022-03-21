@@ -182,11 +182,12 @@ th a.active {
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('settings.show') }}">
               <span data-feather="settings"></span>
-              {{ __('Límite presuepuesto') }}
+              {{ __('Settings') }}
             </a>
           </li>
+          <!--
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="settings"></span>
@@ -199,6 +200,7 @@ th a.active {
               {{ __('Parametros de importación') }}
             </a>
           </li>
+          -->
         </ul>
         @endadmin
       </div>

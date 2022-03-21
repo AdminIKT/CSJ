@@ -87,6 +87,13 @@ class User implements Authenticatable, HasRolesContract
     private $orders;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Supplier", mappedBy="user", cascade={"persist","remove"})
+     */
+    private $suppliers;
+
+    /**
      * @var DateTime 
      *
      * @ORM\Column(name="created", type="datetime")
@@ -117,9 +124,10 @@ class User implements Authenticatable, HasRolesContract
      */
     public function __construct()
     {
-        $this->areas = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->areas     = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->orders    = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->suppliers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles     = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

@@ -32,10 +32,7 @@ Route::get('auth', function () {return view('auth.index');})->name('auth'); //HI
 Route::get('/redirect', [Controllers\SocialiteController::class, 'redirectToProvider'])->name('redirectToProvider');
 Route::get('/callback', [Controllers\SocialiteController::class, 'handleProviderCallback'])->name('handleProvider');
 
-
-
 /*
- *
  *  GET         /photos                 index       photos.index
  *  GET         /photos/create          create      photos.create
  *  POST        /photos                 store       photos.store
@@ -67,3 +64,5 @@ Route::resources([
 Route::get('/imports', [Controllers\Movement\ImportController::class, 'create'])->name('imports.create');
 Route::post('/imports', [Controllers\Movement\ImportController::class, 'list'])->name('imports.list');
 Route::post('/imports.store', [Controllers\Movement\ImportController::class, 'store'])->name('imports.store');
+Route::get('/settings', [Controllers\SettingsController::class, 'show'])->name('settings.show');
+Route::post('/settings', [Controllers\SettingsController::class, 'update'])->name('settings.update');
