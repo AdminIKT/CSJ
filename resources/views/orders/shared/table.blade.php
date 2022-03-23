@@ -50,9 +50,9 @@
             <td><a href="{{ route('areas.show', ['area' => $order->getArea()->getId()]) }}">{{ $order->getArea()->getName() }}-{{ $order->getArea()->getType() }}</a></td>
             <td>{{ $order->getArea()->getTypeName() }}</td>
             <!--<td>{{ $order->getProducts()->count() }}</td>-->
-            <td>{{ $order->getEstimatedCredit() }}€</td>
+            <td>{{ number_format($order->getEstimatedCredit(), 2, ",", ".") }}€</td>
             <td>{{ $order->getStatusName() }}</td>
-            <td>@if ($order->getCredit()) {{ $order->getCredit() }}€ @endif</td>
+            <td>@if ($order->getCredit()) {{ number_format($order->getCredit(), 2, ",", ".") }}€ @endif</td>
             <td>{{ $order->getDetail() }}</td>
             <td>{{ $order->getDate()->format("d/m/Y H:i") }}</td>
             <td>{{ $order->getUser()->getShort() }}</td>
@@ -62,18 +62,24 @@
                 'method' => 'delete',
             ]) }}
                 <div class="btn-group btn-group-sm" role="group">
+                @can('show-order', $order)
                     <a href="{{ route('orders.show', ['order' => $order->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('View') }}">
                         <span data-feather="eye"></span>
                     </a>
+                @endcan
+                @can('update-order', $order)
                     <a href="{{ route('orders.edit', ['order' => $order->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('Edit') }}">
                         <span data-feather="edit-2"></span>
                     </a>
-                    @if ($order->isPaid())
-                        <a href="" class="btn btn-outline-secondary" title="{{ __('Receive') }}">
-                            <span data-feather="package"></span>
-                        </a>
-                    @endif
+                @endcan
+                @if ($order->isPaid())
+                    <a href="" class="btn btn-outline-secondary" title="{{ __('Receive') }}">
+                        <span data-feather="package"></span>
+                    </a>
+                @endif
+                @can('delete-order', $order)
                     {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary' . ($order->isPaid() ? ' disabled':''), 'type' => 'submit', 'title' => __('Delete')]) }}
+                @endcan
                 </div>
             {{ Form::close() }}
             </td>

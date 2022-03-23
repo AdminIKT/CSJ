@@ -39,10 +39,10 @@
         <tbody>
         <tr>
             <td><a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea() }}</td>
-            <td>{{ $entity->getEstimatedCredit() }}€</td>
+            <td>{{ number_format($entity->getEstimatedCredit(), 2, ",", ".") }}€</td>
             <td>TODO</td>
             <td>{{ $entity->getStatusName() }}</td>
-            <td>@if ($entity->getCredit()) {{ $entity->getCredit() }}€ @endif</td>
+            <td>@if ($entity->getCredit()) {{ number_format($entity->getCredit(), 2, ",", ".") }}€ @endif</td>
             <td>{{ $entity->getDetail() }}</td>
             <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
         </tr>

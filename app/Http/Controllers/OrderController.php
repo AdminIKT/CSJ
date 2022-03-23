@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Kris\LaravelFormBuilder\FormBuilder;
+use Illuminate\Support\Facades\Gate;
 
 use App\Http\Requests\OrderPostRequest,
     App\Entities\Area,
@@ -63,7 +64,24 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        Gate::authorize('show-order', $order);
+
         return view('orders.show', [
+            'entity' => $order,
+        ]); 
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Order $order)
+    {
+        Gate::authorize('update-order', $order);
+
+        return view('orders.edit', [
             'entity' => $order,
         ]); 
     }

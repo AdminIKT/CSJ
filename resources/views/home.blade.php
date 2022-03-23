@@ -14,8 +14,10 @@
 @endsection
 @section('content')
 
+<div class="row" data-masonry='{"percentPosition": true }'>
 @foreach (Auth::user()->getAreas() as $area)
-<div class="card text-center" style="width: 18rem;">
+<div class="col-md-3">
+<div class="card text-center">
   <div class="card-header">{{ $area->getTypeName() }}</div>
   <div class="card-body">
     <h5 class="card-title">{{ $area->getName() }}</h5>
@@ -37,9 +39,14 @@
         <span data-feather="file"></span> {{ __('New order') }}</a>
   </div>
   <div class="card-footer text-muted">
-    <strong>{{ ('Credit') }}:</strong> {{ $area->getAvailableCredit() }}€
+    <strong>{{ ('Credit') }}:</strong> {{ number_format($area->getAvailableCredit(), 2, ",", ".") }}€
   </div>
 </div>
+</div>
 @endforeach
+</div>
 
+@endsection
+@section('styles')
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
 @endsection

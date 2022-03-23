@@ -29,9 +29,9 @@
             <td>{{ $entity->getSerial() }}</td>
             <td>{{ $entity->getTypeName() }}</td>
             <td>{{ implode(", ", $entity->getDepartments()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
-            <td>{{ $entity->getCredit() }}€</td>
-            <td>{{ $entity->getCompromisedCredit() }}€</td>
-            <td>{{ $entity->getAvailableCredit() }}€</td>
+            <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
+            <td>{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
+            <td>{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>
             <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
             <td>
             {{ Form::open([
