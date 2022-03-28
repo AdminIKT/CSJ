@@ -59,7 +59,6 @@
 </ul>
 
 <div class="pt-2">
-    @include('orders.shared.search', ['route' => route('areas.show', ['area' => $entity->getId()]), 'exclude' => ['areas']])
-    @yield('body', View::make('orders.shared.table', ['collection' => $collection, 'pagination' => true]))
+    @yield('body', View::make('areas.body', ['collection' => $collection, 'entity' => $entity]))
 </div>
 @endsection
