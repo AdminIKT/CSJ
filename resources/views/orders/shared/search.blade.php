@@ -30,7 +30,7 @@
           ], request()->input('type'), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
         </div>
     </div>
-    @if (isset($exclude) && !in_array('areas', $exclude))
+    @if (!(isset($exclude) && in_array('areas', $exclude)))
     <div class="col">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="addon-area">{{ __('Area') }}</span>
