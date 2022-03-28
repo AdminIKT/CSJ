@@ -183,7 +183,7 @@ th a.active {
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('settings.show') }}">
+            <a class="nav-link {{request()->is('settings*') ? 'active' : ''}}" href="{{ route('settings.index') }}">
               <span data-feather="settings"></span>
               {{ __('Settings') }}
             </a>

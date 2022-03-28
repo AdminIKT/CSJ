@@ -32,6 +32,7 @@
             <th>{{ __('Invoice') }}</th>
             <th>{{ __('Status') }}</th>
             <th>{{ __('Credit') }}</th>
+            <th>{{ __('Receive In') }}</th>
             <th>{{ __('Detail') }}</th>
             <th>{{ __('Created') }}</th>
         </tr>
@@ -43,6 +44,7 @@
             <td>TODO</td>
             <td>{{ $entity->getStatusName() }}</td>
             <td>@if ($entity->getCredit()) {{ number_format($entity->getCredit(), 2, ",", ".") }}€ @endif</td>
+            <td>{{ $entity->getReceiveInName() }}</td>
             <td>{{ $entity->getDetail() }}</td>
             <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
         </tr>

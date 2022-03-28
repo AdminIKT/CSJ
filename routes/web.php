@@ -57,6 +57,7 @@ Route::resources([
     'suppliers.orders'      => Controllers\Supplier\OrderController::class,
     'suppliers.movements'   => Controllers\Supplier\MovementController::class,
     'movements'             => Controllers\MovementController::class,
+    'settings'              => Controllers\SettingsController::class,
 ], [
     'middleware' => 'auth'
 ]);
@@ -64,5 +65,3 @@ Route::resources([
 Route::get('/imports', [Controllers\Movement\ImportController::class, 'create'])->name('imports.create');
 Route::post('/imports', [Controllers\Movement\ImportController::class, 'list'])->name('imports.list');
 Route::post('/imports.store', [Controllers\Movement\ImportController::class, 'store'])->name('imports.store');
-Route::get('/settings', [Controllers\SettingsController::class, 'show'])->name('settings.show');
-Route::post('/settings', [Controllers\SettingsController::class, 'update'])->name('settings.update');

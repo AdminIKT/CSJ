@@ -44,6 +44,7 @@ class OrderPostRequest extends FormRequest
         }
         return [
             'estimatedCredit'     => "required|numeric|between:0,{$entity->getAvailableCredit()}",
+            'receiveIn'           => 'required',
             'products.*.supplier' => 'required',
             'products.*.detail'   => 'required|max:255',
             'products.*.credit'   => 'required|min:0',
@@ -58,11 +59,19 @@ class OrderPostRequest extends FormRequest
      */
     public function withValidator($validator)
     {
-        $validator->after(function ($validator) {
+        $limit = $this->em->getRepository(\App\Entities\Settings::class)
+                          ->findOneBy(['type' => \App\Entities\Settings::TYPE_ESTIMATED_LIMIT]);
+
+        $validator->after(function ($validator) use ($limit) {
             $data = $validator->getData();
             if (isset($data['custom']) && $data['custom']) {
                 if (!isset($data['sequence']) || is_null($data['sequence']))
                 $validator->errors()->add('sequence', 'Required field');
+            }
+            if (isset($data['estimatedCredit']) && $data['estimatedCredit']) {
+                if ($data['estimatedCredit'] >= $limit->getValue()) {
+                    $validator->errors()->add('estimated', 'Required field');
+                }
             }
         });
     }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller,
     App\Http\Requests\OrderPostRequest;
 use App\Entities\Area,
     App\Entities\Supplier,
+    App\Entities\Settings,
     App\Entities\Order,
     App\Entities\Order\Product,
     App\Events\OrderEvent;
@@ -47,6 +48,9 @@ class OrderController extends Controller
         $collection = $this->em->getRepository(Supplier::class)
                                ->findBy([], ['name' => 'asc']);
 
+        $limit = $this->em->getRepository(Settings::class)
+                               ->findOneBy(['type' => Settings::TYPE_INVOICED_LIMIT]);
+
         $suppliers = array_combine(
             array_map(function($e) { return $e->getId(); }, $collection),
             array_map(function($e) { return $e->getName(); }, $collection),
@@ -54,8 +58,8 @@ class OrderController extends Controller
 
         $disableds = array_combine(
             array_map(function($e) { return $e->getId(); }, $collection),
-            array_map(function($e) { 
-                return ['disabled' => null !== ($inv = $e->getInvoiced(date('Y'))) && $inv->getCredit() >= 100]; //FIXME
+            array_map(function($e) use ($limit) { 
+                return ['disabled' => null !== ($inv = $e->getInvoiced(date('Y'))) && $inv->getCredit() >= $limit->getValue()];
             }, $collection),
         );
 

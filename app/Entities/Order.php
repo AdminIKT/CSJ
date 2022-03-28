@@ -23,6 +23,9 @@ class Order implements UserAwareInterface, \JsonSerializable
 
     const SEQUENCE_PATTERN = "@(^[\w]+)-(E|F|L)-?([\d]*)/([\d]{2})-([\d|-]+)@";
 
+    const RECEIVE_IN_DEPARTMENT = 0;
+    const RECEIVE_IN_RECEPTION  = 1;
+
     /**
      * @var int
      *
@@ -38,6 +41,13 @@ class Order implements UserAwareInterface, \JsonSerializable
      * @ORM\Column(name="status", type="integer", options={"default":0})
      */
     private $status = Order::STATUS_CREATED;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="r_in", type="integer", options={"default":0})
+     */
+    private $receiveIn = Order::RECEIVE_IN_DEPARTMENT;
 
     /**
      * @var string
@@ -270,6 +280,39 @@ class Order implements UserAwareInterface, \JsonSerializable
         return $this;
     }
 
+    /**
+     * Set receiveIn.
+     *
+     * @param int $receiveIn
+     *
+     * @return Order
+     */
+    public function setReceiveIn(int $receiveIn)
+    {
+        $this->receiveIn = $receiveIn;
+
+        return $this;
+    }
+
+    /**
+     * Get receiveIn.
+     *
+     * @return int
+     */
+    public function getReceiveIn()
+    {
+        return $this->receiveIn;
+    }
+
+    /**
+     * Get string.
+     *
+     * @return string
+     */
+    public function getReceiveInName()
+    {
+        return self::receiveInName($this->getReceiveIn());
+    }
 
     /**
      * Set status.
@@ -542,6 +585,18 @@ class Order implements UserAwareInterface, \JsonSerializable
         }
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public static function receiveInName($status) 
+    {
+        switch ($status) {
+            case self::RECEIVE_IN_DEPARTMENT: return "Department";
+            case self::RECEIVE_IN_RECEPTION:  return "Reception";
+            return "Undefined";
+        }
     }
 
     /**
