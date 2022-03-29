@@ -10,6 +10,8 @@
 @endsection
 
 @section('content')
+
+@include('movements.shared.search', ['route' => route('movements.index')])
   
 @include ('movements.shared.table', ['collection' => $collection, 'pagination' => true])
   

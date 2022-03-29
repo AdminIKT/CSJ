@@ -25,7 +25,7 @@ class Settings
     protected $id;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", unique=true)
      */
     protected $type;
 

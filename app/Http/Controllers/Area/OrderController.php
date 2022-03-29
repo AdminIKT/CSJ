@@ -79,6 +79,9 @@ class OrderController extends Controller
      */
     public function store(Area $area, OrderPostRequest $request)
     {
+        //$file = $request->file('estimated');
+        //$file->move('uploads', $file->getClientOriginalName());
+
         $last = $this->em->getRepository(Order::class)->findOneBy([
             'area' => $area,
         ], ['date' => 'DESC']);

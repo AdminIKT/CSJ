@@ -7,6 +7,7 @@
         'route' => ['areas.orders.store', ['area' => $area->getId()]], 
         'method' => 'POST', 
         'class' => 'row',
+        'enctype' => 'multipart/form-data',
         'novalidate' => true,
        ])
     }}

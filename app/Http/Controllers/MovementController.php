@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entities\Movement,
     App\Entities\Order,
+    App\Entities\Area,
     App\Events\MovementEvent,
     App\Http\Requests\MovementRequest;
 
@@ -30,12 +31,28 @@ class MovementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $collection = $this->em->getRepository(Movement::class)->lastest();
+        $collection = $this->em->getRepository(Movement::class)->search(
+            $request->input('sequence'),
+            $request->input('from'),
+            $request->input('to'),
+            $request->input('area'),
+            $request->input('otype'),
+            $request->input('mtype'),
+            $request->input('sortBy', 'created'),
+            $request->input('sort', 'desc')
+        );
+
+        $areas  = $this->em->getRepository(Area::class)->findBy([], ['name' => 'ASC']);
+        $areas  = array_combine(
+            array_map(function($e) { return $e->getId(); }, $areas),
+            array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $areas),
+        );
 
         return view('movements.index', [
             'collection' => $collection,
+            'areas' => $areas,
         ]); 
     }
 

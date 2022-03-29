@@ -59,4 +59,53 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
 
         return $this->paginate($builder->getQuery(), $perPage, $pageName);
     }
+
+    /**
+     *
+     */
+    function search(
+        $sequence = null, 
+        $from = null, 
+        $to = null, 
+        $area = null, 
+        $otype = null, 
+        $mtype = null, 
+        $sortBy = null, 
+        $sort = null, 
+        $perPage = 10, 
+        $pageName= "page")
+    {
+        $builder = $this->createQueryBuilder('m')
+                        ->innerJoin('m.order', 'o');
+
+        if ($sequence !== null) {
+            $builder->andWhere("o.sequence LIKE :sequence")
+                    ->setParameter('sequence', "%{$sequence}%");
+        }
+        if ($from !== null) {
+            $builder->andWhere("m.created >= :from")
+                ->setParameter('from', $from);
+        }
+        if ($to !== null) {
+            $builder->andWhere("m.created <= :to")
+                ->setParameter('to', $to);
+        }
+        if ($area !== null) {
+            $builder->andWhere("o.area = :area")
+                ->setParameter('area', $area);
+        }
+        if ($otype !== null) {
+            $builder->innerJoin('o.area', 'a')
+                    ->andWhere("a.type = :otype")
+                    ->setParameter('otype', $otype);
+        }
+        if ($mtype !== null) {
+            $builder->andWhere("m.type = :mtype")
+                ->setParameter('mtype', $mtype);
+        }
+
+        $builder->orderBy("m.{$sortBy}" , $sort);
+
+        return $this->paginate($builder->getQuery(), $perPage, $pageName);
+    }
 }

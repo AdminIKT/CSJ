@@ -6,7 +6,6 @@
     'route' => ['imports.store'], 
     'method' => 'POST', 
     'class' => 'row',
-    'enctype' => 'multipart/form-data',
     'novalidate' => true,
    ])
 }}
