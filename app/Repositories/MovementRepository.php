@@ -70,8 +70,8 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
         $area = null, 
         $otype = null, 
         $mtype = null, 
-        $sortBy = null, 
-        $sort = null, 
+        $sortBy = "created", 
+        $sort = "desc", 
         $perPage = 10, 
         $pageName= "page")
     {
@@ -104,7 +104,15 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('mtype', $mtype);
         }
 
-        $builder->orderBy("m.{$sortBy}" , $sort);
+        switch ($sortBy) {
+            case "sequence":
+            case "area":
+                $table = "o";
+                break;
+            default:
+                $table = "m";
+        }
+        $builder->orderBy("{$table}.{$sortBy}" , $sort);
 
         return $this->paginate($builder->getQuery(), $perPage, $pageName);
     }

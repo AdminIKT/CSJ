@@ -2,13 +2,43 @@
   <table class="table table-hover table-sm">
     <thead>
         <tr>
-            <th scope="col">{{ __('Order') }}</th>
+            <th scope="col">{{ __('Order') }} nº
+                <a class="{{ request()->get('sortBy') == 'sequence' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'sequence', 'sort' => 'asc']) }}">
+                    <span data-feather="chevron-up"></span>
+                </a>
+                <a class="{{ request()->get('sortBy') == 'sequence' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'sequence', 'sort' => 'desc']) }}">
+                    <span data-feather="chevron-down"></span>
+                </a>
+            </th>
+            @if (!(isset($exclude) && in_array('areas', $exclude)))
             <th scope="col">{{ __('Area') }}</th>
-            <th scope="col">{{ __('Credit') }}</th>
-            <th scope="col">{{ __('Invoice') }}</th>
+            @endif
+            <th scope="col">{{ __('Credit') }}
+                <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'asc']) }}">
+                    <span data-feather="chevron-up"></span>
+                </a>
+                <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'desc']) }}">
+                    <span data-feather="chevron-down"></span>
+                </a>
+            </th>
+            <th scope="col">{{ __('Invoice') }}
+                <a class="{{ request()->get('sortBy') == 'invoice' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'invoice', 'sort' => 'asc']) }}">
+                    <span data-feather="chevron-up"></span>
+                </a>
+                <a class="{{ request()->get('sortBy') == 'invoice' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'invoice', 'sort' => 'desc']) }}">
+                    <span data-feather="chevron-down"></span>
+                </a>
+            </th>
             <th scope="col">{{ __('Type') }}</th>
             <th scope="col">{{ __('Detail') }}</th>
-            <th scope="col">{{ __('Created') }}</th>
+            <th scope="col">{{ __('Created') }}
+                <a class="{{ request()->get('sortBy') == 'created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'created', 'sort' => 'asc']) }}">
+                    <span data-feather="chevron-up"></span>
+                </a>
+                <a class="{{ request()->get('sortBy') == 'created' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'created', 'sort' => 'desc']) }}">
+                    <span data-feather="chevron-down"></span>
+                </a>
+            </th>
             <th scope="col">{{ __('Actions') }}</th>
         </tr>
     </thead>
@@ -16,7 +46,9 @@
         @foreach ($collection as $i => $entity)
         <tr>
             <td><a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a></td>
+            @if (!(isset($exclude) && in_array('areas', $exclude)))
             <td><a href="{{route('areas.show', ['area' => $entity->getArea()->getId()])}}">{{ $entity->getArea()->getName() }}-{{ $entity->getArea()->getType() }}</a></td>
+            @endif
             <td>{{ $entity->getCredit() }}€</td>
             <td>{{ $entity->getInvoice() }}</td>
             <td>{{ $entity->getTypeName() }}</td>
@@ -41,8 +73,8 @@
         </tr>
         @endforeach
         @if ($pagination ?? '')
-        <tr align="center">
-            <td colspan="8">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+        <tr>
+            <td class="text-center" colspan="{{ isset($exclude) ? 8 - count($exclude) : 8 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
         </tr>
         @endif
     </tbody>

@@ -10,7 +10,9 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
+        @if (!(isset($exclude) && in_array('areas', $exclude)))
         <th scope="col">{{ __('Area') }}</th>
+        @endif
         <th scope="col">{{ __('Type') }}</th>
         <!--<th scope="col">{{ __('Products') }}</th>-->
         <th scope="col">{{ __('Estimated') }}
@@ -47,7 +49,9 @@
         @foreach ($collection as $i => $order)
         <tr>
             <td><a href="{{ route('orders.show', ['order' => $order->getId()]) }}">{{ $order->getSequence() }}</a></td>
+            @if (!(isset($exclude) && in_array('areas', $exclude)))
             <td><a href="{{ route('areas.show', ['area' => $order->getArea()->getId()]) }}">{{ $order->getArea()->getName() }}-{{ $order->getArea()->getType() }}</a></td>
+            @endif
             <td>{{ $order->getArea()->getTypeName() }}</td>
             <!--<td>{{ $order->getProducts()->count() }}</td>-->
             <td>{{ number_format($order->getEstimatedCredit(), 2, ",", ".") }}€</td>
@@ -86,8 +90,8 @@
         </tr>
         @endforeach
         @if ($pagination ?? '')
-        <tr align="center">
-            <td colspan="10">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+        <tr>
+            <td class="text-center" colspan="{{ isset($exclude) ? 10 - count($exclude) : 10 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
         </tr>
         @endif
   </table>

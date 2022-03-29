@@ -28,10 +28,18 @@ class MovementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Area $area)
+    public function index(Request $request, Area $area)
     {
-        $collection = $this->em->getRepository(Movement::class)
-                               ->fromArea($area);
+        $collection = $this->em->getRepository(Movement::class)->search(
+            $request->input('sequence'),
+            $request->input('from'),
+            $request->input('to'),
+            $area->getId(),
+            $request->input('otype'),
+            $request->input('mtype'),
+            $request->input('sortBy', 'created'),
+            $request->input('sort', 'desc')
+        );
 
         return view('areas.movements', [
             'entity' => $area,
