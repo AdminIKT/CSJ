@@ -12,7 +12,8 @@
     }}
 
     <div class="col-md-6 mb-3">
-        {{ Form::label('credit', "Estimated credit (Available: {$area->getAvailableCredit()}€)", ['class' => 'form-label']) }}
+        {{ Form::label('credit', __('coste_estimado_disponible :disponible', ["disponible" => $area->getAvailableCredit()]), ['class' => 'form-label']) }}
+       
         <div class="input-group input-group-sm mb-3">
             {{ Form::number('estimatedCredit', old('estimatedCredit', $entity->getEstimatedCredit()), ['step' => '0.01', 'min' => 0, 'class' => 'form-control' . ($errors->has('estimatedCredit') ? ' is-invalid':'') ]) }}
             <span class="input-group-text">€</span>
@@ -21,7 +22,7 @@
             @endif
         </div>
 
-        {{ Form::label('custom', 'Intercalate', ['class' => 'form-label']) }}
+        {{ Form::label('custom', __('intercalar'), ['class' => 'form-label']) }}
         {{ Form::checkbox("custom", true, old('custom'), ['class' => 'form-check-input', 'onchange' => 'displayCustom(this)']) }}         
         <div id="custom-fields" class="row d-none">
             <div class="col-md-12 text-center small" id="sequence-alert"></div>
@@ -44,12 +45,12 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        {{ Form::label('estimated', 'Presupuesto', ['class' => 'form-label']) }}
+        {{ Form::label('estimated', __('presupuesto'), ['class' => 'form-label']) }}
         {{ Form::file("estimated", ['class' => 'form-control form-control-sm']) }}
         @if ($errors->has('estimated'))
            <div>{!! $errors->first('estimated') !!}</div>
         @endif
-        {{ Form::label('detail', 'Detail', ['class' => 'form-label']) }}
+        {{ Form::label('detail', __('detalle'), ['class' => 'form-label']) }}
         {{ Form::textarea('detail', old('detail', null), ['class' => 'form-control form-control-sm', 'rows' => 2]) }}
         @if ($errors->has('detail'))
            <div>{!! $errors->first('detail') !!}</div>
@@ -58,18 +59,18 @@
 
     <fieldset class="col-md-12 mb-3 collection-container" 
              data-prototype='@include("areas.orders.shared.form_product", ["index" => "__NAME__"])'>
-        <legend>Products</legend>
+        <legend>{{__('elementos')}}</legend>
         @foreach (old('products', [[]]) as $i => $product)
             @include("areas.orders.shared.form_product", ["index" => $i])
         @endforeach
     </fieldset>
 
     <div class="col-md-12">
-        {{ Form::submit('Save', ['class' => 'btn btn-sm btn-primary float-end']) }}
+        {{ Form::submit(__('guardar'), ['class' => 'btn btn-sm btn-primary float-end']) }}
         <button type="button" class="btn btn-sm btn-outline-primary float-end mx-2" onclick="addToCollection()">
-            <span data-thead="plus"></span> New product
+            <span data-thead="plus"></span> {{__('nuevo_elemento')}}
         </button>
-        <a href="{{ route('areas.show', ['area' => $area->getId()]) }}" class="btn btn-sm">Cancel</a>
+        <a href="{{ route('areas.show', ['area' => $area->getId()]) }}" class="btn btn-sm">{{__('cancelar')}}</a>
     </div>
 
     {{ Form::close() }}

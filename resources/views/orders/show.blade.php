@@ -8,7 +8,7 @@
         'method' => 'delete',
     ]) }}
     <a href="{{ route('orders.invoices.create', ['order' => $entity->getId()]) }}" class="btn btn-sm btn-outline-secondary" target="_blank">
-        <span data-feather="file-text"></span> PDF 
+        <span data-feather="file-text"></span> {{ __('pdf') }} 
     </a>
     <div class="btn-group btn-group-sm" role="group">
         <a href="{{ route('orders.edit', ['order' => $entity->getId()]) }}" class="btn btn-outline-secondary">
@@ -45,11 +45,11 @@
         </tr>
         </tbody>
   </table>
-  <h4>{{ __('Products') }}</h4>
+  <h4>{{ __('elementos') }}</h4>
   <table class="table table-hover table-sm align-middle">
         <thead>
         <tr>
-            <th>{{ __('Supplier') }}</th>
+            <th>{{ __('proveedor') }}</th>
             <th>{{ __('Detail') }}</th>
             <th>{{ __('Credit') }}</th>
             <th>{{ __('Actions') }}</th>

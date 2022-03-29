@@ -28,6 +28,7 @@
     "Invoice": "Factura",
     "Type": "Tipo",
     "Credit": "Coste",
+    "Estimated": "Coste previsto",
     "Real credit": "Saldo real",
     "Compromised credit": "Saldo comprometido",
     "Available credit": "Saldo disponible",
@@ -55,5 +56,16 @@
     "Actions": "Acciones",
     "Accounts": "Usuarios",
     "desde": "Desde",
-    "hasta": "Hasta"
+    "hasta": "Hasta",
+    "Detail": "Detalle",
+    "Date": "Fecha",
+    "User": "Usuario",
+    "coste_estimado_disponible :disponible": "Coste previsto (Disponible: :disponible €)",
+    "intercalar": "Intercalar",
+    "presupuesto": "Presupuesto",
+    "detalle": "Detalle",
+    "nuevo_elemento": "Nuevo elemento",
+    "elementos": "Elementos",
+    "proveedor": "Proveedor",
+    "pdf": "PDF"
 }
