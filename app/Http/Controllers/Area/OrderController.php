@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Area;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Controller,
     App\Http\Requests\OrderPostRequest;
@@ -79,9 +80,6 @@ class OrderController extends Controller
      */
     public function store(Area $area, OrderPostRequest $request)
     {
-        //$file = $request->file('estimated');
-        //$file->move('uploads', $file->getClientOriginalName());
-
         $last = $this->em->getRepository(Order::class)->findOneBy([
             'area' => $area,
         ], ['date' => 'DESC']);
@@ -102,6 +100,11 @@ class OrderController extends Controller
                 "{$area->getSerial()}/{$order->getDate()->format('y')}",
                 isset($sequence) ? $sequence : 1
             ])); //FIXME
+        }
+
+        if (null !== ($file = $request->file('estimated'))) {
+            $path = Storage::disk('public')->putFileAs('files', $file, "{$order->getSequence()}.pdf");
+            $order->setInvoice($path);
         }
 
         $area->addOrder($order)
