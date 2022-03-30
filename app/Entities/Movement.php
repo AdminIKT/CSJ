@@ -303,10 +303,10 @@ class Movement
     {
         switch ($type) {
             case self::TYPE_INVOICED: 
-                return "Cargo por factura";
+                return trans("Cargo por factura");
             case self::TYPE_CASH: 
-                return "Cobro en caja";
-            return "Undefined";
+                return trans("Cobro en caja");
+            return trans("Undefined");
         }
     }
 }

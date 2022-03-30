@@ -635,9 +635,9 @@ class Order implements UserAwareInterface, \JsonSerializable
     public static function receiveInName($status) 
     {
         switch ($status) {
-            case self::RECEIVE_IN_DEPARTMENT: return "Department";
-            case self::RECEIVE_IN_RECEPTION:  return "Reception";
-            return "Undefined";
+            case self::RECEIVE_IN_DEPARTMENT: return trans("Department");
+            case self::RECEIVE_IN_RECEPTION:  return trans("Reception");
+            return trans("Undefined");
         }
     }
 
@@ -647,11 +647,11 @@ class Order implements UserAwareInterface, \JsonSerializable
     public static function statusName($status) 
     {
         switch ($status) {
-            case self::STATUS_CREATED: return "Pending";
-            case self::STATUS_PAID: return "Paid";
-            case self::STATUS_RECEIVED: return "Recibido";
-            case self::STATUS_MOVED: return "Moved";
-            return "Undefined";
+            case self::STATUS_CREATED: return trans("Pending");
+            case self::STATUS_PAID: return trans("Paid");
+            case self::STATUS_RECEIVED: return trans("Received");
+            case self::STATUS_MOVED: return trans("Moved");
+            return trans("Undefined");
         }
     }
 

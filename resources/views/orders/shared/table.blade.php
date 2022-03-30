@@ -33,7 +33,6 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
-        <th scope="col">{{ __('Detail') }}</th>
         <th scope="col">{{ __('Date') }}
             <a class="{{ request()->get('sortBy') == 'date' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'date', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -59,7 +58,6 @@
             <td>@if ($order->getEstimated())<a href='{{ asset("storage/{$order->getEstimated()}") }}' target="_blank">{{ $order->getEstimated() }}</a>@else-@endif</td>
             <td>{{ $order->getStatusName() }}</td>
             <td>@if ($order->getCredit()) {{ number_format($order->getCredit(), 2, ",", ".") }}€ @endif</td>
-            <td>{{ $order->getDetail() }}</td>
             <td>{{ $order->getDate()->format("d/m/Y H:i") }}</td>
             <td>{{ $order->getUser()->getShort() }}</td>
             <td>
@@ -93,7 +91,7 @@
         @endforeach
         @if ($pagination ?? '')
         <tr>
-            <td class="text-center" colspan="{{ isset($exclude) ? 11 - count($exclude) : 11 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+            <td class="text-center" colspan="{{ isset($exclude) ? 10 - count($exclude) : 10 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
         </tr>
         @endif
   </table>

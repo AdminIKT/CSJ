@@ -32,6 +32,7 @@
     "Real credit": "Saldo real",
     "Compromised credit": "Saldo comprometido",
     "Available credit": "Saldo disponible",
+    "Reception": "Conserjería",
     "Department": "Departamento",
     "Departments": "Departamentos",
     "Department|Departments": "Departamento|Departamentos",
@@ -70,5 +71,6 @@
     "nuevo_elemento": "Nuevo elemento",
     "elementos": "Elementos",
     "proveedor": "Proveedor",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "Pending": "Pendiente"
 }

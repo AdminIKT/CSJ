@@ -54,7 +54,7 @@
            <div class="invalid-feedback">{!! $errors->first('estimated') !!}</div>
         @endif
         {{ Form::label('receiveIn', __('Receive in'), ['class' => 'form-label mt-3']) }}
-        {{ Form::select('receiveIn', [null => '--Select one--', \App\Entities\Order::RECEIVE_IN_DEPARTMENT => App\Entities\Order::receiveInName(\App\Entities\Order::RECEIVE_IN_DEPARTMENT), \App\Entities\Order::RECEIVE_IN_RECEPTION => \App\Entities\Order::receiveInName(\App\Entities\Order::RECEIVE_IN_RECEPTION)], old('receiveIn'), ['class' => 'form-select form-select-sm' . ($errors->has('receiveIn') ? ' is-invalid':'')]) }}
+        {{ Form::select('receiveIn', [null => __('selecciona'), \App\Entities\Order::RECEIVE_IN_DEPARTMENT => App\Entities\Order::receiveInName(\App\Entities\Order::RECEIVE_IN_DEPARTMENT), \App\Entities\Order::RECEIVE_IN_RECEPTION => \App\Entities\Order::receiveInName(\App\Entities\Order::RECEIVE_IN_RECEPTION)], old('receiveIn'), ['class' => 'form-select form-select-sm' . ($errors->has('receiveIn') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
         @if ($errors->has('receiveIn'))
            <div class="invalid-feedback">{!! $errors->first('receiveIn') !!}</div>
         @endif

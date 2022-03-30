@@ -493,11 +493,11 @@ class Area
     public static function typeName($type)
     {
         switch ($type) {
-            case Area::TYPE_EQUIPAMIENTO: return "Equipamiento";
-            case Area::TYPE_FUNGIBLE: return "Fungible";
-            case Area::TYPE_LANBIDE: return "Lanbide";
+            case Area::TYPE_EQUIPAMIENTO: return trans("Equipamiento");
+            case Area::TYPE_FUNGIBLE: return trans("Fungible");
+            case Area::TYPE_LANBIDE: return trans("Lanbide");
             default:
-                return "Undefined";
+                return trans("Undefined");
         }
     }
 
