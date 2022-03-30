@@ -46,6 +46,7 @@ Route::resources([
     'areas'                 => Controllers\AreaController::class,
     'areas.orders'          => Controllers\Area\OrderController::class,
     'areas.movements'       => Controllers\Area\MovementController::class,
+    'areas.assignments'     => Controllers\Area\AssignmentController::class,
     'departments'           => Controllers\DepartmentController::class,
     'orders'                => Controllers\OrderController::class,
     'orders.products'       => Controllers\Order\ProductController::class,

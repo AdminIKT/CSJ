@@ -59,6 +59,9 @@
   <li class="nav-item">
     <a class="nav-link {{request()->is('areas/*/movements')?' active':'' }}" href="{{ route('areas.movements.index', ['area' => $entity->getId()]) }}">{{__('Movements')}}</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link {{request()->is('areas/*/assignments')?' active':'' }}" href="{{ route('areas.assignments.index', ['area' => $entity->getId()]) }}">{{__('Assignments')}}</a>
+  </li>
 </ul>
 
 @yield('body', View::make('areas.body', ['collection' => $collection, 'entity' => $entity]))

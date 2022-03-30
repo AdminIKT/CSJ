@@ -25,4 +25,18 @@ class AssignmentRepository extends \Doctrine\ORM\EntityRepository
         $builder->orderBy("a.created" , "desc");
         return $this->paginate($builder->getQuery(), $perPage, $pageName);
     }
+
+    /**
+     *
+     */
+    function years(
+        $perPage = 10, 
+        $pageName= "page")
+    {
+        $query = $this->getEntityManager()->createQuery("
+            SELECT DISTINCT(DATE_FORMAT(a.created, '%y'))
+            FROM App\Entities\Assignment a ORDER BY a.created DESC 
+        ");
+        return $this->paginate($query, $perPage, $pageName);
+    }
 }

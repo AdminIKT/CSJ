@@ -32,8 +32,10 @@ class AssignmentController extends Controller
     public function index(Request $request)
     {
         $collection = $this->em->getRepository(Assignment::class)
+                           // ->years();
                            ->search();
 
+        //dd($collection);
         return view('assignments.index', [
             'collection' => $collection,
         ]); 
