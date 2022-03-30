@@ -169,7 +169,6 @@ class AreaController extends Controller
         $entity->setName($data['name'])
             ->setType($data['type'])
             ->setAcronym($data['acronym'])
-            ->setCredit($data['credit'])
             ;
 
         $entity->setLCode();

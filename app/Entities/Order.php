@@ -5,6 +5,7 @@ namespace App\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 use App\Entities\Order\Product,
+    App\Entities\Supplier,
     App\Entities\Supplier\Incidence;
 
 /**
@@ -513,6 +514,16 @@ class Order implements UserAwareInterface, \JsonSerializable
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * @return Supplier
+     */
+    public function getSupplier()
+    {
+        if ($this->getProducts()->count()) {
+            return $this->getProducts()->first()->getSupplier();
+        }
     }
 
     /**

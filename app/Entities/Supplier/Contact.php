@@ -193,7 +193,7 @@ class Contact
      *
      * @return Contact
      */
-    public function setPosition($position)
+    public function setPosition($position = null)
     {
         $this->position = $position;
 

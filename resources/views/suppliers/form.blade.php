@@ -67,7 +67,7 @@
         @if (!$entity->getId())
             <button type="button" class="add-to-collection btn btn-sm btn-outline-primary mx-2 float-end">New contact</button>
         @endif
-        <a href="{{ route('suppliers.index') }}" class="btn btn-sm btn-default">Cancel</a>
+        <a href="{{ url()->previous() }}" class="btn btn-sm btn-default">Cancel</a>
     </div>
 
     {{ Form::close() }}

@@ -24,7 +24,7 @@
         </div>
 
         <div class="col-md-12">
-            <a href="{{route('movements.index')}}" class="btn btn-sm ">Cancel</a>
+            <a href="{{ url()->previous() }}" class="btn btn-sm ">Cancel</a>
             {{ Form::submit('Save', ['class' => 'btn btn-sm btn-primary float-end']) }}
         </div>
 

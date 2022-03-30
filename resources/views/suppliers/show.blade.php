@@ -7,6 +7,12 @@
         'route' => ['suppliers.destroy', $entity->getId()], 
         'method' => 'delete',
     ]) }}
+    <a href="{{ route('suppliers.contacts.create', ['supplier' => $entity->getId()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$entity->getId()}/contacts/create") ? "active" : "" }}'>
+        <span data-feather="user"></span> {{ __('New contact') }}
+    </a>
+    <a href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getId()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$entity->getId()}/incidences/create") ? "active" : "" }}'>
+        <span data-feather="bell"></span> {{ __('New incidence') }}
+    </a>
     <div class="btn-group btn-group-sm" role="group">
         <a href="{{ route('suppliers.edit', ['supplier' => $entity->getId()]) }}" class="btn btn-outline-secondary">
             <span data-feather="edit-2"></span>

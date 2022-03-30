@@ -143,9 +143,9 @@ class ContactController extends Controller
      */
     protected function hydrateData(Contact $entity, array $data = [])
     {
-        if (isset($data['name'])) $entity->setName($data['name']);
-        if (isset($data['email'])) $entity->setEmail($data['email']);
-        if (isset($data['phone'])) $entity->setPhone($data['phone']);
-        if (isset($data['position'])) $entity->setPosition($data['position']);
+        $entity->setName($data['name']);
+        $entity->setEmail($data['email']);
+        $entity->setPhone($data['phone']);
+        $entity->setPosition($data['position']);
     }
 }

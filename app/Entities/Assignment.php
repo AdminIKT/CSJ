@@ -38,9 +38,9 @@ class Assignment
     /**
      * @var int
      *
-     * @ORM\Column(name="type", type="integer", options={"default":0})
+     * @ORM\Column(name="type", type="integer")
      */
-    private $type = Assignment::TYPE_ANUAL;
+    private $type;
 
     /**
      * @var float

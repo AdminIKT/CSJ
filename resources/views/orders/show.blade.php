@@ -10,9 +10,16 @@
     <a href="{{ route('orders.invoices.create', ['order' => $entity->getId()]) }}" class="btn btn-sm btn-outline-secondary" target="_blank">
         <span data-feather="file-text"></span> {{ __('pdf') }} 
     </a>
-    <a href="" class="btn btn-sm btn-outline-secondary" target="_blank">
-        <span data-feather="mail"></span> Email 
-    </a>
+    <div class="btn-group">
+        <button id="emailBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span data-feather="mail"></span> Email 
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="emailBtn">
+            @foreach ($entity->getSupplier()->getContacts() as $contact)
+                <li><a class="dropdown-item {{ $contact->getEmail() ? '' : 'disabled' }}" href="">{{ $contact->getName() }} ({{ $contact->getEmail() ?? 'Empty' }})</a></li>
+            @endforeach
+        </ul>
+    </div>
     <div class="btn-group btn-group-sm" role="group">
         <a href="{{ route('orders.edit', ['order' => $entity->getId()]) }}" class="btn btn-outline-secondary">
             <span data-feather="edit-2"></span>
@@ -35,6 +42,7 @@
             <th>{{ __('Credit') }}</th>
             <th>{{ __('Receive In') }}</th>
             <th>{{ __('Detail') }}</th>
+            <th>{{ __('User') }}</th>
             <th>{{ __('Created') }}</th>
         </tr>
         <thead>
@@ -48,6 +56,7 @@
             <td>@if ($entity->getCredit()) {{ number_format($entity->getCredit(), 2, ",", ".") }}€ @endif</td>
             <td>{{ $entity->getReceiveInName() }}</td>
             <td>{{ $entity->getDetail() }}</td>
+            <td>{{ $entity->getUser()->getEmail() }}</td>
             <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
         </tr>
         </tbody>

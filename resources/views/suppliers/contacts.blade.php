@@ -31,13 +31,15 @@
             </td>
         </tr>
         @endforeach
+        <!--
         <tr>
             <td colspan="5" align="center">
                 <a href="{{ route('suppliers.contacts.create', ['supplier' => $entity->getId()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$entity->getId()}/contacts/create") ? "active" : "" }}'>
-                    <span data-feather="plus"></span> {{ __('New contact') }}
+                    <span data-feather="user"></span> {{ __('New contact') }}
                 </a>
             </td>
         </tr>
+        -->
     </tbody> 
     </table>
 </div>

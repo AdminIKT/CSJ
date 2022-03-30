@@ -33,13 +33,13 @@
               'method' => 'delete',
           ]) }}
               <div class="btn-group btn-group-sm" role="group">
-                  <a href="{{ route('assignments.show', ['assignment' => $entity->getId()]) }}" class="btn btn-outline-secondary">
+                  <!--<a href="{{ route('assignments.show', ['assignment' => $entity->getId()]) }}" class="btn btn-outline-secondary">
                     <span data-feather="eye"></span>
                   </a>
-                  <!--<a href="{{ route('assignments.edit', ['assignment' => $entity->getId()]) }}" class="btn btn-outline-secondary">
+                  <a href="{{ route('assignments.edit', ['assignment' => $entity->getId()]) }}" class="btn btn-outline-secondary">
                     <span data-feather="edit-2"></span>
                   </a>-->
-                  {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary']) }}
+                  {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
               </div>
           {{ Form::close() }}
           </td>

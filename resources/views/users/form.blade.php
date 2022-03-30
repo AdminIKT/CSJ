@@ -45,7 +45,7 @@
     </fieldset>
 
     <div class="col-md-12">
-        <a href="{{ route('users.index') }}" class="btn btn-sm">Cancel</a>
+        <a href="{{ url()->previous() }}" class="btn btn-sm">Cancel</a>
         {{ Form::submit('Save', ['class' => 'btn btn-primary btn-sm float-end']) }}
     </div>
 

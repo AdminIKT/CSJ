@@ -48,6 +48,7 @@
         @endif
     </div>
 
+    <!--
     <div class="col-md-6 mb-3">
         {{ Form::label('credit', __('saldo')', ['class' => 'form-label']) }}
         <div class="input-group input-group-sm">
@@ -58,6 +59,7 @@
            <div class="invalid-feedback">{!! $errors->first('credit') !!}</div>
         @endif
     </div>
+    -->
 
     <fieldset class="mb-3">
         <legend> {{ __('usuarios') }}</legend>
@@ -101,7 +103,7 @@
 
     <div>
         {{ Form::submit(__('guardar'), ['class' => 'btn btn-primary btn-sm float-end']) }}
-        <a href="{{ route('areas.index') }}" class="btn btn-sm">
+        <a href="{{ url()->previous() }}" class="btn btn-sm">
             {{ __('cancelar')}}
         </a>
     </div>

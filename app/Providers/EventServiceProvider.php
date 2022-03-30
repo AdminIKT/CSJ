@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Event;
 
 use App\Events\OrderEvent,
     App\Events\SupplierEvent,
+    App\Events\AssignmentEvent,
     App\Events\MovementEvent;
 use App\Listeners\Users,
     App\Listeners\Areas,
@@ -35,6 +36,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SupplierEvent::class => [
             Users\EntityInjection::class,
+        ],
+        AssignmentEvent::class => [
+            Areas\IncreaseCredit::class,
         ],
         MovementEvent::class => [
             Orders\UpdateStatus::class,

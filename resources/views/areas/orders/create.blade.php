@@ -13,14 +13,16 @@
     }}
 
     <div class="col-md-6 mb-3">
-        {{ Form::label('credit', __('coste_estimado_disponible :disponible', ["disponible" => $area->getAvailableCredit()]), ['class' => 'form-label']) }}
-       
-        <div class="input-group input-group-sm mb-3">
+        {{ Form::label('credit', __("Estimated credit"), ['class' => 'form-label']) }}
+        <div class="input-group input-group-sm">
             {{ Form::number('estimatedCredit', old('estimatedCredit', $entity->getEstimatedCredit()), ['step' => '0.01', 'min' => 0, 'class' => 'form-control' . ($errors->has('estimatedCredit') ? ' is-invalid':'') ]) }}
             <span class="input-group-text">€</span>
             @if ($errors->has('estimatedCredit'))
                <div class="invalid-feedback">{!! $errors->first('estimatedCredit') !!}</div>
             @endif
+        </div>
+        <div id="emailHelpBlock" class="form-text mb-3">
+            {{ __("Real credit: :credit € - compromised: :compromised € = available :available €", ['credit' => number_format($area->getCredit(), 2, ",", "."), 'compromised' => number_format($area->getCompromisedCredit(), 2, ",", "."), 'available' => number_format($area->getAvailableCredit(), 2, ",", ".")]) }}
         </div>
 
         {{ Form::label('custom', __('intercalar'), ['class' => 'form-label']) }}
@@ -76,7 +78,7 @@
         <button type="button" class="btn btn-sm btn-outline-primary float-end mx-2" onclick="addToCollection()">
             <span data-thead="plus"></span> {{__('nuevo_elemento')}}
         </button>
-        <a href="{{ route('areas.show', ['area' => $area->getId()]) }}" class="btn btn-sm">{{__('cancelar')}}</a>
+        <a href="{{ url()->previous() }}" class="btn btn-sm">{{__('cancelar')}}</a>
     </div>
 
     {{ Form::close() }}

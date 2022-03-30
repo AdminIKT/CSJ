@@ -524,6 +524,17 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getSupplier()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSupplier', []);
+
+        return parent::getSupplier();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setDate(\Datetime $date)
     {
 

@@ -32,13 +32,15 @@
             </td>
         </tr>
         @endforeach
+        <!--
         <tr>
             <td colspan="4" align="center">
                 <a href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getId()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$entity->getId()}/incidences/create") ? "active" : "" }}'>
-                    <span data-feather="plus"></span> {{ __('New incidence') }}
+                    <span data-feather="bell"></span> {{ __('New incidence') }}
                 </a>
             </td>
         </tr>
+        -->
         <tbody>
     </table>
 </div>

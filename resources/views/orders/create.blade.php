@@ -1,8 +1,7 @@
 @extends('layout')
  
 @section('sidebar')
-    <a class="btn btn-sm w-100 btn-outline-primary" 
-    href="{{ route('orders.index') }}">Cancel</a> 
+    <a class="btn btn-sm w-100 btn-outline-primary" href="{{ url()->previous() }}">Cancel</a> 
 @endsection
 
 @section('content')

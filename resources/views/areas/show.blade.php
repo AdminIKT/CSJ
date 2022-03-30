@@ -10,6 +10,9 @@
     <a href="{{ route('areas.orders.create', ['area' => $entity->getId()]) }}" class="btn btn-sm btn-outline-secondary">
         <span data-feather="file"></span> {{ __('New order') }} 
     </a>
+    <a href="{{ route('assignments.create') }}?area={{$entity->getId()}}" class="btn btn-sm btn-outline-secondary">
+        <span data-feather="dollar-sign"></span> {{ __('New assignment') }} 
+    </a>
     <div class="btn-group btn-group-sm" role="group">
         <a href="{{ route('areas.edit', ['area' => $entity->getId()]) }}" class="btn btn-outline-secondary">
             <span data-feather="edit-2"></span>

@@ -19,6 +19,7 @@ class Movement
      * etc
      */
     const TYPE_INVOICED = 0;
+    const TYPE_CASH     = 1;
 
     /**
      * @var int
@@ -301,7 +302,10 @@ class Movement
     public static function typeName($type) 
     {
         switch ($type) {
-            case self::TYPE_INVOICED: return "Cargo por factura";
+            case self::TYPE_INVOICED: 
+                return "Cargo por factura";
+            case self::TYPE_CASH: 
+                return "Cobro en caja";
             return "Undefined";
         }
     }

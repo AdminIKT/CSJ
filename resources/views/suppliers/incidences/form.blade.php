@@ -6,14 +6,14 @@
     @csrf
     {{ method_field($method ?? 'POST') }}
     <div class="col-md-12 mb-1 has-validations">
-        <label for="detail">Detail</label>
+        {{ Form::label('detail', __('Detail'), ['class' => 'form-label']) }}
         {{ Form::textarea("detail", $incidence->getDetail(), ["class" => "form-control form-control-sm" . ($errors->has("detail") ? " is-invalid":""), 'rows' => 2]) }}
         @if ($errors->has("detail"))
            <div class="invalid-feedback">{!! $errors->first("detail") !!}</div>
         @endif
     </div>
     <div class="col-md-12">
-        <a href="{{ route('suppliers.incidences.index', ['supplier' => $entity->getId()]) }}" class="btn btn-sm">Cancel</a>
+        <a href="{{ url()->previous() }}" class="btn btn-sm">Cancel</a>
         {{ Form::submit('Save', ['class' => 'btn btn-sm btn-primary float-end']) }}
     </div>
 </form>

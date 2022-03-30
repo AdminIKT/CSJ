@@ -75,7 +75,7 @@
   </table>
 </div>
 <div>
-    <a href="{{route('imports.create')}}" class="btn btn-sm ">Cancel</a>
+    <a href="{{ url()->previous() }}" class="btn btn-sm ">Cancel</a>
     {{ Form::submit(__('Import'), ['class' => 'btn btn-primary btn-sm float-end']) }}
 </div>
 
