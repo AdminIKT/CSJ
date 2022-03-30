@@ -3,6 +3,15 @@
 
 @section('content')
 
+<ul class="nav nav-tabs justify-content-center mb-3">
+  <li class="nav-item">
+    <a class='nav-link {{request()->is("movements/create")?" active":"" }}' href="{{ route('movements.create') }}">{{ __('Cargo por factura') }}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="">{{ __('Cobro en caja') }}</a>
+  </li>
+</ul>
+
     {{ Form::open([
         'route' => ['movements.store'], 
         'method' => 'POST', 

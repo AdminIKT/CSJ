@@ -34,7 +34,7 @@
             \App\Entities\Area::TYPE_EQUIPAMIENTO => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_EQUIPAMIENTO),
             \App\Entities\Area::TYPE_FUNGIBLE => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_FUNGIBLE),
             \App\Entities\Area::TYPE_LANBIDE => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_LANBIDE),
-        ], old('type', $entity->getType()), ['class'=>'form-select form-select-sm' . ($errors->has('type') ? ' is-invalid':'')], [0 => ['disabled' => true]]) }}
+        ], old('type', $entity->getType()), ['class'=>'form-select form-select-sm' . ($errors->has('type') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
         @if ($errors->has('type'))
            <div class="invalid-feedback">{!! $errors->first('type') !!}</div>
         @endif
@@ -49,9 +49,9 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        {{ Form::label('credit', __('saldo'), ['class' => 'form-label']) }}
-        <div class="input-group">
-        {{ Form::number('credit', old('credit', $entity->getCredit()), ['class' => 'form-control form-control-sm' . ($errors->has('credit') ? ' is-invalid':''), 'step' => '0.01', 'min' => 0]) }}
+        {{ Form::label('credit', __('saldo')', ['class' => 'form-label']) }}
+        <div class="input-group input-group-sm">
+        {{ Form::number('credit', old('credit', $entity->getCredit()), ['class' => 'form-control' . ($errors->has('credit') ? ' is-invalid':''), 'step' => '0.01', 'min' => 0]) }}
         <span class="input-group-text">€</span>
         </div>
         @if ($errors->has('credit'))

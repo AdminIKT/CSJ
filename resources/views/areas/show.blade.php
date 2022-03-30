@@ -49,7 +49,7 @@
   </table>
 </div>
 
-<ul class="nav nav-tabs justify-content-center">
+<ul class="nav nav-tabs justify-content-center mb-3">
   <li class="nav-item">
     <a class='nav-link {{request()->is("areas/{$entity->getId()}")?" active":"" }}' href="{{ route('areas.show', ['area' => $entity->getId()]) }}">{{__('Orders')}}</a>
   </li>
@@ -58,7 +58,5 @@
   </li>
 </ul>
 
-<div class="pt-2">
-    @yield('body', View::make('areas.body', ['collection' => $collection, 'entity' => $entity]))
-</div>
+@yield('body', View::make('areas.body', ['collection' => $collection, 'entity' => $entity]))
 @endsection

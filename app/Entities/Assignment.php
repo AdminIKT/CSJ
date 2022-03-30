@@ -5,20 +5,19 @@ namespace App\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Movement
+ * Assignment
  *
- * @ORM\Table(name="movements")
- * @ORM\Entity(repositoryClass="App\Repositories\MovementRepository")
+ * @ORM\Table(name="assignments")
+ * @ORM\Entity(repositoryClass="App\Repositories\AssignmentRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Movement
+class Assignment
 {
     /**
-     * - Cargos por factura
-     * - Cobros en caja
-     * etc
+     * @var int
      */
-    const TYPE_INVOICED = 0;
+    const TYPE_ANUAL         = 0;
+    const TYPE_EXTRAORDINARY = 1;
 
     /**
      * @var int
@@ -30,18 +29,18 @@ class Movement
     private $id;
 
     /**
+     * @var Area 
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entities\Area", inversedBy="assignments")
+     */
+    private $area;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="type", type="integer", options={"default":0})
      */
-    private $type = Movement::TYPE_INVOICED;
-
-    /**
-     * @var Area 
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Order", inversedBy="movements")
-     */
-    private $order;
+    private $type = Assignment::TYPE_ANUAL;
 
     /**
      * @var float
@@ -53,14 +52,7 @@ class Movement
     /**
      * @var string
      *
-     * @ORM\Column(name="invoice", type="string")
-     */
-    private $invoice;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="detail", type="string")
+     * @ORM\Column(name="detail", type="string", nullable=true)
      */
     private $detail;
 
@@ -100,7 +92,7 @@ class Movement
      *
      * @param string $detail
      *
-     * @return Movement
+     * @return Assignment
      */
     public function setDetail($detail)
     {
@@ -120,35 +112,11 @@ class Movement
     }
 
     /**
-     * Get invoice.
-     *
-     * @return string
-     */
-    public function getInvoice()
-    {
-        return $this->invoice;
-    }
-
-    /**
-     * Set invoice.
-     *
-     * @param string $invoice
-     *
-     * @return Movement
-     */
-    public function setInvoice($invoice)
-    {
-        $this->invoice = $invoice;
-
-        return $this;
-    }
-
-    /**
      * Set credit.
      *
      * @param float $credit
      *
-     * @return Movement
+     * @return Assignment
      */
     public function setCredit(float $credit)
     {
@@ -172,7 +140,7 @@ class Movement
      *
      * @param int $type
      *
-     * @return Movement
+     * @return Assignment
      */
     public function setType(int $type)
     {
@@ -202,27 +170,17 @@ class Movement
     }
 
     /**
-     * Set order.
+     * Set area.
      *
-     * @param Order $order
+     * @param Area $area
      *
-     * @return Order
+     * @return Assignment
      */
-    public function setOrder(Order $order)
+    public function setArea(Area $area)
     {
-        $this->order = $order;
+        $this->area = $area;
 
         return $this;
-    }
-
-    /**
-     * Get order.
-     *
-     * @return Order 
-     */
-    public function getOrder()
-    {
-        return $this->order;
     }
 
     /**
@@ -232,7 +190,7 @@ class Movement
      */
     public function getArea()
     {
-        return $this->getOrder()->getArea();
+        return $this->area;
     }
 
     /**
@@ -240,7 +198,7 @@ class Movement
      *
      * @param \Datetime $created
      *
-     * @return Movement
+     * @return Assignment
      */
     public function setCreated(\Datetime $created)
     {
@@ -264,7 +222,7 @@ class Movement
      *
      * @param \Datetime $updated
      *
-     * @return Movement
+     * @return Assignment
      */
     public function setUpdated(\Datetime $updated)
     {
@@ -301,7 +259,10 @@ class Movement
     public static function typeName($type) 
     {
         switch ($type) {
-            case self::TYPE_INVOICED: return "Cargo por factura";
+            case self::TYPE_ANUAL: 
+                return "Asignación anual";
+            case self::TYPE_EXTRAORDINARY: 
+                return "Asignación extraordinaria";
             return "Undefined";
         }
     }

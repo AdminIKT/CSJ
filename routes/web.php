@@ -57,6 +57,7 @@ Route::resources([
     'suppliers.orders'      => Controllers\Supplier\OrderController::class,
     'suppliers.movements'   => Controllers\Supplier\MovementController::class,
     'movements'             => Controllers\MovementController::class,
+    'assignments'           => Controllers\AssignmentController::class,
     'settings'              => Controllers\SettingsController::class,
 ], [
     'middleware' => 'auth'

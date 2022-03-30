@@ -97,6 +97,12 @@ th a.active {
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link {{request()->is('assignments*') ? 'active' : ''}}" href="{{ route('assignments.index') }}">
+              <span data-feather="dollar-sign"></span>
+              {{ __('Assignments') }}
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link {{request()->is('movements*') ? 'active' : ''}}" href="{{ route('movements.index') }}">
               <span data-feather="shopping-cart"></span>
               {{ __('Movements') }}
