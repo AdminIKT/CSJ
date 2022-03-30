@@ -104,7 +104,7 @@ class OrderController extends Controller
 
         if (null !== ($file = $request->file('estimated'))) {
             $path = Storage::disk('public')->putFileAs('files', $file, "{$order->getSequence()}.pdf");
-            $order->setInvoice($path);
+            $order->setEstimated($path);
         }
 
         $area->addOrder($order)

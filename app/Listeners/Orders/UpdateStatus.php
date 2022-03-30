@@ -33,7 +33,7 @@ class UpdateStatus
             $movement->getOrder()
                      ->setStatus(Order::STATUS_PAID) 
                      ->setCredit($movement->getCredit())
-                     ->setinvoice($movement->getInvoice());
+                     ->setInvoice($movement->getInvoice());
         }
     }
 }

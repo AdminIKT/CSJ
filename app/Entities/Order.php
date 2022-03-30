@@ -122,6 +122,13 @@ class Order implements UserAwareInterface, \JsonSerializable
     /**
      * @var string
      *
+     * @ORM\Column(name="estimated", type="string", nullable=true)
+     */
+    private $estimated;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="invoice", type="string", nullable=true)
      */
     private $invoice;
@@ -206,6 +213,30 @@ class Order implements UserAwareInterface, \JsonSerializable
     public function getDetail()
     {
         return $this->detail;
+    }
+
+    /**
+     * Set estimated.
+     *
+     * @param string $estimated
+     *
+     * @return Order 
+     */
+    public function setEstimated($estimated = null)
+    {
+        $this->estimated = $estimated;
+
+        return $this;
+    }
+
+    /**
+     * Get estimated.
+     *
+     * @return string|null
+     */
+    public function getEstimated()
+    {
+        return $this->estimated;
     }
 
     /**

@@ -30,6 +30,7 @@
             <th>{{ __('Area') }}</th>
             <th>{{ __('Estimated') }}</th>
             <th>{{ __('Presupuesto') }}</th>
+            <th>{{ __('Invoice') }}</th>
             <th>{{ __('Status') }}</th>
             <th>{{ __('Credit') }}</th>
             <th>{{ __('Receive In') }}</th>
@@ -41,7 +42,8 @@
         <tr>
             <td><a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea() }}</td>
             <td>{{ number_format($entity->getEstimatedCredit(), 2, ",", ".") }}€</td>
-            <td>@if ($entity->getInvoice())<a href='{{ asset("storage/{$entity->getInvoice()}") }}' target="_blank">{{ $entity->getInvoice() }}</a>@else-@endif</td>
+            <td>@if ($entity->getEstimated())<a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank">{{ $entity->getEstimated() }}</a>@else-@endif</td>
+            <td>{{ $entity->getInvoice() }}</td>
             <td>{{ $entity->getStatusName() }}</td>
             <td>@if ($entity->getCredit()) {{ number_format($entity->getCredit(), 2, ",", ".") }}€ @endif</td>
             <td>{{ $entity->getReceiveInName() }}</td>

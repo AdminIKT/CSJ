@@ -69,7 +69,7 @@ class OrderPostRequest extends FormRequest
                 if (!isset($data['sequence']) || is_null($data['sequence']))
                 $validator->errors()->add('sequence', 'Required field');
             }
-            if (isset($data['estimatedCredit']) && $data['estimatedCredit']) {
+            if (!isset($data['estimated']) && isset($data['estimatedCredit']) && $data['estimatedCredit']) {
                 if ($data['estimatedCredit'] >= $limit->getValue()) {
                     $validator->errors()->add('estimated', 'Required field');
                 }
