@@ -47,7 +47,7 @@ class OrderController extends Controller
     public function create(Area $area, Request $request)
     {
         $collection = $this->em->getRepository(Supplier::class)
-                               ->findBy([], ['name' => 'asc']);
+                               ->findBy(['acceptable' => true], ['name' => 'asc']);
 
         $limit = $this->em->getRepository(Settings::class)
                                ->findOneBy(['type' => Settings::TYPE_INVOICED_LIMIT]);

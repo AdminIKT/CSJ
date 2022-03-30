@@ -18,6 +18,8 @@
           <th scope="col">{{ __('Zip') }}</th>
           <th scope="col">{{ __('Address') }}</th>
           <th scope="col">{{ __('User') }}</th>
+          <th scope="col">{{ __('Acceptable') }}</th>
+          <th scope="col">{{ __('Recommendable') }}</th>
           <th scope="col">{{ __('Created') }}</th>
           <th scope="col">{{ __('Actions') }}</th>
       </tr>
@@ -32,6 +34,8 @@
           <td>{{ $entity->getZip() }}</td>
           <td>{{ $entity->getAddress() }}</td>
           <td>{{ $entity->getUser()->getShort() }}</td>
+          <td>{{ $entity->getAcceptable() ? __('Yes') : __('No') }}</td>
+          <td>{{ $entity->getRecommendable() ? __('Yes') : __('No') }}</td>
           <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
           <td>
           {{ Form::open([

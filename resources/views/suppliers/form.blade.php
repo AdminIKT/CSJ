@@ -51,6 +51,17 @@
            <div class="invalid-feedback">{!! $errors->first('address') !!}</div>
         @endif
     </div>
+
+    <div class="col-md-12 mb-3">
+        <div class="form-check form-check-inline">
+            {{ Form::checkbox('acceptable', true, old('acceptable', $entity->getAcceptable()), ['class' => 'form-check-input']) }}
+            {{ Form::label('acceptable', __('Acceptable'), ['class' => 'form-check-label']) }}
+        </div>
+        <div class="form-check form-check-inline">
+            {{ Form::checkbox('recommendable', true, old('recommendable', $entity->getRecommendable()), ['class' => 'form-check-input']) }}
+            {{ Form::label('recommendable', __('Recommendable'), ['class' => 'form-check-label']) }}
+        </div>
+    </div>
    
     @if (!$entity->getId())
     <fieldset class="col-md-12 mb-3 collection-container" 
