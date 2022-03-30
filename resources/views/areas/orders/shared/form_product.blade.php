@@ -11,14 +11,14 @@
             @endif
         </div>
         <div class="col-md-4 mb-1 has-validations">
-            <label for="products[{{$index}}][detail]">{{__('detalle')}}</label>
+            {{ Form::label("products[{$index}][detail]", __('detalle'), ['class' => 'form-label']) }}
             {{ Form::text("products[{$index}][detail]", null, ["class" => "form-control form-control-sm" . ($errors->has("products.{$index}.detail") ? " is-invalid":"")]) }}
             @if ($errors->has("products.{$index}.detail"))
                <div class="invalid-feedback">{!! $errors->first("products.{$index}.detail") !!}</div>
             @endif
         </div>
         <div class="col-md-4 mb-1 has-validations">
-            <label for="products[{{$index}}][credit]">{{__('Credit')}}</label>
+            {{ Form::label("products[{$index}][credit]", __('Credit'), ['class' => 'form-label']) }}
             <div class="input-group input-group-sm">
                 {{ Form::number("products[{$index}][credit]", null, ["class" => "form-control" . ($errors->has("products.{$index}.credit") ? " is-invalid":""), "step" => "0.01", "min" => 0 ]) }}
                 <span class="input-group-text">€</span>
