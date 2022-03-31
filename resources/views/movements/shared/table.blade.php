@@ -2,6 +2,7 @@
   <table class="table table-hover table-sm">
     <thead>
         <tr>
+            @if (!(isset($exclude) && in_array('orders', $exclude)))
             <th scope="col">{{ __('Order') }} nº
                 <a class="{{ request()->get('sortBy') == 'sequence' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'sequence', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
@@ -10,6 +11,7 @@
                     <span data-feather="chevron-down"></span>
                 </a>
             </th>
+            @endif
             @if (!(isset($exclude) && in_array('areas', $exclude)))
             <th scope="col">{{ __('Area') }}</th>
             @endif
@@ -48,7 +50,9 @@
     <tbody>
         @foreach ($collection as $i => $entity)
         <tr>
+            @if (!(isset($exclude) && in_array('orders', $exclude)))
             <td><a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a></td>
+            @endif
             @if (!(isset($exclude) && in_array('areas', $exclude)))
             <td><a href="{{route('areas.show', ['area' => $entity->getArea()->getId()])}}">{{ $entity->getArea()->getName() }}-{{ $entity->getArea()->getType() }}</a></td>
             @endif

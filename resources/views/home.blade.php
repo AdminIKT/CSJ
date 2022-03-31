@@ -16,7 +16,7 @@
 
 <div class="row" data-masonry='{"percentPosition": true }'>
 @foreach (Auth::user()->getAreas() as $area)
-<div class="col-md-3">
+<div class="col-md-3 mb-3">
 <div class="card text-center">
   <div class="card-header">{{ $area->getTypeName() }}</div>
   <div class="card-body">

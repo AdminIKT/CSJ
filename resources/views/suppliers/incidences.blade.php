@@ -7,6 +7,7 @@
         <tr>
             <th>Detail</th>
             <th>Order</th>
+            <th>User</th>
             <th>Created</th>
             <th>Actions</th>
         </tr>
@@ -16,6 +17,7 @@
         <tr>
             <td>{{ $incidence->getDetail() }}</td>
             <td>@if ($incidence->getOrder())<a href="{{ route('orders.show', ['order' => $incidence->getOrder()->getId()]) }}">{{ $incidence->getOrder()->getSequence() }}</a>@endif</td>
+            <td>{{ $incidence->getUser()->getName() }}</td>
             <td>{{ $incidence->getCreated()->format("d/m/Y H:i") }}</td>
             <td>
                 {{ Form::open([

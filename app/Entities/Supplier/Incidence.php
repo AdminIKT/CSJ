@@ -4,7 +4,10 @@ namespace App\Entities\Supplier;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use App\Entities\Supplier;
+use App\Entities\User,
+    App\Entities\Order,
+    App\Entities\UserAwareInterface,
+    App\Entities\Supplier;
 
 /**
  * Incidence 
@@ -13,7 +16,7 @@ use App\Entities\Supplier;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class Incidence
+class Incidence implements UserAwareInterface
 {
     /**
      * @var int
@@ -45,6 +48,13 @@ class Incidence
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=true)
      */
     private $order;
+
+    /**
+     * @var User 
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entities\User", inversedBy="incidences")
+     */
+    private $user;
 
     /**
      * @var DateTime 
@@ -147,6 +157,30 @@ class Incidence
     public function getDetail()
     {
         return $this->detail;
+    }
+
+    /**
+     * Set user.
+     *
+     * @param User $user
+     *
+     * @return Incidence
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**

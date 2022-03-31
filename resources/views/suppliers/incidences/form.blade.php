@@ -12,6 +12,9 @@
            <div class="invalid-feedback">{!! $errors->first("detail") !!}</div>
         @endif
     </div>
+    @if ($order)
+        <input type="hidden" name="order" value="{{ $order ?? $order->getId() }}" />
+    @endif
     <div class="col-md-12">
         <a href="{{ url()->previous() }}" class="btn btn-sm">Cancel</a>
         {{ Form::submit('Save', ['class' => 'btn btn-sm btn-primary float-end']) }}

@@ -110,7 +110,7 @@ class AssignmentController extends Controller
 
         $this->em->persist($entity);
         $this->em->flush();
-        return redirect()->route('assignments.index')
+        return redirect()->back()
                          ->with('success', 'Successfully created');
     }
 

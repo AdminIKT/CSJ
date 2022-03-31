@@ -6,7 +6,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Entities\Supplier,
+use App\Events\IncidenceEvent,
+    App\Entities\Order,
+    App\Entities\Supplier,
     App\Entities\Supplier\Incidence;
 
 class IncidenceController extends Controller
@@ -41,11 +43,12 @@ class IncidenceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Supplier $supplier)
+    public function create(Supplier $supplier, Request $request)
     {
         return view('suppliers.incidences.form', [
-            'route' => route('suppliers.incidences.store', ['supplier' => $supplier->getId()]),
-            'entity'  => $supplier,
+            'route'     => route('suppliers.incidences.store', ['supplier' => $supplier->getId()]),
+            'order'     => $request->input('order'),
+            'entity'    => $supplier,
             'incidence' => new Incidence,
         ]); 
     }
@@ -60,11 +63,20 @@ class IncidenceController extends Controller
     {
         $values = $request->validate([
             'detail' => ['required', 'max:255'],
+            'order'  => [],
         ]);
 
         $incidence = new Incidence;
         $incidence->setSupplier($supplier)
-                ->setDetail($values['detail']);
+                  ->setDetail($values['detail']);
+        
+        if (isset($values['order']) && $values['order'] &&
+             null !== ($e = $this->em->find(Order::class, $values['order']))) {
+            $incidence->setOrder($e); 
+        }
+
+        IncidenceEvent::dispatch($incidence);
+
         $this->em->persist($incidence);
         $this->em->flush();
         return redirect()->route('suppliers.incidences.index', ['supplier' => $supplier->getId()])

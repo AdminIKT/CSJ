@@ -7,7 +7,7 @@
         'route' => ['orders.destroy', $entity->getId()], 
         'method' => 'delete',
     ]) }}
-    <a href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getSupplier()->getId()]) }}" class="btn btn-sm btn-outline-secondary">
+    <a href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getSupplier()->getId()]) }}?order={{ $entity->getId() }}" class="btn btn-sm btn-outline-secondary">
         <span data-feather="bell"></span> {{ __('New incidence') }}
     </a>
     <a href="{{ route('orders.invoices.create', ['order' => $entity->getId()]) }}" class="btn btn-sm btn-outline-secondary" target="_blank">
@@ -104,6 +104,6 @@
 </ul>
 
 <div class="pt-2">
-    @yield('body', View::make('movements.shared.table', ['collection' => $entity->getMovements()]))
+    @yield('body', View::make('movements.shared.table', ['collection' => $entity->getMovements(), 'exclude' => ['orders', 'areas', 'suppliers']]))
 </div>
 @endsection
