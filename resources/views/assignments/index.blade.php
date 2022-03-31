@@ -7,6 +7,7 @@
 @endsection
 @section('content')
 
+    @include('assignments.shared.search', ['route' => route('assignments.index')])
     @include ('assignments.shared.table', ['collection' => $collection, 'pagination' => true])
 
 @endsection

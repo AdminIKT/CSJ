@@ -18,25 +18,56 @@ class AssignmentRepository extends \Doctrine\ORM\EntityRepository
      *
      */
     function search(
-        $perPage = 10, 
-        $pageName= "page")
+        $year     = null,
+        $area     = null,
+        $type     = null,
+        $op       = null,
+        $credit   = null,
+        $sortBy   = "created", 
+        $sort     = "desc", 
+        $perPage  = 5, 
+        $pageName = "page")
     {
         $builder = $this->createQueryBuilder('a');
+
+        if ($year !== null) {
+            $builder->andWhere("YEAR(a.created) = :year")
+                    ->setParameter('year', $year);
+        }
+        if ($area !== null) {
+            $builder->andWhere("a.area = :area")
+                    ->setParameter('area', $area);
+        }
+        if ($type !== null) {
+            $builder->andWhere("a.type = :type")
+                    ->setParameter('type', $type);
+        }
+        if ($credit !== null) {
+            $builder->andWhere("a.credit {$op} :credit")
+                    ->setParameter('credit', $credit);
+        }
+
         $builder->orderBy("a.created" , "desc");
+
+        //dd($builder->getQuery()->getSql(), $builder->getQuery()->getParameters());
         return $this->paginate($builder->getQuery(), $perPage, $pageName);
     }
 
     /**
-     *
+     * @return array
      */
-    function years(
-        $perPage = 10, 
-        $pageName= "page")
+    function years(Entities\Area $area = null)
     {
-        $query = $this->getEntityManager()->createQuery("
-            SELECT DISTINCT(DATE_FORMAT(a.created, '%y'))
-            FROM App\Entities\Assignment a ORDER BY a.created DESC 
-        ");
-        return $this->paginate($query, $perPage, $pageName);
+        $sql  = "SELECT DISTINCT(YEAR(a.created)) as years FROM App\Entities\Assignment a ";
+        if ($area) 
+        $sql .= "WHERE a.area = :area ";
+        $sql .= "GROUP BY years ORDER BY years DESC";
+
+        $query = $this->getEntityManager()
+                      ->createQuery($sql);
+        if ($area)
+        $query->setParameter('area', $area->getId());
+
+        return $query->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_SCALAR_COLUMN);
     }
 }

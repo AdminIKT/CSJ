@@ -38,7 +38,6 @@
                 'route' => ['areas.destroy', $entity->getId()], 
                 'method' => 'delete',
             ]) }}
-            <a href="{{ route('areas.orders.create', ['area' => $entity->getId()]) }}" class="btn btn-sm btn-outline-secondary"><span data-feather="file"></span> {{ __('New order') }}</a>
             <div class="btn-group btn-group-sm" role="group">
                 <a href="{{ route('areas.show', ['area' => $entity->getId()]) }}" class="btn btn-outline-secondary">
                     <span data-feather="eye"></span>

@@ -50,7 +50,7 @@
 
     <!--
     <div class="col-md-6 mb-3">
-        {{ Form::label('credit', __('saldo')', ['class' => 'form-label']) }}
+        {{ Form::label('credit', __('saldo'), ['class' => 'form-label']) }}
         <div class="input-group input-group-sm">
         {{ Form::number('credit', old('credit', $entity->getCredit()), ['class' => 'form-control' . ($errors->has('credit') ? ' is-invalid':''), 'step' => '0.01', 'min' => 0]) }}
         <span class="input-group-text">€</span>

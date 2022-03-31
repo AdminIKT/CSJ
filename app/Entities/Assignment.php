@@ -260,9 +260,9 @@ class Assignment
     {
         switch ($type) {
             case self::TYPE_ANUAL: 
-                return trans("Anual assignment");
+                return trans("Anual");
             case self::TYPE_EXTRAORDINARY: 
-                return trans("Extraordinary assignment");
+                return trans("Extraordinary");
             return trans("Undefined");
         }
     }

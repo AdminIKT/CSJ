@@ -36,9 +36,7 @@
           </td>
       </tr>
       @endforeach
-      <tr>
-          <td colspan="6" class="text-center">{{ $collection->links("pagination::bootstrap-4") }}</td>
-      </tr>
       </tbody>
     </table> 
+    <div class="col-md-12 text-center">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</div>
 </div>

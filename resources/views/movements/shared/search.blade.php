@@ -23,7 +23,7 @@
           <span class="input-group-text" id="addon-type">{{ __('Type') }}</span>
           </select>
           {{ Form::select('otype', [
-              null => 'Select one',
+              null => __('selecciona'),
               \App\Entities\Area::TYPE_EQUIPAMIENTO => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_EQUIPAMIENTO),
               \App\Entities\Area::TYPE_FUNGIBLE => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_FUNGIBLE),
               \App\Entities\Area::TYPE_LANBIDE => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_LANBIDE),
@@ -34,7 +34,7 @@
     <div class="col">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="addon-area">{{ __('Area') }}</span>
-          {{ Form::select('area', [null => 'Select one'] + $areas, request()->input('area'), ['class'=>'form-select', 'aria-describedby' => 'addon-area']) }}
+          {{ Form::select('area', [null => __('Selecciona')] + $areas, request()->input('area'), ['class'=>'form-select', 'aria-describedby' => 'addon-area']) }}
         </div>
     </div>
     @endif
@@ -42,7 +42,7 @@
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="addon-status">{{ __('Movement') }}</span>
           {{ Form::select('mtype', [
-              null => 'Select one',
+              null => __('selecciona'),
               \App\Entities\Movement::TYPE_INVOICED => \App\Entities\Movement::typeName(\App\Entities\Movement::TYPE_INVOICED),
               \App\Entities\Movement::TYPE_CASH => \App\Entities\Movement::typeName(\App\Entities\Movement::TYPE_CASH),
           ], request()->input('mtype'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}

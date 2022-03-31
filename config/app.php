@@ -194,6 +194,7 @@ return [
         LaravelDoctrine\ACL\AclServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        LaravelDoctrine\Extensions\BeberleiExtensionsServiceProvider::class,
     ],
 
     /*

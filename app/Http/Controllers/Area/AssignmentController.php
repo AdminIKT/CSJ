@@ -30,10 +30,20 @@ class AssignmentController extends Controller
      */
     public function index(Request $request, Area $area)
     {
+        $years = $this->em->getRepository(Assignment::class)->years($area);
+        $years = array_combine($years, $years);
         $collection = $this->em->getRepository(Assignment::class)->search(
+            $request->input('year'),
+            $area->getId(),
+            $request->input('type'),
+            $request->input('operator'),
+            $request->input('credit'),
+            $request->input('sortBy', 'created'),
+            $request->input('sort', 'desc')
         );
 
         return view('areas.assignments', [
+            'years'  => $years,
             'entity' => $area,
             'collection' => $collection,
         ]);

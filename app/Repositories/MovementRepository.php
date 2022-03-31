@@ -84,15 +84,15 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
         }
         if ($from !== null) {
             $builder->andWhere("m.created >= :from")
-                ->setParameter('from', $from);
+                    ->setParameter('from', $from);
         }
         if ($to !== null) {
             $builder->andWhere("m.created <= :to")
-                ->setParameter('to', $to);
+                    ->setParameter('to', $to);
         }
         if ($area !== null) {
             $builder->andWhere("o.area = :area")
-                ->setParameter('area', $area);
+                    ->setParameter('area', $area);
         }
         if ($otype !== null) {
             $builder->innerJoin('o.area', 'a')

@@ -31,13 +31,29 @@ class AssignmentController extends Controller
      */
     public function index(Request $request)
     {
-        $collection = $this->em->getRepository(Assignment::class)
-                           // ->years();
-                           ->search();
+        $years = $this->em->getRepository(Assignment::class)->years();
+        $years = array_combine($years, $years);
 
-        //dd($collection);
+        $areas = $this->em->getRepository(Area::class)->findBy([], ['name' => 'ASC']);
+        $areas = array_combine(
+            array_map(function($e) { return $e->getId(); }, $areas),
+            array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $areas),
+        );
+
+        $collection = $this->em->getRepository(Assignment::class)->search(
+            $request->input('year'),
+            $request->input('area'),
+            $request->input('type'),
+            $request->input('operator'),
+            $request->input('credit'),
+            $request->input('sortBy', 'created'),
+            $request->input('sort', 'desc')
+        );
+
         return view('assignments.index', [
             'collection' => $collection,
+            'years'      => $years,
+            'areas'      => $areas,
         ]); 
     }
 
