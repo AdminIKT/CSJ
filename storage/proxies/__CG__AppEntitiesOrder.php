@@ -66,10 +66,10 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'sequence', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'area', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'movements', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'sequence', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'area', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'supplier', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'movements', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'sequence', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'area', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'movements', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'sequence', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'area', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'supplier', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'movements', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
     }
 
     /**
@@ -519,6 +519,17 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProducts', []);
 
         return parent::getProducts();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setSupplier(\App\Entities\Supplier $supplier)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSupplier', [$supplier]);
+
+        return parent::setSupplier($supplier);
     }
 
     /**

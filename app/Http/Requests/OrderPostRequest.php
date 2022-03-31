@@ -46,7 +46,7 @@ class OrderPostRequest extends FormRequest
             'estimatedCredit'     => "required|numeric|between:0,{$entity->getAvailableCredit()}",
             'estimated'           => 'mimes:pdf',
             'receiveIn'           => 'required',
-            'products.*.supplier' => 'required',
+            'supplier'            => 'required',
             'products.*.detail'   => 'required|max:255',
             'products.*.credit'   => 'required|min:0',
         ];

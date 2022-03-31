@@ -38,6 +38,7 @@ class OrderController extends Controller
             $request->input('from'),
             $request->input('to'),
             $request->input('area'),
+            $request->input('supplier'),
             $request->input('type'),
             $request->input('status'),
             $request->input('sortBy', 'date'),

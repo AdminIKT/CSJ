@@ -29,17 +29,17 @@ class IncreaseInvoiced
     {
         $movement = $event->entity;
         $order    = $movement->getOrder();
-        $products = $order->getProducts();
+        $supplier = $order->getSupplier();
+
+        //FIXME: Which date must be?
         $year     = (int) $order->getDate()->format("Y");
-        foreach ($products as $product) {
-            $supplier = $product->getSupplier();
-            if (null === ($invoiced = $supplier->getInvoiced($year))) {
-                $invoiced = new Invoiced;
-                $invoiced->setYear($year); 
-                $supplier->addInvoiced($invoiced);
-            }
-            $invoiced->increaseCredit($order->getCredit());
-            break;
+        if (null === ($invoiced = $supplier->getInvoiced($year))) {
+            $invoiced = new Invoiced;
+            $invoiced->setYear($year); 
+            $supplier->addInvoiced($invoiced);
         }
+
+        //FIXME: Validate Invoiced limit?
+        $invoiced->increaseCredit($order->getCredit()); 
     }
 }

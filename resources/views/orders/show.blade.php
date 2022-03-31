@@ -7,6 +7,9 @@
         'route' => ['orders.destroy', $entity->getId()], 
         'method' => 'delete',
     ]) }}
+    <a href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getSupplier()->getId()]) }}" class="btn btn-sm btn-outline-secondary">
+        <span data-feather="bell"></span> {{ __('New incidence') }}
+    </a>
     <a href="{{ route('orders.invoices.create', ['order' => $entity->getId()]) }}" class="btn btn-sm btn-outline-secondary" target="_blank">
         <span data-feather="file-text"></span> {{ __('pdf') }} 
     </a>
@@ -49,6 +52,7 @@
         <tbody>
         <tr>
             <td><a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea() }}</td>
+            <td><a href="{{ route('suppliers.show', ['supplier' => $entity->getSupplier()->getId()]) }}">{{ $entity->getSupplier()->getName() }}</a></td>
             <td>{{ number_format($entity->getEstimatedCredit(), 2, ",", ".") }}€</td>
             <td>@if ($entity->getEstimated())<a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank">{{ $entity->getEstimated() }}</a>@else-@endif</td>
             <td>{{ $entity->getInvoice() }}</td>
@@ -61,11 +65,10 @@
         </tr>
         </tbody>
   </table>
-  <h4>{{ __('elementos') }}</h4>
+  <h6>{{ __('elementos') }}</h6>
   <table class="table table-hover table-sm align-middle">
         <thead>
         <tr>
-            <th>{{ __('proveedor') }}</th>
             <th>{{ __('Detail') }}</th>
             <th>{{ __('Credit') }}</th>
             <th>{{ __('Actions') }}</th>
@@ -74,7 +77,6 @@
         <tbody>
         @foreach ($entity->getProducts() as $product)
         <tr>
-            <td><a href="{{ route('suppliers.show', ['supplier' => $product->getSupplier()->getId()]) }}">{{ $product->getSupplier()->getName() }}</td>
             <td>{{ $product->getDetail() }}</td>
             <td>{{ $product->getCredit() }}€</td>
             <td>
@@ -82,9 +84,6 @@
                     'route' => ['orders.products.destroy', $entity->getId(), $product->getId()], 
                     'method' => 'delete',
                 ]) }}
-                <a href="{{ route('suppliers.incidences.create', ['supplier' => $product->getSupplier()->getId()]) }}" class="btn btn-sm btn-outline-secondary">
-                    <span data-feather="plus"></span> {{ __('New incidence') }}
-                </a>
                 <div class="btn-group btn-group-sm" role="group">
                     <a href="" class='btn btn-sm btn-outline-secondary disabled'>
                         <span data-feather="edit-2"></span>

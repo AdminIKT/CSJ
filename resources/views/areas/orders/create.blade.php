@@ -25,6 +25,14 @@
             {{ __("Real credit: :credit € - compromised: :compromised € = available :available €", ['credit' => number_format($area->getCredit(), 2, ",", "."), 'compromised' => number_format($area->getCompromisedCredit(), 2, ",", "."), 'available' => number_format($area->getAvailableCredit(), 2, ",", ".")]) }}
         </div>
 
+        <div class="mb-3">
+        {{ Form::label("supplier", __('proveedor'), ['class' => 'form-label']) }}
+        {{ Form::select("supplier", [null => __('selecciona')] + $suppliers, old("supplier", null), ["class" => "form-select form-select-sm" . ($errors->has("supplier") ? " is-invalid":"")], [null => ["disabled" => true]] + $disableds) }}
+        @if ($errors->has("supplier"))
+           <div class="invalid-feedback">{!! $errors->first("supplier") !!}</div>
+        @endif
+        </div>
+
         {{ Form::label('custom', __('intercalar'), ['class' => 'form-label']) }}
         {{ Form::checkbox("custom", true, old('custom'), ['class' => 'form-check-input', 'onchange' => 'displayCustom(this)']) }}         
         <div id="custom-fields" class="row d-none">

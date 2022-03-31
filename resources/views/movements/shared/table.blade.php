@@ -13,6 +13,9 @@
             @if (!(isset($exclude) && in_array('areas', $exclude)))
             <th scope="col">{{ __('Area') }}</th>
             @endif
+            @if (!(isset($exclude) && in_array('suppliers', $exclude)))
+            <th scope="col">{{ __('Supplier') }}</th>
+            @endif
             <th scope="col">{{ __('Credit') }}
                 <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
@@ -49,6 +52,9 @@
             @if (!(isset($exclude) && in_array('areas', $exclude)))
             <td><a href="{{route('areas.show', ['area' => $entity->getArea()->getId()])}}">{{ $entity->getArea()->getName() }}-{{ $entity->getArea()->getType() }}</a></td>
             @endif
+            @if (!(isset($exclude) && in_array('suppliers', $exclude)))
+            <td><a href="{{ route('suppliers.show', ['supplier' => $entity->getOrder()->getSupplier()->getId()]) }}">{{ $entity->getOrder()->getSupplier()->getName() }}</a></td>
+            @endif
             <td>{{ $entity->getCredit() }}€</td>
             <td>{{ $entity->getInvoice() }}</td>
             <td>{{ $entity->getTypeName() }}</td>
@@ -74,7 +80,7 @@
         @endforeach
         @if ($pagination ?? '')
         <tr>
-            <td class="text-center" colspan="{{ isset($exclude) ? 8 - count($exclude) : 8 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+            <td class="text-center" colspan="{{ isset($exclude) ? 9 - count($exclude) : 9 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
         </tr>
         @endif
     </tbody>

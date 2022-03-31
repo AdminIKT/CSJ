@@ -48,14 +48,6 @@ class Product
     private $order;
 
     /**
-     * @var Supplier
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Supplier", inversedBy="products")
-     * @ORM\JoinColumn(name="supp_id", referencedColumnName="id", nullable=false)
-     */
-    private $supplier;
-
-    /**
      * @var DateTime 
      *
      * @ORM\Column(name="created", type="datetime")
@@ -125,30 +117,6 @@ class Product
     public function getCredit()
     {
         return $this->credit;
-    }
-
-    /**
-     * Set Supplier.
-     *
-     * @param Supplier $supplier
-     *
-     * @return Product
-     */
-    public function setSupplier(Supplier $supplier)
-    {
-        $this->supplier = $supplier;
-
-        return $this;
-    }
-
-    /**
-     * Get Supplier.
-     *
-     * @return Supplier
-     */
-    public function getSupplier()
-    {
-        return $this->supplier;
     }
 
     /**

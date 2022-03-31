@@ -14,35 +14,13 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
 {
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
-    function lastest($perPage = 5, $pageName= "page") 
-    {
-        $builder = $this->createQueryBuilder('o');
-        $builder->orderBy('o.date' , 'DESC');
-
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
-    }
-
-    /**
-     * @param Entity\Area $area
-     */
-    function fromArea(Entities\Area $area, $perPage = 5, $pageName= "page") 
-    {
-        $builder = $this->createQueryBuilder('o');
-        $builder->where("o.area = {$area->getId()}");
-        $builder->orderBy('o.date' , 'DESC');
-
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
-    }
-
     /**
      * @param Entity\Supplier $supplier
      */
     function fromSupplier(Entities\Supplier $supplier, $perPage = 5, $pageName= "page") 
     {
         $builder = $this->createQueryBuilder('o');
-        $builder->innerJoin('o.products', 'p')
-                ->innerJoin('p.supplier', 's')
-                ->andWhere('s.id = :id')
+        $builder->andWhere('o.supplier = :id')
                 ->orderBy('o.created' , 'DESC')
                 ->setParameters([
                     'id' => $supplier
@@ -59,6 +37,7 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         $from = null, 
         $to = null, 
         $area = null, 
+        $supplier = null, 
         $type = null, 
         $status = null, 
         $sortBy = null, 
@@ -82,6 +61,10 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         if ($area !== null) {
             $builder->andWhere("o.area = :area")
                 ->setParameter('area', $area);
+        }
+        if ($supplier !== null) {
+            $builder->andWhere("o.supplier = :supplier")
+                    ->setParameter('supplier', $supplier);
         }
         if ($type !== null) {
             $builder->innerJoin('o.area', 'a')

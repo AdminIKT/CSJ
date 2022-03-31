@@ -13,6 +13,9 @@
         @if (!(isset($exclude) && in_array('areas', $exclude)))
         <th scope="col">{{ __('Area') }}</th>
         @endif
+        @if (!(isset($exclude) && in_array('suppliers', $exclude)))
+        <th scope="col">{{ __('Supplier') }}</th>
+        @endif
         <th scope="col">{{ __('Type') }}</th>
         <!--<th scope="col">{{ __('Products') }}</th>-->
         <th scope="col">{{ __('Estimated') }}
@@ -51,6 +54,9 @@
             <td><a href="{{ route('orders.show', ['order' => $order->getId()]) }}">{{ $order->getSequence() }}</a></td>
             @if (!(isset($exclude) && in_array('areas', $exclude)))
             <td><a href="{{ route('areas.show', ['area' => $order->getArea()->getId()]) }}">{{ $order->getArea()->getName() }}-{{ $order->getArea()->getType() }}</a></td>
+            @endif
+            @if (!(isset($exclude) && in_array('suppliers', $exclude)))
+            <td><a href="{{ route('suppliers.show', ['supplier' => $order->getSupplier()->getId()]) }}">{{ $order->getSupplier()->getName() }}</a></td>
             @endif
             <td>{{ $order->getArea()->getTypeName() }}</td>
             <!--<td>{{ $order->getProducts()->count() }}</td>-->
@@ -91,7 +97,7 @@
         @endforeach
         @if ($pagination ?? '')
         <tr>
-            <td class="text-center" colspan="{{ isset($exclude) ? 10 - count($exclude) : 10 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+            <td class="text-center" colspan="{{ isset($exclude) ? 11 - count($exclude) : 11 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
         </tr>
         @endif
   </table>

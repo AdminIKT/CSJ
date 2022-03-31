@@ -106,6 +106,13 @@ class Supplier
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\OneToMany(targetEntity="App\Entities\Order", mappedBy="supplier")
+     */
+    private $orders;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\OneToMany(targetEntity="App\Entities\Order\Product", mappedBy="supplier")
      */
     private $products;
@@ -129,6 +136,7 @@ class Supplier
      */
     public function __construct()
     {
+        $this->orders     = new \Doctrine\Common\Collections\ArrayCollection();
         $this->contacts   = new \Doctrine\Common\Collections\ArrayCollection();
         $this->products   = new \Doctrine\Common\Collections\ArrayCollection();
         $this->incidences = new \Doctrine\Common\Collections\ArrayCollection();
@@ -367,6 +375,16 @@ class Supplier
     public function getContacts()
     {
         return $this->contacts;
+    }
+
+    /**
+     * Get incidences.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 
     /**

@@ -38,6 +38,7 @@ class MovementController extends Controller
             $request->input('from'),
             $request->input('to'),
             $request->input('area'),
+            $request->input('supplier'),
             $request->input('otype'),
             $request->input('mtype'),
             $request->input('sortBy', 'created'),

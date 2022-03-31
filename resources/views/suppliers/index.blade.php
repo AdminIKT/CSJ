@@ -49,7 +49,7 @@
                   <a href="{{ route('suppliers.edit', ['supplier' => $entity->getId()]) }}" class="btn btn-outline-secondary">
                     <span data-feather="edit-2"></span>
                   </a>
-                  {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'disabled' => $entity->getProducts()->count() ? true : false]) }}
+                  {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'disabled' => $entity->getOrders()->count() ? true : false]) }}
               </div>
           {{ Form::close() }}
           </td>

@@ -95,6 +95,7 @@ class AreaController extends Controller
             $request->input('from'),
             $request->input('to'),
             $area->getId(),
+            $request->input('supplier'),
             $request->input('type'),
             $request->input('status'),
             $request->input('sortBy', 'date'),

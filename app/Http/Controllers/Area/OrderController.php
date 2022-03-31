@@ -131,15 +131,15 @@ class OrderController extends Controller
         if (isset($data['detail']))             $entity->setDetail($data['detail']);
         if (isset($data['sequence']))           $entity->setSequence($data['sequence']);
         if (isset($data['date']))               $entity->setDate(new \Datetime($data['date']));
+        if (isset($data['supplier'])) {
+            if (null === ($e = $this->em->find(Supplier::class, $data['supplier']))) {
+                throw new \RuntimeException("Supplier {$data['supplier']} not found"); 
+            }
+            $entity->setSupplier($e);
+        }
         if (isset($data['products'])) {
             foreach ($data['products'] as $raw) {
                 $product = new Product;
-                if (isset($raw['supplier'])) {
-                    if (null === ($e = $this->em->find(Supplier::class, $raw['supplier']))) {
-                        throw new \RuntimeException("Supplier {$raw['supplier']} not found"); 
-                    }
-                    $product->setSupplier($e);
-                }
                 if (isset($raw['detail'])) $product->setDetail($raw['detail']);
                 if (isset($raw['credit'])) $product->setCredit($raw['credit']);
                 $entity->addProduct($product);

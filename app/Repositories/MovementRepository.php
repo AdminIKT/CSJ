@@ -15,43 +15,13 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
     /**
-     *
-     */
-    function lastest($perPage = 5, $pageName= "page") 
-    {
-        $builder = $this->createQueryBuilder('o');
-        $builder->orderBy('o.created' , 'DESC');
-
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
-    }
-
-    /**
-     * @param Entity\Area $area
-     */
-    function fromArea(Entities\Area $area, $perPage = 5, $pageName= "page") 
-    {
-        $builder = $this->createQueryBuilder('m');
-        $builder->innerJoin('m.order', 'o')
-                ->innerJoin('o.area', 'a')
-                ->andWhere('a.id = :id')
-                ->orderBy('o.created' , 'DESC')
-                ->setParameters([
-                    'id' => $area
-                ]);
-
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
-    }
-
-    /**
      * @param Entity\Supplier $supplier
      */
     function fromSupplier(Entities\Supplier $supplier, $perPage = 5, $pageName= "page") 
     {
         $builder = $this->createQueryBuilder('m');
         $builder->innerJoin('m.order', 'o')
-                ->innerJoin('o.products', 'p')
-                ->innerJoin('p.supplier', 's')
-                ->andWhere('s.id = :id')
+                ->andWhere('o.supplier = :id')
                 ->orderBy('o.created' , 'DESC')
                 ->setParameters([
                     'id' => $supplier
@@ -68,6 +38,7 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
         $from = null, 
         $to = null, 
         $area = null, 
+        $supplier = null, 
         $otype = null, 
         $mtype = null, 
         $sortBy = "created", 
@@ -93,6 +64,10 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
         if ($area !== null) {
             $builder->andWhere("o.area = :area")
                     ->setParameter('area', $area);
+        }
+        if ($supplier !== null) {
+            $builder->andWhere("o.supplier = :supplier")
+                    ->setParameter('supplier', $supplier);
         }
         if ($otype !== null) {
             $builder->innerJoin('o.area', 'a')

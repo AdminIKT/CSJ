@@ -86,6 +86,13 @@ class Order implements UserAwareInterface, \JsonSerializable
     private $user;
 
     /**
+     * @var Supplier 
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entities\Supplier", inversedBy="orders")
+     */
+    private $supplier;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entities\Order\Product", mappedBy="order", cascade={"persist","remove"})
@@ -517,13 +524,21 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
+     * @param Supplier $supplier
+     * @return Order
+     */
+    public function setSupplier(Supplier $supplier)
+    {
+        $this->supplier = $supplier;
+        return $this;
+    }
+
+    /**
      * @return Supplier
      */
     public function getSupplier()
     {
-        if ($this->getProducts()->count()) {
-            return $this->getProducts()->first()->getSupplier();
-        }
+        return $this->supplier;
     }
 
     /**
