@@ -39,7 +39,7 @@
         <span data-feather="file"></span> {{ __('New order') }}</a>
   </div>
   <div class="card-footer text-muted">
-    <strong>{{ ('Credit') }}:</strong> {{ number_format($area->getAvailableCredit(), 2, ",", ".") }}€
+    <strong>{{ __('saldo') }}:</strong> {{ number_format($area->getAvailableCredit(), 2, ",", ".") }}€
   </div>
 </div>
 </div>

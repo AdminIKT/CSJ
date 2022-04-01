@@ -8,13 +8,13 @@
     </div>
     <div class="col">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-from">{{ __('From') }}</span>
+          <span class="input-group-text" id="addon-from">{{ __('desde') }}</span>
           {{ Form::date('from', request()->input('from'), ['class' => 'form-control', 'aria-describedby' => 'addon-from']) }}
         </div>
     </div>
     <div class="col">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-to">{{ __('To') }}</span>
+          <span class="input-group-text" id="addon-to">{{ __('hasta') }}</span>
           {{ Form::date('to', request()->input('to'), ['class' => 'form-control', 'aria-describedby' => 'addon-to']) }}
         </div>
     </div>

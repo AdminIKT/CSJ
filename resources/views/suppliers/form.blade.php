@@ -13,7 +13,7 @@
     {{ method_field($method) }}
    
     <div class="col-md-6 mb-3">
-        {{ Form::label('name', 'Name', ['class' => 'form-label']) }}
+        {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
         {{ Form::text('name', old('name', $entity->getName()), ['class' => 'form-control form-control-sm' . ($errors->has('name') ? ' is-invalid' :'')]) }}
         @if ($errors->has('name'))
            <div class="invalid-feedback">{!! $errors->first('name') !!}</div>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        {{ Form::label('nif', 'NIF', ['class' => 'form-label']) }}
+        {{ Form::label('nif', __('NIF'), ['class' => 'form-label']) }}
         {{ Form::number('nif', old('nif', $entity->getNif()), ['class' => 'form-control form-control-sm' . ($errors->has('nif') ? ' is-invalid' :'')]) }}
         @if ($errors->has('nif'))
            <div class="invalid-feedback">{!! $errors->first('nif') !!}</div>
@@ -29,7 +29,7 @@
     </div>
 
     <div class="col-md-3 mb-3">
-        {{ Form::label('zip', 'ZIP code', ['class' => 'form-label']) }}
+        {{ Form::label('zip', __('Zip'), ['class' => 'form-label']) }}
         {{ Form::number('zip', old('zip', $entity->getZip()), ['class' => 'form-control form-control-sm' . ($errors->has('zip') ? ' is-invalid' :'')]) }}
         @if ($errors->has('zip'))
            <div class="invalid-feedback">{!! $errors->first('zip') !!}</div>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="col-md-3 mb-3">
-        {{ Form::label('city', 'City', ['class' => 'form-label']) }}
+        {{ Form::label('city', __('City'), ['class' => 'form-label']) }}
         {{ Form::text('city', old('city', $entity->getCity()), ['class' => 'form-control form-control-sm' . ($errors->has('city') ? ' is-invalid' :'')]) }}
         @if ($errors->has('city'))
            <div class="invalid-feedback">{!! $errors->first('city') !!}</div>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        {{ Form::label('address', 'Address', ['class' => 'form-label']) }}
+        {{ Form::label('address', __('Address'), ['class' => 'form-label']) }}
         {{ Form::text('address', old('address', $entity->getAddress()), ['class' => 'form-control form-control-sm' . ($errors->has('address') ? ' is-invalid' :'')]) }}
         @if ($errors->has('address'))
            <div class="invalid-feedback">{!! $errors->first('address') !!}</div>
@@ -74,11 +74,11 @@
     @endif
 
     <div class="col-md-12 mb-3">
-        {{ Form::submit('Save', ['class' => 'btn btn-sm btn-primary float-end']) }}
+        {{ Form::submit(__('guardar'), ['class' => 'btn btn-sm btn-primary float-end']) }}
         @if (!$entity->getId())
-            <button type="button" class="add-to-collection btn btn-sm btn-outline-primary mx-2 float-end">New contact</button>
+            <button type="button" class="add-to-collection btn btn-sm btn-outline-primary mx-2 float-end">{{__('New contact')}}</button>
         @endif
-        <a href="{{ url()->previous() }}" class="btn btn-sm btn-default">Cancel</a>
+        <a href="{{ url()->previous() }}" class="btn btn-sm btn-default">{{__('cancelar')}}</a>
     </div>
 
     {{ Form::close() }}

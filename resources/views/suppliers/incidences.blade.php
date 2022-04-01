@@ -5,11 +5,11 @@
     <table class="table table-hover table-sm">
         <thead>
         <tr>
-            <th>Detail</th>
-            <th>Order</th>
-            <th>User</th>
-            <th>Created</th>
-            <th>Actions</th>
+            <th>{{ __('Detail') }}</th>
+            <th>{{ __('Order') }}</th>
+            <th>{{ __('User') }}</th>
+            <th>{{ __('Created') }}</th>
+            <th>{{ __('Actions') }}</th>
         </tr>
         </thead>
         <tbody>

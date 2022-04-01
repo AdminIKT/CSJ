@@ -4,9 +4,9 @@
 <div class="table-responsive">
     <table class="table table-sm table-hover">
         <tr>
-            <th>Year</th>
-            <th>Credit</th>
-            <th>Updated</th>
+            <th>{{ __('Year') }}</th>
+            <th>{{ __('Invoiced') }}</th>
+            <th>{{ __('Updated') }}</th>
         </tr>
         @foreach ($entity->getInvoiced() as $invoiced)
         <tr>

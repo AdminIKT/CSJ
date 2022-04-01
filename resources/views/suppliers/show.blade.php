@@ -27,12 +27,12 @@
   <table class="table table-hover table-sm align-middle">
         <thead>
         <tr>
-            <th>NIF</th>
-            <th>Zip</th>
-            <th>Location</th>
-            <th>Address</th>
-            <th>Acceptable</th>
-            <th>Recommended</th>
+            <th>{{ __('NIF') }}</th>
+            <th>{{ __('Zip') }}</th>
+            <th>{{ __('Location') }}</th>
+            <th>{{ __('Address') }}</th>
+            <th>{{ __('Acceptable') }}</th>
+            <th>{{ __('Recommendable') }}</th>
         </tr>
         <thead>
         <tbody>

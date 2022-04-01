@@ -13,6 +13,7 @@
     "New department": "Nuevo departamento",
     "New contact": "Nuevo contacto",
     "New incidence": "Nueva incidencia",
+    "Edit incidence": "Editar incidencia",
     "Order": "Pedido",
     "Order nº :number": "Pedido nº :number",
     "Orders": "Pedidos",
@@ -66,7 +67,7 @@
     "User": "Usuario",
     "coste_estimado_disponible :disponible": "Coste previsto (Disponible: :disponible €)",
     "Estimated credit": "Coste previsto",
-    "Real credit: :credit € - compromised: :compromised € = available :available €": "Saldo real: :credit € - comprometido: :compromised € = disponible :available €",
+    "Real credit: :credit € - compromised: :compromised € = available :available €": "Saldo real: :credit € - Comprometido: :compromised € = Disponible :available €",
     "intercalar": "Intercalar",
     "presupuesto": "Presupuesto",
     "detalle": "Detalle",
@@ -74,5 +75,32 @@
     "elementos": "Elementos",
     "proveedor": "Proveedor",
     "pdf": "PDF",
-    "Pending": "Pendiente"
+    "Pending": "Pendiente",
+    "Paid": "Pagado",
+    "Received": "Recibido",
+    "Moved": "Moved",
+    "cantidad": "Cantidad",
+    "limite_presupuesto": "Límite presupuesto",
+    "limite_facturado": "Límite facturado",
+    "limite_presupuesto_descripcion": "Límite establecido para poder crear un pedido sin presupuesto",
+    "limite_facturado_descripcion": "Límite establecido para la facturación anual por proveedor",
+    "Movement": "Movimiento",
+    "Year": "Año",
+    "Anual": "Anual",
+    "Name": "Nombre",
+    "City": "Ciudad",
+    "Zip": "CP",
+    "Address": "Dirección",
+    "Acceptable": "Aceptable",
+    "Recommendable": "Recomendable",
+    "Position": "Cargo",
+    "Email": "Email",
+    "Phone": "Teléfono",
+    "Supplier :name": "Proveedor :name",
+    "Edit supplier :name": "Editar proveedor :name",
+    "Edit contact": "Editar contacto"
+   
+
+
+
 }

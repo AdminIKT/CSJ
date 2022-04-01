@@ -116,8 +116,8 @@ class Settings
     public static function typeName($type) 
     {
         switch ($type) {
-            case self::TYPE_ESTIMATED_LIMIT: return trans("Límite presupuesto");
-            case self::TYPE_INVOICED_LIMIT:  return trans("Límite facturado");
+            case self::TYPE_ESTIMATED_LIMIT: return trans("limite_presupuesto");
+            case self::TYPE_INVOICED_LIMIT:  return trans("limite_facturado");
             return trans("Undefined");
         }
     }
@@ -129,9 +129,9 @@ class Settings
     {
         switch ($type) {
             case self::TYPE_ESTIMATED_LIMIT: 
-                return "A description for this configuration";
+                return trans("limite_presupuesto_descripcion");
             case self::TYPE_INVOICED_LIMIT:  
-                return "Another description for this configuration";
+                return trans("limite_facturado_descripcion");
             return "Undefined";
         }
     }

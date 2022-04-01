@@ -2,11 +2,11 @@
     <table class="table table-hover table-sm">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Actions</th>
+            <th>{{ __('Name') }}</th>
+            <th>{{ __('Position') }}</th>
+            <th>{{ __('Email') }}</th>
+            <th>{{ __('Phone') }}</th>
+            <th>{{ __('Actions') }}</th>
         </tr>
     </thead>
     <tbody> 
