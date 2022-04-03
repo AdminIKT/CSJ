@@ -13,7 +13,7 @@
    
     <div class="col-md-4 mb-3">
         {{ Form::label('area', __('Area'), ['class' => 'form-label']) }}
-        {{ Form::select('area', [null => 'Select one'] + $areas, old('area', $entity->getArea() ? $entity->getArea()->getId() : null), ['class'=>'form-select form-select-sm' . ($errors->has('area') ? ' is-invalid':''), 'aria-describedby' => 'addon-area'], [null => ['disabled' => true]]) }}
+        {{ Form::select('area', [null => __('selecciona')] + $areas, old('area', $entity->getArea() ? $entity->getArea()->getId() : null), ['class'=>'form-select form-select-sm' . ($errors->has('area') ? ' is-invalid':''), 'aria-describedby' => 'addon-area'], [null => ['disabled' => true]]) }}
         @if ($errors->has('area'))
            <div class="invalid-feedback">{!! $errors->first('area') !!}</div>
         @endif
@@ -22,7 +22,7 @@
     <div class="col-md-4 mb-3">
         {{ Form::label('type', __('Type'), ['class' => 'form-label']) }}
         {{ Form::select('type', [
-            null => 'Select one',
+            null => __('selecciona'),
             \App\Entities\Assignment::TYPE_ANUAL => \App\Entities\Assignment::typeName(\App\Entities\Assignment::TYPE_ANUAL),
             \App\Entities\Assignment::TYPE_EXTRAORDINARY => \App\Entities\Assignment::typeName(\App\Entities\Assignment::TYPE_EXTRAORDINARY),
         ], old('type', $entity->getType()), ['class'=>'form-select form-select-sm' . ($errors->has('type') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
@@ -31,7 +31,7 @@
         @endif
     </div>
     <div class="col-md-4 mb-3">
-        {{ Form::label('credit', __('Credit'), ['class' => 'form-label']) }}
+        {{ Form::label('credit', __('importe'), ['class' => 'form-label']) }}
         <div class="input-group input-group-sm">
         {{ Form::number('credit', old('credit', $entity->getCredit()), ['class' => 'form-control' . ($errors->has('credit') ? ' is-invalid':''), 'step' => '0.01', 'min' => 0]) }}
         <span class="input-group-text">€</span>
@@ -48,8 +48,8 @@
         @endif
     </div>
     <div class="col-md-12 mb-3">
-        {{ Form::submit('Save', ['class' => 'btn btn-sm btn-primary float-end']) }}
-        <a href="{{ url()->previous() }}" class="btn btn-sm btn-default">Cancel</a>
+        {{ Form::submit(__('guardar'), ['class' => 'btn btn-sm btn-primary float-end']) }}
+        <a href="{{ url()->previous() }}" class="btn btn-sm btn-default">{{__('cancelar')}}</a>
     </div>
     @if (isset($dst))
         {{ Form::hidden('destination', $dst ?? '') }}

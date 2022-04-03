@@ -2,7 +2,7 @@
 @section('title'){{ __('Departments') }}@endsection
 @section('btn-toolbar')
     <a href="{{ route('departments.create') }}" class="btn btn-sm btn-outline-secondary">
-    <span data-feather="plus"></span> New
+    <span data-feather="plus"></span> {{__('New')}}
     </a>
 @endsection
 @section('content')

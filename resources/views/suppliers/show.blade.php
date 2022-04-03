@@ -41,8 +41,8 @@
             <td>{{ $entity->getZip() }}</td>
             <td>{{ $entity->getCity() }}</td>
             <td>{{ $entity->getAddress() }}</td>
-            <td>{{ $entity->getAcceptable() ? "Yes":"No" }}</td>
-            <td>{{ $entity->getRecommendable() ? "Yes":"No" }}</td>
+            <td>{{ $entity->getAcceptable() ? __('Yes'):__('No') }}</td>
+            <td>{{ $entity->getRecommendable() ? __('Yes'):__('No') }}</td>
         </tr>
         </tbody>
     </table>

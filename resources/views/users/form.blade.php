@@ -15,7 +15,7 @@
     {{ method_field($method) }}
 
     <div class="col-md-12 mb-3">
-        {{ Form::label('email', 'Email', ['class' => 'form-label']) }}
+        {{ Form::label('email', __('Email'), ['class' => 'form-label']) }}
         {{ Form::email('email', old('email', $entity->getEmail()), ['class' => 'form-control form-control-sm' . ($errors->has('email')? ' is-invalid':''), 'aria-describedby' => 'emailHelpBlock']) }}
         <div id="emailHelpBlock" class="form-text">
             {{ __("Email must be in ':domain' domain", ['domain' => 'fpsanjorge.com']) }}
@@ -45,8 +45,8 @@
     </fieldset>
 
     <div class="col-md-12">
-        <a href="{{ url()->previous() }}" class="btn btn-sm">Cancel</a>
-        {{ Form::submit('Save', ['class' => 'btn btn-primary btn-sm float-end']) }}
+        <a href="{{ url()->previous() }}" class="btn btn-sm">{{__('cancelar')}}</a>
+        {{ Form::submit(__('guardar'), ['class' => 'btn btn-primary btn-sm float-end']) }}
     </div>
 
 </form>

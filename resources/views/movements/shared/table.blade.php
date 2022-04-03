@@ -18,7 +18,7 @@
             @if (!(isset($exclude) && in_array('suppliers', $exclude)))
             <th scope="col">{{ __('Supplier') }}</th>
             @endif
-            <th scope="col">{{ __('Credit') }}
+            <th scope="col">{{ __('importe') }}
                 <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
                 </a>

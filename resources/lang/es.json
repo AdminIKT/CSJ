@@ -87,7 +87,9 @@
     "Movement": "Movimiento",
     "Year": "Año",
     "Anual": "Anual",
+    "Extraordinary": "Extraordinaria",
     "Name": "Nombre",
+    "Location": "Ciudad",
     "City": "Ciudad",
     "Zip": "CP",
     "Address": "Dirección",
@@ -98,7 +100,21 @@
     "Phone": "Teléfono",
     "Supplier :name": "Proveedor :name",
     "Edit supplier :name": "Editar proveedor :name",
-    "Edit contact": "Editar contacto"
+    "Edit contact": "Editar contacto",
+    "New assignment": "Nueva asignación",
+    "User :email": "Usuario :email",
+    "Email must be in ':domain' domain": "El email tiene que pertenecer al dominio ':domain'",
+    "Yes": "Sí",
+    "No": "No",
+    "importe": "Importe",
+    "Import": "Importar",
+    "Import movements": "Importar movimientos",
+    "New movement": "Nuevo movimiento",
+    "File": "Fichero",
+    "File must be an ':extension' extension": "El fichero debe tener la extensión ':extension'",
+    "Invoice nº": "Nº factura",
+    "Description": "Descripción"
+    
    
 
 

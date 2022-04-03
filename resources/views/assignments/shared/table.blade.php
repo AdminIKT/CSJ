@@ -4,7 +4,7 @@
       <tr>
           <th scope="col">{{ __('Area') }}</th>
           <th scope="col">{{ __('Type') }}</th>
-          <th scope="col">{{ __('Credit') }}</th>
+          <th scope="col">{{ __('importe') }}</th>
           <th scope="col">{{ __('Detail') }}</th>
           <th scope="col">{{ __('Created') }}</th>
           <th scope="col">{{ __('Actions') }}</th>

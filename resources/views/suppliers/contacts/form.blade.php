@@ -1,7 +1,7 @@
 @extends('suppliers.show')
 
 @section('body')
-<h4 class="py-2">@if ($contact->getId()) {{__('Edit contact')}} @else New contact @endif</h4>
+<h4 class="py-2">@if ($contact->getId()) {{__('Edit contact')}} @else {{__('New contact')}} @endif</h4>
 <form action="{{ $route }}" method="POST" class="row">
     @csrf
     {{ method_field($method ?? 'POST') }}
