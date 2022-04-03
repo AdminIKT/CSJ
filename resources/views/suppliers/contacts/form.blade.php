@@ -37,6 +37,9 @@
         <a href="{{ url()->previous() }}" class="btn btn-sm">{{__('cancelar')}}</a>
         {{ Form::submit(__('guardar'), ['class' => 'btn btn-sm btn-primary float-end']) }}
     </div>
+    @if (isset($dst))
+        {{ Form::hidden('destination', $dst ?? '') }}
+    @endif
 </form>
 @endsection
  

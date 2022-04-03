@@ -263,7 +263,8 @@ class Assignment
                 return trans("Anual");
             case self::TYPE_EXTRAORDINARY: 
                 return trans("Extraordinary");
-            return trans("Undefined");
+            default:
+                return trans("Undefined");
         }
     }
 }

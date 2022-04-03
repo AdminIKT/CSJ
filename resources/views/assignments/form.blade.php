@@ -51,6 +51,9 @@
         {{ Form::submit('Save', ['class' => 'btn btn-sm btn-primary float-end']) }}
         <a href="{{ url()->previous() }}" class="btn btn-sm btn-default">Cancel</a>
     </div>
+    @if (isset($dst))
+        {{ Form::hidden('destination', $dst ?? '') }}
+    @endif
 
     {{ Form::close() }}
 

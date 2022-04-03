@@ -79,8 +79,9 @@ class AssignmentController extends Controller
         }
 
         return view('assignments.form', [
+            'dst'    => $request->input('destination'),
             'entity' => $entity,
-            'areas' => $areas,
+            'areas'  => $areas,
         ]); 
     }
 
@@ -110,8 +111,8 @@ class AssignmentController extends Controller
 
         $this->em->persist($entity);
         $this->em->flush();
-        return redirect()->back()
-                         ->with('success', 'Successfully created');
+        $dst = $request->get('destination', route('assignments.index'));
+        return redirect()->to($dst)->with('success', 'Successfully created');
     }
 
     /**
@@ -125,7 +126,6 @@ class AssignmentController extends Controller
         AssignmentEvent::dispatch($assignment, __FUNCTION__);
         $this->em->remove($assignment);
         $this->em->flush();
-        return redirect()->route('assignments.index')
-                         ->with('success', 'Successfully removed');
+        return redirect()->back()->with('success', 'Successfully removed');
     }
 }

@@ -491,6 +491,17 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getIncidences()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIncidences', []);
+
+        return parent::getIncidences();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function addProduct(\App\Entities\Order\Product $product)
     {
 

@@ -488,6 +488,16 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
+     * Get incidences.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIncidences()
+    {
+        return $this->incidences;
+    }
+
+    /**
      * Add product.
      *
      * @param Product $product
@@ -652,7 +662,7 @@ class Order implements UserAwareInterface, \JsonSerializable
         switch ($status) {
             case self::RECEIVE_IN_DEPARTMENT: return trans("Department");
             case self::RECEIVE_IN_RECEPTION:  return trans("Reception");
-            return trans("Undefined");
+            default: return trans("Undefined");
         }
     }
 
@@ -666,7 +676,7 @@ class Order implements UserAwareInterface, \JsonSerializable
             case self::STATUS_PAID: return trans("Paid");
             case self::STATUS_RECEIVED: return trans("Received");
             case self::STATUS_MOVED: return trans("Moved");
-            return trans("Undefined");
+            default: return trans("Undefined");
         }
     }
 

@@ -48,6 +48,7 @@ class IncidenceController extends Controller
         return view('suppliers.incidences.form', [
             'route'     => route('suppliers.incidences.store', ['supplier' => $supplier->getId()]),
             'order'     => $request->input('order'),
+            'dst'       => $request->input('destination'),
             'entity'    => $supplier,
             'incidence' => new Incidence,
         ]); 
@@ -63,15 +64,15 @@ class IncidenceController extends Controller
     {
         $values = $request->validate([
             'detail' => ['required', 'max:255'],
-            'order'  => [],
+            'order'  => ['nullable'],
         ]);
+
 
         $incidence = new Incidence;
         $incidence->setSupplier($supplier)
                   ->setDetail($values['detail']);
         
-        if (isset($values['order']) && $values['order'] &&
-             null !== ($e = $this->em->find(Order::class, $values['order']))) {
+        if ($values['order'] && null !== ($e = $this->em->find(Order::class, $values['order']))) {
             $incidence->setOrder($e); 
         }
 
@@ -79,8 +80,11 @@ class IncidenceController extends Controller
 
         $this->em->persist($incidence);
         $this->em->flush();
-        return redirect()->route('suppliers.incidences.index', ['supplier' => $supplier->getId()])
-                         ->with('success', 'Successfully created');
+
+        $dst = $request->get(
+            'destination', route('suppliers.incidences.index', ['supplier' => $supplier->getId()])
+        );
+        return redirect()->to($dst)->with('success', 'Successfully created');
     }
 
     /**

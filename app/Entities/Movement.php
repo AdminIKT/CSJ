@@ -306,7 +306,8 @@ class Movement
                 return trans("Cargo por factura");
             case self::TYPE_CASH: 
                 return trans("Cobro en caja");
-            return trans("Undefined");
+            default:
+                return trans("Undefined");
         }
     }
 }

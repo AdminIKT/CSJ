@@ -93,6 +93,7 @@ class Supplier
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entities\Supplier\Incidence", mappedBy="supplier")
+     * @ORM\OrderBy({"created" = "DESC"})
      */
     private $incidences;
 

@@ -40,10 +40,11 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Supplier $supplier)
+    public function create(Supplier $supplier, Request $request)
     {
         return view('suppliers.contacts.form', [
-            'route' => route('suppliers.contacts.store', ['supplier' => $supplier->getId()]),
+            'route'   => route('suppliers.contacts.store', ['supplier' => $supplier->getId()]),
+            'dst'     => $request->input('destination'),
             'entity'  => $supplier,
             'contact' => new Contact,
         ]); 
@@ -62,8 +63,10 @@ class ContactController extends Controller
         $this->hydrateData($contact, $request->all());
         $this->em->persist($contact);
         $this->em->flush();
-        return redirect()->route('suppliers.show', ['supplier' => $supplier->getId()])
-                         ->with('success', 'Successfully created');
+        $dst = $request->get(
+            'destination', route('suppliers.show', ['supplier' => $supplier->getId()])
+        );
+        return redirect()->to($dst)->with('success', 'Successfully created');
     }
 
     /**

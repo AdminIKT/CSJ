@@ -14,8 +14,10 @@ use LaravelDoctrine\ACL\Permissions\HasPermissions;
  */
 class Settings
 {
-    const TYPE_ESTIMATED_LIMIT = 0;
-    const TYPE_INVOICED_LIMIT  = 1;
+    const TYPE_ESTIMATED_LIMIT             = 0;
+    const TYPE_INVOICED_LIMIT              = 1;
+    const TYPE_RECOMMENDED_SUPPLIER_LIMIT  = 2;
+    const TYPE_ACCEPTED_SUPPLIER_LIMIT     = 3;
 
     /**
      * @ORM\Id
@@ -118,7 +120,11 @@ class Settings
         switch ($type) {
             case self::TYPE_ESTIMATED_LIMIT: return trans("limite_presupuesto");
             case self::TYPE_INVOICED_LIMIT:  return trans("limite_facturado");
-            return trans("Undefined");
+            case self::TYPE_RECOMMENDED_SUPPLIER_LIMIT:
+                return trans("limite_pedidos_proveedor");
+            case self::TYPE_ACCEPTED_SUPPLIER_LIMIT:
+                return trans("limite_incidencias_proveedor");
+            default: return trans("Undefined");
         }
     }
 
@@ -132,7 +138,11 @@ class Settings
                 return trans("limite_presupuesto_descripcion");
             case self::TYPE_INVOICED_LIMIT:  
                 return trans("limite_facturado_descripcion");
-            return "Undefined";
+            case self::TYPE_RECOMMENDED_SUPPLIER_LIMIT:
+                return trans("Nº pedidos para recomendar proveedor");
+            case self::TYPE_ACCEPTED_SUPPLIER_LIMIT:
+                return trans("Nº incidencias para desactivar proveedor");
+            default: return trans("Undefined");
         }
     }
 }

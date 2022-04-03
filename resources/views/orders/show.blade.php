@@ -7,7 +7,7 @@
         'route' => ['orders.destroy', $entity->getId()], 
         'method' => 'delete',
     ]) }}
-    <a href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getSupplier()->getId()]) }}?order={{ $entity->getId() }}" class="btn btn-sm btn-outline-secondary">
+    <a href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getSupplier()->getId(), 'order' => $entity->getId(), 'destination' => route('orders.incidences.index', ['order' => $entity->getId()])]) }}" class="btn btn-sm btn-outline-secondary">
         <span data-feather="bell"></span> {{ __('New incidence') }}
     </a>
     <a href="{{ route('orders.invoices.create', ['order' => $entity->getId()]) }}" class="btn btn-sm btn-outline-secondary" target="_blank">
@@ -21,6 +21,12 @@
             @foreach ($entity->getSupplier()->getContacts() as $contact)
                 <li><a class="dropdown-item {{ $contact->getEmail() ? '' : 'disabled' }}" href="">{{ $contact->getName() }} ({{ $contact->getEmail() ?? 'Empty' }})</a></li>
             @endforeach
+            @if ($entity->getSupplier()->getContacts()->count())
+                <li><hr class="dropdown-divider"></li>
+            @endif
+            <li>
+                <a class="dropdown-item" href="{{ route('suppliers.contacts.create', ['supplier' => $entity->getSupplier()->getId(), 'destination' => route('orders.show', ['order' => $entity->getId()])]) }}">{{ __('New contact') }}</a>
+            </li>
         </ul>
     </div>
     <div class="btn-group btn-group-sm" role="group">
@@ -38,12 +44,13 @@
         <thead>
         <tr>
             <th>{{ __('Area') }}</th>
+            <th>{{ __('Supplier') }}</th>
             <th>{{ __('Estimated') }}</th>
             <th>{{ __('Presupuesto') }}</th>
             <th>{{ __('Invoice') }}</th>
             <th>{{ __('Status') }}</th>
             <th>{{ __('Credit') }}</th>
-            <th>{{ __('Receive In') }}</th>
+            <th>{{ __('Receive in') }}</th>
             <th>{{ __('Detail') }}</th>
             <th>{{ __('User') }}</th>
             <th>{{ __('Created') }}</th>
@@ -70,7 +77,7 @@
         <thead>
         <tr>
             <th>{{ __('Detail') }}</th>
-            <th>{{ __('Credit') }}</th>
+            <th>{{ __('cantidad') }}</th>
             <th>{{ __('Actions') }}</th>
         </tr>
         <thead>
@@ -78,7 +85,7 @@
         @foreach ($entity->getProducts() as $product)
         <tr>
             <td>{{ $product->getDetail() }}</td>
-            <td>{{ $product->getCredit() }}€</td>
+            <td>{{ $product->getCredit() }}</td>
             <td>
                 {{ Form::open([
                     'route' => ['orders.products.destroy', $entity->getId(), $product->getId()], 
@@ -99,7 +106,10 @@
    
 <ul class="nav nav-tabs justify-content-center">
   <li class="nav-item">
-    <a class='nav-link {{request()->is("orders/{$entity->getId()}", "orders/{$entity->getId()}/movements*")?" active":"" }}' href="">{{ __('Movements') }}</a>
+    <a class='nav-link {{request()->is("orders/{$entity->getId()}", "orders/{$entity->getId()}/movements*")?" active":"" }}' href="{{ route('orders.show', ['order' => $entity->getId()]) }}">{{ __('Movements') }}</a>
+  </li>
+  <li class="nav-item">
+    <a class='nav-link {{request()->is("orders/{$entity->getId()}/incidences*")?" active":"" }}' href="{{ route('orders.incidences.index', ['order' => $entity->getId()]) }}">{{ __('Incidences') }}</a>
   </li>
 </ul>
 

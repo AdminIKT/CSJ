@@ -51,6 +51,7 @@ Route::resources([
     'orders'                => Controllers\OrderController::class,
     'orders.products'       => Controllers\Order\ProductController::class,
     'orders.invoices'       => Controllers\Order\InvoiceController::class,
+    'orders.incidences'     => Controllers\Order\IncidenceController::class,
     'suppliers'             => Controllers\SupplierController::class,
     'suppliers.contacts'    => Controllers\Supplier\ContactController::class,
     'suppliers.invoiceds'   => Controllers\Supplier\InvoicedController::class,

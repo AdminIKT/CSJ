@@ -496,8 +496,7 @@ class Area
             case Area::TYPE_EQUIPAMIENTO: return trans("Equipamiento");
             case Area::TYPE_FUNGIBLE: return trans("Fungible");
             case Area::TYPE_LANBIDE: return trans("Lanbide");
-            default:
-                return trans("Undefined");
+            default: return trans("Undefined");
         }
     }
 

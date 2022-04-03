@@ -12,12 +12,10 @@
         </div>
         <div class="col-md-6 mb-1 has-validations">
             {{ Form::label("products[{$index}][credit]", __('cantidad'), ['class' => 'form-label']) }}
-            <div class="input-group input-group-sm">
-                {{ Form::number("products[{$index}][credit]", null, ["class" => "form-control" . ($errors->has("products.{$index}.credit") ? " is-invalid":""), "min" => 0 ]) }}
-                <span class="input-group-text">€</span>
-                @if ($errors->has("products.{$index}.credit"))
-                   <div class="invalid-feedback">{!! $errors->first("products.{$index}.credit") !!}</div>
-                @endif
+            {{ Form::number("products[{$index}][credit]", null, ["class" => "form-control form-control-sm" . ($errors->has("products.{$index}.credit") ? " is-invalid":""), "min" => 0 ]) }}
+            @if ($errors->has("products.{$index}.credit"))
+               <div class="invalid-feedback">{!! $errors->first("products.{$index}.credit") !!}</div>
+            @endif
             </div>
         </div>
     </div>
