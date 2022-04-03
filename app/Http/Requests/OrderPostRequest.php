@@ -48,7 +48,7 @@ class OrderPostRequest extends FormRequest
             'receiveIn'           => 'required',
             'supplier'            => 'required',
             'products.*.detail'   => 'required|max:255',
-            'products.*.credit'   => 'required|min:0',
+            'products.*.units'    => 'required|min:1',
         ];
     }
 

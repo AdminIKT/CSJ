@@ -141,7 +141,7 @@ class OrderController extends Controller
             foreach ($data['products'] as $raw) {
                 $product = new Product;
                 if (isset($raw['detail'])) $product->setDetail($raw['detail']);
-                if (isset($raw['credit'])) $product->setCredit($raw['credit']);
+                if (isset($raw['units']))  $product->setUnits($raw['units']);
                 $entity->addProduct($product);
             }
         }

@@ -77,7 +77,7 @@
              data-prototype='@include("areas.orders.shared.form_product", ["index" => "__NAME__"])'>
         <legend>{{__('elementos')}}</legend>
         @foreach (old('products', [[]]) as $i => $product)
-            @include("areas.orders.shared.form_product", ["index" => $i])
+            @include("areas.orders.shared.form_product", ["index" => $i, 'product' => $product])
         @endforeach
     </fieldset>
 

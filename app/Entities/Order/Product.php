@@ -35,9 +35,9 @@ class Product
     /**
      * @var int
      *
-     * @ORM\Column(name="credit", type="float", options={"default":0})
+     * @ORM\Column(name="units", type="integer", options={"default":0})
      */
-    private $credit = 0;
+    private $units = 0;
 
     /**
      * @var Order
@@ -96,27 +96,27 @@ class Product
     }
 
     /**
-     * Set credit.
+     * Set units.
      *
-     * @param float $credit
+     * @param float $units
      *
      * @return Product
      */
-    public function setCredit(float $credit)
+    public function setUnits(float $units)
     {
-        $this->credit = $credit;
+        $this->units = $units;
 
         return $this;
     }
 
     /**
-     * Get credit.
+     * Get units.
      *
      * @return float
      */
-    public function getCredit()
+    public function getUnits()
     {
-        return $this->credit;
+        return $this->units;
     }
 
     /**

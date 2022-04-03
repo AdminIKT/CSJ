@@ -85,7 +85,7 @@
         @foreach ($entity->getProducts() as $product)
         <tr>
             <td>{{ $product->getDetail() }}</td>
-            <td>{{ $product->getCredit() }}</td>
+            <td>{{ $product->getUnits() }}</td>
             <td>
                 {{ Form::open([
                     'route' => ['orders.products.destroy', $entity->getId(), $product->getId()], 
