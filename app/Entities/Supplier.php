@@ -27,7 +27,7 @@ class Supplier
     private $id;
 
     /**
-     * @var int
+     * @var string
      *
      * @ORM\Column(name="nif", type="string", unique=true)
      */
@@ -157,13 +157,13 @@ class Supplier
     /**
      * Set nif.
      *
-     * @param int $nif
+     * @param string $nif
      *
      * @return Supplier
      */
     public function setNif($nif)
     {
-        $this->nif = (int) $nif;
+        $this->nif = $nif;
 
         return $this;
     }
@@ -171,7 +171,7 @@ class Supplier
     /**
      * Get nif.
      *
-     * @return int
+     * @return string
      */
     public function getNif()
     {

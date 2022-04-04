@@ -22,7 +22,7 @@
 
     <div class="col-md-6 mb-3">
         {{ Form::label('nif', __('NIF'), ['class' => 'form-label']) }}
-        {{ Form::number('nif', old('nif', $entity->getNif()), ['class' => 'form-control form-control-sm' . ($errors->has('nif') ? ' is-invalid' :'')]) }}
+        {{ Form::text('nif', old('nif', $entity->getNif()), ['class' => 'form-control form-control-sm' . ($errors->has('nif') ? ' is-invalid' :'')]) }}
         @if ($errors->has('nif'))
            <div class="invalid-feedback">{!! $errors->first('nif') !!}</div>
         @endif

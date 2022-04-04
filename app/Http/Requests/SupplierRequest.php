@@ -24,7 +24,7 @@ class SupplierRequest extends FormRequest
     public function rules()
     {
         return [
-            'nif' => 'integer|required',
+            'nif' => 'required|max:9',
             'zip' => 'integer|required',
             'name' => 'required|max:255',
             'city' => 'required|max:255',
