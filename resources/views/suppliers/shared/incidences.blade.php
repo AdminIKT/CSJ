@@ -26,7 +26,7 @@
                 'method' => 'delete',
             ]) !!}
                 <div class="btn-group btn-group-sm" role="group">
-                    <a href="{{ route('suppliers.incidences.edit', ['supplier' => $entity instanceof App\Entities\Order ? $entity->getSupplier()->getId() : $entity->getId(), 'incidence' => $incidence->getId()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$entity->getId()}/incidences/{$incidence->getId()}/edit") ? "active" : ""}}'>
+                    <a href="{{ route('suppliers.incidences.edit', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/edit") ? "active" : ""}}'>
                         <span data-feather="edit-2"></span>
                     </a>
                     {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}

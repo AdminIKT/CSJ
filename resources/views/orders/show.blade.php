@@ -67,7 +67,7 @@
             <td>@if ($entity->getCredit()) {{ number_format($entity->getCredit(), 2, ",", ".") }}€ @endif</td>
             <td>{{ $entity->getReceiveInName() }}</td>
             <td>{{ $entity->getDetail() }}</td>
-            <td>{{ $entity->getUser()->getEmail() }}</td>
+            <td>{{ $entity->getUser()->getName() }}</td>
             <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
         </tr>
         </tbody>

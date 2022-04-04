@@ -104,7 +104,7 @@ class IncidenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier, Incidence $incidence)
+    public function edit(Request $request, Supplier $supplier, Incidence $incidence)
     {
         if (!$supplier->getIncidences()->contains($incidence)) {
             abort(404);
@@ -115,9 +115,10 @@ class IncidenceController extends Controller
                 'supplier' => $supplier->getId(), 
                 'incidence' => $incidence->getId(),
             ]),
-            'method' => 'PUT',
-            'entity'  => $supplier,
+            'method'    => 'PUT',
+            'entity'    => $supplier,
             'incidence' => $incidence,
+            'dst'       => $request->input('destination'),
         ]); 
     }
 
@@ -138,8 +139,10 @@ class IncidenceController extends Controller
         ]);
         $incidence->setDetail($values['detail']);
         $this->em->flush();
-        return redirect()->route('suppliers.incidences.index', ['supplier' => $supplier->getId()])
-                         ->with('success', 'Successfully updated');
+        $dst = $request->get(
+            'destination', route('suppliers.incidences.index', ['supplier' => $supplier->getId()])
+        );
+        return redirect()->to($dst)->with('success', 'Successfully updated');
     }
 
     /**
