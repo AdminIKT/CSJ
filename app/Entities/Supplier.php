@@ -29,14 +29,14 @@ class Supplier
     /**
      * @var int
      *
-     * @ORM\Column(name="nif", type="bigint", unique=true)
+     * @ORM\Column(name="nif", type="string", unique=true)
      */
     private $nif;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="zip", type="integer")
+     * @ORM\Column(name="zip", type="integer", nullable=true)
      */
     private $zip;
 

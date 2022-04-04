@@ -66,7 +66,7 @@
     @if (!$entity->getId())
     <fieldset class="col-md-12 mb-3 collection-container" 
              data-prototype='@include("suppliers.shared.form_contact", ["index" => "__NAME__"])'>
-        <legend>Contacts</legend>
+        <legend>{{__('Contacts')}}</legend>
         @foreach (old('contacts', [[]]) as $i => $contact)
             @include('suppliers.shared.form_contact', ['index' => $i])
         @endforeach
