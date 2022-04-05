@@ -23,10 +23,7 @@ Route::get('language/{locale}', function ($locale) {
     session()->put('locale', $locale);
     return redirect()->back();
 });
-Route::get('/', function () {return view('home');})
-    ->name('home')
-    ->middleware('auth')
-    ;
+Route::get('/', [Controllers\HomeController::class, 'home'])->name('home')->middleware('auth');
 
 Route::get('auth', function () {return view('auth.index');})->name('auth'); //HIDE this route
 Route::get('/redirect', [Controllers\SocialiteController::class, 'redirectToProvider'])->name('redirectToProvider');
