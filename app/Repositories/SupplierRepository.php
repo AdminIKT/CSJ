@@ -12,11 +12,59 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
 {
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
-    function all($perPage = 10, $pageName= "page") 
-    {
-        $builder = $this->createQueryBuilder('o');
-        $builder->orderBy('o.name' , 'ASC');
+    /**
+     *
+     */
+    function search(
+        $nif           = null,
+        $name          = null,
+        $city          = null,
+        $recommendable = null,
+        $acceptable    = null,
+        $sortBy        = "name", 
+        $sort          = "asc", 
+        $perPage       = 5, 
+        $pageName      = "page"
+    ){
+        $builder = $this->createQueryBuilder('s');
+
+        if ($nif !== null) {
+            $builder->andWhere("s.nif LIKE :nif")
+                    ->setParameter('nif', "%{$nif}%");
+        }
+        if ($name !== null) {
+            $builder->andWhere("s.name LIKE :name")
+                    ->setParameter('name', "%{$name}%");
+        }
+        if ($city !== null) {
+            $builder->andWhere("s.city LIKE :city")
+                    ->setParameter('city', $city);
+        }
+        if ($recommendable !== null) {
+            $builder->andWhere("s.recommendable LIKE :recommendable")
+                    ->setParameter('recommendable', $recommendable);
+        }
+        if ($acceptable !== null) {
+            $builder->andWhere("s.acceptable LIKE :acceptable")
+                    ->setParameter('acceptable', $acceptable);
+        }
+
+        $builder->orderBy("s.{$sortBy}" , $sort);
 
         return $this->paginate($builder->getQuery(), $perPage, $pageName);
+    }
+
+    /**
+     * @return array
+     */
+    function cities()
+    {
+        $query = $this->getEntityManager()
+                      ->createQuery("
+        SELECT DISTINCT(s.city) as cities FROM App\Entities\Supplier s
+        WHERE LENGTH(s.city) > 1
+        GROUP BY cities ORDER BY cities ASC");
+
+        return $query->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_SCALAR_COLUMN);
     }
 }

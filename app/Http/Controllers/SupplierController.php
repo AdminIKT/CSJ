@@ -30,11 +30,23 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $suppliers = $this->em->getRepository(Supplier::class)->all();
+        $cities = $this->em->getRepository(Supplier::class)->cities();
+        $cities = array_combine($cities, $cities);
+
+        $suppliers = $this->em->getRepository(Supplier::class)->search(
+            $request->input('nif'),
+            $request->input('name'),
+            $request->input('city'),
+            $request->input('recommendable'),
+            $request->input('acceptable'),
+            $request->input('sortBy', 'name'),
+            $request->input('sort', 'asc')
+        );
 
         return view('suppliers.index', [
+            'cities'     => $cities,
             'collection' => $suppliers,
         ]); 
     }
