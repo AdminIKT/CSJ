@@ -25,7 +25,7 @@ class AssignmentRepository extends \Doctrine\ORM\EntityRepository
         $credit   = null,
         $sortBy   = "created", 
         $sort     = "desc", 
-        $perPage  = 5, 
+        $perPage  = 10, 
         $pageName = "page")
     {
         $builder = $this->createQueryBuilder('a');

@@ -23,7 +23,7 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
         $acceptable    = null,
         $sortBy        = "name", 
         $sort          = "asc", 
-        $perPage       = 5, 
+        $perPage       = 10, 
         $pageName      = "page"
     ){
         $builder = $this->createQueryBuilder('s');
