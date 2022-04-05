@@ -81,9 +81,15 @@
     "Moved": "Moved",
     "cantidad": "Cantidad",
     "limite_presupuesto": "Límite presupuesto",
-    "limite_facturado": "Límite facturado",
-    "limite_presupuesto_descripcion": "Límite establecido para poder crear un pedido sin presupuesto",
+    "limite_presupuesto_descripcion": "Límite establecido para poder crear un pedido sin adjuntar presupuesto",
+    "limite_facturado": "Límite facturación proveedor",    
     "limite_facturado_descripcion": "Límite establecido para la facturación anual por proveedor",
+    "limite_pedidos_proveedor": "Proveedor recomendado",
+    "limite_pedidos_proveedor_descripcion": "Nº pedidos para recomendar proveedor",
+    "limite_incidencias_proveedor": "Proveedor no aceptable",
+    "limite_incidencias_proveedor_descripcion": "Nº incidencias para desactivar proveedor",
+    "año_seleccion": "Año activo",
+    "año_seleccion_descripcion": "Ejercicio económico activo",
     "Movement": "Movimiento",
     "Year": "Año",
     "Anual": "Anual",
@@ -114,7 +120,8 @@
     "File": "Fichero",
     "File must be an ':extension' extension": "El fichero debe tener la extensión ':extension'",
     "Invoice nº": "Nº factura",
-    "Description": "Descripción"
+    "Description": "Descripción",
+    "Current year": "Año activo"
     
    
 
