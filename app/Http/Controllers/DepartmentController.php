@@ -8,21 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entities\Department,
     App\Http\Requests\DepartmentPostRequest;
 
-class DepartmentController extends Controller
+class DepartmentController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *

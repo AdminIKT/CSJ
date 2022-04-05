@@ -10,21 +10,8 @@ use App\Events\SupplierEvent,
     App\Entities\Supplier\Contact,
     App\Http\Requests\SupplierRequest;
 
-class SupplierController extends Controller
+class SupplierController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *

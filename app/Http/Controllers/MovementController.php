@@ -11,21 +11,8 @@ use App\Entities\Movement,
     App\Events\MovementEvent,
     App\Http\Requests\MovementRequest;
 
-class MovementController extends Controller
+class MovementController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *

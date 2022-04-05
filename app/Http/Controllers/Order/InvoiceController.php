@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Order;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Entities\Order;
 
-class InvoiceController extends Controller
+class InvoiceController extends BaseController
 {
     //
     public function create(Order $order)

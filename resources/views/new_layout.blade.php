@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-    <title>SJ</title>
+    <title>CSJ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -37,18 +37,34 @@ th a.active {
 </head>
 <body>
 
-<header class="navbar navbar-dark bg-dark sticky-top flex-md-nowrap p-0 shadow">
+<header class="navbar navbar-light bg-light sticky-top flex-md-nowrap p-0 shadow">
+  <!--
   <a class="navbar-brand col-md-3 col-lg-2 text-center p-0" href="/">
     <img src="/img/favicon/avatar3.png" alt="" class="gb_ka">
   </a>
+  -->
+  <div class="navbar-brand col-md-3 col-lg-2 text-center p-0">
+      <form action="{{ route('settings.update', ['setting' => $currentYear->getId()]) }}" 
+          method="POST" 
+          class="row" 
+          novalidate>
+      @csrf
+      {{ method_field('PUT') }}
+      <div class="input-group input-group-sm">
+        <span class="input-group-text" id="basic-addon1">{{ __('Current year') }}</span>
+        {{ Form::select('value', $currentYearOptions, old('value', $currentYear->getValue()), ['id' => 'currentYear', 'class'=>'form-select form-select-sm rounded-0', 'onchange' => 'this.form.submit()']) }}
+      </div>
+      {{ Form::hidden('destination', request()->url()) }}
+      </form>
+  </div>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <input class="form-control form-control-dark w-100 py-0 rounded" type="text" placeholder="Search" aria-label="Search">
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="/language/eus" style="display:inline">eus</a>
-      <a class="nav-link px-3" href="/language/es" style="display:inline">es</a>
+      <a class="nav-link px-3 {{ app()->getLocale() == 'eus' ? 'active':'' }}" href="/language/eus" style="display:inline">eus</a>
+      <a class="nav-link px-3 {{ app()->getLocale() == 'es' ? 'active':'' }}" href="/language/es" style="display:inline">es</a>
     </div>
   </div>
   
@@ -194,6 +210,8 @@ th a.active {
               {{ __('Settings') }}
             </a>
           </li>
+          <li class="nav-item">
+          </li>
           <!--
           <li class="nav-item">
             <a class="nav-link" href="#">
@@ -240,7 +258,7 @@ th a.active {
      -->
      @endif
      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">@yield('title', 'SJ')</h2>
+        <h1 class="h2">@yield('title', 'CSJ')</h2>
         <div class="btn-toolbar mb-2 mb-md-0">
           @yield('btn-toolbar')
         </div>

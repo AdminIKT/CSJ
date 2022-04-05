@@ -4,24 +4,11 @@ namespace App\Http\Controllers\Supplier;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller,
+use App\Http\Controllers\BaseController,
     App\Entities\Supplier;
 
-class InvoicedController extends Controller
+class InvoicedController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *

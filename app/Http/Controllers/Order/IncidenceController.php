@@ -3,25 +3,12 @@
 namespace App\Http\Controllers\Order;
 
 use Doctrine\ORM\EntityManagerInterface;
-use App\Http\Controllers\Controller,
+use App\Http\Controllers\BaseController,
     App\Entities\Order;
 use Illuminate\Http\Request;
 
-class IncidenceController extends Controller
+class IncidenceController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *

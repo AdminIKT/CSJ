@@ -8,21 +8,8 @@ use App\Http\Requests\UserRequest;
 use App\Entities\User,
     App\Entities\Role;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *

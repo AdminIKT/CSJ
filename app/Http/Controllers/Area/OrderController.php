@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-use App\Http\Controllers\Controller,
+use App\Http\Controllers\BaseController,
     App\Http\Requests\OrderPostRequest;
 use App\Entities\Area,
     App\Entities\Supplier,
@@ -15,30 +15,8 @@ use App\Entities\Area,
     App\Entities\Order\Product,
     App\Events\OrderEvent;
 
-class OrderController extends Controller
+class OrderController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Area $area)
-    {
-    }
-
     /**
      * Show the form for creating a new resource.
      *

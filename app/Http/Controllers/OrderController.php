@@ -11,21 +11,8 @@ use App\Http\Requests\OrderPostRequest,
     App\Entities\Area,
     App\Entities\Order;
 
-class OrderController extends Controller
+class OrderController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -65,7 +52,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        Gate::authorize('show-order', $order);
+        //Gate::authorize('show-order', $order);
 
         return view('orders.show', [
             'entity' => $order,
@@ -80,7 +67,7 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        Gate::authorize('update-order', $order);
+        //Gate::authorize('update-order', $order);
 
         return view('orders.edit', [
             'entity' => $order,

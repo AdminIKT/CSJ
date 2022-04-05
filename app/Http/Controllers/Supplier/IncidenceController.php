@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Supplier;
 
 use Doctrine\ORM\EntityManagerInterface;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 
 use App\Events\IncidenceEvent,
@@ -11,21 +11,8 @@ use App\Events\IncidenceEvent,
     App\Entities\Supplier,
     App\Entities\Supplier\Incidence;
 
-class IncidenceController extends Controller
+class IncidenceController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *

@@ -9,21 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entities\User;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

@@ -5,26 +5,13 @@ namespace App\Http\Controllers\Supplier;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Controller,
+use App\Http\Controllers\BaseController,
     App\Http\Requests\Supplier\ContactRequest;
 use App\Entities\Supplier,
     App\Entities\Supplier\Contact;
 
-class ContactController extends Controller
+class ContactController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *

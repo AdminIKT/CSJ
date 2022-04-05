@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Order;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProductController extends BaseController
 {
     //
 }

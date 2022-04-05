@@ -14,10 +14,11 @@ use LaravelDoctrine\ACL\Permissions\HasPermissions;
  */
 class Settings
 {
-    const TYPE_ESTIMATED_LIMIT             = 0;
-    const TYPE_INVOICED_LIMIT              = 1;
-    const TYPE_RECOMMENDED_SUPPLIER_LIMIT  = 2;
-    const TYPE_ACCEPTED_SUPPLIER_LIMIT     = 3;
+    const TYPE_CURRENT_YEAR                = 0;
+    const TYPE_ESTIMATED_LIMIT             = 1;
+    const TYPE_INVOICED_LIMIT              = 2;
+    const TYPE_RECOMMENDED_SUPPLIER_LIMIT  = 3;
+    const TYPE_ACCEPTED_SUPPLIER_LIMIT     = 4;
 
     /**
      * @ORM\Id
@@ -118,6 +119,7 @@ class Settings
     public static function typeName($type) 
     {
         switch ($type) {
+            case self::TYPE_CURRENT_YEAR: return trans("año_seleccion");
             case self::TYPE_ESTIMATED_LIMIT: return trans("limite_presupuesto");
             case self::TYPE_INVOICED_LIMIT:  return trans("limite_facturado");
             case self::TYPE_RECOMMENDED_SUPPLIER_LIMIT:
@@ -134,6 +136,8 @@ class Settings
     public static function typeDescription($type) 
     {
         switch ($type) {
+            case self::TYPE_CURRENT_YEAR: 
+                return trans("año_seleccionado");
             case self::TYPE_ESTIMATED_LIMIT: 
                 return trans("limite_presupuesto_descripcion");
             case self::TYPE_INVOICED_LIMIT:  

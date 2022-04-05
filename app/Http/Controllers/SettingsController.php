@@ -6,21 +6,8 @@ use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entities\Settings;
 
-class SettingsController extends Controller
+class SettingsController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * @return \Illuminate\Http\Response
      */
@@ -46,11 +33,10 @@ class SettingsController extends Controller
      */
     public function update(Settings $setting, Request $request)
     {
-        //dd($request->all());
         $values = $request->validate(['value' => ['required']]);
         $setting->setValue($values['value']);
         $this->em->flush();
-        return redirect()->route('settings.index')
-                         ->with('success', 'Successfully updated');
+        $dst = $request->get('destination', route('settings.index'));
+        return redirect()->to($dst)->with('success', 'Successfully updated');
     }
 }

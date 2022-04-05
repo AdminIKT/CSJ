@@ -2,28 +2,15 @@
 
 namespace App\Http\Controllers\Movement;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Rap2hpoutre\FastExcel\Facades\FastExcel;
 use App\Entities\Order,
     App\Entities\Movement;
 
-class ImportController extends Controller
+class ImportController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Show the form for creating a new resource.
      *

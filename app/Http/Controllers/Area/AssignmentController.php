@@ -4,25 +4,12 @@ namespace App\Http\Controllers\Area;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller,
+use App\Http\Controllers\BaseController,
     App\Entities\Assignment,
     App\Entities\Area;
 
-class AssignmentController extends Controller
+class AssignmentController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *
