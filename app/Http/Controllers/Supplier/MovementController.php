@@ -4,26 +4,13 @@ namespace App\Http\Controllers\Supplier;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller,
+use App\Http\Controllers\BaseController,
     App\Entities\Area,
     App\Entities\Movement,
     App\Entities\Supplier;
 
-class MovementController extends Controller
+class MovementController extends BaseController
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * Display a listing of the resource.
      *
