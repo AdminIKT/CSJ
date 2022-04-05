@@ -4,9 +4,23 @@
       <tr>
           <th scope="col">{{ __('Area') }}</th>
           <th scope="col">{{ __('Type') }}</th>
-          <th scope="col">{{ __('importe') }}</th>
+          <th scope="col">{{ __('importe') }}
+            <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'asc']) }}">
+                <span data-feather="chevron-up"></span>
+            </a>
+            <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'desc']) }}">
+                <span data-feather="chevron-down"></span>
+            </a>
+          </th>
           <th scope="col">{{ __('Detail') }}</th>
-          <th scope="col">{{ __('Created') }}</th>
+          <th scope="col">{{ __('Created') }}
+            <a class="{{ request()->get('sortBy') == 'created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'created', 'sort' => 'asc']) }}">
+                <span data-feather="chevron-up"></span>
+            </a>
+            <a class="{{ request()->get('sortBy') == 'created' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'created', 'sort' => 'desc']) }}">
+                <span data-feather="chevron-down"></span>
+            </a>
+        </th>
           <th scope="col">{{ __('Actions') }}</th>
       </tr>
       </thead>

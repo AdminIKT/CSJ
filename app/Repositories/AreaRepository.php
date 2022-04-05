@@ -10,4 +10,41 @@ namespace App\Repositories;
  */
 class AreaRepository extends \Doctrine\ORM\EntityRepository
 {
+    use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
+
+    /**
+     *
+     */
+    function search(
+        $name          = null,
+        $type          = null,
+        $creditOp      = null,
+        $credit        = null,
+        $compromisedOp = null,
+        $compromised   = null,
+        $sortBy        = "name", 
+        $sort          = "desc", 
+        $perPage       = 10, 
+        $pageName      = "page")
+    {
+        $builder = $this->createQueryBuilder('a');
+        if ($name !== null) {
+            $builder->andWhere("a.name LIKE :name")
+                    ->setParameter('name', "%{$name}%");
+        }
+        if ($type !== null) {
+            $builder->andWhere("a.type = :type")
+                    ->setParameter('type', $type);
+        }
+        if ($credit !== null) {
+            $builder->andWhere("a.credit {$creditOp} :credit")
+                    ->setParameter('credit', $credit);
+        }
+        if ($compromised !== null) {
+            $builder->andWhere("a.compromisedCredit {$compromisedOp} :compromised")
+                    ->setParameter('compromised', $compromised);
+        }
+        $builder->orderBy("a.{$sortBy}" , $sort);
+        return $this->paginate($builder->getQuery(), $perPage, $pageName);
+    }
 }

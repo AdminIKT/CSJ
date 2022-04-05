@@ -18,16 +18,21 @@ class AreaController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $areas = $this->em->getRepository(Area::class)
-                          ->findBy([], ['created' => 'desc']);
+        $areas = $this->em->getRepository(Area::class)->search(
+            $request->input('name'),
+            $request->input('type'),
+            $request->input('creditOp'),
+            $request->input('credit'),
+            $request->input('compromisedOp'),
+            $request->input('compromised'),
+            $request->input('sortBy', 'name'),
+            $request->input('sort', 'desc')
+        );
 
-        $collection = $this->em->getRepository(Department::class)
-                               ->findBy([], ['name' => 'asc']);
         return view('areas.index', [
             'areas' => $areas,
-            'departments' => $collection,
         ]); 
     }
 

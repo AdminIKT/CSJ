@@ -1,6 +1,6 @@
 @extends('new_layout')
 @section('title')
-    {{ __('Area :name', ['name' => $entity->getName()]) }}
+    {{ __('Area :name', ['name' => $entity->getName()]) }} <small>({{$entity->getTypeName()}})</small>
 @endsection
 @section('btn-toolbar')
     {{ Form::open([
@@ -28,7 +28,6 @@
         <thead>
         <tr>
             <th>{{ __('acronimo') }}</th>
-            <th>{{ __('tipo') }}</th>
             <th>{{ __('departamentos') }}</th>
             <th>{{ __('Accounts') }}</th>
             <th>{{ __('Real credit') }}</th>
@@ -40,7 +39,6 @@
         <tbody>
         <tr>
             <td>{{ $entity->getSerial() }}</td>
-            <td>{{ $entity->getTypeName() }}</td>
             <td>{{ implode(", ", $entity->getDepartments()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
             <td>{{ implode(", ", $entity->getUsers()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
             <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>

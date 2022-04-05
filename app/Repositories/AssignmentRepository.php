@@ -47,7 +47,7 @@ class AssignmentRepository extends \Doctrine\ORM\EntityRepository
                     ->setParameter('credit', $credit);
         }
 
-        $builder->orderBy("a.created" , "desc");
+        $builder->orderBy("a.{$sortBy}" , $sort);
 
         //dd($builder->getQuery()->getSql(), $builder->getQuery()->getParameters());
         return $this->paginate($builder->getQuery(), $perPage, $pageName);

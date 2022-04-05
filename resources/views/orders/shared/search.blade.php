@@ -18,6 +18,7 @@
           {{ Form::date('to', request()->input('to'), ['class' => 'form-control', 'aria-describedby' => 'addon-to']) }}
         </div>
     </div>
+    @if (!(isset($exclude) && in_array('types', $exclude)))
     <div class="col">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="addon-type">{{ __('tipo') }}</span>
@@ -30,6 +31,7 @@
           ], request()->input('type'), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
         </div>
     </div>
+    @endif
     @if (!(isset($exclude) && in_array('areas', $exclude)))
     <div class="col">
         <div class="input-group input-group-sm mb-3">

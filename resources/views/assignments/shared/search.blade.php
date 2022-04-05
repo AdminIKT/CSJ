@@ -29,11 +29,11 @@
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="basic-addon1">{{ __('Credit') }}</span>
           <div class="input-group-prepend">
-              <select class="form-select form-select-sm" name="operator">
-                <option value=">=">>=</option>
-                <option value="=">==</option>
-                <option value="<="><=</option>
-              </select>
+              {{ Form::select('operator', [
+                ">=" => ">=",
+                "==" => "==",
+                "<=" => "<=",
+              ], request()->input('operator'), ['class'=>'form-select form-select-sm', 'aria-describedby' => 'addon-type']) }}
           </div>
           {{ Form::number('credit', request()->input('credit'), ['class' => 'form-control', 'step' => '0.01', 'min' => 0]) }}
           <span class="input-group-text">€</span>

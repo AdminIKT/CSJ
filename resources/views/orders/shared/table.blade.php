@@ -16,8 +16,9 @@
         @if (!(isset($exclude) && in_array('suppliers', $exclude)))
         <th scope="col">{{ __('Supplier') }}</th>
         @endif
+        @if (!(isset($exclude) && in_array('types', $exclude)))
         <th scope="col">{{ __('Type') }}</th>
-        <!--<th scope="col">{{ __('Products') }}</th>-->
+        @endif
         <th scope="col">{{ __('Estimated') }}
             <a class="{{ request()->get('sortBy') == 'estimatedCredit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'estimatedCredit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -58,7 +59,9 @@
             @if (!(isset($exclude) && in_array('suppliers', $exclude)))
             <td><a href="{{ route('suppliers.show', ['supplier' => $order->getSupplier()->getId()]) }}">{{ $order->getSupplier()->getName() }}</a></td>
             @endif
+            @if (!(isset($exclude) && in_array('types', $exclude)))
             <td>{{ $order->getArea()->getTypeName() }}</td>
+            @endif
             <!--<td>{{ $order->getProducts()->count() }}</td>-->
             <td>{{ number_format($order->getEstimatedCredit(), 2, ",", ".") }}€</td>
             <td>@if ($order->getEstimated())<a href='{{ asset("storage/{$order->getEstimated()}") }}' target="_blank">{{ $order->getEstimated() }}</a>@else-@endif</td>
