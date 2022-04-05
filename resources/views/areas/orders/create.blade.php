@@ -1,6 +1,10 @@
 @extends('new_layout')
 @section('title'){{ __('New order') }}@endsection
-
+@section('btn-toolbar')
+    <a href="{{ route('suppliers.create', ['destination' => request()->url()]) }}" class="btn btn-sm btn-outline-secondary">
+        <span data-feather="shopping-bag"></span> {{ __('New supplier') }} 
+    </a>
+@endsection
 @section('content')
 
     {{ Form::open([

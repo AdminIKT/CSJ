@@ -62,6 +62,7 @@ class SupplierController extends Controller
             'route'  => route('suppliers.store'),
             'method' => 'POST',
             'entity' => new Supplier,
+            'dst'    => $request->input('destination'),
         ]); 
     }
 
@@ -78,8 +79,10 @@ class SupplierController extends Controller
         SupplierEvent::dispatch($entity);
         $this->em->persist($entity);
         $this->em->flush();
-        return redirect()->route('suppliers.index')
-                         ->with('success', 'Successfully created');
+        $dst = $request->get(
+            'destination', route('suppliers.show', ['supplier' => $entity->getId()])
+        );
+        return redirect()->to($dst)->with('success', 'Successfully created');
     }
 
     /**

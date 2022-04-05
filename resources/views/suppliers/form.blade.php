@@ -80,6 +80,9 @@
         @endif
         <a href="{{ url()->previous() }}" class="btn btn-sm btn-default">{{__('cancelar')}}</a>
     </div>
+    @if (isset($dst))
+        {{ Form::hidden('destination', $dst ?? '') }}
+    @endif
 
     {{ Form::close() }}
 
