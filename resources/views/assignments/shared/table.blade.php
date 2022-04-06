@@ -2,7 +2,7 @@
   <table class="table table-hover table-sm align-middle">
       <thead>
       <tr>
-          <th scope="col">{{ __('Area') }}</th>
+          <th scope="col">{{ __('Cuenta') }}</th>
           <th scope="col">{{ __('Type') }}</th>
           <th scope="col">{{ __('importe') }}
             <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'asc']) }}">

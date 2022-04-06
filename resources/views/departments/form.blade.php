@@ -1,9 +1,9 @@
 @extends('new_layout')
 @section('title')
 @if ($entity->getId()) 
-    {{ __('Edit department :name', ['name' => $entity->getName()]) }} 
+    {{ __('Edit area :name', ['name' => $entity->getName()]) }} 
 @else 
-    {{ __('New department') }} 
+    {{ __('New area') }} 
 @endif
 @endsection
 

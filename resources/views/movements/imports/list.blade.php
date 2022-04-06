@@ -17,7 +17,7 @@
             <th scope="col">{{ __('Import') }}</th>
             <th scope="col">{{ __('Order') }}</th>
             <th scope="col">{{ __('Status') }}</th>
-            <!--<th scope="col">{{ __('Area') }}</th>-->
+            <!--<th scope="col">{{ __('Cuenta') }}</th>-->
             <th scope="col">{{ __('Credit') }}</th>
             <th scope="col">{{ __('Invoice') }}</th>
             <th scope="col">{{ __('Type') }}</th>

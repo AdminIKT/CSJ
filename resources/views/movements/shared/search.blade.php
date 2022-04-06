@@ -33,7 +33,7 @@
     @if (!(isset($exclude) && in_array('areas', $exclude)))
     <div class="col">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-area">{{ __('Area') }}</span>
+          <span class="input-group-text" id="addon-area">{{ __('Cuenta') }}</span>
           {{ Form::select('area', [null => __('Selecciona')] + $areas, request()->input('area'), ['class'=>'form-select', 'aria-describedby' => 'addon-area']) }}
         </div>
     </div>

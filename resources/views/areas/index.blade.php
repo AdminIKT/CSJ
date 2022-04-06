@@ -1,5 +1,5 @@
 @extends('new_layout')
-@section('title'){{ __('Areas') }}@endsection
+@section('title'){{ __('Cuentas') }}@endsection
 @section('btn-toolbar')
     <a href="{{ route('areas.create') }}" class="btn btn-sm btn-outline-secondary" title="{{__('New')}}">
         <span data-feather="plus"></span> {{__('New')}}
@@ -70,7 +70,7 @@
             </a>
         </th>
         <th scope="col">{{ __('tipo') }}</th>
-        <th scope="col">{{ __('departamentos') }}</th>
+        <th scope="col">{{ __('Areas') }}</th>
         <th scope="col">{{ __('Real credit') }}
             <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>

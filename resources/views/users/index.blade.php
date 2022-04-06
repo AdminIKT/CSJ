@@ -14,7 +14,7 @@
         <th scope="col">{{ __('Email') }}</th>
         <th scope="col">{{ __('Name') }}</th>
         <th scope="col">{{ __('Roles') }}</th>
-        <th scope="col">{{ __('Areas') }}</th>
+        <th scope="col">{{ __('Cuentas') }}</th>
         <th scope="col">{{ __('Created') }}</th>
         <th scope="col">{{ __('Last login') }}</th>
         <th scope="col">{{ __('Actions') }}</th>

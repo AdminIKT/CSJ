@@ -1,9 +1,9 @@
 @extends('new_layout')
 @section('title')
 @if ($entity->getId()) 
-    {{ __('Edit area :name', ['name' => $entity->getName()]) }} 
+    {{ __('Edit cuenta :name', ['name' => $entity->getName()]) }} 
 @else 
-    {{ __('New area') }} 
+    {{ __('New cuenta') }} 
 @endif
 @endsection
 
@@ -82,7 +82,7 @@
     </fieldset>
 
     <fieldset class="mb-3">
-        <legend>{{ __('departamentos')}}</legend>
+        <legend>{{ __('Areas')}}</legend>
         @php $cols = 10; $i=0; @endphp
         <table class="table">
         @for ($row=0; $row < count($departments)/$cols; $row++)

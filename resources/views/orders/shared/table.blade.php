@@ -11,7 +11,7 @@
             </a>
         </th>
         @if (!(isset($exclude) && in_array('areas', $exclude)))
-        <th scope="col">{{ __('Area') }}</th>
+        <th scope="col">{{ __('Cuenta') }}</th>
         @endif
         @if (!(isset($exclude) && in_array('suppliers', $exclude)))
         <th scope="col">{{ __('Supplier') }}</th>

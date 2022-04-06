@@ -187,13 +187,13 @@ th a.active {
           <li class="nav-item">
             <a class="nav-link {{request()->is('departments*') ? 'active' : ''}}" href="{{ route('departments.index') }}">
               <span data-feather="hexagon"></span>
-              {{ __('Departments') }}
+              {{ __('Areas') }}
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link {{request()->is('areas*') ? 'active' : ''}}" href="{{ route('areas.index') }}">
               <span data-feather="globe"></span>
-              {{ __('Areas') }}
+              {{ __('Cuentas') }}
             </a>
           </li>
         </ul>

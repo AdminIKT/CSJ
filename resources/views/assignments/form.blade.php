@@ -12,7 +12,7 @@
     @csrf
    
     <div class="col-md-4 mb-3">
-        {{ Form::label('area', __('Area'), ['class' => 'form-label']) }}
+        {{ Form::label('area', __('Cuenta'), ['class' => 'form-label']) }}
         {{ Form::select('area', [null => __('selecciona')] + $areas, old('area', $entity->getArea() ? $entity->getArea()->getId() : null), ['class'=>'form-select form-select-sm' . ($errors->has('area') ? ' is-invalid':''), 'aria-describedby' => 'addon-area'], [null => ['disabled' => true]]) }}
         @if ($errors->has('area'))
            <div class="invalid-feedback">{!! $errors->first('area') !!}</div>

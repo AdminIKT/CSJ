@@ -43,7 +43,7 @@
   <table class="table table-hover table-sm align-middle">
         <thead>
         <tr>
-            <th>{{ __('Area') }}</th>
+            <th>{{ __('Cuenta') }}</th>
             <th>{{ __('Supplier') }}</th>
             <th>{{ __('Estimated') }}</th>
             <th>{{ __('Presupuesto') }}</th>

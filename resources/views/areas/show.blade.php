@@ -1,6 +1,6 @@
 @extends('new_layout')
 @section('title')
-    {{ __('Area :name', ['name' => $entity->getName()]) }} <small>({{$entity->getTypeName()}})</small>
+    {{ __('Cuenta :name', ['name' => $entity->getName()]) }} <small>({{$entity->getTypeName()}})</small>
 @endsection
 @section('btn-toolbar')
     {{ Form::open([
@@ -28,7 +28,7 @@
         <thead>
         <tr>
             <th>{{ __('acronimo') }}</th>
-            <th>{{ __('departamentos') }}</th>
+            <th>{{ __('Areas') }}</th>
             <th>{{ __('Accounts') }}</th>
             <th>{{ __('Real credit') }}</th>
             <th>{{ __('Compromised credit') }}</th>
