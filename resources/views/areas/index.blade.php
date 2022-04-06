@@ -26,7 +26,7 @@
     </div>
     <div class="col-4">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="basic-addon1">{{ __('Real credit') }}</span>
+          <span class="input-group-text" id="basic-addon1">{{ __('saldo_real') }}</span>
           <div class="input-group-prepend">
               {{ Form::select('creditOp', [
                 ">=" => ">=",
@@ -40,7 +40,7 @@
     </div>
     <div class="col-4">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="basic-addon1">{{ __('Compromised credit') }}</span>
+          <span class="input-group-text" id="basic-addon1">{{ __('saldo_comprometido') }}</span>
           <div class="input-group-prepend">
               {{ Form::select('compromisedOp', [
                 ">=" => ">=",
@@ -71,7 +71,7 @@
         </th>
         <th scope="col">{{ __('tipo') }}</th>
         <th scope="col">{{ __('Areas') }}</th>
-        <th scope="col">{{ __('Real credit') }}
+        <th scope="col">{{ __('saldo_real') }}
             <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -79,7 +79,7 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
-        <th scope="col">{{ __('Compromised credit') }}
+        <th scope="col">{{ __('saldo_comprometido') }}
             <a class="{{ request()->get('sortBy') == 'compromisedCredit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'compromisedCredit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -87,7 +87,7 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
-        <th scope="col">{{ __('Available credit') }}</th>
+        <th scope="col">{{ __('saldo_disponible credit') }}</th>
         <th scope="col">{{ __('Created') }}
             <a class="{{ request()->get('sortBy') == 'created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'created', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>

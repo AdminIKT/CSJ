@@ -30,9 +30,9 @@
             <th>{{ __('acronimo') }}</th>
             <th>{{ __('Areas') }}</th>
             <th>{{ __('Accounts') }}</th>
-            <th>{{ __('Real credit') }}</th>
-            <th>{{ __('Compromised credit') }}</th>
-            <th>{{ __('Available credit') }}</th>
+            <th>{{ __('saldo_real') }}</th>
+            <th>{{ __('saldo_comprometido') }}</th>
+            <th>{{ __('saldo_disponible') }}</th>
             <th>{{ __('Created') }}</th>
         </tr>
         </thead>
