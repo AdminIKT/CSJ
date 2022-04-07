@@ -15,21 +15,6 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
     /**
-     * @param Entity\Supplier $supplier
-     */
-    function fromSupplier(Entities\Supplier $supplier, $perPage = 5, $pageName= "page") 
-    {
-        $builder = $this->createQueryBuilder('o');
-        $builder->andWhere('o.supplier = :id')
-                ->orderBy('o.created' , 'DESC')
-                ->setParameters([
-                    'id' => $supplier
-                ]);
-
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
-    }
-
-    /**
      *
      */
     function search(
@@ -78,6 +63,10 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
 
         $builder->orderBy("o.{$sortBy}" , $sort);
 
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
+        if ($perPage !== null) {
+            return $this->paginate($builder->getQuery(), $perPage, $pageName);
+        }
+
+        return $builder->getQuery()->getResult();
     }
 }

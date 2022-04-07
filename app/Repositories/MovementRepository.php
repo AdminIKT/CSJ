@@ -15,22 +15,6 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
     /**
-     * @param Entity\Supplier $supplier
-     */
-    function fromSupplier(Entities\Supplier $supplier, $perPage = 5, $pageName= "page") 
-    {
-        $builder = $this->createQueryBuilder('m');
-        $builder->innerJoin('m.order', 'o')
-                ->andWhere('o.supplier = :id')
-                ->orderBy('o.created' , 'DESC')
-                ->setParameters([
-                    'id' => $supplier
-                ]);
-
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
-    }
-
-    /**
      *
      */
     function search(
@@ -89,6 +73,12 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
         }
         $builder->orderBy("{$table}.{$sortBy}" , $sort);
 
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
+        $query = $builder->getQuery();
+
+        if ($perPage !== null) {
+            return $this->paginate($query, $perPage, $pageName);
+        }
+
+        return $query->getResult();
     }
 }

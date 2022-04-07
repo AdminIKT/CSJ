@@ -129,7 +129,7 @@
         @endforeach
         </tbody> 
     </table> 
-    <div class="col-12">{{ $areas->links("pagination::bootstrap-4") }}</div>
+    <div class="col-12">{{ $areas->appends(request()->input())->links("pagination::bootstrap-4") }}</div>
 </div>
 
 @endsection

@@ -50,7 +50,11 @@ class AssignmentRepository extends \Doctrine\ORM\EntityRepository
         $builder->orderBy("a.{$sortBy}" , $sort);
 
         //dd($builder->getQuery()->getSql(), $builder->getQuery()->getParameters());
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
+        if ($perPage !== null) {
+            return $this->paginate($builder->getQuery(), $perPage, $pageName);
+        }
+
+        return $builder->getQuery()->getResult();
     }
 
     /**
