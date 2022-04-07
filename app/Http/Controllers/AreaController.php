@@ -9,6 +9,7 @@ use App\Entities\Area,
     App\Entities\User,
     App\Entities\Order,
     App\Entities\Department,
+    App\Repositories\OrderRepository,
     App\Http\Requests\AreaRequest;
 
 class AreaController extends BaseController
@@ -91,12 +92,14 @@ class AreaController extends BaseController
             $request->input('type'),
             $request->input('status'),
             $request->input('sortBy', 'date'),
-            $request->input('sort', 'desc')
+            $request->input('sort', 'desc'),
+            $request->input('perPage', OrderRepository::PER_PAGE)
         );
 
         return view('areas.show', [
-            'entity' => $area,
+            'entity'     => $area,
             'collection' => $orders,
+            'perPage'    => $request->input('perPage', OrderRepository::PER_PAGE),
         ]); 
     }
 

@@ -1,4 +1,3 @@
-
 <form action="{{ $route }}" method="GET" class="row mb-3">
     <div class="col">
         <div class="input-group input-group-sm mb-3">
@@ -50,6 +49,18 @@
               \App\Entities\Order::STATUS_RECEIVED => \App\Entities\Order::statusName(\App\Entities\Order::STATUS_RECEIVED),
               \App\Entities\Order::STATUS_MOVED => \App\Entities\Order::statusName(\App\Entities\Order::STATUS_MOVED),
           ], request()->input('status'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="addon-status">{{ __('Per page') }}</span>
+            {{ Form::select('perPage', [
+                null =>  __('All'),
+                5 => 5,
+                10 => 10,
+                20 => 20,
+                50 => 50,
+            ], request()->input('perPage', $perPage), ['class'=>'form-select form-select-sm']) }}
           <button class="btn btn-primary" type="submit" id="button-addon2">
             <span data-feather="search"></span>
           </button>

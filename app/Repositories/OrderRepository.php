@@ -14,6 +14,8 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
 {
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
+    const PER_PAGE = 10;
+
     /**
      *
      */
@@ -27,7 +29,7 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         $status = null, 
         $sortBy = null, 
         $sort = null, 
-        $perPage = 10, 
+        $perPage = self::PER_PAGE, 
         $pageName= "page")
     {
         $builder = $this->createQueryBuilder('o');
@@ -61,12 +63,11 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('status', $status);
         }
 
-        $builder->orderBy("o.{$sortBy}" , $sort);
-
-        if ($perPage !== null) {
-            return $this->paginate($builder->getQuery(), $perPage, $pageName);
+        if (!$perPage) {
+            $perPage = clone $builder;
+            $perPage = $perPage->select('count(o.id)')->getQuery()->getSingleScalarResult();
         }
 
-        return $builder->getQuery()->getResult();
+        return $this->paginate($builder->getQuery(), $perPage ?: self::PER_PAGE, $pageName);
     }
 }

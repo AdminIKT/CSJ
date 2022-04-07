@@ -1,3 +1,9 @@
+<p class="small">{{ __('Showing :itemsX-:itemsY items from a total of :totalItems', ['itemsX' => $collection->firstItem()?:0, 'itemsY' => $collection->lastItem()?:0, 'totalItems' => $collection->total()]) }}</p>
+@php 
+    //$filters = [];
+    //request()->input('from') $filters[] = App\Entities\Order::statusName(request()->input('from'));
+    //request()->input('status') $filters[] = App\Entities\Order::statusName(request()->input('status'));
+@endphp
 <div class="table-responsive">
   <table class="table table-hover table-sm">
     <thead>
@@ -45,30 +51,48 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
+        @if (!(isset($exclude) && in_array('users', $exclude)))
         <th scope="col">{{ __('User') }}</th>
+        @endif
+        @if (!(isset($exclude) && in_array('actions', $exclude)))
         <th scope="col">{{ __('Actions') }}</th>
-    </tr>
+        @endif
+        </tr>
     </thead>
     <tbody> 
+        @php $totalEstimated = $totalCredit = 0; @endphp
         @foreach ($collection as $i => $order)
+        @php 
+            $trEstimated = $trCredit = 1;
+            $totalEstimated += $order->getEstimatedCredit();
+            $totalCredit += $order->getCredit();
+        @endphp
         <tr>
             <td><a href="{{ route('orders.show', ['order' => $order->getId()]) }}">{{ $order->getSequence() }}</a></td>
             @if (!(isset($exclude) && in_array('areas', $exclude)))
+            @php $trEstimated++ @endphp
             <td><a href="{{ route('areas.show', ['area' => $order->getArea()->getId()]) }}">{{ $order->getArea()->getName() }}-{{ $order->getArea()->getType() }}</a></td>
             @endif
             @if (!(isset($exclude) && in_array('suppliers', $exclude)))
+            @php $trEstimated++ @endphp
             <td><a href="{{ route('suppliers.show', ['supplier' => $order->getSupplier()->getId()]) }}">{{ $order->getSupplier()->getName() }}</a></td>
             @endif
             @if (!(isset($exclude) && in_array('types', $exclude)))
+            @php $trEstimated++ @endphp
             <td>{{ $order->getArea()->getTypeName() }}</td>
             @endif
             <!--<td>{{ $order->getProducts()->count() }}</td>-->
             <td>{{ number_format($order->getEstimatedCredit(), 2, ",", ".") }}€</td>
             <td>@if ($order->getEstimated())<a href='{{ asset("storage/{$order->getEstimated()}") }}' target="_blank">{{ $order->getEstimated() }}</a>@else-@endif</td>
             <td>{{ $order->getStatusName() }}</td>
-            <td>@if ($order->getCredit()) {{ number_format($order->getCredit(), 2, ",", ".") }}€ @endif</td>
+            <td>@if ($order->getCredit()) {{ number_format($order->getCredit(), 2, ",", ".") }}€@else-@endif</td>
             <td>{{ $order->getDate()->format("d/m/Y H:i") }}</td>
+            @if (!(isset($exclude) && in_array('users', $exclude)))
+            @php $trCredit++ @endphp
             <td>{{ $order->getUser()->getShort() }}</td>
+            @endif
+            @if (!(isset($exclude) && in_array('actions', $exclude)))
+            @php $trCredit++ @endphp
             <td>
             {{ Form::open([
                 'route' => ['orders.destroy', $order->getId()], 
@@ -96,12 +120,21 @@
                 </div>
             {{ Form::close() }}
             </td>
+            @endif
         </tr>
         @endforeach
-        @if ($pagination ?? '')
-        <tr>
-            <td class="text-center" colspan="{{ isset($exclude) ? 11 - count($exclude) : 11 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
-        </tr>
+        @if (isset($pagination) && $pagination && $perPage)
+            <tr>
+                <td class="text-center" colspan="{{ isset($exclude) ? 11 - count($exclude) : 11 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+            </tr>
+        @elseif ($collection->total()) 
+            <tr style="background: #DDDDDD;">
+                <td colspan="{{ $trEstimated }}">{{ __('Total') }}:</td>
+                <td>{{ number_format($totalEstimated, 2, ",", ".") }}€</td>
+                <td colspan="2"></td>
+                <td>{{ number_format($totalCredit, 2, ",", ".") }}€</td>
+                <td colspan="{{ $trCredit }}"></td>
+            </tr>
         @endif
   </table>
 </div>

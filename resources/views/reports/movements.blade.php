@@ -1,2 +1,2 @@
 
-@include('movements.shared.table', ['collection' => $collection])
+@include('movements.shared.table', ['collection' => $collection, 'exclude' => ['actions']])

@@ -1,2 +1,2 @@
 
-@include('assignments.shared.table', ['collection' => $collection])
+@include('assignments.shared.table', ['collection' => $collection, 'exclude' => ['actions']])

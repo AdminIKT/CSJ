@@ -67,6 +67,6 @@ Route::get('/imports', [Controllers\Movement\ImportController::class, 'create'])
 Route::post('/imports', [Controllers\Movement\ImportController::class, 'list'])->name('imports.list');
 Route::post('/imports.store', [Controllers\Movement\ImportController::class, 'store'])->name('imports.store');
 // Reports
-Route::get('/reports.orders', [Controllers\ReportController::class, 'orders'])->name('reports.orders');
-Route::get('/reports.movements', [Controllers\ReportController::class, 'movements'])->name('reports.movements');
-Route::get('/reports.assignments', [Controllers\ReportController::class, 'assignments'])->name('reports.assignments');
+Route::get('/reports/orders', [Controllers\ReportController::class, 'orders'])->name('reports.orders');
+Route::get('/reports/movements', [Controllers\ReportController::class, 'movements'])->name('reports.movements');
+Route::get('/reports/assignments', [Controllers\ReportController::class, 'assignments'])->name('reports.assignments');

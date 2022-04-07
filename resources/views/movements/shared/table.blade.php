@@ -44,7 +44,9 @@
                     <span data-feather="chevron-down"></span>
                 </a>
             </th>
+            @if (!(isset($exclude) && in_array('actions', $exclude)))
             <th scope="col">{{ __('Actions') }}</th>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -65,6 +67,7 @@
             <td>{{ $entity->getDetail() }}</td>
             <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
             <td>
+            @if (!(isset($exclude) && in_array('actions', $exclude)))
             {{ Form::open([
                 'route' => ['movements.destroy', $entity->getId()], 
                 'method' => 'delete',
@@ -80,6 +83,7 @@
                 </div>
             {{ Form::close() }}
             </td>
+            @endif
         </tr>
         @endforeach
         @if ($pagination ?? '')

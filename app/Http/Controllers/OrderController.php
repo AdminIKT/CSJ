@@ -8,6 +8,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Gate;
 
 use App\Http\Requests\OrderPostRequest,
+    App\Repositories\OrderRepository,
     App\Entities\Area,
     App\Entities\Order;
 
@@ -29,7 +30,8 @@ class OrderController extends BaseController
             $request->input('type'),
             $request->input('status'),
             $request->input('sortBy', 'date'),
-            $request->input('sort', 'desc')
+            $request->input('sort', 'desc'),
+            $request->input('perPage', OrderRepository::PER_PAGE)
         );
 
         $areas  = $this->em->getRepository(Area::class)->findBy([], ['name' => 'ASC']);
@@ -37,10 +39,11 @@ class OrderController extends BaseController
             array_map(function($e) { return $e->getId(); }, $areas),
             array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $areas),
         );
-
+        
         return view('orders.index', [
             'collection' => $orders,
-            'areas' => $areas,
+            'areas'      => $areas,
+            'perPage'    => $request->input('perPage', OrderRepository::PER_PAGE),
         ]); 
     }
 

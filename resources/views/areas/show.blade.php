@@ -62,5 +62,5 @@
   </li>
 </ul>
 
-@yield('body', View::make('areas.body', ['collection' => $collection, 'entity' => $entity]))
+@yield('body', View::make('areas.body', ['collection' => $collection, 'entity' => $entity, 'perPage' => $perPage]))
 @endsection

@@ -20,8 +20,10 @@
             <a class="{{ request()->get('sortBy') == 'created' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'created', 'sort' => 'desc']) }}">
                 <span data-feather="chevron-down"></span>
             </a>
-        </th>
+          </th>
+          @if (!(isset($exclude) && in_array('actions', $exclude)))
           <th scope="col">{{ __('Actions') }}</th>
+          @endif
       </tr>
       </thead>
       <tbody>
@@ -33,6 +35,7 @@
           <td>{{ $entity->getDetail() }}</td>
           <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
           <td>
+          @if (!(isset($exclude) && in_array('actions', $exclude)))
           {{ Form::open([
               'route' => ['assignments.destroy', $entity->getId()], 
               'method' => 'delete',
@@ -48,9 +51,12 @@
               </div>
           {{ Form::close() }}
           </td>
+          @endif
       </tr>
       @endforeach
       </tbody>
     </table> 
+    @if ($pagination ?? '')
     <div class="col-md-12 text-center">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</div>
+    @endif
 </div>
