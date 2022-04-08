@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Gate;
 
 use App\Entities\Order,
     App\Entities\Movement,
-    App\Entities\Assignment;
+    App\Entities\Assignment,
+    App\Repositories\OrderRepository;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends BaseController
@@ -29,11 +30,12 @@ class ReportController extends BaseController
             $request->input('status'),
             $request->input('sortBy', 'date'),
             $request->input('sort', 'desc'),
-            null
+            $request->input('perPage', OrderRepository::PER_PAGE)
         );
 
         $report = PDF::loadView('reports.orders', [
             'collection' => $collection,
+            'perPage'    => $request->input('perPage'),
         ]); 
 
         $report->setPaper('a4', 'landscape');

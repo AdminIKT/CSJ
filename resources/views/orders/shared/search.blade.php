@@ -51,7 +51,7 @@
           ], request()->input('status'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}
         </div>
     </div>
-    <div class="col-11">
+    <div class="col-12">
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="addon-status">{{ __('Per page') }}</span>
             {{ Form::select('perPage', [
@@ -64,11 +64,9 @@
           <button class="btn btn-outline-primary" type="submit" id="button-addon2">
             <span data-feather="search"></span>
           </button>
+          <a href="{{ route('reports.orders', request()->input()) }}" class="btn btn-sm btn-outline-primary" title="{{__('Report')}}" target="_blank">
+              <span data-feather="bar-chart-2"></span> {{__('Report')}}
+          </a>
         </div>
-    </div>
-    <div class="col">
-    <a href="{{ route('reports.orders', request()->input()) }}" class="btn btn-sm btn-outline-primary" title="{{__('Report')}}" target="_blank">
-        <span data-feather="bar-chart-2"></span> {{__('Report')}}
-    </a>
     </div>
 </form>

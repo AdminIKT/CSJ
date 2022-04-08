@@ -513,7 +513,7 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function __tostring(): string
+    public function __tostring()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, '__tostring', []);

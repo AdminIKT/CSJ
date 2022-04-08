@@ -123,11 +123,7 @@
             @endif
         </tr>
         @endforeach
-        @if (isset($pagination) && $pagination && $perPage)
-            <tr>
-                <td class="text-center" colspan="{{ isset($exclude) ? 11 - count($exclude) : 11 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
-            </tr>
-        @elseif ($collection->total()) 
+        @if (!(isset($perPage) && $perPage) && $collection->total()) 
             <tr style="background: #DDDDDD;">
                 <td colspan="{{ $trEstimated }}">{{ __('Total') }}:</td>
                 <td>{{ number_format($totalEstimated, 2, ",", ".") }}€</td>
@@ -136,6 +132,10 @@
                 <td colspan="{{ $trCredit }}"></td>
             </tr>
         @endif
+        @if (isset($pagination) && $pagination && $perPage)
+            <tr>
+                <td class="text-center" colspan="{{ isset($exclude) ? 11 - count($exclude) : 11 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+            </tr>
+        @endif
   </table>
 </div>
-
