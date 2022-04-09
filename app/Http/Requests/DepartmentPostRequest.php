@@ -24,7 +24,9 @@ class DepartmentPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
+            'name'     => 'required|max:255',
+            'acronym'  => 'required|max:3',
+            'children' => 'nullable',
         ];
     }
 }

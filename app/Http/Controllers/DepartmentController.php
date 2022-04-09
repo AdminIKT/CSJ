@@ -31,10 +31,14 @@ class DepartmentController extends BaseController
      */
     public function create()
     {
+        $departments = $this->em->getRepository(Department::class)
+                               ->childDepartments();
+
         return view('departments.form', [
-            'route' => route('departments.store'),
-            'method' => 'POST',
-            'entity' => new Department,
+            'route'       => route('departments.store'),
+            'method'      => 'POST',
+            'entity'      => new Department,
+            'departments' => $departments,
         ]); 
     }
 
@@ -47,10 +51,9 @@ class DepartmentController extends BaseController
     public function store(DepartmentPostRequest $request)
     {
         $data = $request->validated();
-        $dptm = new Department;
-        $dptm->setName($data['name']);
-
-        $this->em->persist($dptm);
+        $entity = new Department;
+        $this->hydrateData($entity, $data);
+        $this->em->persist($entity);
         $this->em->flush();
         return redirect()->route('departments.index')
                          ->with('success', 'Successfully created');
@@ -78,10 +81,14 @@ class DepartmentController extends BaseController
      */
     public function edit(Department $department)
     {
+        $departments = $this->em->getRepository(Department::class)
+                               ->childDepartments($department);
+
         return view('departments.form', [
             'route' => route('departments.update', ['department' => $department->getId()]),
             'method' => 'PUT',
             'entity' => $department,
+            'departments' => $departments,
         ]); 
     }
 
@@ -95,7 +102,7 @@ class DepartmentController extends BaseController
     public function update(DepartmentPostRequest $request, Department $department)
     {
         $data = $request->validated();
-        $department->setName($data['name']);
+        $this->hydrateData($department, $data);
         $this->em->flush();
         return redirect()->route('departments.index')
                          ->with('success', 'Successfully updated');
@@ -113,5 +120,24 @@ class DepartmentController extends BaseController
         $this->em->flush();
 
         return redirect()->back()->with('success', 'Successfully removed');
+    }
+
+    /**
+     * @param Department $entity
+     * @param array $data
+     *
+     * @return void 
+     */
+    protected function hydrateData(Department $entity, array $data)
+    {
+        $entity->setName($data['name']);
+        $entity->setAcronym($data['acronym']);
+        $entity->getChildren()->clear();
+        if (isset($data['children']) && is_array($data['children'])) {
+            $r = $this->em->getRepository(Department::class);
+            foreach ($data['children'] as $id) {
+                $entity->addChild($r->find($id));
+            }
+        }
     }
 }

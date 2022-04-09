@@ -11,7 +11,10 @@
 <table class="table table-hover table-sm align-middle">
     <thead>
     <tr>
+        <th scope="col">{{ __('Acronym') }}</th>
         <th scope="col">{{ __('Name') }}</th>
+        <th scope="col">{{ __('Parents') }}</th>
+        <th scope="col">{{ __('Children') }}</th>
         <th scope="col">{{ __('Cuentas') }}</th>
         <th scope="col">{{ __('Created') }}</th>
         <th scope="col">{{ __('Actions') }}</th>
@@ -20,7 +23,10 @@
     <tbody> 
     @foreach ($collection as $entity)
     <tr>
+        <td>{{ $entity->getAcronym() }}</td>
         <td>{{ $entity->getName() }}</td>
+        <td>{{ implode(", ", $entity->getParents()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
+        <td>{{ implode(", ", $entity->getChildren()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
         <td>{{ implode(", ", $entity->getAreas()->map(function ($e) { return "{$e->getName()} ({$e->getType()})"; })->toArray()) }}</td>
         <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
         <td>

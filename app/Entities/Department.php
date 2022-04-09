@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Deparment 
  *
  * @ORM\Table(name="deparment")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repositories\DepartmentRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Department
@@ -30,11 +30,36 @@ class Department
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="acronym", type="string", length=3)
+     */
+    private $acronym;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Area", mappedBy="departments")
      */
     private $areas;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Department", mappedBy="children")
+     */
+    private $parents;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Department", inversedBy="parents")
+     * @ORM\JoinTable(name="departments_rel", 
+     *  joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="id")},
+     *  inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="id")}
+     *  )
+     */
+    private $children;
 
     /**
      * @var DateTime 
@@ -56,6 +81,8 @@ class Department
     public function __construct()
     {
         $this->areas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->parents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -93,6 +120,30 @@ class Department
     }
 
     /**
+     * Set acronym.
+     *
+     * @param string $acronym
+     *
+     * @return Department
+     */
+    public function setAcronym($acronym)
+    {
+        $this->acronym = $acronym;
+
+        return $this;
+    }
+
+    /**
+     * Get acronym.
+     *
+     * @return string
+     */
+    public function getAcronym()
+    {
+        return $this->acronym;
+    }
+
+    /**
      * Add area.
      *
      * @param \Area $area
@@ -125,6 +176,39 @@ class Department
     public function getAreas()
     {
         return $this->areas;
+    }
+
+    /**
+     * Add child.
+     *
+     * @param \Department $child
+     *
+     * @return Department
+     */
+    public function addChild(Department $child)
+    {
+        $this->getChildren()->add($child);
+        return $this;
+    }
+
+    /**
+     * Get children.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Get parents.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParents()
+    {
+        return $this->parents;
     }
 
     /**
