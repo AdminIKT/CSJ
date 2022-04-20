@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entities\Area,
@@ -44,7 +45,7 @@ class AreaController extends BaseController
     public function create()
     {
         $departments = $this->em->getRepository(Department::class)
-                               ->findBy([], ['name' => 'asc']);
+                                ->findBy([], ['name' => 'asc']);
         $users = $this->em->getRepository(User::class)
                                 ->findBy([], ['email' => 'asc']);
 
@@ -53,7 +54,7 @@ class AreaController extends BaseController
             'method' => 'POST',
             'entity' => new Area,
             'users' => $users,
-            'departments' => $departments,
+            'departments' => Arr::pluck($departments, 'name', 'id'),
         ]); 
     }
 
@@ -86,6 +87,7 @@ class AreaController extends BaseController
             $request->input('sequence'),
             $request->input('from'),
             $request->input('to'),
+            $request->input('department'),
             $area->getId(),
             $request->input('supplier'),
             $request->input('type'),
@@ -97,6 +99,7 @@ class AreaController extends BaseController
         return view('areas.show', [
             'entity' => $area,
             'collection' => $orders,
+            'departments' => [],
         ]); 
     }
 
@@ -159,10 +162,7 @@ class AreaController extends BaseController
      */
     protected function hydrateData(Area $entity, array $data)
     {
-        $entity->setName($data['name'])
-            ->setType($data['type'])
-            ->setAcronym($data['acronym'])
-            ;
+        $entity->setType($data['type']);
 
         $entity->setLCode();
         if (isset($data['lcode'])) {
@@ -176,12 +176,10 @@ class AreaController extends BaseController
                 $entity->addUser($er->find($id));
             }
         }
-        $entity->getDepartments()->clear();
-        if (isset($data['departments']) && is_array($data['departments'])) {
-            $er = $this->em->getRepository(Department::class);
-            foreach ($data['departments'] as $id) {
-                $entity->addDepartment($er->find($id));
-            }
+
+        if (null === ($e = $this->em->find(Department::class, $data['department']))) {
+            throw new \RuntimeException("Department {$data['department']} not found"); 
         }
+        $entity->setDepartment($e);
     }
 }

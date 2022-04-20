@@ -66,10 +66,10 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'departments', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'department', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'departments', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'department', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
     }
 
     /**
@@ -194,12 +194,23 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setName($name)
+    public function setDepartment(\App\Entities\Department $department)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setName', [$name]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDepartment', [$department]);
 
-        return parent::setName($name);
+        return parent::setDepartment($department);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDepartment()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDepartment', []);
+
+        return parent::getDepartment();
     }
 
     /**
@@ -211,39 +222,6 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getName', []);
 
         return parent::getName();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setType($type)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setType', [$type]);
-
-        return parent::setType($type);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getType()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getType', []);
-
-        return parent::getType();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setAcronym($acronym)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAcronym', [$acronym]);
-
-        return parent::setAcronym($acronym);
     }
 
     /**
@@ -277,6 +255,28 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLCode', []);
 
         return parent::getLCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setType($type)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setType', [$type]);
+
+        return parent::setType($type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getType()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getType', []);
+
+        return parent::getType();
     }
 
     /**
@@ -425,39 +425,6 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addDepartment(\App\Entities\Department $department)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addDepartment', [$department]);
-
-        return parent::addDepartment($department);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeDepartment(\App\Entities\Department $department)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeDepartment', [$department]);
-
-        return parent::removeDepartment($department);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDepartments()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDepartments', []);
-
-        return parent::getDepartments();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function addOrder(\App\Entities\Order $order)
     {
 
@@ -475,6 +442,28 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOrders', []);
 
         return parent::getOrders();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDetail($detail)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDetail', [$detail]);
+
+        return parent::setDetail($detail);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDetail()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDetail', []);
+
+        return parent::getDetail();
     }
 
     /**
@@ -546,7 +535,7 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);

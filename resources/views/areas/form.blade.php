@@ -12,22 +12,14 @@
     @csrf
     {{ method_field($method) }}
 
-    <div class="col-md-8 mb-3">
-        {{ Form::label('name', __('nombre'), ['class' => 'form-label']) }}
-        {{ Form::text('name', old('name', $entity->getName()), ['class' => 'form-control form-control-sm' . ($errors->has('name') ? ' is-invalid':'')]) }}
-        @if ($errors->has('name'))
-           <div class="invalid-feedback">{!! $errors->first('name') !!}</div>
+    <div class="col-md-4 mb-3">
+        {{ Form::label('department', __('Department'), ['class' => 'form-label']) }}
+        {{ Form::select('department', [ null => __('Selecciona')] + $departments, old('department', $entity->getDepartment()), ['class'=>'form-select form-select-sm' . ($errors->has('department') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
+        @if ($errors->has('department'))
+           <div class="invalid-feedback">{!! $errors->first('department') !!}</div>
         @endif
     </div>
     <div class="col-md-4 mb-3">
-        {{ Form::label('acronym', __('acronimo'), ['class' => 'form-label']) }}
-        {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control form-control-sm' . ($errors->has('acronym') ? ' is-invalid':'')]) }}
-        @if ($errors->has('acronym'))
-           <div class="invalid-feedback">{!! $errors->first('acronym') !!}</div>
-        @endif
-    </div>
-
-    <div class="col-md-6 mb-3">
         {{ Form::label('type', __('tipo'), ['class' => 'form-label']) }}
         {{ Form::select('type', [
             null => __('Selecciona'),
@@ -40,7 +32,7 @@
         @endif
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
         {{ Form::label('lcode', __('codigo_lanbide'), ['class' => 'form-label']) }}
         {{ Form::text('lcode', old('lcode', $entity->getLCode()), ['class' => 'form-control form-control-sm' . ($errors->has('lcode') ? ' is-invalid':''), 'disabled' => $entity->getType() !== \App\Entities\Area::TYPE_LANBIDE ]) }}
         @if ($errors->has('lcode'))
@@ -60,8 +52,15 @@
         @endif
     </div>
     -->
+    <div class="col-md-12 mb-3">
+        {{ Form::label('detail', __('detalle'), ['class' => 'form-label mt-3']) }}
+        {{ Form::textarea('detail', old('detail', null), ['class' => 'form-control form-control-sm', 'rows' => 2]) }}
+        @if ($errors->has('detail'))
+           <div class="invalid-feedback">{!! $errors->first('detail') !!}</div>
+        @endif
+    </div>
 
-    <fieldset class="mb-3">
+    <fieldset class="col-md-12 mb-3">
         <legend> {{ __('usuarios') }}</legend>
         @php $cols = 10; $i=0; @endphp
         <table class="table">
@@ -71,7 +70,7 @@
                 <td class="">
                 @if (isset($users[$i]))
                     @php $e = $users[$i]; $i++; @endphp
-                    {{ Form::checkbox("users[]", $e->getId(), $entity->getusers()->contains($e), ['class' => 'form-check-input']) }}
+                    {{ Form::checkbox("users[]", $e->getId(), $entity->getusers()->contains($e), ['class' => 'form-check-input'. ($errors->has('users') ? ' is-invalid':'')]) }}
                     {{ Form::label("users[]", $e->getEmail(), ['class' => 'form-check-label']) }}
                 @endif
                 </td>
@@ -79,26 +78,9 @@
             </tr>
         @endfor
         </table>
-    </fieldset>
-
-    <fieldset class="mb-3">
-        <legend>{{ __('Areas')}}</legend>
-        @php $cols = 10; $i=0; @endphp
-        <table class="table">
-        @for ($row=0; $row < count($departments)/$cols; $row++)
-            <tr>
-            @for ($col=0; $col < $cols; $col++)
-                <td class="">
-                @if (isset($departments[$i]))
-                    @php $e = $departments[$i]; $i++; @endphp
-                    {{ Form::checkbox("departments[]", $e->getId(), $entity->getDepartments()->contains($e), ['class' => 'form-check-input']) }}
-                    {{ Form::label("departments[]", $e->getName(), ['class' => 'form-check-label']) }}
-                @endif
-                </td>
-            @endfor
-            </tr>
-        @endfor
-        </table>
+        @if ($errors->has('users'))
+           <div class="invalid-feedback">{!! $errors->first('users') !!}</div>
+        @endif
     </fieldset>
 
     <div>

@@ -6,18 +6,14 @@
           {{ Form::text('sequence', request()->input('sequence'), ['class' => 'form-control']) }}
         </div>
     </div>
+    @if (!(isset($exclude) && in_array('departments', $exclude)))
     <div class="col">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-from">{{ __('desde') }}</span>
-          {{ Form::date('from', request()->input('from'), ['class' => 'form-control', 'aria-describedby' => 'addon-from']) }}
+          <span class="input-group-text" id="addon-area">{{ __('Department') }}</span>
+          {{ Form::select('department', [null => __('selecciona')] + $departments, request()->input('department'), ['class'=>'form-select']) }}
         </div>
     </div>
-    <div class="col">
-        <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-to">{{ __('hasta') }}</span>
-          {{ Form::date('to', request()->input('to'), ['class' => 'form-control', 'aria-describedby' => 'addon-to']) }}
-        </div>
-    </div>
+    @endif
     @if (!(isset($exclude) && in_array('types', $exclude)))
     <div class="col">
         <div class="input-group input-group-sm mb-3">
@@ -32,14 +28,6 @@
         </div>
     </div>
     @endif
-    @if (!(isset($exclude) && in_array('areas', $exclude)))
-    <div class="col">
-        <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-area">{{ __('Cuenta') }}</span>
-          {{ Form::select('area', [null => __('selecciona')] + $areas, request()->input('area'), ['class'=>'form-select', 'aria-describedby' => 'addon-area']) }}
-        </div>
-    </div>
-    @endif
     <div class="col">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="addon-status">{{ __('Status') }}</span>
@@ -50,6 +38,18 @@
               \App\Entities\Order::STATUS_RECEIVED => \App\Entities\Order::statusName(\App\Entities\Order::STATUS_RECEIVED),
               \App\Entities\Order::STATUS_MOVED => \App\Entities\Order::statusName(\App\Entities\Order::STATUS_MOVED),
           ], request()->input('status'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}
+        </div>
+    </div>
+    <div class="col">
+        <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" id="addon-from">{{ __('desde') }}</span>
+          {{ Form::date('from', request()->input('from'), ['class' => 'form-control', 'aria-describedby' => 'addon-from']) }}
+        </div>
+    </div>
+    <div class="col">
+        <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" id="addon-to">{{ __('hasta') }}</span>
+          {{ Form::date('to', request()->input('to'), ['class' => 'form-control', 'aria-describedby' => 'addon-to']) }}
           <button class="btn btn-primary" type="submit" id="button-addon2">
             <span data-feather="search"></span>
           </button>

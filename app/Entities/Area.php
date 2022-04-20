@@ -28,18 +28,11 @@ class Area
     private $id;
 
     /**
-     * @var string
+     * @var char
      *
-     * @ORM\Column(name="name", type="string")
+     * @ORM\Column(name="type", type="string", length=1)
      */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="acronym", type="string", length=3)
-     */
-    private $acronym;
+    private $type;
 
     /**
      * @var string
@@ -47,13 +40,6 @@ class Area
      * @ORM\Column(name="lcode", type="string", nullable=true)
      */
     private $lcode;
-
-    /**
-     * @var char
-     *
-     * @ORM\Column(name="type", type="string", length=1)
-     */
-    private $type;
 
     /**
      * @var float
@@ -70,15 +56,11 @@ class Area
     private $credit = 0;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Department 
      *
-     * @ORM\ManyToMany(targetEntity="Department", inversedBy="areas")
-     * @ORM\JoinTable(name="area_department_rel", 
-     *  joinColumns={@ORM\JoinColumn(name="area_id", referencedColumnName="id")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="dptm_id", referencedColumnName="id")}
-     *  )
+     * @ORM\ManyToOne(targetEntity="App\Entities\Department", inversedBy="areas")
      */
-    private $departments;
+    private $department;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -100,6 +82,13 @@ class Area
     private $orders;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="detail", type="string", nullable=true)
+     */
+    private $detail;
+
+    /**
      * @var DateTime 
      *
      * @ORM\Column(name="created", type="datetime")
@@ -118,7 +107,6 @@ class Area
      */
     public function __construct()
     {
-        $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->orders      = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users       = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -134,17 +122,24 @@ class Area
     }
 
     /**
-     * Set name.
+     * Set department.
      *
-     * @param string $name
+     * @param Department $department
      *
      * @return Area
      */
-    public function setName($name)
+    public function setDepartment(Department $department)
     {
-        $this->name = $name;
-
+        $this->department = $department;
         return $this;
+    }
+
+    /**
+     * @return Department
+     */
+    public function getDepartment()
+    {
+        return $this->department; 
     }
 
     /**
@@ -154,45 +149,7 @@ class Area
      */
     public function getName()
     {
-        return $this->name;
-    }
-
-    /**
-     * Set type.
-     *
-     * @param string $type
-     *
-     * @return Area
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set acronym.
-     *
-     * @param string $acronym
-     *
-     * @return Area
-     */
-    public function setAcronym($acronym)
-    {
-        $this->acronym = $acronym;
-
-        return $this;
+        return $this->getDepartment()->getName();
     }
 
     /**
@@ -202,7 +159,7 @@ class Area
      */
     public function getAcronym()
     {
-        return $this->acronym;
+        return $this->getDepartment()->getAcronym();
     }
 
     /**
@@ -227,6 +184,30 @@ class Area
     public function getLCode()
     {
         return $this->lcode;
+    }
+
+    /**
+     * Set type.
+     *
+     * @param string $type
+     *
+     * @return Area
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -380,41 +361,6 @@ class Area
     }
 
     /**
-     * Add Department.
-     *
-     * @param \Department $department
-     *
-     * @return Area
-     */
-    public function addDepartment(Department $department)
-    {
-        $this->departments[] = $department;
-        return $this;
-    }
-
-    /**
-     * Remove department.
-     *
-     * @param \Department $department
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     */
-    public function removeDepartment(Department $department)
-    {
-        return $this->departments->removeElement($department);
-    }
-
-    /**
-     * Get departments.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDepartments()
-    {
-        return $this->departments;
-    }
-
-    /**
      * Add Order.
      *
      * @param Order $order
@@ -436,6 +382,30 @@ class Area
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    /**
+     * Set detail.
+     *
+     * @param string $detail
+     *
+     * @return Area
+     */
+    public function setDetail($detail)
+    {
+        $this->detail = $detail;
+
+        return $this;
+    }
+
+    /**
+     * Get detail.
+     *
+     * @return string
+     */
+    public function getDetail()
+    {
+        return $this->detail;
     }
 
     /**

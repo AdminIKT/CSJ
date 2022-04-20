@@ -20,14 +20,14 @@ class Department
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string")
      */
-    private $name;
+    public $name;
 
     /**
      * @var string
@@ -39,7 +39,7 @@ class Department
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Area", mappedBy="departments")
+     * @ORM\OneToMany(targetEntity="Area", mappedBy="department")
      */
     private $areas;
 
@@ -269,5 +269,13 @@ class Department
         if ($this->getCreated() === null) {
             $this->setCreated(new \DateTime('now'));
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

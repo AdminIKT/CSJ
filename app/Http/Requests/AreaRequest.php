@@ -24,11 +24,14 @@ class AreaRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
-            'type' => 'required',
-            'acronym' => 'required|max:3',
+            //'name' => 'required|max:255',
+            'department' => 'required',
+            'type'       => 'required',
+            //'acronym' => 'required|max:3',
             //'credit' => 'required',
             //'lcode' => 'integer',
+            'detail' => 'nullable|max:255',
+            'users'  => 'required',
         ];
     }
 

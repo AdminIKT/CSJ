@@ -70,7 +70,6 @@
             </a>
         </th>
         <th scope="col">{{ __('tipo') }}</th>
-        <th scope="col">{{ __('Areas') }}</th>
         <th scope="col">{{ __('saldo_real') }}
             <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -87,7 +86,7 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
-        <th scope="col">{{ __('saldo_disponible credit') }}</th>
+        <th scope="col">{{ __('saldo_disponible') }}</th>
         <th scope="col">{{ __('Created') }}
             <a class="{{ request()->get('sortBy') == 'created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'created', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -104,7 +103,6 @@
         <tr>
             <td>{{ $entity->getName() }} <small>({{ $entity->getSerial()}})</small></td>
             <td>{{ $entity->getTypeName() }}</td>
-            <td>{{ implode(", ", $entity->getDepartments()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
             <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
             <td>{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
             <td>{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>

@@ -21,6 +21,7 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         $sequence = null, 
         $from = null, 
         $to = null, 
+        $department = null, 
         $area = null, 
         $supplier = null, 
         $type = null, 
@@ -30,7 +31,9 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         $perPage = 10, 
         $pageName= "page")
     {
-        $builder = $this->createQueryBuilder('o');
+        $builder = $this->createQueryBuilder('o')
+                        ->innerJoin('o.area', 'a');
+
         if ($sequence !== null) {
             $builder->andWhere("o.sequence LIKE :sequence")
                     ->setParameter('sequence', "%{$sequence}%");
@@ -52,9 +55,16 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
                     ->setParameter('supplier', $supplier);
         }
         if ($type !== null) {
-            $builder->innerJoin('o.area', 'a')
-                    ->andWhere("a.type = :type")
+            $builder->andWhere("a.type = :type")
                     ->setParameter('type', $type);
+        }
+        if ($department !== null) {
+            $builder->innerJoin('a.department', 'd')
+                    ->leftJoin('d.parents', 'p')
+                    ->andWhere("a.department = :department")
+                    ->orWhere("p.id = :department")
+                    ->setParameter('department', $department);
+        
         }
         if ($status !== null) {
             $builder->andWhere("o.status = :status")
@@ -63,6 +73,7 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
 
         $builder->orderBy("o.{$sortBy}" , $sort);
 
+        //dd($builder->getQuery()->getSql(), $builder->getQuery()->getParameters());
         if ($perPage !== null) {
             return $this->paginate($builder->getQuery(), $perPage, $pageName);
         }

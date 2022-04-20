@@ -27,9 +27,11 @@ class AreaRepository extends \Doctrine\ORM\EntityRepository
         $perPage       = 10, 
         $pageName      = "page")
     {
-        $builder = $this->createQueryBuilder('a');
+        $builder = $this->createQueryBuilder('a')
+                        ->innerJoin('a.department', 'd');
+
         if ($name !== null) {
-            $builder->andWhere("a.name LIKE :name")
+            $builder->andWhere("d.name LIKE :name")
                     ->setParameter('name', "%{$name}%");
         }
         if ($type !== null) {
@@ -44,7 +46,7 @@ class AreaRepository extends \Doctrine\ORM\EntityRepository
             $builder->andWhere("a.compromisedCredit {$compromisedOp} :compromised")
                     ->setParameter('compromised', $compromised);
         }
-        $builder->orderBy("a.{$sortBy}" , $sort);
+        $builder->orderBy("d.{$sortBy}" , $sort);
         return $this->paginate($builder->getQuery(), $perPage, $pageName);
     }
 }

@@ -26,7 +26,7 @@
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
-        <strong>{{ __('Areas') }}:</strong> {{ implode(", ", $area->getDepartments()->map(function ($e) { return $e->getName(); })->toArray()) }}
+        <strong>{{ __('Area') }}:</strong> {{ $area->getDepartment() }}
     </li>
     <li class="list-group-item">
         <strong>{{ __('Users') }}:</strong> {{ implode(", ", $area->getUsers()->map(function ($e) { return $e->getName(); })->toArray()) }}

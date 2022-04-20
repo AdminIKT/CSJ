@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Arr;
 
 use App\Http\Requests\OrderPostRequest,
+    App\Entities\Department,
     App\Entities\Area,
     App\Entities\Order;
 
@@ -24,6 +26,7 @@ class OrderController extends BaseController
             $request->input('sequence'),
             $request->input('from'),
             $request->input('to'),
+            $request->input('department'),
             $request->input('area'),
             $request->input('supplier'),
             $request->input('type'),
@@ -32,15 +35,11 @@ class OrderController extends BaseController
             $request->input('sort', 'desc')
         );
 
-        $areas  = $this->em->getRepository(Area::class)->findBy([], ['name' => 'ASC']);
-        $areas  = array_combine(
-            array_map(function($e) { return $e->getId(); }, $areas),
-            array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $areas),
-        );
+        $departments = $this->em->getRepository(Department::class)->findBy([], ['name' => 'ASC']);
 
         return view('orders.index', [
-            'collection' => $orders,
-            'areas' => $areas,
+            'collection'  => $orders,
+            'departments' => Arr::pluck($departments, 'name', 'id'),
         ]); 
     }
 

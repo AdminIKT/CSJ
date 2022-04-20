@@ -28,7 +28,7 @@
         <thead>
         <tr>
             <th>{{ __('acronimo') }}</th>
-            <th>{{ __('Areas') }}</th>
+            <th>{{ __('Area') }}</th>
             <th>{{ __('Accounts') }}</th>
             <th>{{ __('saldo_real') }}</th>
             <th>{{ __('saldo_comprometido') }}</th>
@@ -39,7 +39,7 @@
         <tbody>
         <tr>
             <td>{{ $entity->getSerial() }}</td>
-            <td>{{ implode(", ", $entity->getDepartments()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
+            <td>{{ $entity->getDepartment() }}</td>
             <td>{{ implode(", ", $entity->getUsers()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
             <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
             <td>{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
