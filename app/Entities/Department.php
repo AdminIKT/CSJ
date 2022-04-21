@@ -39,10 +39,10 @@ class Department implements \JsonSerializable
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entities\Account", mappedBy="department")
+     * @ORM\OneToMany(targetEntity="App\Entities\Subaccount", mappedBy="department")
      * @ORM\OrderBy({"created" = "ASC"})
      */
-    private $accounts;
+    private $subaccounts;
 
     /**
      * @var DateTime 
@@ -63,7 +63,7 @@ class Department implements \JsonSerializable
      */
     public function __construct()
     {
-        $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subaccounts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -129,9 +129,9 @@ class Department implements \JsonSerializable
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAccounts()
+    public function getSubaccounts()
     {
-        return $this->accounts;
+        return $this->subaccounts;
     }
 
     /**
@@ -139,7 +139,7 @@ class Department implements \JsonSerializable
      */
     public function getAreas()
     {
-        return new \Doctrine\Common\Collections\ArrayCollection($this->getAccounts()->map(function($e) {
+        return new \Doctrine\Common\Collections\ArrayCollection($this->getSubaccounts()->map(function($e) {
             return $e->getArea();
         })->toArray());
     }

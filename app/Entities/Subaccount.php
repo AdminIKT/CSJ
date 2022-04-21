@@ -5,13 +5,13 @@ namespace App\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Account
+ * Subaccount
  *
- * @ORM\Table(name="accounts")
- * @ORM\Entity(repositoryClass="App\Repositories\AccountRepository")
+ * @ORM\Table(name="subaccounts")
+ * @ORM\Entity(repositoryClass="App\Repositories\SubaccountRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Account
+class Subaccount
 {
     /**
      * @var int
@@ -39,21 +39,21 @@ class Account
     /**
      * @var Area
      *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Area", inversedBy="accounts")
+     * @ORM\ManyToOne(targetEntity="App\Entities\Area", inversedBy="subaccounts")
      */
     private $area;
 
     /**
      * @var Department
      *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Department", inversedBy="accounts")
+     * @ORM\ManyToOne(targetEntity="App\Entities\Department", inversedBy="subaccounts")
      */
     private $department;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entities\Order", mappedBy="account", cascade={"persist","merge"})
+     * @ORM\OneToMany(targetEntity="App\Entities\Order", mappedBy="subaccount", cascade={"persist","merge"})
      * @ORM\OrderBy({"date" = "ASC"})
      */
     private $orders;
@@ -95,7 +95,7 @@ class Account
      *
      * @param Area $area
      *
-     * @return Account
+     * @return Subaccount
      */
     public function setArea(Area $area)
     {
@@ -116,7 +116,7 @@ class Account
      *
      * @param Department $department
      *
-     * @return Account
+     * @return Subaccount
      */
     public function setDepartment(Department $department)
     {
@@ -134,7 +134,7 @@ class Account
 
     /**
      * @param float $credit
-     * @return Account
+     * @return Subaccount
      */
     public function increaseCredit(float $credit)
     {
@@ -144,7 +144,7 @@ class Account
 
     /**
      * @param float $credit
-     * @return Account
+     * @return Subaccount
      */
     public function decreaseCredit(float $credit)
     {
@@ -154,7 +154,7 @@ class Account
 
     /**
      * @param float $credit
-     * @return Account
+     * @return Subaccount
      */
     public function increaseCompromisedCredit(float $credit)
     {
@@ -164,7 +164,7 @@ class Account
 
     /**
      * @param float $credit
-     * @return Account
+     * @return Subaccount
      */
     public function decreaseCompromisedCredit(float $credit)
     {
@@ -177,7 +177,7 @@ class Account
      *
      * @param float $credit
      *
-     * @return Account
+     * @return Subaccount
      */
     public function setCompromisedCredit(float $credit)
     {
@@ -201,7 +201,7 @@ class Account
      *
      * @param float $credit
      *
-     * @return Account
+     * @return Subaccount
      */
     public function setCredit(float $credit)
     {
@@ -235,11 +235,11 @@ class Account
      *
      * @param Order $order
      *
-     * @return Account
+     * @return Subaccount
      */
     public function addOrder(Order $order)
     {
-        $order->setAccount($this);
+        $order->setSubaccount($this);
         $this->orders[] = $order;
         return $this;
     }
@@ -299,7 +299,7 @@ class Account
      *
      * @param \Datetime $created
      *
-     * @return Account
+     * @return Subaccount
      */
     public function setCreated(\Datetime $created)
     {
@@ -323,7 +323,7 @@ class Account
      *
      * @param \Datetime $updated
      *
-     * @return Account
+     * @return Subaccount
      */
     public function setUpdated(\Datetime $updated)
     {

@@ -66,10 +66,10 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
     }
 
     /**
@@ -447,23 +447,23 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addAccount(\App\Entities\Account $account)
+    public function addSubaccount(\App\Entities\Subaccount $subaccount)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addAccount', [$account]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addSubaccount', [$subaccount]);
 
-        return parent::addAccount($account);
+        return parent::addSubaccount($subaccount);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function removeAccount(\App\Entities\Account $account)
+    public function removeSubaccount(\App\Entities\Subaccount $subaccount)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeAccount', [$account]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeSubaccount', [$subaccount]);
 
-        return parent::removeAccount($account);
+        return parent::removeSubaccount($subaccount);
     }
 
     /**
@@ -480,12 +480,12 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getAccounts()
+    public function getSubaccounts()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAccounts', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSubaccounts', []);
 
-        return parent::getAccounts();
+        return parent::getSubaccounts();
     }
 
     /**

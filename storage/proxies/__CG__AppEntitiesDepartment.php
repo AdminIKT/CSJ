@@ -66,10 +66,10 @@ class Department extends \App\Entities\Department implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'updated'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'updated'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Department' . "\0" . 'updated'];
     }
 
     /**
@@ -238,12 +238,12 @@ class Department extends \App\Entities\Department implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getAccounts()
+    public function getSubaccounts()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAccounts', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSubaccounts', []);
 
-        return parent::getAccounts();
+        return parent::getSubaccounts();
     }
 
     /**

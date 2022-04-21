@@ -79,9 +79,9 @@ class Area
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Account", mappedBy="area", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Subaccount", mappedBy="area", cascade={"persist", "remove"})
      */
-    private $accounts;
+    private $subaccounts;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -121,7 +121,7 @@ class Area
      */
     public function __construct()
     {
-        $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subaccounts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->orders   = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users    = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -407,29 +407,29 @@ class Area
     }
 
     /**
-     * Add Account.
+     * Add Subaccount.
      *
-     * @param \Account $account
+     * @param \Subaccount $subaccount
      *
      * @return Area
      */
-    public function addAccount(Account $account)
+    public function addSubaccount(Subaccount $subaccount)
     {
-        $account->setArea($this);
-        $this->accounts[] = $account;
+        $subaccount->setArea($this);
+        $this->subaccounts[] = $account;
         return $this;
     }
 
     /**
-     * Remove Account.
+     * Remove Subaccount.
      *
-     * @param \Account $account
+     * @param \Subaccount $subaccount
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeAccount(Account $account)
+    public function removeSubaccount(Subaccount $subaccount)
     {
-        return $this->accounts->removeElement($account);
+        return $this->subaccounts->removeElement($account);
     }
 
     /**
@@ -437,19 +437,19 @@ class Area
      */
     public function getDepartments()
     {
-        return new \Doctrine\Common\Collections\ArrayCollection($this->getAccounts()->map(function($e) {
+        return new \Doctrine\Common\Collections\ArrayCollection($this->getSubaccounts()->map(function($e) {
             return $e->getDepartment();
         })->toArray());
     }
 
     /**
-     * Get accounts.
+     * Get subaccounts.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAccounts()
+    public function getSubaccounts()
     {
-        return $this->accounts;
+        return $this->subaccounts;
     }
 
     /**
