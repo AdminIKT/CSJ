@@ -11,6 +11,7 @@
 <table class="table table-hover table-sm align-middle">
     <thead>
     <tr>
+        <th scope="col">{{ __('Acronym') }}</th>
         <th scope="col">{{ __('Name') }}</th>
         <th scope="col">{{ __('Areas') }}</th>
         <th scope="col">{{ __('Created') }}</th>
@@ -20,6 +21,7 @@
     <tbody> 
     @foreach ($collection as $entity)
     <tr>
+        <td>{{ $entity->getAcronym() }}</td>
         <td>{{ $entity->getName() }}</td>
         <td>{{ implode(", ", $entity->getAreas()->map(function ($e) { return "{$e->getName()} ({$e->getType()})"; })->toArray()) }}</td>
         <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>

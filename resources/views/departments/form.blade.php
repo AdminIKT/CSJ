@@ -13,7 +13,15 @@
     @csrf
     {{ method_field($method) }}
 
-    <div class="mb-3 has-validations">
+    <div class="col-3 mb-3">
+        {{ Form::label('acronym', __('Acronym'), ['class' => 'form-label']) }}
+        {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control form-control-sm' . ($errors->has('acronym') ? ' is-invalid' :'')]) }}
+        @if ($errors->has('acronym'))
+           <div class="invalid-feedback">{!! $errors->first('acronym') !!}</div>
+        @endif
+    </div>
+
+    <div class="col-9 mb-3">
         {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
         {{ Form::text('name', old('name', $entity->getName()), ['class' => 'form-control form-control-sm' . ($errors->has('name') ? ' is-invalid' :'')]) }}
         @if ($errors->has('name'))

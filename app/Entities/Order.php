@@ -206,9 +206,9 @@ class Order implements UserAwareInterface, \JsonSerializable
      *
      * @return Order
      */
-    public function setDetail($detail)
+    public function setDetail($detail = null)
     {
-        $this->detail = $detail;
+        $this->detail = $detail ? (string) $detail : null;
 
         return $this;
     }

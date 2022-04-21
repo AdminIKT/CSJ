@@ -48,7 +48,8 @@ class DepartmentController extends BaseController
     {
         $data = $request->validated();
         $dptm = new Department;
-        $dptm->setName($data['name']);
+        $dptm->setName($data['name'])
+             ->setAcronym($data['acronym']);
 
         $this->em->persist($dptm);
         $this->em->flush();
@@ -95,7 +96,9 @@ class DepartmentController extends BaseController
     public function update(DepartmentPostRequest $request, Department $department)
     {
         $data = $request->validated();
-        $department->setName($data['name']);
+        $department->setName($data['name'])
+                   ->setAcronym($data['acronym']);
+
         $this->em->flush();
         return redirect()->route('departments.index')
                          ->with('success', 'Successfully updated');

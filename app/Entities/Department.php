@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class Department
+class Department implements \JsonSerializable
 {
     /**
      * @var int
@@ -30,11 +30,19 @@ class Department
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="acronym", type="string", length=3)
+     */
+    private $acronym;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Area", mappedBy="departments")
+     * @ORM\OneToMany(targetEntity="App\Entities\Account", mappedBy="department")
+     * @ORM\OrderBy({"created" = "ASC"})
      */
-    private $areas;
+    private $accounts;
 
     /**
      * @var DateTime 
@@ -55,7 +63,7 @@ class Department
      */
     public function __construct()
     {
-        $this->areas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -93,28 +101,27 @@ class Department
     }
 
     /**
-     * Add area.
+     * Set acronym.
      *
-     * @param \Area $area
+     * @param string $acronym
      *
-     * @return Department
+     * @return Department 
      */
-    public function addArea(Area $area)
+    public function setAcronym($acronym)
     {
-        $this->areas[] = $area;
+        $this->acronym = $acronym;
+
         return $this;
     }
 
     /**
-     * Remove area.
+     * Get acronym.
      *
-     * @param \Area $area
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return string
      */
-    public function removeArea(Area $area)
+    public function getAcronym()
     {
-        return $this->areas->removeElement($area);
+        return $this->acronym;
     }
 
     /**
@@ -122,9 +129,19 @@ class Department
      *
      * @return \Doctrine\Common\Collections\Collection
      */
+    public function getAccounts()
+    {
+        return $this->accounts;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
     public function getAreas()
     {
-        return $this->areas;
+        return new \Doctrine\Common\Collections\ArrayCollection($this->getAccounts()->map(function($e) {
+            return $e->getArea();
+        })->toArray());
     }
 
     /**
@@ -185,5 +202,17 @@ class Department
         if ($this->getCreated() === null) {
             $this->setCreated(new \DateTime('now'));
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'acronym' => $this->getAcronym(),
+            'name' => $this->getName(),
+        ];
     }
 }

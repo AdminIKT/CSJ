@@ -27,6 +27,8 @@ class AreaRequest extends FormRequest
             'name' => 'required|max:255',
             'type' => 'required',
             'acronym' => 'required|max:3',
+            'accounts' => 'required',
+            'detail' => 'nullable',
             //'credit' => 'required',
             //'lcode' => 'integer',
         ];

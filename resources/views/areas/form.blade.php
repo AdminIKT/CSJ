@@ -12,22 +12,7 @@
     @csrf
     {{ method_field($method) }}
 
-    <div class="col-md-8 mb-3">
-        {{ Form::label('name', __('nombre'), ['class' => 'form-label']) }}
-        {{ Form::text('name', old('name', $entity->getName()), ['class' => 'form-control form-control-sm' . ($errors->has('name') ? ' is-invalid':'')]) }}
-        @if ($errors->has('name'))
-           <div class="invalid-feedback">{!! $errors->first('name') !!}</div>
-        @endif
-    </div>
-    <div class="col-md-4 mb-3">
-        {{ Form::label('acronym', __('acronimo'), ['class' => 'form-label']) }}
-        {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control form-control-sm' . ($errors->has('acronym') ? ' is-invalid':'')]) }}
-        @if ($errors->has('acronym'))
-           <div class="invalid-feedback">{!! $errors->first('acronym') !!}</div>
-        @endif
-    </div>
-
-    <div class="col-md-6 mb-3">
+    <div class="col-3 mb-3">
         {{ Form::label('type', __('tipo'), ['class' => 'form-label']) }}
         {{ Form::select('type', [
             null => __('Selecciona'),
@@ -40,11 +25,35 @@
         @endif
     </div>
 
-    <div class="col-md-6 mb-3">
-        {{ Form::label('lcode', __('codigo_lanbide'), ['class' => 'form-label']) }}
+    <div class="col-9 mb-3">
+        {{ Form::label('lcode', __('Code'), ['class' => 'form-label']) }}
         {{ Form::text('lcode', old('lcode', $entity->getLCode()), ['class' => 'form-control form-control-sm' . ($errors->has('lcode') ? ' is-invalid':''), 'disabled' => $entity->getType() !== \App\Entities\Area::TYPE_LANBIDE ]) }}
         @if ($errors->has('lcode'))
            <div class="invalid-feedback">{!! $errors->first('lcode') !!}</div>
+        @endif
+    </div>
+
+    <div class="col-12 mb-3">
+        {{ Form::label('detail', __('detalle'), ['class' => 'form-label mt-3']) }}
+        {{ Form::textarea('detail', old('detail', $entity->getDetail()), ['class' => 'form-control form-control-sm', 'rows' => 2]) }}
+        @if ($errors->has('detail'))
+           <div class="invalid-feedback">{!! $errors->first('detail') !!}</div>
+        @endif
+    </div>
+
+    <div class="col-3 mb-3">
+        {{ Form::label('acronym', __('acronimo'), ['class' => 'form-label']) }}
+        {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control form-control-sm' . ($errors->has('acronym') ? ' is-invalid':'')]) }}
+        @if ($errors->has('acronym'))
+           <div class="invalid-feedback">{!! $errors->first('acronym') !!}</div>
+        @endif
+    </div>
+    
+    <div class="col-9 mb-3">
+        {{ Form::label('name', __('nombre'), ['class' => 'form-label']) }}
+        {{ Form::text('name', old('name', $entity->getName()), ['class' => 'form-control form-control-sm' . ($errors->has('name') ? ' is-invalid':'')]) }}
+        @if ($errors->has('name'))
+           <div class="invalid-feedback">{!! $errors->first('name') !!}</div>
         @endif
     </div>
 
@@ -60,6 +69,25 @@
         @endif
     </div>
     -->
+    <fieldset class="mb-3">
+        <legend>{{ __('Cuentas')}}</legend>
+        @php $cols = 10; $i=0; @endphp
+        <table class="table table-bordered">
+        @for ($row=0; $row < count($departments)/$cols; $row++)
+            <tr>
+            @for ($col=0; $col < $cols; $col++)
+                <td class="">
+                @if (isset($departments[$i]))
+                    @php $e = $departments[$i]; $i++; @endphp
+                    {{ Form::checkbox("accounts[]", $e->getId(), $entity->getDepartments()->contains($e), ['class' => 'form-check-input' . ($errors->has('accounts') ? ' is-invalid':''), 'onchange' => 'selectDepartment(this)']) }}
+                    {{ Form::label("accounts[]", $e->getName(), ['class' => 'form-check-label']) }}
+                @endif
+                </td>
+            @endfor
+            </tr>
+        @endfor
+        </table>
+    </fieldset>
 
     <fieldset class="mb-3">
         <legend> {{ __('usuarios') }}</legend>
@@ -73,26 +101,6 @@
                     @php $e = $users[$i]; $i++; @endphp
                     {{ Form::checkbox("users[]", $e->getId(), $entity->getusers()->contains($e), ['class' => 'form-check-input']) }}
                     {{ Form::label("users[]", $e->getEmail(), ['class' => 'form-check-label']) }}
-                @endif
-                </td>
-            @endfor
-            </tr>
-        @endfor
-        </table>
-    </fieldset>
-
-    <fieldset class="mb-3">
-        <legend>{{ __('departamentos')}}</legend>
-        @php $cols = 10; $i=0; @endphp
-        <table class="table">
-        @for ($row=0; $row < count($departments)/$cols; $row++)
-            <tr>
-            @for ($col=0; $col < $cols; $col++)
-                <td class="">
-                @if (isset($departments[$i]))
-                    @php $e = $departments[$i]; $i++; @endphp
-                    {{ Form::checkbox("departments[]", $e->getId(), $entity->getDepartments()->contains($e), ['class' => 'form-check-input']) }}
-                    {{ Form::label("departments[]", $e->getName(), ['class' => 'form-check-label']) }}
                 @endif
                 </td>
             @endfor
@@ -120,5 +128,25 @@
             $('#lcode').val('').attr('disabled', $(this).val() != 'L');
         });
     });
+
+    var departments = @php echo json_encode($departments); @endphp;
+    function selectDepartment(input) {
+        var count = $("input[name='accounts[]']:checkbox:checked").length;
+        switch (count) {
+            case 1:
+                $("input[name='accounts[]']:checkbox:checked").each(function(i, checkbox) {
+                    for (var j=0; j<departments.length; j++) {
+                        if (departments[j].id == checkbox.value) {
+                            $('#acronym:input').val(departments[j].acronym);
+                            $('#name:input').val(departments[j].name);
+                        }
+                    }
+                });
+                break;
+            default:
+                $('#acronym:input').val(null);
+                $('#name:input').val(null);
+        }
+    }
 </script>
 @endsection

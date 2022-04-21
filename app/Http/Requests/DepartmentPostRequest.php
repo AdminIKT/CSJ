@@ -25,6 +25,7 @@ class DepartmentPostRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
+            'acronym' => 'required|max:3',
         ];
     }
 }

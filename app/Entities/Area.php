@@ -56,6 +56,13 @@ class Area
     private $type;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="detail", type="string", nullable=true)
+     */
+    private $detail;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="c_credit", type="float", options={"default":0})
@@ -72,13 +79,9 @@ class Area
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Department", inversedBy="areas")
-     * @ORM\JoinTable(name="area_department_rel", 
-     *  joinColumns={@ORM\JoinColumn(name="area_id", referencedColumnName="id")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="dptm_id", referencedColumnName="id")}
-     *  )
+     * @ORM\OneToMany(targetEntity="Account", mappedBy="area", cascade={"persist", "remove"})
      */
-    private $departments;
+    private $accounts;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -118,9 +121,9 @@ class Area
      */
     public function __construct()
     {
-        $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->orders      = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->users       = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->orders   = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users    = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -179,6 +182,30 @@ class Area
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set detail.
+     *
+     * @param string $detail
+     *
+     * @return Area 
+     */
+    public function setDetail($detail = null)
+    {
+        $this->detail = $detail ? (string) $detail : null;
+
+        return $this;
+    }
+
+    /**
+     * Get detail.
+     *
+     * @return string
+     */
+    public function getDetail()
+    {
+        return $this->detail;
     }
 
     /**
@@ -380,38 +407,49 @@ class Area
     }
 
     /**
-     * Add Department.
+     * Add Account.
      *
-     * @param \Department $department
+     * @param \Account $account
      *
      * @return Area
      */
-    public function addDepartment(Department $department)
+    public function addAccount(Account $account)
     {
-        $this->departments[] = $department;
+        $account->setArea($this);
+        $this->accounts[] = $account;
         return $this;
     }
 
     /**
-     * Remove department.
+     * Remove Account.
      *
-     * @param \Department $department
+     * @param \Account $account
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeDepartment(Department $department)
+    public function removeAccount(Account $account)
     {
-        return $this->departments->removeElement($department);
+        return $this->accounts->removeElement($account);
     }
 
     /**
-     * Get departments.
-     *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getDepartments()
     {
-        return $this->departments;
+        return new \Doctrine\Common\Collections\ArrayCollection($this->getAccounts()->map(function($e) {
+            return $e->getDepartment();
+        })->toArray());
+    }
+
+    /**
+     * Get accounts.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAccounts()
+    {
+        return $this->accounts;
     }
 
     /**

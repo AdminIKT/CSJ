@@ -102,7 +102,7 @@
     <tbody> 
         @foreach ($areas as $i => $entity)
         <tr>
-            <td>{{ $entity->getName() }} <small>({{ $entity->getSerial()}})</small></td>
+            <td title="{{ $entity->getName() }}">{{ $entity->getAcronym() }}</td>
             <td>{{ $entity->getTypeName() }}</td>
             <td>{{ implode(", ", $entity->getDepartments()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
             <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>

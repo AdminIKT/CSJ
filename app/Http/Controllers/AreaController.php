@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entities\Area,
     App\Entities\User,
     App\Entities\Order,
+    App\Entities\Account,
     App\Entities\Department,
     App\Http\Requests\AreaRequest;
 
@@ -162,6 +163,7 @@ class AreaController extends BaseController
         $entity->setName($data['name'])
             ->setType($data['type'])
             ->setAcronym($data['acronym'])
+            ->setDetail($data['detail'])
             ;
 
         $entity->setLCode();
@@ -176,11 +178,13 @@ class AreaController extends BaseController
                 $entity->addUser($er->find($id));
             }
         }
-        $entity->getDepartments()->clear();
-        if (isset($data['departments']) && is_array($data['departments'])) {
+        $entity->getAccounts()->clear();
+        if (isset($data['accounts']) && is_array($data['accounts'])) {
             $er = $this->em->getRepository(Department::class);
-            foreach ($data['departments'] as $id) {
-                $entity->addDepartment($er->find($id));
+            foreach ($data['accounts'] as $id) {
+                $account = new Account();
+                $account->setDepartment($er->find($id));
+                $entity->addAccount($account);
             }
         }
     }
