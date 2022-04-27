@@ -1,6 +1,6 @@
 @extends('new_layout')
 @section('title')
-    {{ __('Account :name', ['name' => $entity->getName()]) }} <small>({{$entity->getTypeName()}})</small>
+    {{ __('Account :name', ['name' => $entity->getName()]) }} <small>({{$entity->getSerial()}})</small>
 @endsection
 @section('btn-toolbar')
     {{ Form::open([
@@ -25,52 +25,12 @@
 @endsection
 
 @section('content')
-<div class="table-responsive">
-  <table class="table table-hover table-sm align-middle">
-        <thead>
-        <tr>
-            <th>{{ __('acronimo') }}</th>
-            <th>{{ __('Area') }}</th>
-            <th>{{ __('Users') }}</th>
-            <th>{{ __('Real credit') }}</th>
-            <th>{{ __('Compromised credit') }}</th>
-            <th>{{ __('Available credit') }}</th>
-            <th>{{ __('Created') }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>{{ $entity->getSerial() }}</td>
-            <td>{{ implode(", ", $entity->getAreas()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
-            <td>{{ implode(", ", $entity->getUsers()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
-            <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
-            <td>{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
-            <td>{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>
-            <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
-        </tr>
-        @if ($entity->getSubaccounts()->count() > 1)
-            @foreach ($entity->getSubaccounts() as $subaccount)
-                <tr>
-                    <td></td>
-                    <td>{{ $subaccount->getArea() }}</td>
-                    <td></td>
-                    <td>{{ number_format($subaccount->getCredit(), 2, ",", ".") }}€</td>
-                    <td>{{ number_format($subaccount->getCompromisedCredit(), 2, ",", ".") }}€</td>
-                    <td>{{ number_format($subaccount->getAvailableCredit(), 2, ",", ".") }}€</td>
-                    <td>
-                    <a href="{{ route('subaccounts.orders.create', ['subaccount' => $subaccount->getId()]) }}" class="btn btn-sm btn-outline-secondary" title="{{ __('New order') }}">
-                            <span data-feather="file"></span>
-                        </a>
-                        <a href="{{ route('subaccounts.assignments.create', ['subaccount' => $subaccount->getId()]) }}" class="btn btn-sm btn-outline-secondary" title="{{ __('New assignment') }}">
-                            <span data-feather="dollar-sign"></span>
-                        </a>
-                    </td>
-                </tr>
-            @endforeach
-        @endif
-        </tbody>
-  </table>
-</div>
+
+@if ($entity->getSubaccounts()->count() > 1)
+    @include ('accounts.show.many-areas', ['entity' => $entity])
+@else
+    @include ('accounts.show.one-area', ['entity' => $entity])
+@endif
 
 <ul class="nav nav-tabs justify-content-center mb-3">
   <li class="nav-item">

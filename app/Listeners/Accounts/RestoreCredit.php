@@ -30,7 +30,10 @@ class RestoreCredit
         $movement = $event->entity;
         if ($movement->getType() === Movement::TYPE_INVOICED) {
             $order = $movement->getOrder();
-            $order->getAccount()
+            $order->getSubaccount()
+                  ->decreaseCompromisedCredit($order->getEstimatedCredit())
+                  ->decreaseCredit($order->getCredit())
+                  ->getAccount()
                   ->decreaseCompromisedCredit($order->getEstimatedCredit())
                   ->decreaseCredit($order->getCredit());
         }

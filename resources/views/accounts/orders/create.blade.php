@@ -78,10 +78,10 @@
     </div>
 
     <fieldset class="col-md-12 mb-3 collection-container" 
-             data-prototype='@include("accounts.orders.shared.form_product", ["index" => "__NAME__"])'>
+             data-prototype='@include("subaccounts.orders.shared.form_product", ["index" => "__NAME__"])'>
         <legend>{{__('elementos')}}</legend>
         @foreach (old('products', [[]]) as $i => $product)
-            @include("accounts.orders.shared.form_product", ["index" => $i, 'product' => $product])
+            @include("subaccounts.orders.shared.form_product", ["index" => $i, 'product' => $product])
         @endforeach
     </fieldset>
 

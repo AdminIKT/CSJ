@@ -1,4 +1,4 @@
-<div class="border mb-3 p-3" style="position:relative">
+<div class="col-12 border mb-3 p-3" style="position:relative">
     @if ($index) 
     <input type="button" class="btn btn-smd" onclick="rmCollection(this)" value="X" style="position:absolute; top:0px; right:0px;">
     @endif
@@ -16,7 +16,6 @@
             @if ($errors->has("products.{$index}.units"))
                <div class="invalid-feedback">{!! $errors->first("products.{$index}.units") !!}</div>
             @endif
-            </div>
         </div>
     </div>
 </div>
