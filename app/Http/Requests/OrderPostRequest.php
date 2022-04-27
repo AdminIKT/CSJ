@@ -4,7 +4,8 @@ namespace App\Http\Requests;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Entities\Area;
+use App\Entities\Account;
+use App\Entities\Subaccount;
 
 class OrderPostRequest extends FormRequest
 {
@@ -38,8 +39,7 @@ class OrderPostRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route('area');
-        if (null === ($entity = $this->em->find(Area::class, $id))) {
+        if (null === ($entity = $this->em->find(Subaccount::class, $this->route('subaccount')))) {
             abort(404);
         }
         return [

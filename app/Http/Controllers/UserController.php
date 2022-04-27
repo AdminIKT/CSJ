@@ -60,7 +60,7 @@ class UserController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  DepartmentRequest  $request
+     * @param  AreaRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)

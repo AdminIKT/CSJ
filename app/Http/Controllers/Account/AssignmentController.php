@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Area;
+namespace App\Http\Controllers\Account;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController,
     App\Entities\Assignment,
-    App\Entities\Area;
+    App\Entities\Account;
 
 class AssignmentController extends BaseController
 {
@@ -15,13 +15,13 @@ class AssignmentController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Area $area)
+    public function index(Request $request, Account $account)
     {
-        $years = $this->em->getRepository(Assignment::class)->years($area);
+        $years = $this->em->getRepository(Assignment::class)->years($account);
         $years = array_combine($years, $years);
         $collection = $this->em->getRepository(Assignment::class)->search(
             $request->input('year'),
-            $area->getId(),
+            $account->getId(),
             $request->input('type'),
             $request->input('operator'),
             $request->input('credit'),
@@ -29,9 +29,9 @@ class AssignmentController extends BaseController
             $request->input('sort', 'desc')
         );
 
-        return view('areas.assignments', [
+        return view('accounts.assignments', [
             'years'  => $years,
-            'entity' => $area,
+            'entity' => $account,
             'collection' => $collection,
         ]);
     }

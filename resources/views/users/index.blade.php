@@ -14,7 +14,7 @@
         <th scope="col">{{ __('Email') }}</th>
         <th scope="col">{{ __('Name') }}</th>
         <th scope="col">{{ __('Roles') }}</th>
-        <th scope="col">{{ __('Areas') }}</th>
+        <th scope="col">{{ __('Accounts') }}</th>
         <th scope="col">{{ __('Created') }}</th>
         <th scope="col">{{ __('Last login') }}</th>
         <th scope="col">{{ __('Actions') }}</th>
@@ -27,7 +27,7 @@
         <td>{{ $entity->getEmail() }}</td>
         <td>{{ $entity->getName() }}</td>
         <td>{{ implode(", ", $entity->getRoles()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
-        <td>{{ implode(", ", $entity->getAreas()->map(function ($e) { return "{$e->getName()} ({$e->getType()})"; })->toArray()) }}</td>
+        <td>{{ implode(", ", $entity->getAccounts()->map(function ($e) { return "{$e->getName()} ({$e->getType()})"; })->toArray()) }}</td>
         <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
         <td>@if ($entity->getLastLogin()) {{ $entity->getLastLogin()->format("d/m/Y H:i") }} @endif</td>
         <td class="m-0">

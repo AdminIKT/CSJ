@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Area;
+namespace App\Http\Controllers\Subaccount;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\BaseController,
     App\Http\Requests\OrderPostRequest;
-use App\Entities\Area,
+use App\Entities\Account,
+    App\Entities\Subaccount,
     App\Entities\Supplier,
     App\Entities\Settings,
     App\Entities\Order,
@@ -22,7 +23,7 @@ class OrderController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Area $area, Request $request)
+    public function create(Subaccount $subaccount, Request $request)
     {
         $collection = $this->em->getRepository(Supplier::class)
                                ->findBy(['acceptable' => true], ['name' => 'asc']);
@@ -42,11 +43,11 @@ class OrderController extends BaseController
             }, $collection),
         );
 
-        return view('areas.orders.create', [
-            'area'      => $area,
-            'suppliers' => $suppliers,
-            'disableds' => $disableds,
-            'entity'    => new Order,
+        return view('subaccounts.orders.create', [
+            'subaccount' => $subaccount,
+            'suppliers'  => $suppliers,
+            'disableds'  => $disableds,
+            'entity'     => new Order,
         ]); 
     }
 
@@ -56,11 +57,9 @@ class OrderController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Area $area, OrderPostRequest $request)
+    public function store(Subaccount $subaccount, OrderPostRequest $request)
     {
-        $last = $this->em->getRepository(Order::class)->findOneBy([
-            'area' => $area,
-        ], ['date' => 'DESC']);
+        $last = $this->em->getRepository(Order::class)->lastest($subaccount->getAccount());
 
         if ($last) {
             $matches = [];
@@ -75,7 +74,7 @@ class OrderController extends BaseController
         if (!$order->getSequence()) {
             $order->setDate(new \DateTime);
             $order->setSequence(implode("-", [
-                "{$area->getSerial()}/{$order->getDate()->format('y')}",
+                "{$subaccount->getSerial()}/{$order->getDate()->format('y')}",
                 isset($sequence) ? $sequence : 1
             ])); //FIXME
         }
@@ -85,9 +84,11 @@ class OrderController extends BaseController
             $order->setEstimated($path);
         }
 
-        $area->addOrder($order)
-            ->increaseCompromisedCredit($order->getEstimatedCredit())
-            ;
+        $subaccount->addOrder($order)
+                   ->increaseCompromisedCredit($order->getEstimatedCredit())
+                   ->getAccount()
+                   ->increaseCompromisedCredit($order->getEstimatedCredit())
+                   ;
 
         OrderEvent::dispatch($order);
 

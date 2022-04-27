@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use App\Events\AssignmentEvent,
     App\Entities\Assignment,
-    App\Entities\Area;
+    App\Entities\Account;
 
 class AssignmentController extends BaseController
 {
@@ -21,15 +21,15 @@ class AssignmentController extends BaseController
         $years = $this->em->getRepository(Assignment::class)->years();
         $years = array_combine($years, $years);
 
-        $areas = $this->em->getRepository(Area::class)->findBy([], ['name' => 'ASC']);
-        $areas = array_combine(
-            array_map(function($e) { return $e->getId(); }, $areas),
-            array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $areas),
+        $accounts = $this->em->getRepository(Account::class)->findBy([], ['name' => 'ASC']);
+        $accounts = array_combine(
+            array_map(function($e) { return $e->getId(); }, $accounts),
+            array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $accounts),
         );
 
         $collection = $this->em->getRepository(Assignment::class)->search(
             $request->input('year'),
-            $request->input('area'),
+            $request->input('account'),
             $request->input('type'),
             $request->input('operator'),
             $request->input('credit'),
@@ -40,7 +40,7 @@ class AssignmentController extends BaseController
         return view('assignments.index', [
             'collection' => $collection,
             'years'      => $years,
-            'areas'      => $areas,
+            'accounts'      => $accounts,
         ]); 
     }
 
@@ -52,23 +52,23 @@ class AssignmentController extends BaseController
     public function create(Request $request)
     {
         $entity = new Assignment;
-        if (null !== ($id = $request->input('area')) && 
-            null !== ($area = $this->em->find(Area::class, $id))) { 
-            $entity->setArea($area);
-            $areas = [$area->getId() => "{$area->getName()}-{$area->getType()}"];
+        if (null !== ($id = $request->input('account')) && 
+            null !== ($account = $this->em->find(Account::class, $id))) { 
+            $entity->setAccount($account);
+            $accounts = [$account->getId() => "{$account->getName()}-{$account->getType()}"];
         }
         else {
-            $areas  = $this->em->getRepository(Area::class)->findBy([], ['name' => 'ASC']);
-            $areas  = array_combine(
-                array_map(function($e) { return $e->getId(); }, $areas),
-                array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $areas),
+            $accounts  = $this->em->getRepository(Account::class)->findBy([], ['name' => 'ASC']);
+            $accounts  = array_combine(
+                array_map(function($e) { return $e->getId(); }, $accounts),
+                array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $accounts),
             );
         }
 
         return view('assignments.form', [
             'dst'    => $request->input('destination'),
             'entity' => $entity,
-            'areas'  => $areas,
+            'accounts'  => $accounts,
         ]); 
     }
 
@@ -81,15 +81,15 @@ class AssignmentController extends BaseController
     public function store(Request $request)
     {
         $values = $request->validate([
-            'area'   => ['required'],
+            'account'   => ['required'],
             'type'   => ['required'],
             'credit' => ['required'],
             'detail' => ['max:255'],
         ]);
 
-        $area = $this->em->find(Area::class, $values['area']); 
+        $account = $this->em->find(Account::class, $values['account']); 
         $entity = new Assignment;
-        $entity->setArea($area)
+        $entity->setAccount($account)
                ->setCredit($values['credit'])
                ->setType($values['type'])
                ->setDetail($values['detail']);

@@ -13,7 +13,7 @@ use App\Events\OrderEvent,
     App\Events\AssignmentEvent,
     App\Events\MovementEvent;
 use App\Listeners\Users,
-    App\Listeners\Areas,
+    App\Listeners\Accounts,
     App\Listeners\Orders,
     App\Listeners\Suppliers
     ;
@@ -42,11 +42,11 @@ class EventServiceProvider extends ServiceProvider
             Users\EntityInjection::class,
         ],
         AssignmentEvent::class => [
-            Areas\IncreaseCredit::class,
+            Accounts\IncreaseCredit::class,
         ],
         MovementEvent::class => [
             Orders\UpdateStatus::class,
-            Areas\RestoreCredit::class,
+            Accounts\RestoreCredit::class,
             Suppliers\IncreaseInvoiced::class,
         ],
     ];

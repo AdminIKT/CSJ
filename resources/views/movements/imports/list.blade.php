@@ -17,7 +17,7 @@
             <th scope="col">{{ __('Import') }}</th>
             <th scope="col">{{ __('Order') }}</th>
             <th scope="col">{{ __('Status') }}</th>
-            <!--<th scope="col">{{ __('Area') }}</th>-->
+            <!--<th scope="col">{{ __('Account') }}</th>-->
             <th scope="col">{{ __('Credit') }}</th>
             <th scope="col">{{ __('Invoice') }}</th>
             <th scope="col">{{ __('Type') }}</th>
@@ -41,7 +41,7 @@
                 <span class="text-danger">{{ __('Order not found') }}</span>
             @endif</td>
             <!--<td>@if ($entity->getOrder())
-                <a href="{{route('areas.show', ['area' => $entity->getArea()->getId()])}}">{{ $entity->getArea()->getName() }}-{{ $entity->getArea()->getType() }}</a>
+                <a href="{{route('accounts.show', ['account' => $entity->getAccount()->getId()])}}">{{ $entity->getAccount()->getName() }}-{{ $entity->getAccount()->getType() }}</a>
             @else
                 <span class="text-danger">{{ __('Order not found') }}</span>
             @endif</td>-->

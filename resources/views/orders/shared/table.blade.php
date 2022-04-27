@@ -10,6 +10,9 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
+        @if (!(isset($exclude) && in_array('accounts', $exclude)))
+        <th scope="col">{{ __('Account') }}</th>
+        @endif
         @if (!(isset($exclude) && in_array('areas', $exclude)))
         <th scope="col">{{ __('Area') }}</th>
         @endif
@@ -53,14 +56,17 @@
         @foreach ($collection as $i => $order)
         <tr>
             <td><a href="{{ route('orders.show', ['order' => $order->getId()]) }}">{{ $order->getSequence() }}</a></td>
+            @if (!(isset($exclude) && in_array('accounts', $exclude)))
+            <td><a href="{{ route('accounts.show', ['account' => $order->getAccount()->getId()]) }}">{{ $order->getAccount()->getSerial() }}</a></td>
+            @endif
             @if (!(isset($exclude) && in_array('areas', $exclude)))
-            <td><a href="{{ route('areas.show', ['area' => $order->getArea()->getId()]) }}">{{ $order->getArea()->getName() }}-{{ $order->getArea()->getType() }}</a></td>
+            <td><a href="{{ route('areas.show', ['area' => $order->getArea()->getId()]) }}">{{ $order->getArea()->getName() }}</a></td>
             @endif
             @if (!(isset($exclude) && in_array('suppliers', $exclude)))
             <td><a href="{{ route('suppliers.show', ['supplier' => $order->getSupplier()->getId()]) }}">{{ $order->getSupplier()->getName() }}</a></td>
             @endif
             @if (!(isset($exclude) && in_array('types', $exclude)))
-            <td>{{ $order->getArea()->getTypeName() }}</td>
+            <td>{{ $order->getAccount()->getTypeName() }}</td>
             @endif
             <!--<td>{{ $order->getProducts()->count() }}</td>-->
             <td>{{ number_format($order->getEstimatedCredit(), 2, ",", ".") }}€</td>

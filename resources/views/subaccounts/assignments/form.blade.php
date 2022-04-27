@@ -8,18 +8,10 @@
 @endsection
  
 @section('content')
-<form action="{{ route('assignments.store') }}" method="POST" class="row" novalidate>
+<form action="{{ route('subaccounts.assignments.store', ['subaccount' => $entity->getSubaccount()->getId()]) }}" method="POST" class="row" novalidate>
     @csrf
    
-    <div class="col-md-4 mb-3">
-        {{ Form::label('account', __('Account'), ['class' => 'form-label']) }}
-        {{ Form::select('account', [null => __('selecciona')] + $accounts, old('account', $entity->getAccount() ? $entity->getAccount()->getId() : null), ['class'=>'form-select form-select-sm' . ($errors->has('account') ? ' is-invalid':''), 'aria-describedby' => 'addon-account'], [null => ['disabled' => true]]) }}
-        @if ($errors->has('account'))
-           <div class="invalid-feedback">{!! $errors->first('account') !!}</div>
-        @endif
-    </div>
-
-    <div class="col-md-4 mb-3">
+    <div class="col-md-6 mb-3">
         {{ Form::label('type', __('Type'), ['class' => 'form-label']) }}
         {{ Form::select('type', [
             null => __('selecciona'),
@@ -30,7 +22,7 @@
            <div class="invalid-feedback">{!! $errors->first('type') !!}</div>
         @endif
     </div>
-    <div class="col-md-4 mb-3">
+    <div class="col-md-6 mb-3">
         {{ Form::label('credit', __('importe'), ['class' => 'form-label']) }}
         <div class="input-group input-group-sm">
         {{ Form::number('credit', old('credit', $entity->getCredit()), ['class' => 'form-control' . ($errors->has('credit') ? ' is-invalid':''), 'step' => '0.01', 'min' => 0]) }}

@@ -43,6 +43,7 @@
   <table class="table table-hover table-sm align-middle">
         <thead>
         <tr>
+            <th>{{ __('Account') }}</th>
             <th>{{ __('Area') }}</th>
             <th>{{ __('Supplier') }}</th>
             <th>{{ __('Estimated') }}</th>
@@ -58,6 +59,7 @@
         <thead>
         <tbody>
         <tr>
+            <td><a href="{{ route('accounts.show', ['account' => $entity->getAccount()->getId()]) }}">{{ $entity->getAccount()->getSerial() }}</td>
             <td><a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea() }}</td>
             <td><a href="{{ route('suppliers.show', ['supplier' => $entity->getSupplier()->getId()]) }}">{{ $entity->getSupplier()->getName() }}</a></td>
             <td>{{ number_format($entity->getEstimatedCredit(), 2, ",", ".") }}€</td>
@@ -114,6 +116,6 @@
 </ul>
 
 <div class="pt-2">
-    @yield('body', View::make('movements.shared.table', ['collection' => $entity->getMovements(), 'exclude' => ['orders', 'areas', 'suppliers']]))
+    @yield('body', View::make('movements.shared.table', ['collection' => $entity->getMovements(), 'exclude' => ['orders', 'accounts', 'suppliers']]))
 </div>
 @endsection

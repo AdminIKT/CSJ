@@ -7,11 +7,11 @@
           {{ Form::select('year', [null => __('selecciona')] + $years, request()->input('year'), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
         </div>
     </div>
-    @if (!(isset($exclude) && in_array('areas', $exclude)))
+    @if (!(isset($exclude) && in_array('accounts', $exclude)))
     <div class="col">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-area">{{ __('Area') }}</span>
-          {{ Form::select('area', [null => __('selecciona')] + $areas, request()->input('area'), ['class'=>'form-select', 'aria-describedby' => 'addon-area']) }}
+          <span class="input-group-text" id="addon-account">{{ __('Account') }}</span>
+          {{ Form::select('account', [null => __('selecciona')] + $accounts, request()->input('account'), ['class'=>'form-select', 'aria-describedby' => 'addon-account']) }}
         </div>
     </div>
     @endif

@@ -37,18 +37,18 @@ class Subaccount
     private $credit = 0;
 
     /**
+     * @var Account
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entities\Account", inversedBy="subaccounts")
+     */
+    private $account;
+
+    /**
      * @var Area
      *
      * @ORM\ManyToOne(targetEntity="App\Entities\Area", inversedBy="subaccounts")
      */
     private $area;
-
-    /**
-     * @var Department
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Department", inversedBy="subaccounts")
-     */
-    private $department;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -91,7 +91,28 @@ class Subaccount
     }
 
     /**
-     * Set Area.
+     * Set Account.
+     *
+     * @param Account $account
+     *
+     * @return Subaccount
+     */
+    public function setAccount(Account $account)
+    {
+        $this->account = $account;
+        return $this;
+    }
+
+    /**
+     * @return Account
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
+
+    /**
+     * Set area.
      *
      * @param Area $area
      *
@@ -109,27 +130,6 @@ class Subaccount
     public function getArea()
     {
         return $this->area;
-    }
-
-    /**
-     * Set department.
-     *
-     * @param Department $department
-     *
-     * @return Subaccount
-     */
-    public function setDepartment(Department $department)
-    {
-        $this->department = $department;
-        return $this;
-    }
-
-    /**
-     * @return Department
-     */
-    public function getDepartment()
-    {
-        return $this->department;
     }
 
     /**
@@ -261,7 +261,7 @@ class Subaccount
      */
     public function getName()
     {
-        return $this->getArea()->getName();
+        return $this->getAccount()->getName();
     }
 
     /**
@@ -271,7 +271,7 @@ class Subaccount
      */
     public function getType()
     {
-        return $this->getArea()->getType();
+        return $this->getAccount()->getType();
     }
 
     /**
@@ -281,7 +281,7 @@ class Subaccount
      */
     public function getAcronym()
     {
-        return $this->getArea()->getAcronym();
+        return $this->getAccount()->getAcronym();
     }
 
     /**
@@ -291,7 +291,17 @@ class Subaccount
      */
     public function getLCode()
     {
-        return $this->getArea()->getLCode();
+        return $this->getAccount()->getLCode();
+    }
+
+    /**
+     * Get serial.
+     *
+     * @return string
+     */
+    public function getSerial()
+    {
+        return $this->getAccount()->getSerial();
     }
 
     /**
@@ -347,7 +357,7 @@ class Subaccount
      */
     public function getTypeName()
     {
-        return $this->getArea()->getTypeName();
+        return $this->getAccount()->getTypeName();
     }
 
     /**

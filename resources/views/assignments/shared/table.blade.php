@@ -2,7 +2,10 @@
   <table class="table table-hover table-sm align-middle">
       <thead>
       <tr>
+          <th scope="col">{{ __('Account') }}</th>
+          @if (!(isset($exclude) && in_array('areas', $exclude)))
           <th scope="col">{{ __('Area') }}</th>
+          @endif
           <th scope="col">{{ __('Type') }}</th>
           <th scope="col">{{ __('importe') }}
             <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'asc']) }}">
@@ -27,7 +30,10 @@
       <tbody>
       @foreach ($collection as $i => $entity)
       <tr>
-          <td><a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea()->getName() }}-{{ $entity->getArea()->getType() }}</a></td>
+          <td><a href="{{ route('accounts.show', ['account' => $entity->getAccount()->getId()]) }}">{{ $entity->getAccount()->getName() }}-{{ $entity->getAccount()->getType() }}</a></td>
+          @if (!(isset($exclude) && in_array('areas', $exclude)))
+          <td><a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea()->getName() }}</a></td>
+          @endif
           <td>{{ $entity->getTypeName() }}</td>
           <td>{{ number_format($entity->getCredit(), 2, ",", ".") }} €</td>
           <td>{{ $entity->getDetail() }}</td>

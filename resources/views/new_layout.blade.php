@@ -83,11 +83,11 @@ th a.active {
                 <span class="visually-hidden">Toggle Dropdown</span>
               </button>
               <ul class="dropdown-menu">
-                @if (Auth::user()->getAreas()->count())
-                @foreach (Auth::user()->getAreas() as $area)
+                @if (Auth::user()->getAccounts()->count())
+                @foreach (Auth::user()->getAccounts() as $account)
                 <li>
-                  <a class="dropdown-item" href="{{ route('areas.show', ['area' => $area->getId()]) }}">
-                      {{ $area->getName() }} ({{$area->getTypeName() }})
+                  <a class="dropdown-item" href="{{ route('accounts.show', ['account' => $account->getId()]) }}">
+                      {{ $account->getName() }} ({{$account->getTypeName() }})
                   </a>
                 </li>
                 @endforeach
@@ -185,15 +185,15 @@ th a.active {
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{request()->is('departments*') ? 'active' : ''}}" href="{{ route('departments.index') }}">
+            <a class="nav-link {{request()->is('areas*') ? 'active' : ''}}" href="{{ route('areas.index') }}">
               <span data-feather="hexagon"></span>
-              {{ __('Departments') }}
+              {{ __('Areas') }}
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{request()->is('areas*') ? 'active' : ''}}" href="{{ route('areas.index') }}">
+            <a class="nav-link {{request()->is('accounts*') ? 'active' : ''}}" href="{{ route('accounts.index') }}">
               <span data-feather="globe"></span>
-              {{ __('Areas') }}
+              {{ __('Accounts') }}
             </a>
           </li>
         </ul>

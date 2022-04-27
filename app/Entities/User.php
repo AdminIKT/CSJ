@@ -75,9 +75,9 @@ class User implements Authenticatable, HasRolesContract
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Area", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="Account", mappedBy="users")
      */
-    private $areas;
+    private $accounts;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -124,7 +124,7 @@ class User implements Authenticatable, HasRolesContract
      */
     public function __construct()
     {
-        $this->areas     = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->accounts     = new \Doctrine\Common\Collections\ArrayCollection();
         $this->orders    = new \Doctrine\Common\Collections\ArrayCollection();
         $this->suppliers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->roles     = new \Doctrine\Common\Collections\ArrayCollection();
@@ -269,38 +269,38 @@ class User implements Authenticatable, HasRolesContract
     }
 
     /**
-     * Add area.
+     * Add account.
      *
-     * @param \Area $area
+     * @param \Account $account
      *
      * @return User
      */
-    public function addArea(Area $area)
+    public function addAccount(Account $account)
     {
-        $this->areas[] = $area;
+        $this->accounts[] = $account;
         return $this;
     }
 
     /**
-     * Remove area.
+     * Remove account.
      *
-     * @param \Area $area
+     * @param \Account $account
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeArea(Area $area)
+    public function removeAccount(Account $account)
     {
-        return $this->areas->removeElement($area);
+        return $this->accounts->removeElement($account);
     }
 
     /**
-     * Get areas.
+     * Get accounts.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAreas()
+    public function getAccounts()
     {
-        return $this->areas;
+        return $this->accounts;
     }
 
     /**

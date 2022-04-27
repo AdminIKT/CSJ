@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AreaRequest extends FormRequest
+class AccountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -44,7 +44,7 @@ class AreaRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $data = $validator->getData();
-            if (isset($data['type']) && $data['type'] === \App\Entities\Area::TYPE_LANBIDE) {
+            if (isset($data['type']) && $data['type'] === \App\Entities\Account::TYPE_LANBIDE) {
                 if (!isset($data['lcode']) || is_null($data['lcode']))
                 $validator->errors()->add('lcode', 'Required field');
             }

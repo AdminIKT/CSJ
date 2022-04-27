@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Area;
+namespace App\Http\Controllers\Account;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController,
     App\Entities\Movement,
-    App\Entities\Area;
+    App\Entities\Account;
 
 class MovementController extends BaseController
 {
@@ -15,13 +15,13 @@ class MovementController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Area $area)
+    public function index(Request $request, Account $account)
     {
         $collection = $this->em->getRepository(Movement::class)->search(
             $request->input('sequence'),
             $request->input('from'),
             $request->input('to'),
-            $area->getId(),
+            $account->getId(),
             $request->input('supplier'),
             $request->input('otype'),
             $request->input('mtype'),
@@ -29,8 +29,8 @@ class MovementController extends BaseController
             $request->input('sort', 'desc')
         );
 
-        return view('areas.movements', [
-            'entity' => $area,
+        return view('accounts.movements', [
+            'entity' => $account,
             'collection' => $collection,
         ]);
     }

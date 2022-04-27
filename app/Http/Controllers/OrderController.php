@@ -8,7 +8,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Gate;
 
 use App\Http\Requests\OrderPostRequest,
-    App\Entities\Area,
+    App\Entities\Account,
     App\Entities\Order;
 
 class OrderController extends BaseController
@@ -24,7 +24,7 @@ class OrderController extends BaseController
             $request->input('sequence'),
             $request->input('from'),
             $request->input('to'),
-            $request->input('area'),
+            $request->input('account'),
             $request->input('supplier'),
             $request->input('type'),
             $request->input('status'),
@@ -32,15 +32,15 @@ class OrderController extends BaseController
             $request->input('sort', 'desc')
         );
 
-        $areas  = $this->em->getRepository(Area::class)->findBy([], ['name' => 'ASC']);
-        $areas  = array_combine(
-            array_map(function($e) { return $e->getId(); }, $areas),
-            array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $areas),
+        $accounts  = $this->em->getRepository(Account::class)->findBy([], ['name' => 'ASC']);
+        $accounts  = array_combine(
+            array_map(function($e) { return $e->getId(); }, $accounts),
+            array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $accounts),
         );
 
         return view('orders.index', [
             'collection' => $orders,
-            'areas' => $areas,
+            'accounts' => $accounts,
         ]); 
     }
 

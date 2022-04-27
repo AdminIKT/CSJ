@@ -38,7 +38,7 @@ class Movement
     private $type = Movement::TYPE_INVOICED;
 
     /**
-     * @var Area 
+     * @var Account 
      *
      * @ORM\ManyToOne(targetEntity="App\Entities\Order", inversedBy="movements")
      */
@@ -227,13 +227,13 @@ class Movement
     }
 
     /**
-     * Get area.
+     * Get account.
      *
-     * @return Area 
+     * @return Account 
      */
-    public function getArea()
+    public function getAccount()
     {
-        return $this->getOrder()->getArea();
+        return $this->getOrder()->getAccount();
     }
 
     /**

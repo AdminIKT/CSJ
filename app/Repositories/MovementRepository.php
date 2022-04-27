@@ -37,7 +37,7 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
         $sequence = null, 
         $from = null, 
         $to = null, 
-        $area = null, 
+        $account = null, 
         $supplier = null, 
         $otype = null, 
         $mtype = null, 
@@ -61,16 +61,16 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
             $builder->andWhere("m.created <= :to")
                     ->setParameter('to', $to);
         }
-        if ($area !== null) {
-            $builder->andWhere("o.area = :area")
-                    ->setParameter('area', $area);
+        if ($account !== null) {
+            $builder->andWhere("o.account = :account")
+                    ->setParameter('account', $account);
         }
         if ($supplier !== null) {
             $builder->andWhere("o.supplier = :supplier")
                     ->setParameter('supplier', $supplier);
         }
         if ($otype !== null) {
-            $builder->innerJoin('o.area', 'a')
+            $builder->innerJoin('o.account', 'a')
                     ->andWhere("a.type = :otype")
                     ->setParameter('otype', $otype);
         }
@@ -81,7 +81,7 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
 
         switch ($sortBy) {
             case "sequence":
-            case "area":
+            case "account":
                 $table = "o";
                 break;
             default:

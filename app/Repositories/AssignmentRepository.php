@@ -19,7 +19,7 @@ class AssignmentRepository extends \Doctrine\ORM\EntityRepository
      */
     function search(
         $year     = null,
-        $area     = null,
+        $account     = null,
         $type     = null,
         $op       = null,
         $credit   = null,
@@ -30,24 +30,24 @@ class AssignmentRepository extends \Doctrine\ORM\EntityRepository
     {
         $builder = $this->createQueryBuilder('a');
 
-        if ($year !== null) {
-            $builder->andWhere("YEAR(a.created) = :year")
-                    ->setParameter('year', $year);
-        }
-        if ($area !== null) {
-            $builder->andWhere("a.area = :area")
-                    ->setParameter('area', $area);
-        }
-        if ($type !== null) {
-            $builder->andWhere("a.type = :type")
-                    ->setParameter('type', $type);
-        }
-        if ($credit !== null) {
-            $builder->andWhere("a.credit {$op} :credit")
-                    ->setParameter('credit', $credit);
-        }
+        //if ($year !== null) {
+        //    $builder->andWhere("YEAR(a.created) = :year")
+        //            ->setParameter('year', $year);
+        //}
+        //if ($account !== null) {
+        //    $builder->andWhere("a.account = :account")
+        //            ->setParameter('account', $account);
+        //}
+        //if ($type !== null) {
+        //    $builder->andWhere("a.type = :type")
+        //            ->setParameter('type', $type);
+        //}
+        //if ($credit !== null) {
+        //    $builder->andWhere("a.credit {$op} :credit")
+        //            ->setParameter('credit', $credit);
+        //}
 
-        $builder->orderBy("a.{$sortBy}" , $sort);
+        //$builder->orderBy("a.{$sortBy}" , $sort);
 
         //dd($builder->getQuery()->getSql(), $builder->getQuery()->getParameters());
         return $this->paginate($builder->getQuery(), $perPage, $pageName);
@@ -56,17 +56,18 @@ class AssignmentRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @return array
      */
-    function years(Entities\Area $area = null)
+    function years(Entities\Account $account = null)
     {
         $sql  = "SELECT DISTINCT(YEAR(a.created)) as years FROM App\Entities\Assignment a ";
-        if ($area) 
-        $sql .= "WHERE a.area = :area ";
+        $sql .= "INNER JOIN App\Entities\Subaccount s ";
+        if ($account) 
+        $sql .= "WHERE s.account = :account ";
         $sql .= "GROUP BY years ORDER BY years DESC";
 
         $query = $this->getEntityManager()
                       ->createQuery($sql);
-        if ($area)
-        $query->setParameter('area', $area->getId());
+        if ($account)
+        $query->setParameter('account', $account->getId());
 
         return $query->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_SCALAR_COLUMN);
     }

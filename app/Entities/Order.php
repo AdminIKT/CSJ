@@ -72,11 +72,11 @@ class Order implements UserAwareInterface, \JsonSerializable
     private $date;
 
     /**
-     * @var Area 
+     * @var Subaccount 
      *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Area", inversedBy="orders")
+     * @ORM\ManyToOne(targetEntity="App\Entities\Subaccount", inversedBy="orders")
      */
-    private $area;
+    private $subaccount;
 
     /**
      * @var User 
@@ -440,17 +440,37 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
-     * Set area.
+     * Set Subaccount.
      *
-     * @param Area $area
+     * @param Subaccount $subaccount
      *
      * @return Order
      */
-    public function setArea(Area $area)
+    public function setSubaccount(Subaccount $subaccount)
     {
-        $this->area = $area;
+        $this->subaccount = $subaccount;
 
         return $this;
+    }
+
+    /**
+     * Get subaccount.
+     *
+     * @return Subaccount 
+     */
+    public function getSubaccount()
+    {
+        return $this->subaccount;
+    }
+
+    /**
+     * Get account.
+     *
+     * @return Account 
+     */
+    public function getAccount()
+    {
+        return $this->getSubaccount()->getAccount();
     }
 
     /**
@@ -460,7 +480,7 @@ class Order implements UserAwareInterface, \JsonSerializable
      */
     public function getArea()
     {
-        return $this->area;
+        return $this->getSubaccount()->getArea();
     }
 
     /**

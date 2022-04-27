@@ -12,8 +12,8 @@
                 </a>
             </th>
             @endif
-            @if (!(isset($exclude) && in_array('areas', $exclude)))
-            <th scope="col">{{ __('Area') }}</th>
+            @if (!(isset($exclude) && in_array('accounts', $exclude)))
+            <th scope="col">{{ __('Account') }}</th>
             @endif
             @if (!(isset($exclude) && in_array('suppliers', $exclude)))
             <th scope="col">{{ __('Supplier') }}</th>
@@ -53,8 +53,8 @@
             @if (!(isset($exclude) && in_array('orders', $exclude)))
             <td><a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a></td>
             @endif
-            @if (!(isset($exclude) && in_array('areas', $exclude)))
-            <td><a href="{{route('areas.show', ['area' => $entity->getArea()->getId()])}}">{{ $entity->getArea()->getName() }}-{{ $entity->getArea()->getType() }}</a></td>
+            @if (!(isset($exclude) && in_array('accounts', $exclude)))
+            <td><a href="{{route('accounts.show', ['account' => $entity->getAccount()->getId()])}}">{{ $entity->getAccount()->getName() }}-{{ $entity->getAccount()->getType() }}</a></td>
             @endif
             @if (!(isset($exclude) && in_array('suppliers', $exclude)))
             <td><a href="{{ route('suppliers.show', ['supplier' => $entity->getOrder()->getSupplier()->getId()]) }}">{{ $entity->getOrder()->getSupplier()->getName() }}</a></td>

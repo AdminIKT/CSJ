@@ -29,11 +29,11 @@ class Assignment
     private $id;
 
     /**
-     * @var Area 
+     * @var Subaccount 
      *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Area", inversedBy="assignments")
+     * @ORM\ManyToOne(targetEntity="App\Entities\Subaccount", inversedBy="assignments")
      */
-    private $area;
+    private $subaccount;
 
     /**
      * @var int
@@ -94,9 +94,9 @@ class Assignment
      *
      * @return Assignment
      */
-    public function setDetail($detail)
+    public function setDetail($detail = null)
     {
-        $this->detail = $detail;
+        $this->detail = $detail ? (string) $detail : null;
 
         return $this;
     }
@@ -104,7 +104,7 @@ class Assignment
     /**
      * Get detail.
      *
-     * @return string
+     * @return string|null
      */
     public function getDetail()
     {
@@ -170,17 +170,37 @@ class Assignment
     }
 
     /**
-     * Set area.
+     * Set subaccount.
      *
-     * @param Area $area
+     * @param Subaccount $subaccount
      *
      * @return Assignment
      */
-    public function setArea(Area $area)
+    public function setSubaccount(Subaccount $subaccount)
     {
-        $this->area = $area;
+        $this->subaccount = $subaccount;
 
         return $this;
+    }
+
+    /**
+     * Get subaccount.
+     *
+     * @return Subaccount 
+     */
+    public function getSubaccount()
+    {
+        return $this->subaccount;
+    }
+
+    /**
+     * Get account.
+     *
+     * @return Account 
+     */
+    public function getAccount()
+    {
+        return $this->getSubaccount()->getAccount();
     }
 
     /**
@@ -190,7 +210,7 @@ class Assignment
      */
     public function getArea()
     {
-        return $this->area;
+        return $this->getSubaccount()->getArea();
     }
 
     /**

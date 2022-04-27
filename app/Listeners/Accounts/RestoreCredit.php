@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Areas;
+namespace App\Listeners\Accounts;
 
 use App\Events\MovementEvent,
     App\Entities\Movement;
@@ -30,7 +30,7 @@ class RestoreCredit
         $movement = $event->entity;
         if ($movement->getType() === Movement::TYPE_INVOICED) {
             $order = $movement->getOrder();
-            $order->getArea()
+            $order->getAccount()
                   ->decreaseCompromisedCredit($order->getEstimatedCredit())
                   ->decreaseCredit($order->getCredit());
         }

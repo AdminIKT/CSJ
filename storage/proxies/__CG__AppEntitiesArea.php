@@ -66,10 +66,10 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Area' . "\0" . 'updated'];
     }
 
     /**
@@ -216,50 +216,6 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setType($type)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setType', [$type]);
-
-        return parent::setType($type);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getType()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getType', []);
-
-        return parent::getType();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setDetail($detail = NULL)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDetail', [$detail]);
-
-        return parent::setDetail($detail);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDetail()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDetail', []);
-
-        return parent::getDetail();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function setAcronym($acronym)
     {
 
@@ -282,204 +238,6 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setLCode($lcode = NULL)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLCode', [$lcode]);
-
-        return parent::setLCode($lcode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getLCode()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLCode', []);
-
-        return parent::getLCode();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSerial()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSerial', []);
-
-        return parent::getSerial();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function increaseCredit(float $credit)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'increaseCredit', [$credit]);
-
-        return parent::increaseCredit($credit);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function decreaseCredit(float $credit)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'decreaseCredit', [$credit]);
-
-        return parent::decreaseCredit($credit);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function increaseCompromisedCredit(float $credit)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'increaseCompromisedCredit', [$credit]);
-
-        return parent::increaseCompromisedCredit($credit);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function decreaseCompromisedCredit(float $credit)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'decreaseCompromisedCredit', [$credit]);
-
-        return parent::decreaseCompromisedCredit($credit);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setCompromisedCredit(float $credit)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCompromisedCredit', [$credit]);
-
-        return parent::setCompromisedCredit($credit);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getCompromisedCredit()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCompromisedCredit', []);
-
-        return parent::getCompromisedCredit();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setCredit(float $credit)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCredit', [$credit]);
-
-        return parent::setCredit($credit);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getCredit()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCredit', []);
-
-        return parent::getCredit();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAvailableCredit()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAvailableCredit', []);
-
-        return parent::getAvailableCredit();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addUser(\App\Entities\User $user)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addUser', [$user]);
-
-        return parent::addUser($user);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeUser(\App\Entities\User $user)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeUser', [$user]);
-
-        return parent::removeUser($user);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getUsers()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsers', []);
-
-        return parent::getUsers();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addSubaccount(\App\Entities\Subaccount $subaccount)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addSubaccount', [$subaccount]);
-
-        return parent::addSubaccount($subaccount);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeSubaccount(\App\Entities\Subaccount $subaccount)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeSubaccount', [$subaccount]);
-
-        return parent::removeSubaccount($subaccount);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDepartments()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDepartments', []);
-
-        return parent::getDepartments();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getSubaccounts()
     {
 
@@ -491,23 +249,12 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addOrder(\App\Entities\Order $order)
+    public function getAccounts()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addOrder', [$order]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAccounts', []);
 
-        return parent::addOrder($order);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getOrders()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOrders', []);
-
-        return parent::getOrders();
+        return parent::getAccounts();
     }
 
     /**
@@ -557,23 +304,23 @@ class Area extends \App\Entities\Area implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getTypeName()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTypeName', []);
-
-        return parent::getTypeName();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function updateTimestamps()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'updateTimestamps', []);
 
         return parent::updateTimestamps();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function jsonSerialize()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'jsonSerialize', []);
+
+        return parent::jsonSerialize();
     }
 
     /**

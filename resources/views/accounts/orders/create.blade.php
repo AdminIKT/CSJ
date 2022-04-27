@@ -8,7 +8,7 @@
 @section('content')
 
     {{ Form::open([
-        'route' => ['areas.orders.store', ['area' => $area->getId()]], 
+        'route' => ['accounts.orders.store', ['account' => $account->getId()]], 
         'method' => 'POST', 
         'class' => 'row',
         'enctype' => 'multipart/form-data',
@@ -26,7 +26,7 @@
             @endif
         </div>
         <div id="emailHelpBlock" class="form-text mb-3">
-            {{ __("Real credit: :credit € - compromised: :compromised € = available :available €", ['credit' => number_format($area->getCredit(), 2, ",", "."), 'compromised' => number_format($area->getCompromisedCredit(), 2, ",", "."), 'available' => number_format($area->getAvailableCredit(), 2, ",", ".")]) }}
+            {{ __("Real credit: :credit € - compromised: :compromised € = available :available €", ['credit' => number_format($account->getCredit(), 2, ",", "."), 'compromised' => number_format($account->getCompromisedCredit(), 2, ",", "."), 'available' => number_format($account->getAvailableCredit(), 2, ",", ".")]) }}
         </div>
 
         <div class="mb-3">
@@ -43,7 +43,7 @@
             <div class="col-md-12 text-center small" id="sequence-alert"></div>
             <div class="col-md-4">
                 {{ Form::label('previous', 'Select previous', ['class' => 'form-label']) }}
-                {{ Form::select('previous', array_merge([null => '--Select one--'], $area->getOrders()->map(function($e) {return $e->getSequence(); })->toArray()), old('previous', null), ['class'=>'form-select form-select-sm', 'disabled' => true, 'onchange' => 'selectSequence(this)'], [null => ['disabled' => true]]) }}
+                {{ Form::select('previous', array_merge([null => '--Select one--'], $account->getOrders()->map(function($e) {return $e->getSequence(); })->toArray()), old('previous', null), ['class'=>'form-select form-select-sm', 'disabled' => true, 'onchange' => 'selectSequence(this)'], [null => ['disabled' => true]]) }}
             </div>
             <div class="col-md-4">
                 {{ Form::label('sequence', 'Current sequence', ['class' => 'form-label']) }}
@@ -78,10 +78,10 @@
     </div>
 
     <fieldset class="col-md-12 mb-3 collection-container" 
-             data-prototype='@include("areas.orders.shared.form_product", ["index" => "__NAME__"])'>
+             data-prototype='@include("accounts.orders.shared.form_product", ["index" => "__NAME__"])'>
         <legend>{{__('elementos')}}</legend>
         @foreach (old('products', [[]]) as $i => $product)
-            @include("areas.orders.shared.form_product", ["index" => $i, 'product' => $product])
+            @include("accounts.orders.shared.form_product", ["index" => $i, 'product' => $product])
         @endforeach
     </fieldset>
 
@@ -128,7 +128,7 @@
             } 
         }
 
-        var sequence = @php echo json_encode($area->getOrders()->toArray()); @endphp;
+        var sequence = @php echo json_encode($account->getOrders()->toArray()); @endphp;
         function selectSequence(input) {
             var index = $(input).val();
             var prev = sequence[index];

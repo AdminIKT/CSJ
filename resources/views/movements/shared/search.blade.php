@@ -24,17 +24,17 @@
           </select>
           {{ Form::select('otype', [
               null => __('selecciona'),
-              \App\Entities\Area::TYPE_EQUIPAMIENTO => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_EQUIPAMIENTO),
-              \App\Entities\Area::TYPE_FUNGIBLE => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_FUNGIBLE),
-              \App\Entities\Area::TYPE_LANBIDE => \App\Entities\Area::typeName(\App\Entities\Area::TYPE_LANBIDE),
+              \App\Entities\Account::TYPE_EQUIPAMIENTO => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_EQUIPAMIENTO),
+              \App\Entities\Account::TYPE_FUNGIBLE => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_FUNGIBLE),
+              \App\Entities\Account::TYPE_LANBIDE => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_LANBIDE),
           ], request()->input('otype'), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
         </div>
     </div>
-    @if (!(isset($exclude) && in_array('areas', $exclude)))
+    @if (!(isset($exclude) && in_array('accounts', $exclude)))
     <div class="col">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-area">{{ __('Area') }}</span>
-          {{ Form::select('area', [null => __('Selecciona')] + $areas, request()->input('area'), ['class'=>'form-select', 'aria-describedby' => 'addon-area']) }}
+          <span class="input-group-text" id="addon-account">{{ __('Account') }}</span>
+          {{ Form::select('account', [null => __('Selecciona')] + $accounts, request()->input('account'), ['class'=>'form-select', 'aria-describedby' => 'addon-account']) }}
         </div>
     </div>
     @endif

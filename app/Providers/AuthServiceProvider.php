@@ -28,13 +28,13 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('show-order', function (User $user, Order $e) {
-            return $e->getArea()->getUsers()->contains($user);
+            return $e->getAccount()->getUsers()->contains($user);
         });
         Gate::define('update-order', function (User $user, Order $e) {
-            return $e->getArea()->getUsers()->contains($user);
+            return $e->getAccount()->getUsers()->contains($user);
         });
         Gate::define('delete-order', function (User $user, Order $e) {
-            return $e->isPending() && $e->getArea()->getUsers()->contains($user);
+            return $e->isPending() && $e->getAccount()->getUsers()->contains($user);
         });
     }
 }

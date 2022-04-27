@@ -66,10 +66,10 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\User' . "\0" . 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'areas', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\User' . "\0" . 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\User' . "\0" . 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'areas', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\User' . "\0" . 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
     }
 
     /**
@@ -315,34 +315,34 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addArea(\App\Entities\Area $area)
+    public function addAccount(\App\Entities\Account $account)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addArea', [$area]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addAccount', [$account]);
 
-        return parent::addArea($area);
+        return parent::addAccount($account);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function removeArea(\App\Entities\Area $area)
+    public function removeAccount(\App\Entities\Account $account)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeArea', [$area]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeAccount', [$account]);
 
-        return parent::removeArea($area);
+        return parent::removeAccount($account);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getAreas()
+    public function getAccounts()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAreas', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAccounts', []);
 
-        return parent::getAreas();
+        return parent::getAccounts();
     }
 
     /**

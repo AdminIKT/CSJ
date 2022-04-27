@@ -36,7 +36,7 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         $sequence = null, 
         $from = null, 
         $to = null, 
-        $area = null, 
+        $account = null, 
         $supplier = null, 
         $type = null, 
         $status = null, 
@@ -46,38 +46,55 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
         $pageName= "page")
     {
         $builder = $this->createQueryBuilder('o');
-        if ($sequence !== null) {
-            $builder->andWhere("o.sequence LIKE :sequence")
-                    ->setParameter('sequence', "%{$sequence}%");
-        }
-        if ($from !== null) {
-            $builder->andWhere("o.date >= :from")
-                ->setParameter('from', $from);
-        }
-        if ($to !== null) {
-            $builder->andWhere("o.date <= :to")
-                ->setParameter('to', $to);
-        }
-        if ($area !== null) {
-            $builder->andWhere("o.area = :area")
-                ->setParameter('area', $area);
-        }
-        if ($supplier !== null) {
-            $builder->andWhere("o.supplier = :supplier")
-                    ->setParameter('supplier', $supplier);
-        }
-        if ($type !== null) {
-            $builder->innerJoin('o.area', 'a')
-                    ->andWhere("a.type = :type")
-                    ->setParameter('type', $type);
-        }
-        if ($status !== null) {
-            $builder->andWhere("o.status = :status")
-                ->setParameter('status', $status);
-        }
+        //if ($sequence !== null) {
+        //    $builder->andWhere("o.sequence LIKE :sequence")
+        //            ->setParameter('sequence', "%{$sequence}%");
+        //}
+        //if ($from !== null) {
+        //    $builder->andWhere("o.date >= :from")
+        //        ->setParameter('from', $from);
+        //}
+        //if ($to !== null) {
+        //    $builder->andWhere("o.date <= :to")
+        //        ->setParameter('to', $to);
+        //}
+        //if ($account !== null) {
+        //    $builder->andWhere("o.account = :account")
+        //        ->setParameter('account', $account);
+        //}
+        //if ($supplier !== null) {
+        //    $builder->andWhere("o.supplier = :supplier")
+        //            ->setParameter('supplier', $supplier);
+        //}
+        //if ($type !== null) {
+        //    $builder->innerJoin('o.account', 'a')
+        //            ->andWhere("a.type = :type")
+        //            ->setParameter('type', $type);
+        //}
+        //if ($status !== null) {
+        //    $builder->andWhere("o.status = :status")
+        //        ->setParameter('status', $status);
+        //}
 
-        $builder->orderBy("o.{$sortBy}" , $sort);
+        //$builder->orderBy("o.{$sortBy}" , $sort);
 
         return $this->paginate($builder->getQuery(), $perPage, $pageName);
+    }
+
+    /**
+     * @param Account $account
+     * @return Order|null
+     */
+    function lastest(Entities\Account $account) 
+    {
+        return $this->createQueryBuilder('o')
+                    ->innerJoin('o.subaccount', 's')
+                    ->andWhere('s.account = :account')
+                    ->setParameter('account', $account->getId())
+                    ->orderBy('o.date', 'desc')
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getOneOrNullResult();
+    
     }
 }

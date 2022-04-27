@@ -6,11 +6,7 @@ use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entities\Area,
-    App\Entities\User,
-    App\Entities\Order,
-    App\Entities\Account,
-    App\Entities\Department,
-    App\Http\Requests\AreaRequest;
+    App\Http\Requests\AreaPostRequest;
 
 class AreaController extends BaseController
 {
@@ -19,21 +15,13 @@ class AreaController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $areas = $this->em->getRepository(Area::class)->search(
-            $request->input('name'),
-            $request->input('type'),
-            $request->input('creditOp'),
-            $request->input('credit'),
-            $request->input('compromisedOp'),
-            $request->input('compromised'),
-            $request->input('sortBy', 'name'),
-            $request->input('sort', 'desc')
-        );
+        $areas = $this->em->getRepository(Area::class)
+                          ->findBy([], ['acronym' => 'desc']);
 
         return view('areas.index', [
-            'areas' => $areas,
+            'collection' => $areas,
         ]); 
     }
 
@@ -44,35 +32,31 @@ class AreaController extends BaseController
      */
     public function create()
     {
-        $departments = $this->em->getRepository(Department::class)
-                               ->findBy([], ['name' => 'asc']);
-        $users = $this->em->getRepository(User::class)
-                                ->findBy([], ['email' => 'asc']);
-
         return view('areas.form', [
             'route' => route('areas.store'),
             'method' => 'POST',
             'entity' => new Area,
-            'users' => $users,
-            'departments' => $departments,
         ]); 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  AreaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AreaRequest $request)
+    public function store(AreaPostRequest $request)
     {
-        //$data = $request->validated();
-        $entity = new Area;
-        $this->hydrateData($entity, $request->all());
-        $this->em->persist($entity);
+        $data = $request->validated();
+        $dptm = new Area;
+        $dptm->setName($data['name'])
+             ->setAcronym($data['acronym']);
+
+        $this->em->persist($dptm);
         $this->em->flush();
-        return redirect()->route('areas.show', ['area' => $entity->getId()])
+        return redirect()->route('areas.index')
                          ->with('success', 'Successfully created');
+
     }
 
     /**
@@ -81,23 +65,10 @@ class AreaController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Area $area)
+    public function show(Area $area)
     {
-        $orders = $this->em->getRepository(Order::class)->search(
-            $request->input('sequence'),
-            $request->input('from'),
-            $request->input('to'),
-            $area->getId(),
-            $request->input('supplier'),
-            $request->input('type'),
-            $request->input('status'),
-            $request->input('sortBy', 'date'),
-            $request->input('sort', 'desc')
-        );
-
         return view('areas.show', [
             'entity' => $area,
-            'collection' => $orders,
         ]); 
     }
 
@@ -109,17 +80,10 @@ class AreaController extends BaseController
      */
     public function edit(Area $area)
     {
-        $departments = $this->em->getRepository(Department::class)
-                                ->findBy([], ['name' => 'asc']);
-        $users = $this->em->getRepository(User::class)
-                                ->findBy([], ['email' => 'asc']);
-
         return view('areas.form', [
             'route' => route('areas.update', ['area' => $area->getId()]),
             'method' => 'PUT',
             'entity' => $area,
-            'users' => $users,
-            'departments' => $departments,
         ]); 
     }
 
@@ -130,11 +94,14 @@ class AreaController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AreaRequest $request, Area $area)
+    public function update(AreaPostRequest $request, Area $area)
     {
-        $this->hydrateData($area, $request->all());
+        $data = $request->validated();
+        $area->setName($data['name'])
+                   ->setAcronym($data['acronym']);
+
         $this->em->flush();
-        return redirect()->route('areas.show', ['area' => $area->getId()])
+        return redirect()->route('areas.index')
                          ->with('success', 'Successfully updated');
     }
 
@@ -150,42 +117,5 @@ class AreaController extends BaseController
         $this->em->flush();
 
         return redirect()->back()->with('success', 'Successfully removed');
-    }
-
-    /**
-     * @param Area $entity
-     * @param array $data
-     *
-     * @return void 
-     */
-    protected function hydrateData(Area $entity, array $data)
-    {
-        $entity->setName($data['name'])
-            ->setType($data['type'])
-            ->setAcronym($data['acronym'])
-            ->setDetail($data['detail'])
-            ;
-
-        $entity->setLCode();
-        if (isset($data['lcode'])) {
-            $entity->setLCode($data['lcode']);
-        }
-
-        $entity->getUsers()->clear();
-        if (isset($data['users']) && is_array($data['users'])) {
-            $er = $this->em->getRepository(User::class);
-            foreach ($data['users'] as $id) {
-                $entity->addUser($er->find($id));
-            }
-        }
-        $entity->getAccounts()->clear();
-        if (isset($data['accounts']) && is_array($data['accounts'])) {
-            $er = $this->em->getRepository(Department::class);
-            foreach ($data['accounts'] as $id) {
-                $account = new Account();
-                $account->setDepartment($er->find($id));
-                $entity->addAccount($account);
-            }
-        }
     }
 }

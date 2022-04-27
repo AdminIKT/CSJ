@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Areas;
+namespace App\Listeners\Accounts;
 
 use App\Events\AssignmentEvent,
     App\Entities\Assignment;
@@ -28,13 +28,19 @@ class IncreaseCredit
     public function handle(AssignmentEvent $event)
     {
         $assignment = $event->entity;
-        $area       = $assignment->getArea();
+        $subaccount = $assignment->getSubaccount();
         switch ($event->action) {
             case AssignmentEvent::ACTION_STORE:
-                $area->increaseCredit($assignment->getCredit());
+                $subaccount->increaseCredit($assignment->getCredit())
+                           ->getAccount()
+                           ->increaseCredit($assignment->getCredit())
+                           ;
                 break;
             case AssignmentEvent::ACTION_DESTROY:
-                $area->decreaseCredit($assignment->getCredit());
+                $subaccount->decreaseCredit($assignment->getCredit())
+                           ->getAccount()
+                           ->decreaseCredit($assignment->getCredit())
+                           ;
                 break;
         }
     }
