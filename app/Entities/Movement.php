@@ -9,18 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="movements")
  * @ORM\Entity(repositoryClass="App\Repositories\MovementRepository")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"charge" = "Charge", "assign" = "Assignment"})
  * @ORM\HasLifecycleCallbacks
  */
-class Movement
+abstract class Movement
 {
-    /**
-     * - Cargos por factura
-     * - Cobros en caja
-     * etc
-     */
-    const TYPE_INVOICED = 0;
-    const TYPE_CASH     = 1;
-
     /**
      * @var int
      *
@@ -31,18 +26,11 @@ class Movement
     private $id;
 
     /**
-     * @var int
+     * @var Subaccount 
      *
-     * @ORM\Column(name="type", type="integer", options={"default":0})
+     * @ORM\ManyToOne(targetEntity="App\Entities\Subaccount", inversedBy="invoiceCharges")
      */
-    private $type = Movement::TYPE_INVOICED;
-
-    /**
-     * @var Account 
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Order", inversedBy="movements")
-     */
-    private $order;
+    private $subaccount;
 
     /**
      * @var float
@@ -52,16 +40,16 @@ class Movement
     private $credit = 0;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="invoice", type="string")
+     * @ORM\Column(name="type", type="integer")
      */
-    private $invoice;
+    private $type;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="detail", type="string")
+     * @ORM\Column(name="detail", type="string", nullable=true)
      */
     private $detail;
 
@@ -97,75 +85,37 @@ class Movement
     }
 
     /**
-     * Set detail.
+     * Set Subaccount.
      *
-     * @param string $detail
+     * @param Subaccount $subaccount
      *
      * @return Movement
      */
-    public function setDetail($detail)
+    public function setSubaccount(Subaccount $subaccount)
     {
-        $this->detail = $detail;
+        $this->subaccount = $subaccount;
 
         return $this;
     }
 
     /**
-     * Get detail.
+     * Get subaccount.
      *
-     * @return string
+     * @return Subaccount 
      */
-    public function getDetail()
+    public function getSubaccount()
     {
-        return $this->detail;
+        return $this->subaccount;
     }
 
     /**
-     * Get invoice.
+     * Get area.
      *
-     * @return string
+     * @return Area 
      */
-    public function getInvoice()
+    public function getArea()
     {
-        return $this->invoice;
-    }
-
-    /**
-     * Set invoice.
-     *
-     * @param string $invoice
-     *
-     * @return Movement
-     */
-    public function setInvoice($invoice)
-    {
-        $this->invoice = $invoice;
-
-        return $this;
-    }
-
-    /**
-     * Set credit.
-     *
-     * @param float $credit
-     *
-     * @return Movement
-     */
-    public function setCredit(float $credit)
-    {
-        $this->credit = $credit;
-
-        return $this;
-    }
-
-    /**
-     * Get credit.
-     *
-     * @return float
-     */
-    public function getCredit()
-    {
-        return $this->credit;
+        return $this->getSubaccount()->getArea();
     }
 
     /**
@@ -193,37 +143,51 @@ class Movement
     }
 
     /**
-     * Get type name.
+     * Set detail.
      *
-     * @return string
+     * @param string|null $detail
+     *
+     * @return Movement
      */
-    public function getTypeName()
+    public function setDetail($detail = null)
     {
-        return self::typeName($this->getType());
-    }
-
-    /**
-     * Set order.
-     *
-     * @param Order $order
-     *
-     * @return Order
-     */
-    public function setOrder(Order $order)
-    {
-        $this->order = $order;
+        $this->detail = $detail;
 
         return $this;
     }
 
     /**
-     * Get order.
+     * Get detail.
      *
-     * @return Order 
+     * @return string
      */
-    public function getOrder()
+    public function getDetail()
     {
-        return $this->order;
+        return $this->detail;
+    }
+
+    /**
+     * Set credit.
+     *
+     * @param float $credit
+     *
+     * @return Movement
+     */
+    public function setCredit(float $credit)
+    {
+        $this->credit = $credit;
+
+        return $this;
+    }
+
+    /**
+     * Get credit.
+     *
+     * @return float
+     */
+    public function getCredit()
+    {
+        return $this->credit;
     }
 
     /**
@@ -233,7 +197,7 @@ class Movement
      */
     public function getAccount()
     {
-        return $this->getOrder()->getAccount();
+        return $this->getSubaccount()->getAccount();
     }
 
     /**
@@ -297,17 +261,17 @@ class Movement
     }
 
     /**
+     * Get type name.
+     *
      * @return string
      */
-    public static function typeName($type) 
+    public function getTypeName()
     {
-        switch ($type) {
-            case self::TYPE_INVOICED: 
-                return trans("Cargo por factura");
-            case self::TYPE_CASH: 
-                return trans("Cobro en caja");
-            default:
-                return trans("Undefined");
-        }
+        return static::typeName($this->getType());
     }
+
+    /**
+     * @return string
+     */
+    abstract public static function typeName($type);
 }

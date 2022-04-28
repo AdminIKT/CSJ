@@ -6,10 +6,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController,
     App\Entities\Account,
-    App\Entities\Movement,
+    App\Entities\InvoiceCharge,
     App\Entities\Supplier;
 
-class MovementController extends BaseController
+class InvoiceChargeController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class MovementController extends BaseController
      */
     public function index(Request $request, Supplier $supplier)
     {
-        $collection = $this->em->getRepository(Movement::class)->search(
+        $collection = $this->em->getRepository(InvoiceCharge::class)->search(
             $request->input('sequence'),
             $request->input('from'),
             $request->input('to'),
@@ -36,7 +36,7 @@ class MovementController extends BaseController
             array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $accounts),
         );
 
-        return view('suppliers.movements', [
+        return view('suppliers.invoiceCharges', [
             'entity'     => $supplier,
             'accounts'      => $accounts,
             'collection' => $collection,

@@ -42,13 +42,16 @@ Route::resources([
     'users'                   => Controllers\UserController::class,
     'accounts'                => Controllers\AccountController::class,
 
-    'accounts.orders'         => Controllers\Account\OrderController::class,
-    'accounts.movements'      => Controllers\Account\MovementController::class,
-    'accounts.assignments'    => Controllers\Account\AssignmentController::class,
+    'accounts.orders'           => Controllers\Account\OrderController::class,
+    'accounts.movements'        => Controllers\Account\MovementController::class,
+    'accounts.charges'          => Controllers\Account\ChargeController::class,
+    'accounts.invoiceCharges'   => Controllers\Account\InvoiceChargeController::class,
+    'accounts.assignments'      => Controllers\Account\AssignmentController::class,
 
-    'subaccounts.orders'      => Controllers\Subaccount\OrderController::class,
-    'subaccounts.movements'   => Controllers\Subaccount\MovementController::class,
-    'subaccounts.assignments' => Controllers\Subaccount\AssignmentController::class,
+    'subaccounts.orders'        => Controllers\Subaccount\OrderController::class,
+    'subaccounts.assignments'   => Controllers\Subaccount\AssignmentController::class,
+    'subaccounts.charges'       => Controllers\Subaccount\ChargeController::class,
+    'subaccounts.invoiceCharges'=> Controllers\Subaccount\InvoiceChargeController::class,
 
     'areas'                   => Controllers\AreaController::class,
     'orders'                  => Controllers\OrderController::class,
@@ -60,14 +63,14 @@ Route::resources([
     'suppliers.invoiceds'     => Controllers\Supplier\InvoicedController::class,
     'suppliers.incidences'    => Controllers\Supplier\IncidenceController::class,
     'suppliers.orders'        => Controllers\Supplier\OrderController::class,
-    'suppliers.movements'     => Controllers\Supplier\MovementController::class,
-    'movements'               => Controllers\MovementController::class,
+    'suppliers.invoiceCharges'     => Controllers\Supplier\InvoiceChargeController::class,
+    'invoiceCharges'               => Controllers\InvoiceChargeController::class,
     'assignments'             => Controllers\AssignmentController::class,
     'settings'                => Controllers\SettingsController::class,
 ], [
     'middleware' => 'auth'
 ]);
 
-Route::get('/imports', [Controllers\Movement\ImportController::class, 'create'])->name('imports.create');
-Route::post('/imports', [Controllers\Movement\ImportController::class, 'list'])->name('imports.list');
-Route::post('/imports.store', [Controllers\Movement\ImportController::class, 'store'])->name('imports.store');
+Route::get('/imports', [Controllers\InvoiceCharge\ImportController::class, 'create'])->name('imports.create');
+Route::post('/imports', [Controllers\InvoiceCharge\ImportController::class, 'list'])->name('imports.list');
+Route::post('/imports.store', [Controllers\InvoiceCharge\ImportController::class, 'store'])->name('imports.store');

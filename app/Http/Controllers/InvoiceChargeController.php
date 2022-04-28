@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
-use App\Entities\Movement,
+use App\Entities\InvoiceCharge,
     App\Entities\Order,
     App\Entities\Account,
-    App\Events\MovementEvent,
-    App\Http\Requests\MovementRequest;
+    App\Events\InvoiceChargeEvent,
+    App\Http\Requests\InvoiceChargeRequest;
 
-class MovementController extends BaseController
+class InvoiceChargeController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class MovementController extends BaseController
      */
     public function index(Request $request)
     {
-        $collection = $this->em->getRepository(Movement::class)->search(
+        $collection = $this->em->getRepository(InvoiceCharge::class)->search(
             $request->input('sequence'),
             $request->input('from'),
             $request->input('to'),
@@ -38,7 +38,7 @@ class MovementController extends BaseController
             array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $accounts),
         );
 
-        return view('movements.index', [
+        return view('invoiceCharges.index', [
             'collection' => $collection,
             'accounts' => $accounts,
         ]); 
@@ -51,7 +51,7 @@ class MovementController extends BaseController
      */
     public function create()
     {
-        return view('movements.create', [
+        return view('invoiceCharges.create', [
         ]); 
     }
 
@@ -61,7 +61,7 @@ class MovementController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MovementRequest $request)
+    public function store(InvoiceChargeRequest $request)
     {
         $data = $request->validated();
         $description = $data['detail'];
@@ -84,18 +84,18 @@ class MovementController extends BaseController
                              ->withErrors(["detail" => "Order status is {$order->getStatusName()}"]);
         }
 
-        $movement = new Movement;
-        $movement->setCredit($data['credit'])
+        $invoiceCharge = new InvoiceCharge;
+        $invoiceCharge->setCredit($data['credit'])
                  ->setInvoice($data['invoice'])
                  ->setDetail(str_replace($matches[0], "", $description))
                  ->setOrder($order);
 
-        MovementEvent::dispatch($movement);
+        InvoiceChargeEvent::dispatch($invoiceCharge);
 
-        $this->em->persist($movement);
+        $this->em->persist($invoiceCharge);
         $this->em->flush();
 
-        return redirect()->route('movements.index')
+        return redirect()->route('invoiceCharges.index')
                          ->with('success', 'Successfully created');
     }
 

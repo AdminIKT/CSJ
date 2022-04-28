@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MovementEvent
+class InvoiceChargeEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -24,7 +24,7 @@ class MovementEvent
      *
      * @return void
      */
-    public function __construct(\App\Entities\Movement $m)
+    public function __construct(\App\Entities\InvoiceCharge $m)
     {
         $this->entity = $m;
     }

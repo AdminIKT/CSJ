@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Movement;
+namespace App\Http\Controllers\InvoiceCharge;
 
 use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Rap2hpoutre\FastExcel\Facades\FastExcel;
 use App\Entities\Order,
-    App\Entities\Movement;
+    App\Entities\InvoiceCharge;
 
 class ImportController extends BaseController
 {
@@ -18,7 +18,7 @@ class ImportController extends BaseController
      */
     public function create()
     {
-        return view('movements.imports.form', [
+        return view('invoiceCharges.imports.form', [
         ]); 
     }
 
@@ -36,7 +36,7 @@ class ImportController extends BaseController
         $rows = FastExcel::import($path);
         $collection = [];
         foreach ($rows as $row) {
-            $entity = new Movement;
+            $entity = new InvoiceCharge;
             $entity->setCredit($row['credit'])
                    ->setInvoice($row['invoice']);
 
@@ -58,7 +58,7 @@ class ImportController extends BaseController
             }
             $collection[] = $entity;
         }
-        return view('movements.imports.list', [
+        return view('invoiceCharges.imports.list', [
             'collection' => $collection,
         ]); 
     }

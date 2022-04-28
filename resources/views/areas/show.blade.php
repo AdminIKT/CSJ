@@ -11,7 +11,7 @@
     <a class="nav-link {{request()->is('areas/*/assignments')?' active':'' }}" href="">{{__('Orders')}}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {{request()->is('areas/*/movements')?' active':'' }}" href="">{{__('Movements')}}</a>
+    <a class="nav-link {{request()->is('areas/*/invoiceCharges')?' active':'' }}" href="">{{__('InvoiceCharges')}}</a>
   </li>
 </ul>
 

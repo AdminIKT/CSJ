@@ -1,6 +1,6 @@
 @extends('new_layout')
 @section('title')
-    {{ __('Import movements') }}
+    {{ __('Import invoiceCharges') }}
 @endsection
 @section('content')
 

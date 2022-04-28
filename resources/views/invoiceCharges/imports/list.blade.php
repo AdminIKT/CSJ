@@ -1,5 +1,5 @@
 @extends('new_layout')
-@section('title'){{ __('Movements') }}@endsection
+@section('title'){{ __('InvoiceCharges') }}@endsection
 @section('content')
 
 {{ Form::open([
@@ -60,7 +60,7 @@
                 {{ $entity->getInvoice() }}
             @endif</td>
             <td>@if ($entity->getOrder() && $entity->getOrder()->isPending())
-                {{ Form::select("type[$i]", [null => '--Select one--', \App\Entities\Movement::TYPE_INVOICED => \App\Entities\Movement::typeName(\App\Entities\Movement::TYPE_INVOICED)], old("type[$i]", $entity->getType()), ['class'=>'form-select form-select-sm' . ($errors->has('type[$i]') ? ' is-invalid': '')]) }}
+                {{ Form::select("type[$i]", [null => '--Select one--', \App\Entities\InvoiceCharge::TYPE_INVOICED => \App\Entities\InvoiceCharge::typeName(\App\Entities\InvoiceCharge::TYPE_INVOICED)], old("type[$i]", $entity->getType()), ['class'=>'form-select form-select-sm' . ($errors->has('type[$i]') ? ' is-invalid': '')]) }}
             @else
                 {{ $entity->getTypeName() }}
             @endif</td>

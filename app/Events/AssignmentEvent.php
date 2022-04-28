@@ -32,7 +32,7 @@ class AssignmentEvent
      *
      * @return void
      */
-    public function __construct(\App\Entities\Assignment $entity, string $action)
+    public function __construct(\App\Entities\Movement $entity, string $action)
     {
         $this->entity = $entity;
         $this->action = $action;

@@ -2,10 +2,30 @@
 <form action="{{ $route }}" method="GET" class="row mb-3">
     <div class="col">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="basic-addon1">{{ __('Order') }} nº</span>
-          {{ Form::text('sequence', request()->input('sequence'), ['class' => 'form-control']) }}
+          <span class="input-group-text" id="addon-movement">{{ __('Movement') }}</span>
+          {{ Form::select('movement', [
+                'App\Entities\Movement'   => __('Selecciona'),
+                'App\Entities\Assignment' => __('Assignments'),
+                'App\Entities\Charge'     => __('Charges'),
+            ], request()->input('movement'), ['class'=>'form-select', 'aria-describedby' => 'addon-movement']) }}
         </div>
     </div>
+    @if (!(isset($exclude) && in_array('accounts', $exclude)))
+    <div class="col">
+        <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" id="addon-account">{{ __('Account') }}</span>
+          {{ Form::select('account', [null => __('Selecciona')], request()->input('account'), ['class'=>'form-select', 'aria-describedby' => 'addon-account']) }}
+        </div>
+    </div>
+    @endif
+    @if (!(isset($exclude) && in_array('areas', $exclude)))
+    <div class="col">
+        <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" id="addon-area">{{ __('Area') }}</span>
+          {{ Form::select('area', [null => __('Selecciona')], request()->input('area'), ['class'=>'form-select', 'aria-describedby' => 'addon-area']) }}
+        </div>
+    </div>
+    @endif
     <div class="col">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="addon-from">{{ __('desde') }}</span>
@@ -20,32 +40,16 @@
     </div>
     <div class="col">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-type">{{ __('Type') }}</span>
-          </select>
-          {{ Form::select('otype', [
-              null => __('selecciona'),
-              \App\Entities\Account::TYPE_EQUIPAMIENTO => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_EQUIPAMIENTO),
-              \App\Entities\Account::TYPE_FUNGIBLE => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_FUNGIBLE),
-              \App\Entities\Account::TYPE_LANBIDE => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_LANBIDE),
-          ], request()->input('otype'), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
-        </div>
-    </div>
-    @if (!(isset($exclude) && in_array('accounts', $exclude)))
-    <div class="col">
-        <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-account">{{ __('Account') }}</span>
-          {{ Form::select('account', [null => __('Selecciona')] + $accounts, request()->input('account'), ['class'=>'form-select', 'aria-describedby' => 'addon-account']) }}
-        </div>
-    </div>
-    @endif
-    <div class="col">
-        <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="addon-status">{{ __('Movement') }}</span>
-          {{ Form::select('mtype', [
-              null => __('selecciona'),
-              \App\Entities\Movement::TYPE_INVOICED => \App\Entities\Movement::typeName(\App\Entities\Movement::TYPE_INVOICED),
-              \App\Entities\Movement::TYPE_CASH => \App\Entities\Movement::typeName(\App\Entities\Movement::TYPE_CASH),
-          ], request()->input('mtype'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}
+          <span class="input-group-text" id="basic-addon1">{{ __('importe') }}</span>
+          <div class="input-group-prepend">
+              {{ Form::select('operator', [
+                ">=" => ">=",
+                "==" => "==",
+                "<=" => "<=",
+              ], request()->input('operator'), ['class'=>'form-select form-select-sm', 'aria-describedby' => 'addon-type']) }}
+          </div>
+          {{ Form::number('credit', request()->input('credit'), ['class' => 'form-control', 'step' => '0.01', 'min' => 0]) }}
+          <span class="input-group-text">€</span>
           <button class="btn btn-primary" type="submit" id="button-addon2">
             <span data-feather="search"></span>
           </button>

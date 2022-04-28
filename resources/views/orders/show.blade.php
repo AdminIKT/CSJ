@@ -108,7 +108,7 @@
    
 <ul class="nav nav-tabs justify-content-center">
   <li class="nav-item">
-    <a class='nav-link {{request()->is("orders/{$entity->getId()}", "orders/{$entity->getId()}/movements*")?" active":"" }}' href="{{ route('orders.show', ['order' => $entity->getId()]) }}">{{ __('Movements') }}</a>
+    <a class='nav-link {{request()->is("orders/{$entity->getId()}", "orders/{$entity->getId()}/invoiceCharges*")?" active":"" }}' href="{{ route('orders.show', ['order' => $entity->getId()]) }}">{{ __('InvoiceCharges') }}</a>
   </li>
   <li class="nav-item">
     <a class='nav-link {{request()->is("orders/{$entity->getId()}/incidences*")?" active":"" }}' href="{{ route('orders.incidences.index', ['order' => $entity->getId()]) }}">{{ __('Incidences') }}</a>
@@ -116,6 +116,6 @@
 </ul>
 
 <div class="pt-2">
-    @yield('body', View::make('movements.shared.table', ['collection' => $entity->getMovements(), 'exclude' => ['orders', 'accounts', 'suppliers']]))
+    @yield('body', View::make('invoiceCharges.shared.table', ['collection' => $entity->getInvoiceCharges(), 'exclude' => ['orders', 'accounts', 'suppliers']]))
 </div>
 @endsection

@@ -28,7 +28,7 @@
         </tr>
         @foreach ($entity->getSubaccounts() as $subaccount)
             <tr>
-                <td>{{ $subaccount->getAcronym() }}</td>
+                <td>{{ $subaccount->getArea()->getAcronym() }}</td>
                 <td>{{ $subaccount->getArea() }}</td>
                 <td></td>
                 <td>{{ number_format($subaccount->getCredit(), 2, ",", ".") }}€</td>
@@ -39,7 +39,10 @@
                         <span data-feather="file"></span>
                     </a>
                     <a href="{{ route('subaccounts.assignments.create', ['subaccount' => $subaccount->getId()]) }}" class="btn btn-sm btn-outline-secondary" title="{{ __('New assignment') }}">
-                        <span data-feather="dollar-sign"></span>
+                        + <span data-feather="dollar-sign"></span>
+                    </a>
+                    <a href="{{ route('subaccounts.charges.create', ['subaccount' => $subaccount->getId()]) }}" class="btn btn-sm btn-outline-secondary" title="{{ __('New charge') }}">
+                        - <span data-feather="dollar-sign"></span>
                     </a>
                 </td>
             </tr>

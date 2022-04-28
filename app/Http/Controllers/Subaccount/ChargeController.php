@@ -7,11 +7,12 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use App\Http\Controllers\BaseController,
     App\Events\AssignmentEvent,
+    App\Entities\Charge,
     App\Entities\Assignment,
     App\Entities\Subaccount,
     App\Entities\Account;
 
-class AssignmentController extends BaseController
+class ChargeController extends BaseController
 {
     /**
      * Show the form for creating a new resource.
@@ -20,10 +21,10 @@ class AssignmentController extends BaseController
      */
     public function create(Subaccount $subaccount, Request $request)
     {
-        $entity = new Assignment;
+        $entity = new Charge;
         $entity->setSubaccount($subaccount);
 
-        return view('subaccounts.assignments.form', [
+        return view('subaccounts.charges.form', [
             'dst'    => $request->input('destination'),
             'entity' => $entity,
         ]); 
@@ -43,7 +44,7 @@ class AssignmentController extends BaseController
             'detail' => ['max:255'],
         ]);
 
-        $entity = new Assignment;
+        $entity = new Charge;
         $entity->setSubaccount($subaccount)
                ->setCredit($values['credit'])
                ->setType($values['type'])
@@ -64,10 +65,10 @@ class AssignmentController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Assignment $assignment)
+    public function destroy(Charge $charge)
     {
-        AssignmentEvent::dispatch($assignment, __FUNCTION__);
-        $this->em->remove($assignment);
+        AssignmentEvent::dispatch($charge, __FUNCTION__);
+        $this->em->remove($charge);
         $this->em->flush();
         return redirect()->back()->with('success', 'Successfully removed');
     }

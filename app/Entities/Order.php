@@ -102,9 +102,9 @@ class Order implements UserAwareInterface, \JsonSerializable
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entities\Movement", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="App\Entities\InvoiceCharge", mappedBy="order")
      */
-    private $movements;
+    private $invoiceCharges;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -161,7 +161,7 @@ class Order implements UserAwareInterface, \JsonSerializable
     public function __construct()
     {
         $this->products   = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->movements  = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->invoiceCharges  = new \Doctrine\Common\Collections\ArrayCollection();
         $this->incidences = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -484,27 +484,27 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
-     * Add movement.
+     * Add invoiceCharge.
      *
-     * @param Movement $movement
+     * @param InvoiceCharge $invoiceCharge
      *
      * @return Order
      */
-    public function addMovement(Movement $movement)
+    public function addInvoiceCharge(InvoiceCharge $invoiceCharge)
     {
-        $movement->setOrder($this);
-        $this->movements[] = $movement;
+        $invoiceCharge->setOrder($this);
+        $this->invoiceCharges[] = $invoiceCharge;
         return $this;
     }
 
     /**
-     * Get movements.
+     * Get invoiceCharges.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMovements()
+    public function getInvoiceCharges()
     {
-        return $this->movements;
+        return $this->invoiceCharges;
     }
 
     /**

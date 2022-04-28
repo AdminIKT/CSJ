@@ -1,23 +1,22 @@
 @extends('new_layout')
 @section('title')
 @if ($entity->getId()) 
-    {{ __('Edit assignment') }} 
+    {{ __('Edit charge') }} 
 @else 
-    {{ __('New assignment') }} 
+    {{ __('New charge') }} 
 @endif
 @endsection
  
 @section('content')
-<form action="{{ route('subaccounts.assignments.store', ['subaccount' => $entity->getSubaccount()->getId()]) }}" method="POST" class="row" novalidate>
+<form action="{{ route('subaccounts.charges.store', ['subaccount' => $entity->getSubaccount()->getId()]) }}" method="POST" class="row" novalidate>
     @csrf
    
     <div class="col-md-6 mb-3">
         {{ Form::label('type', __('Type'), ['class' => 'form-label']) }}
         {{ Form::select('type', [
             null => __('selecciona'),
-            \App\Entities\Assignment::TYPE_ANUAL => \App\Entities\Assignment::typeName(\App\Entities\Assignment::TYPE_ANUAL),
-            \App\Entities\Assignment::TYPE_EXTRAORDINARY => \App\Entities\Assignment::typeName(\App\Entities\Assignment::TYPE_EXTRAORDINARY),
-            \App\Entities\Assignment::TYPE_OTHER => \App\Entities\Assignment::typeName(\App\Entities\Assignment::TYPE_OTHER),
+            \App\Entities\Charge::TYPE_CASH => \App\Entities\Charge::typeName(\App\Entities\Charge::TYPE_CASH),
+            \App\Entities\Charge::TYPE_OTHER => \App\Entities\Charge::typeName(\App\Entities\Charge::TYPE_OTHER),
         ], old('type', $entity->getType()), ['class'=>'form-select form-select-sm' . ($errors->has('type') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
         @if ($errors->has('type'))
            <div class="invalid-feedback">{!! $errors->first('type') !!}</div>

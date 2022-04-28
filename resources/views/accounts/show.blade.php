@@ -39,9 +39,6 @@
   <li class="nav-item">
     <a class="nav-link {{request()->is('accounts/*/movements')?' active':'' }}" href="{{ route('accounts.movements.index', ['account' => $entity->getId()]) }}">{{__('Movements')}}</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link {{request()->is('accounts/*/assignments')?' active':'' }}" href="{{ route('accounts.assignments.index', ['account' => $entity->getId()]) }}">{{__('Assignments')}}</a>
-  </li>
 </ul>
 
 @yield('body', View::make('accounts.body', ['collection' => $collection, 'entity' => $entity]))

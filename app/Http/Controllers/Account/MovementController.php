@@ -17,16 +17,17 @@ class MovementController extends BaseController
      */
     public function index(Request $request, Account $account)
     {
-        $collection = $this->em->getRepository(Movement::class)->search(
-            $request->input('sequence'),
-            $request->input('from'),
-            $request->input('to'),
-            $account->getId(),
-            $request->input('supplier'),
-            $request->input('otype'),
-            $request->input('mtype'),
-            $request->input('sortBy', 'created'),
-            $request->input('sort', 'desc')
+        $class = $request->input('movement', Movement::class);
+        $collection = $this->em->getRepository($class)->search(
+            //$request->input('sequence'),
+            //$request->input('from'),
+            //$request->input('to'),
+            //$account->getId(),
+            //$request->input('supplier'),
+            //$request->input('otype'),
+            //$request->input('mtype'),
+            //$request->input('sortBy', 'created'),
+            //$request->input('sort', 'desc')
         );
 
         return view('accounts.movements', [

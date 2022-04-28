@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Suppliers;
 
-use App\Events\MovementEvent,
+use App\Events\InvoiceChargeEvent,
     App\Entities\Supplier\Invoiced;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,13 +22,13 @@ class IncreaseInvoiced
     /**
      * Handle the event.
      *
-     * @param  \App\Events\MovementEvent  $event
+     * @param  \App\Events\InvoiceChargeEvent  $event
      * @return void
      */
-    public function handle(MovementEvent $event)
+    public function handle(InvoiceChargeEvent $event)
     {
-        $movement = $event->entity;
-        $order    = $movement->getOrder();
+        $invoiceCharge = $event->entity;
+        $order    = $invoiceCharge->getOrder();
         $supplier = $order->getSupplier();
 
         //FIXME: Which date must be?
