@@ -41,12 +41,13 @@ Route::get('/callback', [Controllers\SocialiteController::class, 'handleProvider
 Route::resources([
     'users'                   => Controllers\UserController::class,
     'accounts'                => Controllers\AccountController::class,
+    'movements'               => Controllers\MovementController::class,
 
-    'accounts.orders'           => Controllers\Account\OrderController::class,
+    //'accounts.orders'           => Controllers\Account\OrderController::class,
     'accounts.movements'        => Controllers\Account\MovementController::class,
-    'accounts.charges'          => Controllers\Account\ChargeController::class,
-    'accounts.invoiceCharges'   => Controllers\Account\InvoiceChargeController::class,
-    'accounts.assignments'      => Controllers\Account\AssignmentController::class,
+    //'accounts.charges'          => Controllers\Account\ChargeController::class,
+    //'accounts.invoiceCharges'   => Controllers\Account\InvoiceChargeController::class,
+    //'accounts.assignments'      => Controllers\Account\AssignmentController::class,
 
     'subaccounts.orders'        => Controllers\Subaccount\OrderController::class,
     'subaccounts.assignments'   => Controllers\Subaccount\AssignmentController::class,
@@ -64,8 +65,8 @@ Route::resources([
     'suppliers.incidences'    => Controllers\Supplier\IncidenceController::class,
     'suppliers.orders'        => Controllers\Supplier\OrderController::class,
     'suppliers.invoiceCharges'     => Controllers\Supplier\InvoiceChargeController::class,
-    'invoiceCharges'               => Controllers\InvoiceChargeController::class,
-    'assignments'             => Controllers\AssignmentController::class,
+    //'invoiceCharges'               => Controllers\InvoiceChargeController::class,
+    //'assignments'             => Controllers\AssignmentController::class,
     'settings'                => Controllers\SettingsController::class,
 ], [
     'middleware' => 'auth'

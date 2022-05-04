@@ -6,6 +6,7 @@
             <th>{{ __('Order') }} nº</th>
             @endif
             <th>{{ __('Detail') }}</th>
+            <th>{{ __('Status') }}</th>
             <th>{{ __('User') }}</th>
             <th>{{ __('Created') }}</th>
             <th>{{ __('Actions') }}</th>
@@ -18,6 +19,7 @@
             <td>@if ($incidence->getOrder())<a href="{{ route('orders.show', ['order' => $incidence->getOrder()->getId()]) }}">{{ $incidence->getOrder()->getSequence() }}</a>@endif</td>
             @endif
             <td>{{ $incidence->getDetail() }}</td>
+            <td><span class="badge {{ $incidence->getStatusColor() }}">{{ $incidence->getStatusName() }}</span></td>
             <td>{{ $incidence->getUser()->getName() }}</td>
             <td>{{ $incidence->getCreated()->format("d/m/Y H:i") }}</td>
             <td>

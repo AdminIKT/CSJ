@@ -11,9 +11,19 @@
         <a href="{{ route('subaccounts.orders.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="btn btn-sm btn-outline-secondary">
             <span data-feather="file"></span> {{ __('New order') }} 
         </a>
-        <a href="{{ route('subaccounts.assignments.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="btn btn-sm btn-outline-secondary">
-            <span data-feather="dollar-sign"></span> {{ __('New assignment') }} 
-        </a>
+        <div class="btn-group">
+            <button id="movementBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span data-feather="shopping-cart"></span> {{ __('New movement') }} 
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="movementBtn">
+                <li>
+                    <a href="{{ route('subaccounts.assignments.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="dropdown-item">+<span data-feather="dollar-sign"></span> {{ __('New assignment') }}</a>
+                </li>
+                <li>
+                    <a href="{{ route('subaccounts.charges.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="dropdown-item">-<span data-feather="dollar-sign"></span> {{ __('New charge') }}</a>
+                </li>
+            </ul>
+        </div>
     @endif
     <div class="btn-group btn-group-sm" role="group">
         <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
@@ -25,6 +35,7 @@
 @endsection
 
 @section('content')
+<p class="small"><strong>{{ __('Users') }}:</strong> {{ implode(", ", $entity->getUsers()->map(function ($e) { return $e->getName(); })->toArray()) }}</p>
 
 @if ($entity->getSubaccounts()->count() > 1)
     @include ('accounts.show.many-areas', ['entity' => $entity])
@@ -41,5 +52,5 @@
   </li>
 </ul>
 
-@yield('body', View::make('accounts.body', ['collection' => $collection, 'entity' => $entity]))
+@yield('body', View::make('accounts.body', ['collection' => $collection, 'entity' => $entity, 'perPage' => $perPage]))
 @endsection

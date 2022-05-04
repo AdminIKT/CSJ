@@ -15,70 +15,104 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
     /**
-     * @param Entity\Supplier $supplier
+     * @param array{
+     *   sequence: string,
+     *   from: string,
+     *   to: string. Date format,
+     *   type: string. Date format,
+     *   area: int,
+     *   account: int,
+     *   supplier: int,
+     *   estimatedOp: float. Required with estimated,
+     *   estimated: float,
+     *   creditOp: float. Required with credit,
+     *   credit: float,
+     *   status: int,
+     *   sortBy: string,
+     *   sort: string
+     * } $search
+     * @param int $perPage
+     * @param string $pageName
      */
-    function fromSupplier(Entities\Supplier $supplier, $perPage = 5, $pageName= "page") 
+    function search(array $filter = [], $perPage = 10, $pageName= "page")
     {
-        $builder = $this->createQueryBuilder('o');
-        $builder->andWhere('o.supplier = :id')
-                ->orderBy('o.created' , 'DESC')
-                ->setParameters([
-                    'id' => $supplier
-                ]);
+        $b = $this->createQueryBuilder('orders')
+                  ->innerJoin('orders.subaccount', 'subaccount')
+                  ->innerJoin('subaccount.account', 'account');
 
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
-    }
+        if (isset($filter['sequence']) &&
+            null !== ($sequence = $filter['sequence'])) {
+            $b->andWhere("orders.sequence LIKE :sequence")
+              ->setParameter('sequence', "%{$sequence}%");
+        }
+        if (isset($filter['from']) &&
+            null !== ($from = $filter['from'])) {
+            $b->andWhere("orders.date >= :from")
+              ->setParameter('from', $from);
+        }
+        if (isset($filter['to']) &&
+            null !== ($to = $filter['to'])) {
+            $b->andWhere("orders.date <= :to")
+              ->setParameter('to', $to);
+        }
+        if (isset($filter['type']) &&
+            null !== ($type = $filter['type'])) {
+            $b->andWhere("account.type = :type")
+              ->setParameter('type', $type);
+        }
+        if (isset($filter['status']) &&
+            null !== ($status = $filter['status'])) {
+            $b->andWhere("orders.status = :status")
+              ->setParameter('status', $status);
+        }
+        if (isset($filter['estimated']) &&
+            null !== ($estimated = $filter['estimated'])) {
+            $op = $filter['estimatedOp'];
+            $b->andWhere("orders.estimatedCredit {$op} :estimated")
+              ->setParameter('estimated', $estimated);
+        }
+        if (isset($filter['credit']) &&
+            null !== ($credit = $filter['credit'])) {
+            $op = $filter['creditOp'];
+            $b->andWhere("orders.credit {$op} :credit")
+              ->setParameter('credit', $credit);
+        }
+        if (isset($filter['area']) &&
+            null !== ($area = $filter['area'])) {
+            $b->andWhere("subaccount.area = :area")
+              ->setParameter('area', $area);
+        }
+        if (isset($filter['account']) &&
+            null !== ($account = $filter['account'])) {
+            $b->andWhere("subaccount.account = :account")
+              ->setParameter('account', $account);
+        }
+        if (isset($filter['supplier']) &&
+            null !== ($supplier = $filter['supplier'])) {
+            $b->andWhere("orders.supplier = :supplier")
+              ->setParameter('supplier', $supplier);
+        }
 
-    /**
-     *
-     */
-    function search(
-        $sequence = null, 
-        $from = null, 
-        $to = null, 
-        $account = null, 
-        $supplier = null, 
-        $type = null, 
-        $status = null, 
-        $sortBy = null, 
-        $sort = null, 
-        $perPage = 10, 
-        $pageName= "page")
-    {
-        $builder = $this->createQueryBuilder('o');
-        //if ($sequence !== null) {
-        //    $builder->andWhere("o.sequence LIKE :sequence")
-        //            ->setParameter('sequence', "%{$sequence}%");
-        //}
-        //if ($from !== null) {
-        //    $builder->andWhere("o.date >= :from")
-        //        ->setParameter('from', $from);
-        //}
-        //if ($to !== null) {
-        //    $builder->andWhere("o.date <= :to")
-        //        ->setParameter('to', $to);
-        //}
-        //if ($account !== null) {
-        //    $builder->andWhere("o.account = :account")
-        //        ->setParameter('account', $account);
-        //}
-        //if ($supplier !== null) {
-        //    $builder->andWhere("o.supplier = :supplier")
-        //            ->setParameter('supplier', $supplier);
-        //}
-        //if ($type !== null) {
-        //    $builder->innerJoin('o.account', 'a')
-        //            ->andWhere("a.type = :type")
-        //            ->setParameter('type', $type);
-        //}
-        //if ($status !== null) {
-        //    $builder->andWhere("o.status = :status")
-        //        ->setParameter('status', $status);
-        //}
+        $b->orderBy(
+            array_key_exists('sortBy', $filter) ?
+                    $filter['sortBy'] : 'orders.date',
+            array_key_exists('sort', $filter) ?
+                    $filter['sort'] : 'DESC'
+        );
 
-        //$builder->orderBy("o.{$sortBy}" , $sort);
+        if (!$perPage) {
+            $perPage = clone $b;
+            $perPage = $perPage->select('count(orders.id)')
+                               ->getQuery()
+                               ->getSingleScalarResult();
+        }
 
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
+        //dd($b->getQuery()->getSql(), $b->getQuery()->getParameters());
+
+        return $this->paginate(
+            $b->getQuery(), 
+            $perPage ?: Config('app.per_page'), 
+            $pageName);
     }
 
     /**

@@ -11,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Assignment extends Movement
 {
-    const TYPE_ANUAL         = 0;
-    const TYPE_EXTRAORDINARY = 1;
-    const TYPE_OTHER         = 2;
+    const TYPE_ANUAL         = 2;
+    const TYPE_EXTRAORDINARY = 3;
+    const TYPE_OTHER         = 4;
 
     /**
      * @inheritDoc

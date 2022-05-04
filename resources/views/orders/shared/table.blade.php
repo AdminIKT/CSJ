@@ -1,12 +1,14 @@
+<p class="small">{{ __('Showing :itemsX-:itemsY items from a total of :totalItems', ['itemsX' => $collection->firstItem()?:0, 'itemsY' => $collection->lastItem()?:0, 'totalItems' => $collection->total()]) }}</p>
+
 <div class="table-responsive">
   <table class="table table-hover table-sm">
     <thead>
     <tr>
         <th scope="col">{{ __('Order') }} nº
-            <a class="{{ request()->get('sortBy') == 'sequence' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'sequence', 'sort' => 'asc']) }}">
+            <a class="{{ request()->get('sortBy') == 'orders.sequence' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.sequence', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
-            <a class="{{ request()->get('sortBy') == 'sequence' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'sequence', 'sort' => 'desc']) }}">
+            <a class="{{ request()->get('sortBy') == 'orders.sequence' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.sequence', 'sort' => 'desc']) }}">
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
@@ -23,28 +25,28 @@
         <th scope="col">{{ __('Type') }}</th>
         @endif
         <th scope="col">{{ __('Estimated') }}
-            <a class="{{ request()->get('sortBy') == 'estimatedCredit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'estimatedCredit', 'sort' => 'asc']) }}">
+            <a class="{{ request()->get('sortBy') == 'orders.estimatedCredit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.estimatedCredit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
-            <a class="{{ request()->get('sortBy') == 'estimatedCredit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'estimatedCredit', 'sort' => 'desc']) }}">
+            <a class="{{ request()->get('sortBy') == 'orders.estimatedCredit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.estimatedCredit', 'sort' => 'desc']) }}">
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
-        <th scope="col"></th>
+        <th scope="col">{{ __('Invoice') }}</th>
         <th scope="col">{{ __('Status') }}</th>
         <th scope="col">{{ __('Credit') }}
-            <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'asc']) }}">
+            <a class="{{ request()->get('sortBy') == 'orders.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.credit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
-            <a class="{{ request()->get('sortBy') == 'credit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'credit', 'sort' => 'desc']) }}">
+            <a class="{{ request()->get('sortBy') == 'orders.credit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.credit', 'sort' => 'desc']) }}">
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
         <th scope="col">{{ __('Date') }}
-            <a class="{{ request()->get('sortBy') == 'date' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'date', 'sort' => 'asc']) }}">
+            <a class="{{ request()->get('sortBy') == 'orders.date' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.date', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
-            <a class="{{ request()->get('sortBy') == 'date' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'date', 'sort' => 'desc']) }}">
+            <a class="{{ request()->get('sortBy') == 'orders.date' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.date', 'sort' => 'desc']) }}">
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
@@ -71,11 +73,12 @@
             <!--<td>{{ $order->getProducts()->count() }}</td>-->
             <td>{{ number_format($order->getEstimatedCredit(), 2, ",", ".") }}€</td>
             <td>@if ($order->getEstimated())<a href='{{ asset("storage/{$order->getEstimated()}") }}' target="_blank">{{ $order->getEstimated() }}</a>@else-@endif</td>
-            <td>{{ $order->getStatusName() }}</td>
+            <td><span class="badge {{ $order->getStatusColor() }}">{{ $order->getStatusName() }}</span></td>
             <td>@if ($order->getCredit()) {{ number_format($order->getCredit(), 2, ",", ".") }}€ @endif</td>
             <td>{{ $order->getDate()->format("d/m/Y H:i") }}</td>
             <td>{{ $order->getUser()->getShort() }}</td>
             <td>
+            <!--
             {{ Form::open([
                 'route' => ['orders.destroy', $order->getId()], 
                 'method' => 'delete',
@@ -101,6 +104,7 @@
                 @endcan
                 </div>
             {{ Form::close() }}
+            -->
             </td>
         </tr>
         @endforeach

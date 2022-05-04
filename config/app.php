@@ -258,4 +258,9 @@ return [
         'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
     ],
 
+    /**
+     * Customs
+     */
+    'per_page' => 10,
+
 ];

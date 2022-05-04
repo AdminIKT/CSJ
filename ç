@@ -20,8 +20,8 @@ class Order implements UserAwareInterface, \JsonSerializable
     const STATUS_CREATED                = 0;
     const STATUS_RECEIVED               = 1;
     const STATUS_CHECKED_NOT_AGREED     = 2;
-    const STATUS_CHECKED_PARTIAL_AGREED = 3;
-    const STATUS_CHECKED_AGREED         = 4;
+    const STATUS_CHECKED_AGREED         = 3;
+    const STATUS_CHECKED_PARTIAL_AGREED = 4;
     const STATUS_CHECKED_INVOICED       = 5;
     const STATUS_PAID                   = 6;
     const STATUS_MOVED                  = 7;
@@ -372,16 +372,6 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
-     * Get status.
-     *
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
      * Is status.
      *
      * @param int $status
@@ -410,13 +400,13 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
-     * Get color.
+     * Get status.
      *
-     * @return string
+     * @return int
      */
-    public function getStatusColor()
+    public function getStatus()
     {
-        return self::statusColor($this->getStatus());
+        return $this->status;
     }
 
     /**
@@ -697,31 +687,6 @@ class Order implements UserAwareInterface, \JsonSerializable
             case self::RECEIVE_IN_DEPARTMENT: return trans("Department");
             case self::RECEIVE_IN_RECEPTION:  return trans("Reception");
             default: return trans("Undefined");
-        }
-    }
-
-    /**
-     * @return string
-     */
-    public static function statusColor($status) 
-    {
-        switch ($status) {
-            case self::STATUS_CREATED: 
-                return "bg-dark";
-            case self::STATUS_RECEIVED: 
-                return "bg-secondary";
-            case self::STATUS_CHECKED_NOT_AGREED: 
-                return "bg-danger";
-            case self::STATUS_CHECKED_PARTIAL_AGREED: 
-                return "bg-warning text-dark";
-            case self::STATUS_CHECKED_AGREED: 
-                return "bg-success";
-            case self::STATUS_CHECKED_INVOICED: 
-                return "bg-info text-dark";
-            case self::STATUS_PAID: 
-                return "bg-primary";
-            case self::STATUS_MOVED: 
-            default: return "bg-light text-dark";
         }
     }
 

@@ -10,6 +10,7 @@ use App\Entities\Account,
     App\Entities\Order,
     App\Entities\Subaccount,
     App\Entities\Area,
+    App\Repositories\OrderRepository,
     App\Http\Requests\AccountRequest;
 
 class AccountController extends BaseController
@@ -83,20 +84,13 @@ class AccountController extends BaseController
      */
     public function show(Request $request, Account $account)
     {
-        $orders = $this->em->getRepository(Order::class)->search(
-            $request->input('sequence'),
-            $request->input('from'),
-            $request->input('to'),
-            $account->getId(),
-            $request->input('supplier'),
-            $request->input('type'),
-            $request->input('status'),
-            $request->input('sortBy', 'date'),
-            $request->input('sort', 'desc')
-        );
+        $ppg    = $request->input('perPage', Config('app.per_page'));
+        $orders = $this->em->getRepository(Order::class)
+                       ->search($request->all(), $ppg);
 
         return view('accounts.show', [
-            'entity' => $account,
+            'perPage'    => $ppg,
+            'entity'     => $account,
             'collection' => $orders,
         ]); 
     }

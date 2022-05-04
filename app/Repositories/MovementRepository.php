@@ -2,8 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Entities;
-
 /**
  * OrderRepository
  *
@@ -15,63 +13,92 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
     /**
-     *
+     * @param array{
+     *   type: int,
+     *   from: string,
+     *   to: string. Date format,
+     *   area: int,
+     *   account: int,
+     *   operator: float. Required with credit,
+     *   credit: float,
+     * } $search
      */
-    function search(
-        $sequence = null, 
-        $from = null, 
-        $to = null, 
-        $account = null, 
-        $supplier = null, 
-        $otype = null, 
-        $mtype = null, 
-        $sortBy = "created", 
-        $sort = "desc", 
-        $perPage = 10, 
-        $pageName= "page")
+    function search(array $filter = [], $perPage = 10, $pageName= "page")
     {
-        $builder = $this->createQueryBuilder('m');
+        $builder = $this->createQueryBuilder('movement')
+                        ->innerJoin('movement.subaccount', 'subaccount')
+                        ->innerJoin('subaccount.account', 'account');
 
-        //if ($sequence !== null) {
-        //    $builder->andWhere("o.sequence LIKE :sequence")
-        //            ->setParameter('sequence', "%{$sequence}%");
-        //}
-        //if ($from !== null) {
-        //    $builder->andWhere("m.created >= :from")
-        //            ->setParameter('from', $from);
-        //}
-        //if ($to !== null) {
-        //    $builder->andWhere("m.created <= :to")
-        //            ->setParameter('to', $to);
-        //}
-        //if ($account !== null) {
-        //    $builder->andWhere("o.account = :account")
-        //            ->setParameter('account', $account);
-        //}
-        //if ($supplier !== null) {
-        //    $builder->andWhere("o.supplier = :supplier")
-        //            ->setParameter('supplier', $supplier);
-        //}
-        //if ($otype !== null) {
-        //    $builder->innerJoin('o.account', 'a')
-        //            ->andWhere("a.type = :otype")
-        //            ->setParameter('otype', $otype);
-        //}
-        //if ($mtype !== null) {
-        //    $builder->andWhere("m.type = :mtype")
-        //        ->setParameter('mtype', $mtype);
-        //}
+        if (isset($filter['type']) &&
+            null !== ($type = $filter['type'])) {
+            $builder->andWhere("movement.type = :type")
+                    ->setParameter('type', $type);
+        }
+        if (isset($filter['from']) &&
+            null !== ($from = $filter['from'])) {
+            $builder->andWhere("movement.created >= :from")
+                    ->setParameter('from', $from);
+        }
+        if (isset($filter['to']) &&
+            null !== ($to = $filter['to'])) {
+            $builder->andWhere("movement.created <= :to")
+                    ->setParameter('to', $to);
+        }
+        if (isset($filter['account']) &&
+            null !== ($account = $filter['account'])) {
+            $builder->andWhere("subaccount.account = :account")
+                    ->setParameter('account', $account);
+        }
+        if (isset($filter['area']) &&
+            null !== ($area = $filter['area'])) {
+            $builder->andWhere("subaccount.area = :area")
+                    ->setParameter('area', $area);
+        }
+        if (isset($filter['credit']) &&
+            null !== ($credit = $filter['credit'])) {
+            $op = $filter['operator'];
+            $builder->andWhere("movement.credit {$op} :credit")
+                    ->setParameter('credit', $credit);
+        }
 
-        //switch ($sortBy) {
-        //    case "sequence":
-        //    case "account":
-        //        $table = "o";
-        //        break;
-        //    default:
-        //        $table = "m";
-        //}
-        //$builder->orderBy("{$table}.{$sortBy}" , $sort);
+        $builder->orderBy(
+            array_key_exists('sortBy', $filter) ?
+                    $filter['sortBy'] : 'movement.created',
+            array_key_exists('sort', $filter) ?
+                    $filter['sort'] : 'DESC'
+        );
 
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
+        if (!$perPage) {
+            $perPage = clone $builder;
+            $perPage = $perPage->select('count(movement.id)')
+                               ->getQuery()
+                               ->getSingleScalarResult();
+        }
+
+        //dd($b->getQuery()->getSql(), $b->getQuery()->getParameters());
+
+        return $this->paginate(
+            $builder->getQuery(), 
+            $perPage ?: Config('app.per_page'), 
+            $pageName);
+    }
+
+    /**
+     * @return array
+     */
+    function years(App\Entities\Account $account = null)
+    {
+        $sql  = "SELECT DISTINCT(YEAR(a.created)) as years FROM App\Entities\Assignment a ";
+        $sql .= "INNER JOIN App\Entities\Subaccount s ";
+        if ($account) 
+        $sql .= "WHERE s.account = :account ";
+        $sql .= "GROUP BY years ORDER BY years DESC";
+
+        $query = $this->getEntityManager()
+                      ->createQuery($sql);
+        if ($account)
+        $query->setParameter('account', $account->getId());
+
+        return $query->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_SCALAR_COLUMN);
     }
 }

@@ -20,14 +20,14 @@ class Area implements \JsonSerializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string")
      */
-    private $name;
+    public $name;
 
     /**
      * @var string

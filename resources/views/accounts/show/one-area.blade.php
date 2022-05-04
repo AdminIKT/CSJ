@@ -3,6 +3,7 @@
         <thead>
         <tr>
             <th>{{ __('acronimo') }}</th>
+            <th>{{ __('Type') }}</th>
             <th>{{ __('Area') }}</th>
             <th>{{ __('Users') }}</th>
             <th>{{ __('Real credit') }}</th>
@@ -14,6 +15,7 @@
         <tbody>
         <tr>
             <td>{{ $entity->getAcronym() }}</td>
+            <td>{{ $entity->getTypeName() }}</td>
             <td>{{ implode(", ", $entity->getAreas()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
             <td>{{ implode(", ", $entity->getUsers()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
             <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>

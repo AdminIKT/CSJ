@@ -18,6 +18,9 @@ use App\Entities\User,
  */
 class Incidence implements UserAwareInterface
 {
+    const STATUS_OPENED = 0;
+    const STATUS_CLOSED = 1;
+
     /**
      * @var int
      *
@@ -26,6 +29,13 @@ class Incidence implements UserAwareInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="integer", options={"default":0})
+     */
+    private $status = Incidence::STATUS_OPENED;
 
     /**
      * @var string
@@ -85,6 +95,50 @@ class Incidence implements UserAwareInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param int $status
+     *
+     * @return Incidence 
+     */
+    public function setStatus(int $status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string
+     */
+    public function getStatusName()
+    {
+        return self::statusName($this->getStatus());
+    }
+
+    /**
+     * Get color.
+     *
+     * @return string
+     */
+    public function getStatusColor()
+    {
+        return self::statusColor($this->getStatus());
     }
 
     /**
@@ -240,6 +294,33 @@ class Incidence implements UserAwareInterface
         $this->setUpdated(new \DateTime('now'));
         if ($this->getCreated() === null) {
             $this->setCreated(new \DateTime('now'));
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public static function statusName($status) 
+    {
+        switch ($status) {
+            case self::STATUS_OPENED: 
+                return trans("Opened");
+            case self::STATUS_CLOSED: 
+                return trans("Closed");
+            default: return trans("Status undefined");
+        }
+    }
+    /**
+     * @return string
+     */
+    public static function statusColor($status) 
+    {
+        switch ($status) {
+            case self::STATUS_OPENED: 
+                return "bg-danger";
+            case self::STATUS_CLOSED: 
+                return "bg-success";
+            default: return "bg-light text-dark";
         }
     }
 }

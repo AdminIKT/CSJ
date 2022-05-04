@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate,
+    Illuminate\Support\Arr;
 
 use App\Http\Requests\OrderPostRequest,
     App\Entities\Account,
+    App\Entities\Area,
     App\Entities\Order;
 
 class OrderController extends BaseController
@@ -20,27 +22,25 @@ class OrderController extends BaseController
      */
     public function index(Request $request)
     {
-        $orders = $this->em->getRepository(Order::class)->search(
-            $request->input('sequence'),
-            $request->input('from'),
-            $request->input('to'),
-            $request->input('account'),
-            $request->input('supplier'),
-            $request->input('type'),
-            $request->input('status'),
-            $request->input('sortBy', 'date'),
-            $request->input('sort', 'desc')
+        $ppg    = $request->input('perPage', Config('app.per_page'));
+        $orders = $this->em->getRepository(Order::class)
+                        ->search($request->all(), $ppg);
+
+        $accounts = $this->em->getRepository(Account::class)
+                         ->findBy([], ['name' => 'ASC']);
+        $accounts = array_combine(
+            array_map(function($e) { return $e->getId(); }, $accounts),
+            array_map(function($e) { return $e->getSerial(); }, $accounts),
         );
 
-        $accounts  = $this->em->getRepository(Account::class)->findBy([], ['name' => 'ASC']);
-        $accounts  = array_combine(
-            array_map(function($e) { return $e->getId(); }, $accounts),
-            array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $accounts),
-        );
+        $areas = $this->em->getRepository(Area::class)
+                      ->findBy([], ['name' => 'ASC']);
 
         return view('orders.index', [
+            'perPage'    => $ppg,
             'collection' => $orders,
-            'accounts' => $accounts,
+            'accounts'   => $accounts,
+            'areas'      => Arr::pluck($areas, 'name', 'id'),
         ]); 
     }
 
