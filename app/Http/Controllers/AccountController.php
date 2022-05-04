@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Illuminate\Support\Facades\Gate,
+    Illuminate\Support\Arr;
 
 use App\Entities\Account,
     App\Entities\User,
@@ -22,19 +24,16 @@ class AccountController extends BaseController
      */
     public function index(Request $request)
     {
-        $accounts = $this->em->getRepository(Account::class)->search(
-            $request->input('name'),
-            $request->input('type'),
-            $request->input('creditOp'),
-            $request->input('credit'),
-            $request->input('compromisedOp'),
-            $request->input('compromised'),
-            $request->input('sortBy', 'name'),
-            $request->input('sort', 'desc')
-        );
+        $ppg      = $request->input('perPage', Config('app.per_page'));
+        $accounts = $this->em->getRepository(Account::class)
+                         ->search($request->all(), $ppg);
+
+        $areas = $this->em->getRepository(Area::class)
+                      ->findBy([], ['name' => 'ASC']);
 
         return view('accounts.index', [
             'accounts' => $accounts,
+            'areas'    => Arr::pluck($areas, 'name', 'id'),
         ]); 
     }
 

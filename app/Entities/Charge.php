@@ -7,6 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Charge 
  *
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorMap({
+ *  "inv" = "InvoiceCharge"
+ * })
  * @ORM\Entity(repositoryClass="App\Repositories\ChargeRepository")
  */
 class Charge extends Movement 

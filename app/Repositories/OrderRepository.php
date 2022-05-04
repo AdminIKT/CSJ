@@ -17,9 +17,9 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @param array{
      *   sequence: string,
-     *   from: string,
+     *   type: string,
+     *   from: string. Date format,
      *   to: string. Date format,
-     *   type: string. Date format,
      *   area: int,
      *   account: int,
      *   supplier: int,

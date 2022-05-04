@@ -11,7 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repositories\MovementRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"charge" = "Charge", "assign" = "Assignment"})
+ * @ORM\DiscriminatorMap({
+ *  "charge" = "Charge", 
+ *  "assign" = "Assignment"
+ * })
  * @ORM\HasLifecycleCallbacks
  */
 abstract class Movement
@@ -19,9 +22,9 @@ abstract class Movement
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
 

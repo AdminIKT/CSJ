@@ -9,19 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="invoice_charges")
  * @ORM\Entity(repositoryClass="App\Repositories\InvoiceChargeRepository")
- * @ORM\HasLifecycleCallbacks
  */
-class InvoiceCharge// extends Movement
+class InvoiceCharge extends Charge 
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
     /**
      * @var Account 
      *
