@@ -6,8 +6,16 @@
             <th scope="col">{{ __('Account') }}</th>
             @endif
             @if (!(isset($exclude) && in_array('areas', $exclude)))
-            <th scope="col">{{ __('Area') }}</th>
+            <th scope="col">{{ __('Area') }}
+                <a class="{{ request()->get('sortBy') == 'area.name' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'area.name', 'sort' => 'asc']) }}">
+                    <span data-feather="chevron-up"></span>
+                </a>
+                <a class="{{ request()->get('sortBy') == 'area.name' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'area.name', 'sort' => 'desc']) }}">
+                    <span data-feather="chevron-down"></span>
+                </a>
+            </th>
             @endif
+            <th scope="col">{{ __('Order') }}</th>
             <th scope="col">{{ __('importe') }}
                 <a class="{{ request()->get('sortBy') == 'movement.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.credit', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
@@ -37,6 +45,7 @@
             @if (!(isset($exclude) && in_array('areas', $exclude)))
             <td><a href="{{route('areas.show', ['area' => $entity->getArea()->getId()])}}">{{ $entity->getArea()->getName() }}</a></td>
             @endif
+            <td>@if ($entity instanceof \App\Entities\InvoiceCharge) <a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a> @else - @endif</td>
             <td>@if ($entity instanceof \App\Entities\Assignment) + @elseif ($entity instanceof \App\Entities\Charge) - @endif {{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
             <td>{{ $entity->getTypeName() }}</td>
             <td>{{ $entity->getDetail() }}</td>

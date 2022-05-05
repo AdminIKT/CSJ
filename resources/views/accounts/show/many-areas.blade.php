@@ -30,8 +30,8 @@
         @foreach ($entity->getSubaccounts() as $i => $subaccount)
             <tr>
                 <td>{{ $subaccount->getArea()->getAcronym() }}</td>
-                <td>{{ $subaccount->getArea() }}</td>
-                <td colspan="2"></td>
+                <td><a href="{{ route('areas.show', ['area' => $subaccount->getArea()->getId()]) }}">{{ $subaccount->getArea() }}</a></td>
+                <td></td>
                 <td>{{ number_format($subaccount->getCredit(), 2, ",", ".") }}€</td>
                 <td>{{ number_format($subaccount->getCompromisedCredit(), 2, ",", ".") }}€</td>
                 <td>{{ number_format($subaccount->getAvailableCredit(), 2, ",", ".") }}€</td>

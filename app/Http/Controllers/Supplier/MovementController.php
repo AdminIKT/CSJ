@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Supplier;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use App\Http\Controllers\BaseController,
+    App\Entities\Area,
     App\Entities\Account,
     App\Entities\InvoiceCharge,
     App\Entities\Supplier;
 
-class InvoiceChargeController extends BaseController
+class MovementController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,17 +20,13 @@ class InvoiceChargeController extends BaseController
      */
     public function index(Request $request, Supplier $supplier)
     {
-        $collection = $this->em->getRepository(InvoiceCharge::class)->search(
-            $request->input('sequence'),
-            $request->input('from'),
-            $request->input('to'),
-            $request->input('account'),
-            $supplier->getId(),
-            $request->input('otype'),
-            $request->input('mtype'),
-            $request->input('sortBy', 'created'),
-            $request->input('sort', 'desc')
-        );
+        $ppg = $request->input('perPage', Config('app.per_page'));
+        //FIXME: supplier in Repository
+        $collection = $this->em->getRepository(InvoiceCharge::class)
+                           ->search(array_merge(
+                                $request->all(), 
+                                ['supplier' => $supplier->getId()]
+                           ));
 
         $accounts  = $this->em->getRepository(Account::class)->findBy([], ['name' => 'ASC']);
         $accounts  = array_combine(
@@ -36,10 +34,15 @@ class InvoiceChargeController extends BaseController
             array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $accounts),
         );
 
-        return view('suppliers.invoiceCharges', [
+        $areas = $this->em->getRepository(Area::class)
+                      ->findBy([], ['name' => 'ASC']);
+
+        return view('suppliers.movements', [
+            'perPage'    => $ppg,
             'entity'     => $supplier,
-            'accounts'      => $accounts,
+            'accounts'   => $accounts,
             'collection' => $collection,
+            'areas'      => Arr::pluck($areas, 'name', 'id'),
         ]);
     }
 }

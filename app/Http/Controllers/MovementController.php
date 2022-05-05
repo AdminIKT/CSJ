@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Illuminate\Support\Arr;
 
 use App\Entities\Movement,
     App\Entities\Account,
@@ -11,7 +12,6 @@ use App\Entities\Movement,
     App\Entities\Area,
     App\Events\MovementEvent,
     App\Http\Requests\MovementRequest;
-use Illuminate\Support\Arr;
 
 class MovementController extends BaseController
 {

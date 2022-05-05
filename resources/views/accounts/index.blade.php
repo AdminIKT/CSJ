@@ -128,14 +128,14 @@
     <tbody> 
         @foreach ($accounts as $i => $entity)
         <tr>
-            <td title="{{ $entity->getName() }}">{{ $entity->getAcronym() }}-{{ $entity->getType() }}</td>
-            <td>{{ $entity->getTypeName() }}</td>
-            <td>{{ implode(", ", $entity->getAreas()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
-            <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
-            <td>{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
-            <td>{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>
-            <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
-            <td>
+            <td class="align-middle"><a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}">{{ $entity->getSerial() }}</a></td>
+            <td class="align-middle">{{ $entity->getTypeName() }}</td>
+            <td class="align-middle">{{ implode(", ", $entity->getAreas()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
+            <td class="align-middle">{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
+            <td class="align-middle">{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
+            <td class="align-middle">{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>
+            <td class="align-middle">{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
+            <td class="align-middle">
             {{ Form::open([
                 'route' => ['accounts.destroy', $entity->getId()], 
                 'method' => 'delete',

@@ -13,7 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({
  *  "charge" = "Charge", 
- *  "assign" = "Assignment"
+ *  "assign" = "Assignment",
+ *  "inv" = "InvoiceCharge"
  * })
  * @ORM\HasLifecycleCallbacks
  */

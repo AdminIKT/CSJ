@@ -8,42 +8,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entities\InvoiceCharge,
     App\Entities\Order,
     App\Entities\Account,
+    App\Events\MovementEvent,
     App\Events\InvoiceChargeEvent,
     App\Http\Requests\InvoiceChargeRequest;
 
 class InvoiceChargeController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $collection = $this->em->getRepository(InvoiceCharge::class)->search(
-            $request->input('sequence'),
-            $request->input('from'),
-            $request->input('to'),
-            $request->input('account'),
-            $request->input('supplier'),
-            $request->input('otype'),
-            $request->input('mtype'),
-            $request->input('sortBy', 'created'),
-            $request->input('sort', 'desc')
-        );
-
-        $accounts  = $this->em->getRepository(Account::class)->findBy([], ['name' => 'ASC']);
-        $accounts  = array_combine(
-            array_map(function($e) { return $e->getId(); }, $accounts),
-            array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $accounts),
-        );
-
-        return view('invoiceCharges.index', [
-            'collection' => $collection,
-            'accounts' => $accounts,
-        ]); 
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -78,24 +48,27 @@ class InvoiceChargeController extends BaseController
                              ->withInput()
                              ->withErrors(["detail" => "Order {$matches[0]} not found"]);
         }
-        else if (!$order->isStatus(Order::STATUS_CREATED)) {
-            return redirect()->back()
-                             ->withInput()
-                             ->withErrors(["detail" => "Order status is {$order->getStatusName()}"]);
-        }
+        //FIXME
+        //else if (!$order->isStatus(Order::STATUS_CREATED)) {
+        //    return redirect()->back()
+        //                     ->withInput()
+        //                     ->withErrors(["detail" => "Order status is {$order->getStatusName()}"]);
+        //}
 
-        $invoiceCharge = new InvoiceCharge;
-        $invoiceCharge->setCredit($data['credit'])
+        $movement = new InvoiceCharge;
+        $movement->setCredit($data['credit'])
                  ->setInvoice($data['invoice'])
                  ->setDetail(str_replace($matches[0], "", $description))
+                 ->setType(InvoiceCharge::TYPE_INVOICED)
+                 ->setSubaccount($order->getSubaccount())
                  ->setOrder($order);
 
-        InvoiceChargeEvent::dispatch($invoiceCharge);
+        InvoiceChargeEvent::dispatch($movement, __FUNCTION__);
 
-        $this->em->persist($invoiceCharge);
+        $this->em->persist($movement);
         $this->em->flush();
 
-        return redirect()->route('invoiceCharges.index')
+        return redirect()->route('movements.index')
                          ->with('success', 'Successfully created');
     }
 }

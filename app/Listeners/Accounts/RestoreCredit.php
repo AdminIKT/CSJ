@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Accounts;
 
-use App\Events\AssignmentEvent,
+use App\Events\MovementEvent,
     App\Entities\Charge,
     App\Entities\InvoiceCharge,
     App\Entities\Assignment;
@@ -24,16 +24,16 @@ class RestoreCredit
     /**
      * Handle the event.
      *
-     * @param  \App\Events\AssignmentEvent  $event
+     * @param  \App\Events\MovementEvent  $event
      * @return void
      */
-    public function handle(AssignmentEvent $event)
+    public function handle(MovementEvent $event)
     {
         $movement   = $event->entity;
         $subaccount = $movement->getSubaccount();
 
         switch ($event->action) {
-            case AssignmentEvent::ACTION_STORE:
+            case MovementEvent::ACTION_STORE:
                 switch (true) {
                     case $movement instanceof InvoiceCharge:
                         $function = "decreaseCredit";
@@ -49,7 +49,7 @@ class RestoreCredit
                         break;
                 }
                 break;
-            case AssignmentEvent::ACTION_DESTROY:
+            case MovementEvent::ACTION_DESTROY:
                 switch (true) {
                     case $movement instanceof Assignment:
                         $function = "decreaseCredit";

@@ -27,6 +27,7 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
     {
         $builder = $this->createQueryBuilder('movement')
                         ->innerJoin('movement.subaccount', 'subaccount')
+                        ->innerJoin('subaccount.area', 'area')
                         ->innerJoin('subaccount.account', 'account');
 
         if (isset($filter['type']) &&

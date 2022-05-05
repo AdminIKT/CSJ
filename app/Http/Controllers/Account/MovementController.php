@@ -17,7 +17,7 @@ class MovementController extends BaseController
      */
     public function index(Request $request, Account $account)
     {
-        $ppg   = $request->input('perPage', 10);
+        $ppg   = $request->input('perPage', Config('app.per_page'));
         $class = $request->input('movement', Movement::class);
         $collection = $this->em->getRepository($class)
                            ->search(array_merge(

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Http\Controllers\BaseController,
-    App\Events\AssignmentEvent,
+    App\Events\MovementEvent,
     App\Entities\Assignment,
     App\Entities\Subaccount,
     App\Entities\Account;
@@ -49,7 +49,7 @@ class AssignmentController extends BaseController
                ->setType($values['type'])
                ->setDetail($values['detail']);
 
-        AssignmentEvent::dispatch($entity, __FUNCTION__);
+        MovementEvent::dispatch($entity, __FUNCTION__);
 
         $this->em->persist($entity);
         $this->em->flush();
@@ -66,7 +66,7 @@ class AssignmentController extends BaseController
      */
     public function destroy(Assignment $assignment)
     {
-        AssignmentEvent::dispatch($assignment, __FUNCTION__);
+        MovementEvent::dispatch($assignment, __FUNCTION__);
         $this->em->remove($assignment);
         $this->em->flush();
         return redirect()->back()->with('success', 'Successfully removed');

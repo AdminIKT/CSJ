@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Event;
 use App\Events\OrderEvent,
     App\Events\SupplierEvent,
     App\Events\IncidenceEvent,
-    App\Events\AssignmentEvent,
+    App\Events\MovementEvent,
     App\Events\InvoiceChargeEvent;
 use App\Listeners\Users,
     App\Listeners\Accounts,
@@ -41,11 +41,12 @@ class EventServiceProvider extends ServiceProvider
         IncidenceEvent::class => [
             Users\EntityInjection::class,
         ],
-        AssignmentEvent::class => [
+        MovementEvent::class => [
             Accounts\RestoreCredit::class,
         ],
         InvoiceChargeEvent::class => [
             Orders\UpdateStatus::class,
+            Accounts\RestoreCredit::class,
             Suppliers\IncreaseInvoiced::class,
         ],
     ];

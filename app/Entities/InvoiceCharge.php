@@ -7,11 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * InvoiceCharge
  *
- * @ORM\Table(name="invoice_charges")
  * @ORM\Entity(repositoryClass="App\Repositories\InvoiceChargeRepository")
  */
 class InvoiceCharge extends Charge 
 {
+    const TYPE_INVOICED = 5;
+
     /**
      * @var Account 
      *
@@ -72,5 +73,18 @@ class InvoiceCharge extends Charge
     public function getOrder()
     {
         return $this->order;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function typeName($type)
+    {
+        switch ($type) {
+            case self::TYPE_INVOICED:
+                return trans("Invoice charge");
+            default:
+                return parent::typeName($type);
+        }
     }
 }

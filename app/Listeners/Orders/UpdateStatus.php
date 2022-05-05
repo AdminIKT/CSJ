@@ -28,12 +28,10 @@ class UpdateStatus
      */
     public function handle(InvoiceChargeEvent $event)
     {
-        $invoiceCharge = $event->entity;
-        if ($invoiceCharge->getType() === InvoiceCharge::TYPE_INVOICED) {
-            $invoiceCharge->getOrder()
-                     ->setStatus(Order::STATUS_PAID) 
-                     ->setCredit($invoiceCharge->getCredit())
-                     ->setInvoice($invoiceCharge->getInvoice());
-        }
+        $event->entity
+              ->getOrder()
+              ->setStatus(Order::STATUS_PAID) 
+              ->setCredit($event->entity->getCredit())
+              ->setInvoice($event->entity->getInvoice());
     }
 }

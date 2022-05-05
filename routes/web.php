@@ -64,8 +64,8 @@ Route::resources([
     'suppliers.invoiceds'     => Controllers\Supplier\InvoicedController::class,
     'suppliers.incidences'    => Controllers\Supplier\IncidenceController::class,
     'suppliers.orders'        => Controllers\Supplier\OrderController::class,
-    'suppliers.invoiceCharges'     => Controllers\Supplier\InvoiceChargeController::class,
-    //'invoiceCharges'               => Controllers\InvoiceChargeController::class,
+    'suppliers.movements'     => Controllers\Supplier\MovementController::class,
+    'invoiceCharges'          => Controllers\InvoiceChargeController::class,
     //'assignments'             => Controllers\AssignmentController::class,
     'settings'                => Controllers\SettingsController::class,
 ], [
