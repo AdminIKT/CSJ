@@ -13,7 +13,8 @@ use App\Entities\Account,
     App\Entities\Subaccount,
     App\Entities\Area,
     App\Repositories\OrderRepository,
-    App\Http\Requests\AccountRequest;
+    App\Http\Requests\AccountPutRequest,
+    App\Http\Requests\AccountPostRequest;
 
 class AccountController extends BaseController
 {
@@ -49,7 +50,7 @@ class AccountController extends BaseController
         $users = $this->em->getRepository(User::class)
                                 ->findBy([], ['email' => 'asc']);
 
-        return view('accounts.form', [
+        return view('accounts.create', [
             'route' => route('accounts.store'),
             'method' => 'POST',
             'entity' => new Account,
@@ -64,11 +65,10 @@ class AccountController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AccountRequest $request)
+    public function store(AccountPostRequest $request)
     {
-        //$data = $request->validated();
         $entity = new Account;
-        $this->hydrateData($entity, $request->all());
+        $this->hydrateData($entity, $request->validated());
         $this->em->persist($entity);
         $this->em->flush();
         return redirect()->route('accounts.show', ['account' => $entity->getId()])
@@ -85,7 +85,10 @@ class AccountController extends BaseController
     {
         $ppg    = $request->input('perPage', Config('app.per_page'));
         $orders = $this->em->getRepository(Order::class)
-                       ->search($request->all(), $ppg);
+                           ->search(array_merge(
+                                $request->all(), 
+                                ['account' => $account->getId()]
+                            ));
 
         return view('accounts.show', [
             'perPage'    => $ppg,
@@ -107,7 +110,7 @@ class AccountController extends BaseController
         $users = $this->em->getRepository(User::class)
                                 ->findBy([], ['email' => 'asc']);
 
-        return view('accounts.form', [
+        return view('accounts.edit', [
             'route' => route('accounts.update', ['account' => $account->getId()]),
             'method' => 'PUT',
             'entity' => $account,
@@ -123,9 +126,9 @@ class AccountController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AccountRequest $request, Account $account)
+    public function update(AccountPutRequest $request, Account $account)
     {
-        $this->hydrateData($account, $request->all());
+        $this->hydrateData($account, $request->validated());
         $this->em->flush();
         return redirect()->route('accounts.show', ['account' => $account->getId()])
                          ->with('success', 'Successfully updated');
@@ -154,14 +157,16 @@ class AccountController extends BaseController
     protected function hydrateData(Account $entity, array $data)
     {
         $entity->setName($data['name'])
-            ->setType($data['type'])
             ->setAcronym($data['acronym'])
             ->setDetail($data['detail'])
             ;
 
-        $entity->setLCode();
-        if (isset($data['lcode'])) {
-            $entity->setLCode($data['lcode']);
+        if (isset($data['type'])) {
+            $entity->setType($data['type']);
+            $entity->setLCode();
+            if (isset($data['lcode'])) {
+                $entity->setLCode($data['lcode']);
+            }
         }
 
         $entity->getUsers()->clear();
@@ -172,9 +177,8 @@ class AccountController extends BaseController
             }
         }
 
-        foreach ($entity->getSubaccounts() as $subaccount) $this->em->remove($subaccount); //FIXME
-        //$entity->getSubaccounts()->clear();
         if (isset($data['accounts']) && is_array($data['accounts'])) {
+            //$entity->getSubaccounts()->clear();
             $er = $this->em->getRepository(Area::class);
             foreach ($data['accounts'] as $id) {
                 $account = new Subaccount();

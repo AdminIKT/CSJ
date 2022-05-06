@@ -128,7 +128,7 @@
     <tbody> 
         @foreach ($accounts as $i => $entity)
         <tr>
-            <td class="align-middle"><a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}">{{ $entity->getSerial() }}</a></td>
+            <td class="align-middle"><a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" title="{{ $entity->getName() }}">{{ $entity->getSerial() }}</a></td>
             <td class="align-middle">{{ $entity->getTypeName() }}</td>
             <td class="align-middle">{{ implode(", ", $entity->getAreas()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
             <td class="align-middle">{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>

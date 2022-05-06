@@ -19,6 +19,7 @@
             \App\Entities\Account::TYPE_EQUIPAMIENTO => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_EQUIPAMIENTO),
             \App\Entities\Account::TYPE_FUNGIBLE => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_FUNGIBLE),
             \App\Entities\Account::TYPE_LANBIDE => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_LANBIDE),
+            \App\Entities\Account::TYPE_OTHER => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_OTHER),
         ], old('type', $entity->getType()), ['class'=>'form-select form-select-sm' . ($errors->has('type') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
         @if ($errors->has('type'))
            <div class="invalid-feedback">{!! $errors->first('type') !!}</div>
@@ -123,9 +124,9 @@
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#lcode').attr('disabled', $('#type').val() != 'L');
+        $('#lcode').attr('disabled', jQuery.inArray($('#type').val(), ['L', 'O']) == -1);
         $('#type').change(function() {
-            $('#lcode').val('').attr('disabled', $(this).val() != 'L');
+            $('#lcode').val('').attr('disabled', jQuery.inArray($(this).val(), ['L', 'O']) == -1);
         });
     });
 

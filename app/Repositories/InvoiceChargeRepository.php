@@ -12,4 +12,20 @@ use App\Entities;
  */
 class InvoiceChargeRepository extends ChargeRepository
 {
+    /**
+     * @inheritDoc
+     */
+    protected function getQueryBuilder(array $filter = [])
+    {
+        $builder = parent::getQueryBuilder($filter);
+
+        if (isset($filter['supplier']) &&
+            null !== ($supplier = $filter['supplier'])) {
+            $builder->innerJoin('movement.order', 'orders')
+                    ->andWhere("orders.supplier = :supplier")
+                    ->setParameter('supplier', $supplier);
+        }
+
+        return $builder;
+    }
 }

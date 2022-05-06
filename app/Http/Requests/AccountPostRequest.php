@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Entities\Account;
 
-class AccountRequest extends FormRequest
+class AccountPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +27,11 @@ class AccountRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'type' => 'required',
+            'lcode' => 'integer',
             'acronym' => 'required|max:3',
             'accounts' => 'required',
+            'users' => 'required',
             'detail' => 'nullable',
-            //'credit' => 'required',
-            //'lcode' => 'integer',
         ];
     }
 
@@ -44,7 +45,9 @@ class AccountRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $data = $validator->getData();
-            if (isset($data['type']) && $data['type'] === \App\Entities\Account::TYPE_LANBIDE) {
+            if (isset($data['type']) && 
+                in_array($data['type'], [Account::TYPE_LANBIDE, Account::TYPE_OTHER])
+            ) {
                 if (!isset($data['lcode']) || is_null($data['lcode']))
                 $validator->errors()->add('lcode', 'Required field');
             }

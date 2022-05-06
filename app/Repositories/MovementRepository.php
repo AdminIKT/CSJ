@@ -13,17 +13,10 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
     /**
-     * @param array{
-     *   type: int,
-     *   from: string,
-     *   to: string. Date format,
-     *   area: int,
-     *   account: int,
-     *   operator: float. Required with credit,
-     *   credit: float,
-     * } $search
+     * @param array $filter
+     * @return QueryBuilder
      */
-    function search(array $filter = [], $perPage = 10, $pageName= "page")
+    protected function getQueryBuilder(array $filter = [])
     {
         $builder = $this->createQueryBuilder('movement')
                         ->innerJoin('movement.subaccount', 'subaccount')
@@ -68,6 +61,25 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
             array_key_exists('sort', $filter) ?
                     $filter['sort'] : 'DESC'
         );
+    
+        return $builder;
+    }
+
+    /**
+     * @param array{
+     *   type: int,
+     *   from: string,
+     *   to: string. Date format,
+     *   area: int,
+     *   account: int,
+     *   operator: float. Required with credit,
+     *   credit: float,
+     * } $search
+     */
+    function search(array $filter = [], $perPage = 10, $pageName= "page")
+    {
+
+        $builder = $this->getQueryBuilder($filter);
 
         if (!$perPage) {
             $perPage = clone $builder;

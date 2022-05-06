@@ -16,6 +16,7 @@ class Account
     const TYPE_EQUIPAMIENTO = "E";
     const TYPE_FUNGIBLE     = "F";
     const TYPE_LANBIDE      = "L";
+    const TYPE_OTHER        = "O";
 
 
     /**
@@ -513,6 +514,7 @@ class Account
             case Account::TYPE_EQUIPAMIENTO: return trans("Equipamiento");
             case Account::TYPE_FUNGIBLE: return trans("Fungible");
             case Account::TYPE_LANBIDE: return trans("Lanbide");
+            case Account::TYPE_OTHER: return trans("Other");
             default: return trans("Undefined");
         }
     }

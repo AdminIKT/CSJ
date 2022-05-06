@@ -21,7 +21,6 @@ class MovementController extends BaseController
     public function index(Request $request, Supplier $supplier)
     {
         $ppg = $request->input('perPage', Config('app.per_page'));
-        //FIXME: supplier in Repository
         $collection = $this->em->getRepository(InvoiceCharge::class)
                            ->search(array_merge(
                                 $request->all(), 
