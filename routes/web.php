@@ -39,35 +39,29 @@ Route::get('/callback', [Controllers\SocialiteController::class, 'handleProvider
  *  DELETE      /photos/{photo}         destroy     photos.destroy
  */
 Route::resources([
-    'users'                   => Controllers\UserController::class,
-    'accounts'                => Controllers\AccountController::class,
-    'movements'               => Controllers\MovementController::class,
-
-    //'accounts.orders'           => Controllers\Account\OrderController::class,
+    'users'                     => Controllers\UserController::class,
+    'accounts'                  => Controllers\AccountController::class,
+    'movements'                 => Controllers\MovementController::class,
     'accounts.movements'        => Controllers\Account\MovementController::class,
-    //'accounts.charges'          => Controllers\Account\ChargeController::class,
-    //'accounts.invoiceCharges'   => Controllers\Account\InvoiceChargeController::class,
-    //'accounts.assignments'      => Controllers\Account\AssignmentController::class,
 
     'subaccounts.orders'        => Controllers\Subaccount\OrderController::class,
     'subaccounts.assignments'   => Controllers\Subaccount\AssignmentController::class,
     'subaccounts.charges'       => Controllers\Subaccount\ChargeController::class,
     'subaccounts.invoiceCharges'=> Controllers\Subaccount\InvoiceChargeController::class,
 
-    'areas'                   => Controllers\AreaController::class,
-    'orders'                  => Controllers\OrderController::class,
-    'orders.products'         => Controllers\Order\ProductController::class,
-    'orders.invoices'         => Controllers\Order\InvoiceController::class,
-    'orders.incidences'       => Controllers\Order\IncidenceController::class,
-    'suppliers'               => Controllers\SupplierController::class,
-    'suppliers.contacts'      => Controllers\Supplier\ContactController::class,
-    'suppliers.invoiceds'     => Controllers\Supplier\InvoicedController::class,
-    'suppliers.incidences'    => Controllers\Supplier\IncidenceController::class,
-    'suppliers.orders'        => Controllers\Supplier\OrderController::class,
-    'suppliers.movements'     => Controllers\Supplier\MovementController::class,
-    'invoiceCharges'          => Controllers\InvoiceChargeController::class,
-    //'assignments'             => Controllers\AssignmentController::class,
-    'settings'                => Controllers\SettingsController::class,
+    'areas'                     => Controllers\AreaController::class,
+    'orders'                    => Controllers\OrderController::class,
+    'orders.products'           => Controllers\Order\ProductController::class,
+    'orders.invoices'           => Controllers\Order\InvoiceController::class,
+    'orders.incidences'         => Controllers\Order\IncidenceController::class,
+    'suppliers'                 => Controllers\SupplierController::class,
+    'suppliers.contacts'        => Controllers\Supplier\ContactController::class,
+    'suppliers.invoiceds'       => Controllers\Supplier\InvoicedController::class,
+    'suppliers.incidences'      => Controllers\Supplier\IncidenceController::class,
+    'suppliers.orders'          => Controllers\Supplier\OrderController::class,
+    'suppliers.movements'       => Controllers\Supplier\MovementController::class,
+    'invoiceCharges'            => Controllers\InvoiceChargeController::class,
+    'settings'                  => Controllers\SettingsController::class,
 ], [
     'middleware' => 'auth'
 ]);

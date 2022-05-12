@@ -116,6 +116,6 @@
 </ul>
 
 <div class="pt-2">
-    @yield('body', View::make('movements.shared.table', ['collection' => $entity->getInvoiceCharges(), 'exclude' => ['orders', 'accounts', 'suppliers']]))
+    @yield('body', View::make('movements.shared.table', ['collection' => $collection, 'exclude' => ['orders', 'accounts', 'suppliers']]))
 </div>
 @endsection

@@ -2,7 +2,8 @@
 
 namespace App\Listeners\Suppliers;
 
-use App\Events\InvoiceChargeEvent,
+use App\Events\MovementEvent,
+    App\Entities\InvoiceCharge,
     App\Entities\Supplier\Invoiced;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,12 +23,18 @@ class IncreaseInvoiced
     /**
      * Handle the event.
      *
-     * @param  \App\Events\InvoiceChargeEvent  $event
+     * @param  MovementEvent  $event
      * @return void
      */
-    public function handle(InvoiceChargeEvent $event)
+    public function handle(MovementEvent $event)
     {
         $invoiceCharge = $event->entity;
+        if (!($invoiceCharge instanceof InvoiceCharge && 
+             $event->action === MovementEvent::ACTION_STORE
+        )) {
+            return;
+        }
+
         $order    = $invoiceCharge->getOrder();
         $supplier = $order->getSupplier();
 

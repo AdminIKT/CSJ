@@ -9,7 +9,6 @@ use App\Entities\InvoiceCharge,
     App\Entities\Order,
     App\Entities\Account,
     App\Events\MovementEvent,
-    App\Events\InvoiceChargeEvent,
     App\Http\Requests\InvoiceChargeRequest;
 
 class InvoiceChargeController extends BaseController
@@ -63,7 +62,7 @@ class InvoiceChargeController extends BaseController
                  ->setSubaccount($order->getSubaccount())
                  ->setOrder($order);
 
-        InvoiceChargeEvent::dispatch($movement, __FUNCTION__);
+        MovementEvent::dispatch($movement, __FUNCTION__);
 
         $this->em->persist($movement);
         $this->em->flush();

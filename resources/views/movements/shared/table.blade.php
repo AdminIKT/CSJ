@@ -64,7 +64,7 @@
             <td class="align-middle">@if ($entity instanceof \App\Entities\InvoiceCharge) <a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a> @else - @endif</td>
             <td class="align-middle">@if ($entity instanceof \App\Entities\Assignment)+@elseif ($entity instanceof \App\Entities\Charge)-@endif{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
             <td class="align-middle">{{ $entity->getTypeName() }}</td>
-            <td class="align-middle">{{ $entity->getDetail() }}</td>
+            <td class="align-middle">{{ Str::limit($entity->getDetail(), 100, '...') }}</td>
             <td class="align-middle">{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
         </tr>
         @endforeach

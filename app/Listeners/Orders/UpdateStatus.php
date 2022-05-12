@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Orders;
 
-use App\Events\InvoiceChargeEvent,
+use App\Events\MovementEvent,
     App\Entities\InvoiceCharge,
     App\Entities\Order;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -23,15 +23,20 @@ class UpdateStatus
     /**
      * Handle the event.
      *
-     * @param  \App\Events\InvoiceChargeEvent  $event
+     * @param  MovementEvent  $event
      * @return void
      */
-    public function handle(InvoiceChargeEvent $event)
+    public function handle(MovementEvent $event)
     {
-        $event->entity
-              ->getOrder()
-              ->setStatus(Order::STATUS_PAID) 
-              ->setCredit($event->entity->getCredit())
-              ->setInvoice($event->entity->getInvoice());
+        $invoiceCharge = $event->entity;
+        if (!($invoiceCharge instanceof InvoiceCharge && 
+             $event->action === MovementEvent::ACTION_STORE
+        )) {
+            return;
+        }
+        $invoiceCharge->getOrder()
+                      ->setStatus(Order::STATUS_PAID) 
+                      ->setCredit($event->entity->getCredit())
+                      ->setInvoice($event->entity->getInvoice());
     }
 }

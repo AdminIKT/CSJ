@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Gate,
     Illuminate\Support\Arr;
 
 use App\Http\Requests\OrderPostRequest,
+    App\Entities\InvoiceCharge,
+    App\Entities\Movement,
     App\Entities\Account,
     App\Entities\Area,
     App\Entities\Order;
@@ -50,12 +52,19 @@ class OrderController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show(Request $request, Order $order)
     {
         //Gate::authorize('show-order', $order);
+        
+        $collection = $this->em->getRepository(InvoiceCharge::class)
+                           ->search(array_merge(
+                                $request->all(), 
+                                ['order' => $order->getId()]
+                           ));
 
         return view('orders.show', [
-            'entity' => $order,
+            'entity'     => $order,
+            'collection' => $collection,
         ]); 
     }
 
