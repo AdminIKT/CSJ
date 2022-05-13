@@ -19,6 +19,11 @@ class InvoiceChargeRepository extends ChargeRepository
     {
         $builder = parent::getQueryBuilder($filter);
 
+        if (isset($filter['order']) &&
+            null !== ($order = $filter['order'])) {
+            $builder->andWhere("movement.order = :order")
+                    ->setParameter('order', $order);
+        }
         if (isset($filter['supplier']) &&
             null !== ($supplier = $filter['supplier'])) {
             $builder->innerJoin('movement.order', 'orders')

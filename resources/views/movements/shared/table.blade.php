@@ -24,20 +24,22 @@
                 </a>
             </th>
             @endif
+            @if (!(isset($exclude) && in_array('orders', $exclude)))
             <th scope="col">{{ __('Order') }}</th>
-            <th scope="col">{{ __('importe') }}
-                <a class="{{ request()->get('sortBy') == 'movement.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.credit', 'sort' => 'asc']) }}">
-                    <span data-feather="chevron-up"></span>
-                </a>
-                <a class="{{ request()->get('sortBy') == 'movement.credit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.credit', 'sort' => 'desc']) }}">
-                    <span data-feather="chevron-down"></span>
-                </a>
-            </th>
+            @endif
             <th scope="col">{{ __('Type') }}
                 <a class="{{ request()->get('sortBy') == 'movement.type' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.type', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
                 </a>
                 <a class="{{ request()->get('sortBy') == 'movement.type' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.type', 'sort' => 'desc']) }}">
+                    <span data-feather="chevron-down"></span>
+                </a>
+            </th>
+            <th scope="col">{{ __('importe') }}
+                <a class="{{ request()->get('sortBy') == 'movement.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.credit', 'sort' => 'asc']) }}">
+                    <span data-feather="chevron-up"></span>
+                </a>
+                <a class="{{ request()->get('sortBy') == 'movement.credit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.credit', 'sort' => 'desc']) }}">
                     <span data-feather="chevron-down"></span>
                 </a>
             </th>
@@ -61,9 +63,11 @@
             @if (!(isset($exclude) && in_array('areas', $exclude)))
             <td class="align-middle"><a href="{{route('areas.show', ['area' => $entity->getArea()->getId()])}}">{{ $entity->getArea()->getName() }}</a></td>
             @endif
+            @if (!(isset($exclude) && in_array('orders', $exclude)))
             <td class="align-middle">@if ($entity instanceof \App\Entities\InvoiceCharge) <a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a> @else - @endif</td>
-            <td class="align-middle">@if ($entity instanceof \App\Entities\Assignment)+@elseif ($entity instanceof \App\Entities\Charge)-@endif{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
+            @endif
             <td class="align-middle">{{ $entity->getTypeName() }}</td>
+            <td class="align-middle">@if ($entity instanceof \App\Entities\Assignment)+@elseif ($entity instanceof \App\Entities\Charge)-@endif{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
             <td class="align-middle">{{ Str::limit($entity->getDetail(), 100, '...') }}</td>
             <td class="align-middle">{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
         </tr>

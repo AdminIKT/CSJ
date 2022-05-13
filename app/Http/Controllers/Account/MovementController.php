@@ -23,7 +23,7 @@ class MovementController extends BaseController
                            ->search(array_merge(
                                 $request->all(), 
                                 ['account' => $account->getId()]
-                            ));
+                            ), $ppg);
 
         return view('accounts.movements', [
             'perPage'    => $ppg,

@@ -56,11 +56,12 @@ class OrderController extends BaseController
     {
         //Gate::authorize('show-order', $order);
         
+        $ppg = $request->input('perPage', Config('app.per_page'));
         $collection = $this->em->getRepository(InvoiceCharge::class)
                            ->search(array_merge(
                                 $request->all(), 
                                 ['order' => $order->getId()]
-                           ));
+                           ), $ppg);
 
         return view('orders.show', [
             'entity'     => $order,
