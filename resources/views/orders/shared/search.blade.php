@@ -112,9 +112,12 @@
                 20 => 20,
                 50 => 50,
             ], request()->input('perPage', $perPage), ['class'=>'form-select form-select-sm']) }}
-          <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-            <span data-feather="search"></span>
-          </button>
+            <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+              <span data-feather="search"></span>
+            </button>
+            <a href="{{ route('reports.orders', request()->input()) }}" class="btn btn-sm btn-outline-primary" title="{{__('Report')}}" target="_blank">
+                  <span data-feather="bar-chart-2"></span> {{__('Report')}}
+            </a>
         </div>
     </div>
 </form>

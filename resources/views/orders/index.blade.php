@@ -6,6 +6,9 @@
 
 @include('orders.shared.search', ['route' => route('orders.index')])
 
-@include('orders.shared.table', ['collection' => $collection, 'pagination' => true])
+@include('orders.shared.table', [
+        'collection' => $collection, 
+        'pagination' => true
+    ])
   
 @endsection

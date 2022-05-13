@@ -83,12 +83,10 @@ class AccountController extends BaseController
      */
     public function show(Request $request, Account $account)
     {
+        $request->merge(['account' => $account->getId()]);
         $ppg    = $request->input('perPage', Config('app.per_page'));
         $orders = $this->em->getRepository(Order::class)
-                           ->search(array_merge(
-                                $request->all(), 
-                                ['account' => $account->getId()]
-                            ));
+                       ->search($request->all(), $ppg);
 
         return view('accounts.show', [
             'perPage'    => $ppg,

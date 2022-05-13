@@ -8,10 +8,10 @@
     <a class='nav-link {{request()->is("areas/{$entity->getId()}")?" active":"" }}' href="{{ route('areas.show', ['area' => $entity->getId()]) }}">{{__('Accounts')}}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {{request()->is('areas/*/orders')?' active':'' }}" href="">{{__('Orders')}}</a>
+    <a class="nav-link {{request()->is('areas/*/orders')?' active':'' }}" href="{{ route('areas.orders.index', ['area' => $entity->getId()]) }}  ">{{__('Orders')}}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {{request()->is('areas/*/movements')?' active':'' }}" href="">{{__('Movements')}}</a>
+    <a class="nav-link {{request()->is('areas/*/movements')?' active':'' }}" href="{{ route('areas.movements.index', ['area' => $entity->getId()]) }}">{{__('Movements')}}</a>
   </li>
 </ul>
 

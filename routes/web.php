@@ -40,16 +40,17 @@ Route::get('/callback', [Controllers\SocialiteController::class, 'handleProvider
  */
 Route::resources([
     'users'                     => Controllers\UserController::class,
-    'accounts'                  => Controllers\AccountController::class,
     'movements'                 => Controllers\MovementController::class,
+    'accounts'                  => Controllers\AccountController::class,
     'accounts.movements'        => Controllers\Account\MovementController::class,
 
     'subaccounts.orders'        => Controllers\Subaccount\OrderController::class,
     'subaccounts.assignments'   => Controllers\Subaccount\AssignmentController::class,
     'subaccounts.charges'       => Controllers\Subaccount\ChargeController::class,
-    'subaccounts.invoiceCharges'=> Controllers\Subaccount\InvoiceChargeController::class,
 
     'areas'                     => Controllers\AreaController::class,
+    'areas.orders'              => Controllers\Area\OrderController::class,
+    'areas.movements'           => Controllers\Area\MovementController::class,
     'orders'                    => Controllers\OrderController::class,
     'orders.products'           => Controllers\Order\ProductController::class,
     'orders.invoices'           => Controllers\Order\InvoiceController::class,
@@ -69,3 +70,5 @@ Route::resources([
 Route::get('/imports', [Controllers\InvoiceCharge\ImportController::class, 'create'])->name('imports.create');
 Route::post('/imports', [Controllers\InvoiceCharge\ImportController::class, 'list'])->name('imports.list');
 Route::post('/imports.store', [Controllers\InvoiceCharge\ImportController::class, 'store'])->name('imports.store');
+// Reports
+Route::get('/reports/orders', [Controllers\ReportController::class, 'orders'])->name('reports.orders');
