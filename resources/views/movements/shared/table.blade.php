@@ -4,6 +4,9 @@
   <table class="table table-hover table-sm">
     <thead>
         <tr>
+            @if (!(isset($exclude) && in_array('orders', $exclude)))
+            <th scope="col">{{ __('Order') }}</th>
+            @endif
             @if (!(isset($exclude) && in_array('accounts', $exclude)))
             <th scope="col">{{ __('Account') }}
                 <a class="{{ request()->get('sortBy') == 'account.acronym' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.acronym', 'sort' => 'asc']) }}">
@@ -23,9 +26,6 @@
                     <span data-feather="chevron-down"></span>
                 </a>
             </th>
-            @endif
-            @if (!(isset($exclude) && in_array('orders', $exclude)))
-            <th scope="col">{{ __('Order') }}</th>
             @endif
             <th scope="col">{{ __('Type') }}
                 <a class="{{ request()->get('sortBy') == 'movement.type' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.type', 'sort' => 'asc']) }}">
@@ -57,14 +57,14 @@
     <tbody>
         @foreach ($collection as $i => $entity)
         <tr>
+            @if (!(isset($exclude) && in_array('orders', $exclude)))
+            <td class="align-middle">@if ($entity instanceof \App\Entities\InvoiceCharge) <a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a> @else - @endif</td>
+            @endif
             @if (!(isset($exclude) && in_array('accounts', $exclude)))
             <td class="align-middle"><a href="{{route('accounts.show', ['account' => $entity->getAccount()->getId()])}}" title="{{ $entity->getAccount()->getName() }}">{{ $entity->getAccount()->getSerial() }}</a></td>
             @endif
             @if (!(isset($exclude) && in_array('areas', $exclude)))
             <td class="align-middle"><a href="{{route('areas.show', ['area' => $entity->getArea()->getId()])}}">{{ $entity->getArea()->getName() }}</a></td>
-            @endif
-            @if (!(isset($exclude) && in_array('orders', $exclude)))
-            <td class="align-middle">@if ($entity instanceof \App\Entities\InvoiceCharge) <a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a> @else - @endif</td>
             @endif
             <td class="align-middle">{{ $entity->getTypeName() }}</td>
             <td class="align-middle">@if ($entity instanceof \App\Entities\Assignment)+@elseif ($entity instanceof \App\Entities\Charge)-@endif{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
