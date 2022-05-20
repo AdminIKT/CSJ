@@ -270,7 +270,7 @@ th a.active {
 <!--<canvas id="myChart"></canvas>-->
 
 
-      <script src='{{ asset("js/popper.min.js") }}'></script>
+      <!--<script src='{{ asset("js/popper.min.js") }}'></script>-->
       <script src='{{ asset("js/bootstrap.bundle.min.js") }}'></script>
       <script src='{{ asset("js/feather.min.js") }}'></script>
       <script src='{{ asset("js/chart.min.js") }}'></script>
@@ -296,6 +296,11 @@ th a.active {
             }, false)
           })
       })()
+
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
       </script>
       @yield('scripts')
   </body>

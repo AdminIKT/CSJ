@@ -72,7 +72,9 @@
             <td><a href="{{ route('orders.show', ['order' => $order->getId()]) }}">{{ $order->getSequence() }}</a></td>
             @if (!(isset($exclude) && in_array('accounts', $exclude)))
             @php $trEstimated++ @endphp
-            <td><a href="{{ route('accounts.show', ['account' => $order->getAccount()->getId()]) }}">{{ $order->getAccount()->getSerial() }}</a></td>
+            <td>
+                <a href="{{ route('accounts.show', ['account' => $order->getAccount()->getId()]) }}" data-bs-toggle="tooltip" title="{{ $order->getAccount()->getName() }}">{{ $order->getAccount()->getSerial() }}</a>
+            </td>
             @endif
             @if (!(isset($exclude) && in_array('areas', $exclude)))
             @php $trEstimated++ @endphp

@@ -1,5 +1,5 @@
-
-<form action="{{ $route }}" method="GET" class="row mb-3">
+<a data-bs-toggle="collapse" href="#collapseForm" role="button" aria-expanded="false" aria-controls="collapseForm" class="text-decoration-none">{{ __('Filter') }}</a>
+<form id="collapseForm" action="{{ $route }}" method="GET" class="row collapse mb-3">
     @if (!(isset($exclude) && in_array('types', $exclude)))
     <div class="col">
         <div class="input-group input-group-sm mb-3">

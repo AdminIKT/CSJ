@@ -61,7 +61,7 @@
             <td class="align-middle">@if ($entity instanceof \App\Entities\InvoiceCharge) <a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a> @else - @endif</td>
             @endif
             @if (!(isset($exclude) && in_array('accounts', $exclude)))
-            <td class="align-middle"><a href="{{route('accounts.show', ['account' => $entity->getAccount()->getId()])}}" title="{{ $entity->getAccount()->getName() }}">{{ $entity->getAccount()->getSerial() }}</a></td>
+            <td class="align-middle"><a href="{{route('accounts.show', ['account' => $entity->getAccount()->getId()])}}" data-bs-toggle="tooltip" title="{{ $entity->getAccount()->getName() }}">{{ $entity->getAccount()->getSerial() }}</a></td>
             @endif
             @if (!(isset($exclude) && in_array('areas', $exclude)))
             <td class="align-middle"><a href="{{route('areas.show', ['area' => $entity->getArea()->getId()])}}">{{ $entity->getArea()->getName() }}</a></td>
