@@ -98,7 +98,7 @@
 @endsection
 
 @section('scripts')
-    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script>
         function addToCollection(btn) {
             var container = $('.collection-container');

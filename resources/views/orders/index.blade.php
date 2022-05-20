@@ -4,11 +4,14 @@
 @endsection
 @section('content')
 
-@include('orders.shared.search', ['route' => route('orders.index')])
+@include('orders.shared.search', [
+        'route'  => route('orders.index'),
+        'report' => true,
+    ])
 
 @include('orders.shared.table', [
         'collection' => $collection, 
-        'pagination' => true
+        'pagination' => true,
     ])
   
 @endsection

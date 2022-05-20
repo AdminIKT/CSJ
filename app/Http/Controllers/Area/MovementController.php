@@ -23,7 +23,7 @@ class MovementController extends BaseController
                            ->search(array_merge(
                                 $request->all(), 
                                 ['area' => $area->getId()]
-                            ));
+                            ), $ppg);
 
         $accounts = $area->getAccounts()->toArray();
         $accounts = array_combine(

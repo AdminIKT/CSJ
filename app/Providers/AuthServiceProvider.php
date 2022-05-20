@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate as G;
 use App\Entities\User,
     App\Entities\Order;
 
@@ -27,14 +27,44 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('show-order', function (User $user, Order $e) {
+        G::define('order-show', function (User $user, Order $e) {
             return $e->getAccount()->getUsers()->contains($user);
         });
-        Gate::define('update-order', function (User $user, Order $e) {
+        G::define('order-update', function (User $user, Order $e) {
             return $e->getAccount()->getUsers()->contains($user);
         });
-        Gate::define('delete-order', function (User $user, Order $e) {
+        G::define('order-delete', function (User $user, Order $e) {
             return $e->isPending() && $e->getAccount()->getUsers()->contains($user);
+        });
+
+
+
+        G::define('order-status-received', function(User $user, Order $e) {
+            return $e->isStatus(Order::STATUS_CREATED);
+        });
+        G::define('order-status-checked-not-agreed', function(User $user, Order $e) {
+            return $e->isStatus(Order::STATUS_RECEIVED) ||
+                   $e->isStatus(Order::STATUS_CHECKED_PARTIAL_AGREED) ||
+                   $e->isStatus(Order::STATUS_CHECKED_AGREED)
+                   ;
+        });
+        G::define('order-status-checked-partial-agreed', function(User $user, Order $e) {
+            return $e->isStatus(Order::STATUS_RECEIVED) ||
+                   $e->isStatus(Order::STATUS_CHECKED_NOT_AGREED) ||
+                   $e->isStatus(Order::STATUS_CHECKED_AGREED)
+                   ;
+        });
+        G::define('order-status-checked-agreed', function(User $user, Order $e) {
+            return $e->isStatus(Order::STATUS_RECEIVED) ||
+                   $e->isStatus(Order::STATUS_CHECKED_NOT_AGREED) ||
+                   $e->isStatus(Order::STATUS_CHECKED_PARTIAL_AGREED)
+                   ;
+        });
+        G::define('order-status-checked-invoiced', function(User $user, Order $e) {
+            return $e->isStatus(Order::STATUS_CHECKED_AGREED);
+        });
+        G::define('order-status-paid', function(User $user, Order $e) {
+            return $e->isStatus(Order::STATUS_CHECKED_INVOICED);
         });
     }
 }

@@ -121,7 +121,7 @@
 @endsection
 
 @section('scripts')
-<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('#lcode').attr('disabled', jQuery.inArray($('#type').val(), ['L', 'O']) == -1);

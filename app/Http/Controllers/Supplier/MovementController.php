@@ -25,7 +25,7 @@ class MovementController extends BaseController
                            ->search(array_merge(
                                 $request->all(), 
                                 ['supplier' => $supplier->getId()]
-                           ));
+                           ), $ppg);
 
         $accounts  = $this->em->getRepository(Account::class)->findBy([], ['name' => 'ASC']);
         $accounts  = array_combine(

@@ -66,7 +66,7 @@ Route::resources([
 ], [
     'middleware' => 'auth'
 ]);
-
+Route::post('/orders/{order}/status', [Controllers\OrderController::class, 'status'])->name('orders.status');
 Route::get('/imports', [Controllers\InvoiceCharge\ImportController::class, 'create'])->name('imports.create');
 Route::post('/imports', [Controllers\InvoiceCharge\ImportController::class, 'list'])->name('imports.list');
 Route::post('/imports.store', [Controllers\InvoiceCharge\ImportController::class, 'store'])->name('imports.store');

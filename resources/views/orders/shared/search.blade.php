@@ -115,9 +115,11 @@
             <button class="btn btn-outline-primary" type="submit" id="button-addon2">
               <span data-feather="search"></span>
             </button>
+            @if ($report ?? '')
             <a href="{{ route('reports.orders', request()->input()) }}" class="btn btn-sm btn-outline-primary" title="{{__('Report')}}" target="_blank">
                   <span data-feather="bar-chart-2"></span> {{__('Report')}}
             </a>
+            @endif
         </div>
     </div>
 </form>

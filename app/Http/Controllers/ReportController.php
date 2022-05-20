@@ -26,7 +26,6 @@ class ReportController extends BaseController
 
         $report = PDF::loadView('reports.orders', [
             'collection' => $orders,
-            'perPage'    => $ppg,
         ]); 
 
         $report->setPaper('a4', 'landscape');

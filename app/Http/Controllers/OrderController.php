@@ -49,12 +49,11 @@ class OrderController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Order $order)
     {
-        //Gate::authorize('show-order', $order);
+        //Gate::authorize('order-show', $order);
         
         $ppg = $request->input('perPage', Config('app.per_page'));
         $collection = $this->em->getRepository(InvoiceCharge::class)
@@ -77,7 +76,7 @@ class OrderController extends BaseController
      */
     public function edit(Order $order)
     {
-        //Gate::authorize('update-order', $order);
+        //Gate::authorize('order-update', $order);
 
         return view('orders.edit', [
             'entity' => $order,
@@ -92,6 +91,25 @@ class OrderController extends BaseController
      */
     public function destroy($id)
     {
-        return redirect()->route('orders.index')->with('success', 'Successfully deleted');
+        return redirect()->route('orders.index')
+                         ->with('success', 'Successfully deleted');
+    }
+
+    /**
+     * @return \Illuminate\Http\Response
+     */
+    public function status(Request $request, Order $order)
+    {
+        /*
+        $refl = new \ReflectionClass(Order::class);
+        $cons = $refl->getConstants();
+        $cons = array_flip(array_reverse($cons, true));
+        $perm = strtolower(str_replace("_", "-", $cons[$request->input('status')]));
+        Gate::authorize("order-{$perm}", $order);
+        */
+        $order->setStatus($request->input('status'));
+        $this->em->flush();
+        return redirect()->back()
+                         ->with("success", "Successfully updated");
     }
 }

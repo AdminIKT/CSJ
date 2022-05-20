@@ -3,17 +3,43 @@
     {{ __('Order nº :number', ['number' => $entity->getSequence()]) }}
 @endsection
 @section('btn-toolbar')
+
     {{ Form::open([
-        'route' => ['orders.destroy', $entity->getId()], 
-        'method' => 'delete',
+        'route' => ['orders.status', $entity->getId()], 
+        'method' => 'post',
+        'class' => 'me-1'
     ]) }}
-    <a href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getSupplier()->getId(), 'order' => $entity->getId(), 'destination' => route('orders.incidences.index', ['order' => $entity->getId()])]) }}" class="btn btn-sm btn-outline-secondary">
-        <span data-feather="bell"></span> {{ __('New incidence') }}
-    </a>
-    <a href="{{ route('orders.invoices.create', ['order' => $entity->getId()]) }}" class="btn btn-sm btn-outline-secondary" target="_blank">
+        <div class="input-group input-group-sm">
+            <select id="statusSel" name="status" class="form-select" onchange="enableBtn(this)">
+                <option selected="selected" disabled="true">{{ $entity->getStatusName() }}</option>
+                @can('order-status-received', $entity)
+                    <option value="{{ App\Entities\Order::STATUS_RECEIVED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_RECEIVED) }}</option>
+                @endcan
+                @can('order-status-checked-not-agreed', $entity)
+                    <option value="{{ App\Entities\Order::STATUS_CHECKED_NOT_AGREED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_NOT_AGREED) }}</option>
+                @endcan
+                @can('order-status-checked-partial-agreed', $entity)
+                    <option value="{{ App\Entities\Order::STATUS_CHECKED_PARTIAL_AGREED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_PARTIAL_AGREED) }}</option>
+                @endcan
+                @can('order-status-checked-agreed', $entity)
+                    <option value="{{ App\Entities\Order::STATUS_CHECKED_AGREED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_AGREED) }}</option>
+                @endcan
+                @can('order-status-checked-invoiced', $entity)
+                    <option value="{{ App\Entities\Order::STATUS_CHECKED_INVOICED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_INVOICED) }}</option>
+                @endcan
+                @can('order-status-paid', $entity)
+                    <option value="{{ App\Entities\Order::STATUS_PAID }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_PAID) }}</option>
+                @endcan
+            </select>
+            <button id="statusBtn" class="btn btn-outline-secondary disabled" type="submit">{{ __('Save') }}</button>
+        </div>
+    {{ Form::close() }}
+
+    <a class="btn btn-sm btn-outline-secondary me-1" href="{{ route('orders.invoices.create', ['order' => $entity->getId()]) }}" target="_blank">
         <span data-feather="file-text"></span> {{ __('pdf') }} 
     </a>
-    <div class="btn-group">
+
+    <div class="btn-group me-1">
         <button id="emailBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span data-feather="mail"></span> Email 
         </button>
@@ -29,6 +55,15 @@
             </li>
         </ul>
     </div>
+
+    <a class="btn btn-sm btn-outline-secondary me-1" href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getSupplier()->getId(), 'order' => $entity->getId(), 'destination' => route('orders.incidences.index', ['order' => $entity->getId()])]) }}">
+        <span data-feather="bell"></span> {{ __('New incidence') }}
+    </a>
+
+    {{ Form::open([
+        'route' => ['orders.destroy', $entity->getId()], 
+        'method' => 'delete',
+    ]) }}
     <div class="btn-group btn-group-sm" role="group">
         <a href="{{ route('orders.edit', ['order' => $entity->getId()]) }}" class="btn btn-outline-secondary">
             <span data-feather="edit-2"></span>
@@ -65,7 +100,7 @@
             <td>{{ number_format($entity->getEstimatedCredit(), 2, ",", ".") }}€</td>
             <td>@if ($entity->getEstimated())<a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank">{{ $entity->getEstimated() }}</a>@else-@endif</td>
             <td>{{ $entity->getInvoice() }}</td>
-            <td>{{ $entity->getStatusName() }}</td>
+            <td><span class="badge {{ $entity->getStatusColor() }}">{{ $entity->getStatusName() }}</span></td>
             <td>@if ($entity->getCredit()) {{ number_format($entity->getCredit(), 2, ",", ".") }}€ @endif</td>
             <td>{{ $entity->getReceiveInName() }}</td>
             <td>{{ $entity->getDetail() }}</td>
@@ -118,4 +153,21 @@
 <div class="pt-2">
     @yield('body', View::make('movements.shared.table', ['collection' => $collection, 'exclude' => ['orders', 'accounts', 'areas', 'suppliers']]))
 </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script>
+        function enableBtn(input) {
+            var value = $(input).val();
+            var btn   = $("#statusBtn");
+            if (value && btn.hasClass("disabled")) 
+                $("#statusBtn").removeClass("disabled");
+            else if (!btn.hasClass("disabled"))
+                $("statusBtn").addClass("disabled");
+        }
+        $(document).ready(function() {
+            enableBtn("#statusSel");
+        });
+    </script>
 @endsection
