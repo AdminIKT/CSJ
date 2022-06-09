@@ -55,7 +55,17 @@
         </tr>
     </thead>
     <tbody>
+        @php 
+            $totalCredit = 0; 
+            $trCredit    = 4;
+        @endphp
         @foreach ($collection as $i => $entity)
+        @php 
+            if ($entity instanceof \App\Entities\Assignment) 
+                $totalCredit += $entity->getCredit();
+            else
+                $totalCredit -= $entity->getCredit();
+        @endphp
         <tr>
             @if (!(isset($exclude) && in_array('orders', $exclude)))
             <td class="align-middle">@if ($entity instanceof \App\Entities\InvoiceCharge) <a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a> @else - @endif</td>
@@ -75,6 +85,12 @@
         @if ($pagination ?? '')
         <tr>
             <td class="text-center" colspan="{{ isset($exclude) ? 6 - count($exclude) : 6 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+        </tr>
+        @elseif ($collection->total())
+        <tr style="background: #DDDDDD;">
+            <td colspan="{{ $trCredit }}">{{ __('Total') }}:</td>
+            <td>{{ number_format($totalCredit, 2, ",", ".") }}€</td>
+            <td colspan="2"></td>
         </tr>
         @endif
     </tbody>

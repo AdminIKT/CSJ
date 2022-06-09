@@ -138,14 +138,17 @@ class IncidenceController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $supplier, Incidence $incidence)
+    public function close(Supplier $supplier, Incidence $incidence)
     {
         if (!$supplier->getIncidences()->contains($incidence)) {
             abort(404);
         }
-        $this->em->remove($incidence);
+
+        IncidenceEvent::dispatch($incidence);
+
+        $incidence->setStatus(Incidence::STATUS_CLOSED);
         $this->em->flush();
 
-        return redirect()->back()->with('success', 'Successfully removed');
+        return redirect()->back()->with('success', 'Successfully closed');
     }
 }

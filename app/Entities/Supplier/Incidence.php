@@ -13,7 +13,7 @@ use App\Entities\User,
  * Incidence 
  *
  * @ORM\Table(name="supplier_incidences")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repositories\Supplier\IncidenceRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Incidence implements UserAwareInterface
@@ -109,6 +109,26 @@ class Incidence implements UserAwareInterface
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * Is status.
+     *
+     * @return bool 
+     */
+    public function isStatus(int $status)
+    {
+        return $this->status === $status;
+    }
+
+    /**
+     * Is closed.
+     *
+     * @return bool
+     */
+    public function isClosed()
+    {
+        return $this->isStatus(self::STATUS_CLOSED);
     }
 
     /**

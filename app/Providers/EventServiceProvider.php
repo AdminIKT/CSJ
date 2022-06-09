@@ -40,11 +40,13 @@ class EventServiceProvider extends ServiceProvider
         ],
         IncidenceEvent::class => [
             Users\EntityInjection::class,
+            Suppliers\AcceptableSupplier::class,
         ],
         MovementEvent::class => [
             Orders\UpdateStatus::class,
             Accounts\RestoreCredit::class,
             Suppliers\IncreaseInvoiced::class,
+            Suppliers\RecommendableSupplier::class,
         ],
     ];
 

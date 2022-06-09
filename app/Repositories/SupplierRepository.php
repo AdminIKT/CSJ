@@ -13,45 +13,66 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
     /**
-     *
+     * @param array{
+     *   nif: string,
+     *   name: string,
+     *   city: string,
+     *   recommendable: boolean,
+     *   acceptable: boolean,
+     *   sortBy: string,
+     *   sort: string
+     * } $filter
+     * @param int $perPage
+     * @param string $pageName
      */
-    function search(
-        $nif           = null,
-        $name          = null,
-        $city          = null,
-        $recommendable = null,
-        $acceptable    = null,
-        $sortBy        = "name", 
-        $sort          = "asc", 
-        $perPage       = 10, 
-        $pageName      = "page"
-    ){
-        $builder = $this->createQueryBuilder('s');
+    function search(array $filter = [], $perPage = 10, $pageName= "page")
+    {
+        $b = $this->createQueryBuilder('supplier');
 
-        if ($nif !== null) {
-            $builder->andWhere("s.nif LIKE :nif")
-                    ->setParameter('nif', "%{$nif}%");
+        if (isset($filter['nif']) &&
+            null !== ($nif = $filter['nif'])) {
+            $b->andWhere("supplier.nif LIKE :nif")
+              ->setParameter('nif', "%{$nif}%");
         }
-        if ($name !== null) {
-            $builder->andWhere("s.name LIKE :name")
-                    ->setParameter('name', "%{$name}%");
+        if (isset($filter['name']) &&
+            null !== ($name = $filter['name'])) {
+            $b->andWhere("supplier.name LIKE :name")
+              ->setParameter('name', "%{$name}%");
         }
-        if ($city !== null) {
-            $builder->andWhere("s.city LIKE :city")
-                    ->setParameter('city', $city);
+        if (isset($filter['city']) &&
+            null !== ($city = $filter['city'])) {
+            $b->andWhere("supplier.city LIKE :city")
+              ->setParameter('city', "%{$city}%");
         }
-        if ($recommendable !== null) {
-            $builder->andWhere("s.recommendable LIKE :recommendable")
-                    ->setParameter('recommendable', $recommendable);
+        if (isset($filter['recommendable']) &&
+            null !== ($recommendable = $filter['recommendable'])) {
+            $b->andWhere("supplier.recommendable = :recommendable")
+              ->setParameter('recommendable', $recommendable);
         }
-        if ($acceptable !== null) {
-            $builder->andWhere("s.acceptable LIKE :acceptable")
-                    ->setParameter('acceptable', $acceptable);
+        if (isset($filter['acceptable']) &&
+            null !== ($acceptable = $filter['acceptable'])) {
+            $b->andWhere("supplier.acceptable = :acceptable")
+              ->setParameter('acceptable', $acceptable);
         }
 
-        $builder->orderBy("s.{$sortBy}" , $sort);
+        $b->orderBy(
+            array_key_exists('sortBy', $filter) ?
+                    $filter['sortBy'] : 'supplier.name',
+            array_key_exists('sort', $filter) ?
+                    $filter['sort'] : 'DESC'
+        );
 
-        return $this->paginate($builder->getQuery(), $perPage, $pageName);
+        if (!$perPage) {
+            $perPage = clone $b;
+            $perPage = $perPage->select('count(supplier.id)')
+                               ->getQuery()
+                               ->getSingleScalarResult();
+        }
+
+        return $this->paginate(
+            $b->getQuery(), 
+            $perPage ?: Config('app.per_page'), 
+            $pageName);
     }
 
     /**

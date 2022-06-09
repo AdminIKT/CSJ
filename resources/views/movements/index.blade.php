@@ -11,7 +11,7 @@
 @section('content')
     @include('movements.shared.search', [
         'route' => route('movements.index'),
-        'exclude' => []
+        'report' => true,
     ])
     @include ('movements.shared.table', [
         'collection' => $collection, 

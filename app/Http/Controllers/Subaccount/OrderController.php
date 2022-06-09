@@ -29,7 +29,7 @@ class OrderController extends BaseController
                                ->findBy(['acceptable' => true], ['name' => 'asc']);
 
         $limit = $this->em->getRepository(Settings::class)
-                               ->findOneBy(['type' => Settings::TYPE_INVOICED_LIMIT]);
+                          ->findOneBy(['type' => Settings::TYPE_INVOICED_LIMIT]);
 
         $suppliers = array_combine(
             array_map(function($e) { return $e->getId(); }, $collection),

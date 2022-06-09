@@ -19,20 +19,16 @@ class SupplierController extends BaseController
      */
     public function index(Request $request)
     {
+        $ppg    = $request->input('perPage', Config('app.per_page'));
         $cities = $this->em->getRepository(Supplier::class)->cities();
         $cities = array_combine($cities, $cities);
 
-        $suppliers = $this->em->getRepository(Supplier::class)->search(
-            $request->input('nif'),
-            $request->input('name'),
-            $request->input('city'),
-            $request->input('recommendable'),
-            $request->input('acceptable'),
-            $request->input('sortBy', 'name'),
-            $request->input('sort', 'asc')
-        );
+        $suppliers = $this->em
+                          ->getRepository(Supplier::class)
+                          ->search($request->all(), $ppg);
 
         return view('suppliers.index', [
+            'perPage'    => $ppg,
             'cities'     => $cities,
             'collection' => $suppliers,
         ]); 

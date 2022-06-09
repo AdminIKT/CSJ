@@ -23,17 +23,16 @@
             <td>{{ $incidence->getUser()->getName() }}</td>
             <td>{{ $incidence->getCreated()->format("d/m/Y H:i") }}</td>
             <td>
-            {!! Form::open([
-                'route' => ['suppliers.incidences.destroy', $incidence->getSupplier()->getId(), $incidence->getId()], 
-                'method' => 'delete',
-            ]) !!}
                 <div class="btn-group btn-group-sm" role="group">
+                    @if (!$incidence->isClosed())
+                    <a href="{{ route('suppliers.incidences.close', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/close") ? "active" : ""}}' data-bs-toggle="tooltip" title="close">
+                        <span data-feather="x-circle"></span>
+                    </a>
                     <a href="{{ route('suppliers.incidences.edit', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/edit") ? "active" : ""}}'>
                         <span data-feather="edit-2"></span>
                     </a>
-                    {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
+                    @endif
                 </div>
-            {!! Form::close() !!}
             </td>
         </tr>
         @endforeach

@@ -76,6 +76,16 @@ class InvoiceCharge extends Charge
     }
 
     /**
+     * Get supplier.
+     *
+     * @return Supplier 
+     */
+    public function getSupplier()
+    {
+        return $this->getOrder()->getSupplier();
+    }
+
+    /**
      * @inheritDoc
      */
     public static function typeName($type)
