@@ -98,7 +98,7 @@ th a.active {
             </div>
         </div>
 
-        @admin
+        @canany(['viewAny'], [App\Entities\Supplier::class, App\Entities\Movement::class, App\Entities\Order::class])
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Lists</span>
           <!--<a class="link-secondary" href="#" aria-label="Add a new report">
@@ -106,24 +106,30 @@ th a.active {
           </a>-->
         </h6>
         <ul class="nav flex-column">
+          @can('viewAny', App\Entities\Order::class)
           <li class="nav-item">
             <a class="nav-link {{request()->is('orders*') ? 'active' : ''}}" href="{{ route('orders.index') }}">
               <span data-feather="file"></span>
               {{ __('Orders') }}
             </a>
           </li>
+          @endcan
+          @can('viewAny', App\Entities\Movement::class)
           <li class="nav-item">
             <a class="nav-link {{request()->is('movements*') ? 'active' : ''}}" href="{{ route('movements.index') }}">
               <span data-feather="shopping-cart"></span>
               {{ __('Movements') }}
             </a>
           </li>
+          @endcan
+          @can('viewAny', App\Entities\Supplier::class)
           <li class="nav-item">
             <a class="nav-link {{request()->is('suppliers*') ? 'active' : ''}}" href="{{ route('suppliers.index') }}">
               <span data-feather="shopping-bag"></span>
               {{ __('Suppliers') }}
             </a>
           </li>
+          @endcan
           <!--
           <li class="nav-item">
             <a class="nav-link" href="#">
@@ -132,12 +138,14 @@ th a.active {
             </a>
           </li>
           -->
+          @can('viewAny', App\Entities\Order::class)
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="layers"></span>
               {{ __('Receptions') }}
             </a>
           </li>
+          @endcan
         </ul>
         <!--<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Reports</span>
@@ -165,45 +173,61 @@ th a.active {
             </a>
           </li>
         </ul>-->
+        @endcan
+
+        @canany('viewAny', [App\Entities\User::class, App\Entities\Area::class, App\Entities\Account::class])
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>{{ __('Settings') }}</span>
           <!--<a class="link-secondary" href="#" aria-label="Add a new report">
             <span data-feather="plus-circle"></span>
           </a>-->
         </h6>
+
         <ul class="nav flex-column mb-2">
+          @can('viewAny', App\Entities\User::class)
           <li class="nav-item">
             <a class="nav-link {{request()->is('users*') ? 'active' : ''}}" href="{{ route('users.index') }}">
               <span data-feather="users"></span>
               {{ __('Users') }}
             </a>
           </li>
+          @endcan
+          @can('viewAny', App\Entities\Area::class)
           <li class="nav-item">
             <a class="nav-link {{request()->is('areas*') ? 'active' : ''}}" href="{{ route('areas.index') }}">
               <span data-feather="hexagon"></span>
               {{ __('Areas') }}
             </a>
           </li>
+          @endcan
+          @can('viewAny', App\Entities\Account::class)
           <li class="nav-item">
             <a class="nav-link {{request()->is('accounts*') ? 'active' : ''}}" href="{{ route('accounts.index') }}">
               <span data-feather="globe"></span>
               {{ __('Accounts') }}
             </a>
           </li>
+          @endcan
         </ul>
+        @endcan
+
+        @canany(['viewAny'], App\Entities\Settings::class)
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Parametros</span>
           <!--<a class="link-secondary" href="#" aria-label="Add a new report">
             <span data-feather="plus-circle"></span>
           </a>-->
         </h6>
+
         <ul class="nav flex-column mb-2">
+          @can('viewAny', App\Entities\Settings::class)
           <li class="nav-item">
             <a class="nav-link {{request()->is('settings*') ? 'active' : ''}}" href="{{ route('settings.index') }}">
               <span data-feather="settings"></span>
               {{ __('Settings') }}
             </a>
           </li>
+          @endcan
           <li class="nav-item">
           </li>
           <!--
@@ -221,7 +245,7 @@ th a.active {
           </li>
           -->
         </ul>
-        @endadmin
+        @endcan
       </div>
     </nav>
 

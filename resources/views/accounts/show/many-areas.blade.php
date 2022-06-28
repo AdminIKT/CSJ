@@ -36,11 +36,14 @@
                 <td>{{ number_format($subaccount->getCompromisedCredit(), 2, ",", ".") }}€</td>
                 <td>{{ number_format($subaccount->getAvailableCredit(), 2, ",", ".") }}€</td>
                 <td colspan="">
+                    @can('view', $entity)
                     <a href="{{ route('subaccounts.orders.create', ['subaccount' => $subaccount->getId()]) }}" class="btn btn-sm btn-outline-secondary" title="{{ __('New order') }}">
                         <span data-feather="file"></span> {{ __('New order') }}
                     </a>
+                    @endcan
                 </td>
                 <td>
+                    @can('update', $entity) <!-- FIXME: $subaccount gives error -->
                     <div class="btn-group">
                         <button id="movement{$i}Btn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span data-feather="shopping-cart"></span> {{ __('New movement') }} 
@@ -54,6 +57,7 @@
                             </li>
                         </ul>
                     </div>
+                    @endcan
                 </td>
             </tr>
         @endforeach

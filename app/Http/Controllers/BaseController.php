@@ -16,23 +16,43 @@ abstract class BaseController extends Controller
     protected $em;
 
     /**
+     * @array
+     */
+    protected $years = [];
+
+    /**
+     * @int
+     */
+    protected $currentYear;
+
+    /**
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
 
-        //FIXME
-        $years = [date('Y') + 1 => date('Y') + 1];
-        for ($i=0; $i<=10; $i++) $years[date('Y') - $i] = date('Y') - $i;
+        $this->years = [date('Y') + 1 => date('Y') + 1];
+        for ($i=0; $i<=10; $i++) 
+            $this->years[date('Y') - $i] = date('Y') - $i;
+
+        $this->currentYear = $em->getRepository(Settings::class)
+                                ->findOneBy(['type' => Settings::TYPE_CURRENT_YEAR]);
 
         View::share(
             'currentYearOptions', 
-            $years,
+            $this->years,
         );
         View::share(
             'currentYear', 
-            $em->getRepository(Settings::class)->findOneBy(['type' => Settings::TYPE_CURRENT_YEAR])
+            $this->currentYear
         );
+
+        $this->authorization();
     }
+
+    /**
+     *
+     */
+    abstract protected function authorization();
 }

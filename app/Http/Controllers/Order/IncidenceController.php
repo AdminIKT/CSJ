@@ -12,6 +12,14 @@ use Illuminate\Http\Request;
 class IncidenceController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->middleware('can:view,order')->only(['index']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

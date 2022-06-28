@@ -19,6 +19,14 @@ use App\Entities\Account,
 class AccountController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->authorizeResource(Account::class, 'account');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

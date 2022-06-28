@@ -8,9 +8,12 @@
         'method' => 'delete',
     ]) }}
     @if ($entity->getSubaccounts()->count() === 1)
+        @can('view', $entity)
         <a href="{{ route('subaccounts.orders.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="btn btn-sm btn-outline-secondary">
             <span data-feather="file"></span> {{ __('New order') }} 
         </a>
+        @endcan
+        @can('update', $entity)
         <div class="btn-group">
             <button id="movementBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <span data-feather="shopping-cart"></span> {{ __('New movement') }} 
@@ -24,12 +27,17 @@
                 </li>
             </ul>
         </div>
+        @endcan
     @endif
     <div class="btn-group btn-group-sm" role="group">
+        @can('update', $entity)
         <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
             <span data-feather="edit-2"></span>
         </a>
+        @endcan
+        @can('delete', $entity)
         {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
+        @endcan
     </div>
     {{ Form::close() }}
 @endsection

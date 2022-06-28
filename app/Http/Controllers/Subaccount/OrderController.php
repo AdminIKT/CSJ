@@ -19,6 +19,14 @@ use App\Entities\Account,
 class OrderController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->middleware('can:view,subaccount')->only(['create', 'store']);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -64,7 +72,8 @@ class OrderController extends BaseController
         if ($last) {
             $matches = [];
             if (!preg_match(Order::SEQUENCE_PATTERN, $last->getSequence(), $matches)) {
-                throw new \RuntimeException(sprintf("Description not matches with $pattern pattern"));
+                throw new \RuntimeException(sprintf("Description not matches with %s pattern", 
+                    Order::SEQUENCE_PATTERN));
             }
             $sequence = (int) trim($matches[5], "-") + 1;
         }

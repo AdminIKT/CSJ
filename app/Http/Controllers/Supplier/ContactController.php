@@ -13,13 +13,11 @@ use App\Entities\Supplier,
 class ContactController extends BaseController
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @inheritDoc
      */
-    public function index()
+    protected function authorization()
     {
-        //
+        $this->authorizeResource(Contact::class, 'contact');
     }
 
     /**
@@ -54,17 +52,6 @@ class ContactController extends BaseController
             'destination', route('suppliers.show', ['supplier' => $supplier->getId()])
         );
         return redirect()->to($dst)->with('success', 'Successfully created');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

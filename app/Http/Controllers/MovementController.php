@@ -16,6 +16,14 @@ use App\Entities\Movement,
 class MovementController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->authorizeResource(Movement::class, 'movement');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

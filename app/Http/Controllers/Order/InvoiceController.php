@@ -9,7 +9,17 @@ use App\Entities\Order;
 
 class InvoiceController extends BaseController
 {
-    //
+    /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->middleware('can:view,order')->only(['create']);
+    }
+
+    /**
+     *
+     */
     public function create(Order $order)
     {
         $pdf = PDF::loadView('pdf.invoice', [

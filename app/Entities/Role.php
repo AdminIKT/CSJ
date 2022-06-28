@@ -16,6 +16,10 @@ class Role implements RoleContract, HasPermissionContract
 {
     use HasPermissions;
 
+    const ROLE_ADMIN     = 1;
+    const ROLE_RECEPTION = 2;
+    const ROLE_SALES     = 3;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

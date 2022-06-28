@@ -11,13 +11,20 @@ use App\Entities\User,
 class UserController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(\LaravelDoctrine\ACL\Permissions\PermissionManager $m)
+    public function index()
     {
-        //dd($m->getAllPermissions());
         $collection = $this->em->getRepository(User::class)
                                ->findBy([], ['email' => 'asc']);
 

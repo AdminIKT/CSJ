@@ -9,6 +9,14 @@ use App\Entities\Settings;
 class SettingsController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->authorizeResource(Settings::class, 'setting');
+    }
+
+    /**
      * @return \Illuminate\Http\Response
      */
     public function index()

@@ -14,6 +14,15 @@ use App\Events\IncidenceEvent,
 class IncidenceController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->authorizeResource(Incidence::class, 'incidence');
+        $this->middleware('can:update,incidence')->only('close');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

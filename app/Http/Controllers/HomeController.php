@@ -8,6 +8,13 @@ use Doctrine\ORM\EntityManagerInterface;
 class HomeController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

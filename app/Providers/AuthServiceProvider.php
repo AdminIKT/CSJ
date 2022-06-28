@@ -15,7 +15,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        \App\Entities\Supplier\Contact::class => \App\Policies\Supplier\ContactPolicy::class,
+        \App\Entities\Supplier\Incidence::class => \App\Policies\Supplier\IncidencePolicy::class,
     ];
 
     /**
@@ -27,17 +28,15 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        G::define('order-show', function (User $user, Order $e) {
-            return $e->getAccount()->getUsers()->contains($user);
-        });
-        G::define('order-update', function (User $user, Order $e) {
-            return $e->getAccount()->getUsers()->contains($user);
-        });
-        G::define('order-delete', function (User $user, Order $e) {
-            return $e->isPending() && $e->getAccount()->getUsers()->contains($user);
-        });
-
-
+        //G::define('order-show', function (User $user, Order $e) {
+        //    return $e->getAccount()->getUsers()->contains($user);
+        //});
+        //G::define('order-update', function (User $user, Order $e) {
+        //    return $e->getAccount()->getUsers()->contains($user);
+        //});
+        //G::define('order-delete', function (User $user, Order $e) {
+        //    return $e->isPending() && $e->getAccount()->getUsers()->contains($user);
+        //});
 
         G::define('order-status-received', function(User $user, Order $e) {
             return $e->isStatus(Order::STATUS_CREATED);
@@ -66,5 +65,7 @@ class AuthServiceProvider extends ServiceProvider
         G::define('order-status-paid', function(User $user, Order $e) {
             return $e->isStatus(Order::STATUS_CHECKED_INVOICED);
         });
+
+        //dd(G::abilities());
     }
 }

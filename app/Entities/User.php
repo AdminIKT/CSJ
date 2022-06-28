@@ -429,6 +429,44 @@ class User implements Authenticatable, HasRolesContract
     }
 
     /**
+     * @param int $roleId
+     * @return bool
+     */
+    protected function isRole(int $roleId)
+    {
+        foreach ($this->getRoles() as $role) {
+            if ($role->getId() === $roleId) 
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->isRole(Role::ROLE_ADMIN);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReception()
+    {
+        return $this->isRole(Role::ROLE_RECEPTION);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSales()
+    {
+        return $this->isRole(Role::ROLE_SALES);
+    }
+
+    /**
      * Set lastLogin.
      *
      * @param \Datetime $lastLogin

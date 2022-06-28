@@ -112,6 +112,14 @@ class Subaccount
     }
 
     /**
+     * @return User[]
+     */
+    public function getUsers()
+    {
+        return $this->getAccount()->getUsers();
+    }
+
+    /**
      * Set area.
      *
      * @param Area $area

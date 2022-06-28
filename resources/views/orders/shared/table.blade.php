@@ -101,33 +101,26 @@
             @if (!(isset($exclude) && in_array('actions', $exclude)))
             @php $trCredit++ @endphp
             <td>
-            <!--
             {{ Form::open([
                 'route' => ['orders.destroy', $order->getId()], 
                 'method' => 'delete',
             ]) }}
                 <div class="btn-group btn-group-sm" role="group">
-                @can('show-order', $order)
+                @can('view', $order)
                     <a href="{{ route('orders.show', ['order' => $order->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('View') }}">
                         <span data-feather="eye"></span>
                     </a>
                 @endcan
-                @can('update-order', $order)
+                @can('update', $order)
                     <a href="{{ route('orders.edit', ['order' => $order->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('Edit') }}">
                         <span data-feather="edit-2"></span>
                     </a>
                 @endcan
-                @if ($order->isPaid())
-                    <a href="" class="btn btn-outline-secondary" title="{{ __('Receive') }}">
-                        <span data-feather="package"></span>
-                    </a>
-                @endif
-                @can('delete-order', $order)
-                    {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary' . ($order->isPaid() ? ' disabled':''), 'type' => 'submit', 'title' => __('Delete')]) }}
+                @can('delete', $order)
+                    {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit', 'title' => __('Delete')]) }}
                 @endcan
                 </div>
             {{ Form::close() }}
-            -->
             </td>
             @endif
         </tr>

@@ -14,6 +14,14 @@ use App\Http\Controllers\BaseController,
 class MovementController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->middleware('can:view,supplier')->only(['index']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

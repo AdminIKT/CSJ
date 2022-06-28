@@ -13,6 +13,14 @@ use App\Events\SupplierEvent,
 class SupplierController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->authorizeResource(Supplier::class, 'supplier');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

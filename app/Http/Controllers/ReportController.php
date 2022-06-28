@@ -17,6 +17,16 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class ReportController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->middleware('can:viewAny,'.Order::class)->only(['orders']);
+        $this->middleware('can:viewAny,'.Movement::class)->only(['movements']);
+        $this->middleware('can:viewAny,'.Supplier::class)->only(['suppliers']);
+    }
+
+    /**
      * @return \Illuminate\Http\Response
      */
     public function orders(Request $request)

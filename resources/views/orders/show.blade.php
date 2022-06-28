@@ -65,10 +65,14 @@
         'method' => 'delete',
     ]) }}
     <div class="btn-group btn-group-sm" role="group">
+        @can('update', $entity)
         <a href="{{ route('orders.edit', ['order' => $entity->getId()]) }}" class="btn btn-outline-secondary">
             <span data-feather="edit-2"></span>
         </a>
+        @endcan
+        @can('delete', $entity)
         {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit', 'disabled' => $entity->isPending() ? false : true]) }}
+        @endcan
     </div>
     {{ Form::close() }}
 @endsection
@@ -151,7 +155,11 @@
 </ul>
 
 <div class="pt-2">
-    @yield('body', View::make('movements.shared.table', ['collection' => $collection, 'exclude' => ['orders', 'accounts', 'areas', 'suppliers']]))
+    @yield('body', View::make('movements.shared.table', [
+        'collection' => $collection, 
+        'exclude' => ['orders', 'accounts', 'areas', 'suppliers'],
+        'pagination' => true,
+    ]))
 </div>
 @endsection
 

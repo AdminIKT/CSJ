@@ -11,12 +11,22 @@ use App\Http\Controllers\BaseController,
 class MovementController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->middleware('can:view,account')->only('index');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, Account $account)
     {
+        $this->authorize('view', $account);
+
         $ppg   = $request->input('perPage', Config('app.per_page'));
         $class = $request->input('movement', Movement::class);
         $collection = $this->em->getRepository($class)

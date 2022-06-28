@@ -491,6 +491,39 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function isAdmin()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isAdmin', []);
+
+        return parent::isAdmin();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isReception()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isReception', []);
+
+        return parent::isReception();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isSales()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isSales', []);
+
+        return parent::isSales();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setLastLogin(\Datetime $lastLogin)
     {
 

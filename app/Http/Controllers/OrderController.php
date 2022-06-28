@@ -18,6 +18,14 @@ use App\Http\Requests\OrderPostRequest,
 class OrderController extends BaseController
 {
     /**
+     * @inheritDoc
+     */
+    protected function authorization()
+    {
+        $this->authorizeResource(Order::class, 'order');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -53,8 +61,6 @@ class OrderController extends BaseController
      */
     public function show(Request $request, Order $order)
     {
-        //Gate::authorize('order-show', $order);
-        
         $ppg = $request->input('perPage', Config('app.per_page'));
         $collection = $this->em->getRepository(InvoiceCharge::class)
                            ->search(array_merge(
@@ -76,8 +82,6 @@ class OrderController extends BaseController
      */
     public function edit(Order $order)
     {
-        //Gate::authorize('order-update', $order);
-
         return view('orders.edit', [
             'entity' => $order,
         ]); 

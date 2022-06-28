@@ -1,0 +1,123 @@
+**FIXME**
+
+Controllers\UserController
+    index: can:viewAny,App\Entities\User
+    show: can:view,user
+    create: can:create,App\Entities\User
+    store: can:create,App\Entities\User
+    edit: can:update,user
+    update: can:update,user
+    *destroy: can:delete,user
+
+Controllers\MovementController
+    index: can:viewAny,App\Entities\Movement
+
+Controllers\AccountController
+    index: can:viewAny,App\Entities\Account
+    show: can:view,account                                  (owner)
+    create: can:create,App\Entities\Account
+    store: can:create,App\Entities\Account
+    edit: can:update,account
+    update: can:update,account
+    *destroy: can:delete,account
+
+Controllers\Account\MovementController
+    index: can:view,account
+
+Controllers\Subaccount\OrderController
+    create: can:view,subaccount
+    store: can:view,subaccount
+
+Controllers\Subaccount\AssignmentController
+    create: can:update,subaccount
+    store: can:update,subaccount
+    destroy: can:update,subaccount
+
+Controllers\Subaccount\ChargeController
+    create: can:update,subaccount
+    store: can:update,subaccount
+    destroy: can:update,subaccount
+
+Controllers\AreaController
+    index: can:viewAny,App\Entities\Area
+    show: can:view,area
+    create: can:create,App\Entities\Area
+    store: can:create,App\Entities\Area
+    edit: can:update,area
+    update: can:update,area
+    *destroy: can:delete,area
+
+Controllers\Area\OrderController
+    index: can:view,area
+
+Controllers\Area\MovementController
+    index: can:view,area
+
+Controllers\OrderController
+    index: can:viewAny,App\Entities\Order
+    show: can:view,order                                    (owner)
+    create: can:create,App\Entities\Order
+    store: can:create,App\Entities\Order
+    edit: can:update,order
+    update: can:update,order
+    *destroy: can:delete,order
+
+Controllers\Order\ProductController
+Controllers\Order\InvoiceController
+    create: can:view,order                                  (owner)
+
+Controllers\SupplierController
+    index: can:viewAny,App\Entities\Supplier
+    show: can:view,supplier
+    create: can:create,App\Entities\Supplier                (all)
+    store: can:create,App\Entities\Supplier                 (all)
+    edit: can:update,supplier
+    update: can:update,supplier
+    *destroy: can:delete,supplier
+
+Controllers\Supplier\ContactController
+    index: can:viewAny,App\Entities\Supplier\Contact
+    show: can:view,contact
+    create: can:create,App\Entities\Supplier\Contact        (all)
+    store: can:create,App\Entities\Supplier\Contact         (all)
+    edit: can:update,contact
+    update: can:update,contact
+    *destroy: can:delete,contact
+
+Controllers\Supplier\InvoicedController
+    index: can:view,supplier
+
+Controllers\Supplier\IncidenceController
+    index: can:viewAny,App\Entities\Supplier\Incidence
+    show: can:view,incidence
+    create: can:create,App\Entities\Supplier\Incidence      (all)
+    store: can:create,App\Entities\Supplier\Incidence       (all)
+    edit: can:update,incidence                              (owner)
+    update: can:update,incidence                            (owner)
+    close: can:update,incidence                             (owner)
+    *destroy: can:delete,incidence
+
+Controllers\Supplier\OrderController
+    index: can:view,supplier
+
+Controllers\Supplier\MovementController
+    index: can:view,supplier
+
+Controllers\InvoiceChargeController
+    create:
+    store:
+
+Controllers\InvoiceCharge\ImportController
+    *create:
+    *list:
+    *store:
+
+Controllers\SettingsController
+    index: can:viewAny,App\Entities\Settings
+    edit: can:update,settings
+    update: can:update,settings
+
+Controllers\ReportController
+    orders: can:viewAny,App\Entities\Order
+    movements: can:viewAny,App\Entities\Movement
+    suppliers: can:viewAny,App\Entities\Supplier
