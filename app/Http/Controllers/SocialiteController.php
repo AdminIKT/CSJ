@@ -74,4 +74,7 @@ class SocialiteController extends BaseController
         return redirect()->to('/home');
          */
     }
+
+    protected function authorization()
+    {}
 }

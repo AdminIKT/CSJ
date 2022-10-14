@@ -70,4 +70,7 @@ class InvoiceChargeController extends BaseController
         return redirect()->route('movements.index')
                          ->with('success', 'Successfully created');
     }
+
+    protected function authorization()
+    {}
 }

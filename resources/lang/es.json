@@ -135,7 +135,8 @@
     "File must be an ':extension' extension": "El fichero debe tener la extensión ':extension'",
     "Invoice nº": "Nº factura",
     "Description": "Descripción",
-    "Current year": "Año activo"
+    "Current year": "Año activo",
+    "Pagination": "Paginación"
     
    
 
