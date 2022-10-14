@@ -67,4 +67,7 @@ class ImportController extends BaseController
     {
         dd($request->all());
     } 
+
+    protected function authorization()
+    {}
 }

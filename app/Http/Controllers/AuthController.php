@@ -74,4 +74,7 @@ class AuthController extends BaseController
             'email' => 'The provided email allready exists.',
         ]);
     }
+
+    protected function authorization()
+    {}
 }
