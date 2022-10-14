@@ -44,18 +44,18 @@
         <div id="custom-fields" class="row d-none">
             <div class="col-md-12 text-center small" id="sequence-alert"></div>
             <div class="col-md-4">
-                {{ Form::label('previous', 'Select previous', ['class' => 'form-label']) }}
-                {{ Form::select('previous', array_merge([null => '--Select one--'], $subaccount->getOrders()->map(function($e) {return $e->getSequence(); })->toArray()), old('previous', null), ['class'=>'form-select form-select-sm', 'disabled' => true, 'onchange' => 'selectSequence(this)'], [null => ['disabled' => true]]) }}
+                {{ Form::label('previous', __('Select previous'), ['class' => 'form-label']) }}
+                {{ Form::select('previous', array_merge([null => __('selecciona')], $subaccount->getOrders()->map(function($e) {return $e->getSequence(); })->toArray()), old('previous', null), ['class'=>'form-select form-select-sm', 'disabled' => true, 'onchange' => 'selectSequence(this)'], [null => ['disabled' => true]]) }}
             </div>
             <div class="col-md-4">
-                {{ Form::label('sequence', 'Current sequence', ['class' => 'form-label']) }}
+                {{ Form::label('sequence', __('Current sequence'), ['class' => 'form-label']) }}
                 {{ Form::text("sequence", old('sequence', null), ['class' => 'form-control form-control-sm' . ($errors->has('sequence') ? ' is-invalid':''), 'disabled' => true]) }}
                 @if ($errors->has('sequence'))
                    <div class="invalid-feedback">{!! $errors->first('sequence') !!}</div>
                 @endif
             </div>
             <div class="col-md-4">
-                {{ Form::label('date', 'Date', ['class' => 'form-label']) }}
+                {{ Form::label('date', __('Date'), ['class' => 'form-label']) }}
                 {{ Form::date("date", old('date', now()), ['class' => 'form-control form-control-sm', 'disabled' => true]) }}
             </div>
         </div>

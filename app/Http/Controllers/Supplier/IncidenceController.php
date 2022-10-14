@@ -80,7 +80,7 @@ class IncidenceController extends BaseController
         $dst = $request->get(
             'destination', route('suppliers.incidences.index', ['supplier' => $supplier->getId()])
         );
-        return redirect()->to($dst)->with('success', 'Successfully created');
+        return redirect()->to($dst)->with('success', __('Successfully created'));
     }
 
     /**
@@ -138,7 +138,7 @@ class IncidenceController extends BaseController
         $dst = $request->get(
             'destination', route('suppliers.incidences.index', ['supplier' => $supplier->getId()])
         );
-        return redirect()->to($dst)->with('success', 'Successfully updated');
+        return redirect()->to($dst)->with('success', __('Successfully updated'));
     }
 
     /**

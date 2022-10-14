@@ -77,6 +77,7 @@
     "User": "Usuario",
     "coste_estimado_disponible :disponible": "Coste previsto (Disponible: :disponible €)",
     "Estimated credit": "Coste previsto",
+    "estimated credit": "Coste previsto",
     "Real credit: :credit € - compromised: :compromised € = available :available €": "Saldo real: :credit € - Comprometido: :compromised € = Disponible :available €",
     "intercalar": "Intercalar",
     "presupuesto": "Presupuesto",
@@ -136,7 +137,26 @@
     "Invoice nº": "Nº factura",
     "Description": "Descripción",
     "Current year": "Año activo",
-    "Pagination": "Paginación"
+    "Pagination": "Paginación",
+    "Last login": "Último acceso",
+    "Acronym": "Acrónimo",
+    "New area": "Nueva área",
+    "Areas": "Áreas",
+    "Area": "Área",
+    "Area :name": "Área :name",
+    "Code": "Código",
+    "Select previous": "Seleccionar anterior",
+    "Current sequence": "Secuencia actual",
+    "Filter":"Filtro",
+    "Showing :itemsX-:itemsY items from a total of :totalItems": "Mostrando :itemsX-:itemsY items de un total de :totalItems",
+    "Report": "Informe",
+    "Successfully updated": "Actualizado correctamente",
+    "Successfully removed": "Eliminado correctamente",
+    "Successfully created": "Creado correctamente",  
+    "Edit area :name": "Editar área :name"
+   
+    
+    
     
    
 

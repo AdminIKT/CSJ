@@ -73,7 +73,7 @@ class SupplierController extends BaseController
         $dst = $request->get(
             'destination', route('suppliers.show', ['supplier' => $entity->getId()])
         );
-        return redirect()->to($dst)->with('success', 'Successfully created');
+        return redirect()->to($dst)->with('success', __('Successfully created'));
     }
 
     /**
@@ -116,7 +116,7 @@ class SupplierController extends BaseController
         $this->hydrateData($supplier, $request->all());
         $this->em->flush();
         return redirect()->route('suppliers.show', ['supplier' => $supplier->getId()])
-                         ->with('success', 'Successfully updated');
+                         ->with('success', __('Successfully updated'));
     }
 
     /**
@@ -130,7 +130,7 @@ class SupplierController extends BaseController
         $this->em->remove($supplier);
         $this->em->flush();
 
-        return redirect()->back()->with('success', 'Successfully removed');
+        return redirect()->back()->with('success', __('Successfully removed'));
     }
 
     /**

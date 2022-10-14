@@ -96,7 +96,7 @@ class OrderController extends BaseController
     public function destroy($id)
     {
         return redirect()->route('orders.index')
-                         ->with('success', 'Successfully deleted');
+                         ->with('success', __('Successfully removed'));
     }
 
     /**
@@ -114,6 +114,6 @@ class OrderController extends BaseController
         $order->setStatus($request->input('status'));
         $this->em->flush();
         return redirect()->back()
-                         ->with("success", "Successfully updated");
+                         ->with("success", __('Successfully updated'));
     }
 }

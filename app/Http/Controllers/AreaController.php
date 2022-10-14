@@ -63,7 +63,7 @@ class AreaController extends BaseController
         $this->em->persist($dptm);
         $this->em->flush();
         return redirect()->route('areas.index')
-                         ->with('success', 'Successfully created');
+                         ->with('success', __('Successfully created'));
 
     }
 
@@ -110,7 +110,7 @@ class AreaController extends BaseController
 
         $this->em->flush();
         return redirect()->route('areas.index')
-                         ->with('success', 'Successfully updated');
+                         ->with('success', __('Successfully updated'));
     }
 
     /**
@@ -124,6 +124,6 @@ class AreaController extends BaseController
         $this->em->remove($area);
         $this->em->flush();
 
-        return redirect()->back()->with('success', 'Successfully removed');
+        return redirect()->back()->with('success', __('Successfully removed'));
     }
 }

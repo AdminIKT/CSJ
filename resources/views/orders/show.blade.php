@@ -31,7 +31,7 @@
                     <option value="{{ App\Entities\Order::STATUS_PAID }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_PAID) }}</option>
                 @endcan
             </select>
-            <button id="statusBtn" class="btn btn-outline-secondary disabled" type="submit">{{ __('Save') }}</button>
+            <button id="statusBtn" class="btn btn-outline-secondary disabled" type="submit">{{ __('guardar') }}</button>
         </div>
     {{ Form::close() }}
 

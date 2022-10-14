@@ -67,7 +67,7 @@ class AssignmentController extends BaseController
         $this->em->flush();
         $dst = $request->get('destination', route('accounts.movements.index', ['account' => $subaccount->getAccount()->getId()]));
 
-        return redirect()->to($dst)->with('success', 'Successfully created');
+        return redirect()->to($dst)->with('success', __('Successfully created'));
     }
 
     /**
@@ -81,6 +81,6 @@ class AssignmentController extends BaseController
         MovementEvent::dispatch($assignment, __FUNCTION__);
         $this->em->remove($assignment);
         $this->em->flush();
-        return redirect()->back()->with('success', 'Successfully removed');
+        return redirect()->back()->with('success', __('Successfully removed'));
     }
 }

@@ -15,7 +15,7 @@
                 {{ Form::number('value', old('value', $entity->getValue()) , 
                     ['step' => '0.01', 'min' => 0, 'class' => 'form-control' . ($errors->has('value') ? ' is-invalid':'') ]) }}
                 <span class="input-group-append">
-                    {{ Form::submit('Save', ['name' => "form-{$entity->getType()}", 'class' => 'btn btn-sm btn-primary']) }}
+                    {{ Form::submit(__('guardar'), ['name' => "form-{$entity->getType()}", 'class' => 'btn btn-sm btn-primary']) }}
                 </span>
                 @if (old('type') == $entity->getType() && $errors->has('value'))
                    <div class="invalid-feedback">{!! $errors->first('value') !!}</div>

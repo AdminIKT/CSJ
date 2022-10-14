@@ -104,7 +104,7 @@ class OrderController extends BaseController
         $this->em->persist($order);
         $this->em->flush();
         return redirect()->route('orders.show', $order->getId())
-                         ->with('success', 'Successfully created');
+                         ->with('success', __('Successfully created'));
     }
 
     /**

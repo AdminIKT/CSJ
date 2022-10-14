@@ -79,7 +79,7 @@ class UserController extends BaseController
         $this->em->persist($user);
         $this->em->flush();
         return redirect()->route('users.show', ['user' => $user->getId()])
-                         ->with('success', 'Successfully created');
+                         ->with('success', __('Successfully created'));
 
     }
 
@@ -115,7 +115,7 @@ class UserController extends BaseController
         $this->hydrateData($user, $data);
         $this->em->flush();
         return redirect()->route('users.show', ['user' => $user->getId()])
-                         ->with('success', 'Successfully updated');
+                         ->with('success', __('Successfully updated'));
     }
 
     /**
@@ -129,7 +129,7 @@ class UserController extends BaseController
         $this->em->remove($user);
         $this->em->flush();
 
-        return redirect()->back()->with('success', 'Successfully removed');
+        return redirect()->back()->with('success', __('Successfully removed'));
     }
 
     /**

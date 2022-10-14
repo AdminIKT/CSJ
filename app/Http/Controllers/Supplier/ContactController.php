@@ -51,7 +51,7 @@ class ContactController extends BaseController
         $dst = $request->get(
             'destination', route('suppliers.show', ['supplier' => $supplier->getId()])
         );
-        return redirect()->to($dst)->with('success', 'Successfully created');
+        return redirect()->to($dst)->with('success', __('Successfully created'));
     }
 
     /**
@@ -92,7 +92,7 @@ class ContactController extends BaseController
         $this->hydrateData($contact, $request->all());
         $this->em->flush();
         return redirect()->route('suppliers.show', ['supplier' => $supplier->getId()])
-                         ->with('success', 'Successfully updated');
+                         ->with('success', __('Successfully updated'));
     }
 
     /**
@@ -109,7 +109,7 @@ class ContactController extends BaseController
         $this->em->remove($contact);
         $this->em->flush();
 
-        return redirect()->back()->with('success', 'Successfully removed');
+        return redirect()->back()->with('success', __('Successfully removed'));
     }
 
     /**

@@ -45,6 +45,6 @@ class SettingsController extends BaseController
         $setting->setValue($values['value']);
         $this->em->flush();
         $dst = $request->get('destination', route('settings.index'));
-        return redirect()->to($dst)->with('success', 'Successfully updated');
+        return redirect()->to($dst)->with('success', __('Successfully updated'));
     }
 }

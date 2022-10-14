@@ -80,7 +80,7 @@ class AccountController extends BaseController
         $this->em->persist($entity);
         $this->em->flush();
         return redirect()->route('accounts.show', ['account' => $entity->getId()])
-                         ->with('success', 'Successfully created');
+                         ->with('success', __('Successfully created'));
     }
 
     /**
@@ -137,7 +137,7 @@ class AccountController extends BaseController
         $this->hydrateData($account, $request->validated());
         $this->em->flush();
         return redirect()->route('accounts.show', ['account' => $account->getId()])
-                         ->with('success', 'Successfully updated');
+                         ->with('success', __('Successfully updated'));
     }
 
     /**
@@ -151,7 +151,7 @@ class AccountController extends BaseController
         $this->em->remove($account);
         $this->em->flush();
 
-        return redirect()->back()->with('success', 'Successfully removed');
+        return redirect()->back()->with('success', __('Successfully removed'));
     }
 
     /**

@@ -68,7 +68,7 @@ class InvoiceChargeController extends BaseController
         $this->em->flush();
 
         return redirect()->route('movements.index')
-                         ->with('success', 'Successfully created');
+                         ->with('success', __('Successfully created'));
     }
 
     protected function authorization()
