@@ -1,7 +1,7 @@
 @extends('new_layout')
 @section('title')
 @if ($entity->getId()) 
-    {{ __('Edit account :name', ['name' => $entity->getName()]) }} 
+    {{ __('Edit account :name', ['name' => $entity->getSerial()]) }} 
 @else 
     {{ __('New account') }} 
 @endif

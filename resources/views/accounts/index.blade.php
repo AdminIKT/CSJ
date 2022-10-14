@@ -39,7 +39,7 @@
                   <div class="input-group-prepend">
                       {{ Form::select('creditOp', [
                         ">=" => ">=",
-                        "==" => "==",
+                        "="  => "==",
                         "<=" => "<=",
                       ], request()->input('creditOp'), ['class'=>'form-select form-select-sm', 'aria-describedby' => 'addon-type']) }}
                   </div>
@@ -53,7 +53,7 @@
                   <div class="input-group-prepend">
                       {{ Form::select('compromisedOp', [
                         ">=" => ">=",
-                        "==" => "==",
+                        "="  => "==",
                         "<=" => "<=",
                       ], request()->input('compromisedOp'), ['class'=>'form-select form-select-sm', 'aria-describedby' => 'addon-type']) }}
                   </div>
@@ -67,7 +67,7 @@
                   <div class="input-group-prepend">
                       {{ Form::select('availableOp', [
                         ">=" => ">=",
-                        "==" => "==",
+                        "="  => "==",
                         "<=" => "<=",
                       ], request()->input('availableOp'), ['class'=>'form-select form-select-sm', 'aria-describedby' => 'addon-type']) }}
                   </div>

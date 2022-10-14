@@ -13,7 +13,7 @@
         </thead>
         <tbody>
         <tr>
-            <td class="align-middle">{{ $entity->getAcronym() }}</td>
+            <td class="align-middle" title="{{ $entity->getName() }}">{{ $entity->getSerial() }}</td>
             <td class="align-middle">{{ $entity->getTypeName() }}</td>
             <td class="align-middle">{{ implode(", ", $entity->getAreas()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
             <td class="align-middle">{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>

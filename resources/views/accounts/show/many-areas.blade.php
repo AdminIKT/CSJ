@@ -4,7 +4,6 @@
         <tr>
             <th>{{ __('acronimo') }}</th>
             <th>{{ __('Type') }}</th>
-            <th>{{ __('Name') }}</th>
             <th>{{ __('Real credit') }}</th>
             <th>{{ __('Compromised credit') }}</th>
             <th>{{ __('Available credit') }}</th>
@@ -13,9 +12,8 @@
         </thead>
         <tbody>
         <tr>
-            <td>{{ $entity->getAcronym() }}</td>
+            <td title="{{ $entity->getName() }}">{{ $entity->getSerial() }}</td>
             <td>{{ $entity->getTypeName() }}</td>
-            <td>{{ $entity->getName() }}</td>
             <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
             <td>{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
             <td>{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>

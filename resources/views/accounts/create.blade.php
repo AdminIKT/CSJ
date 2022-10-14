@@ -1,7 +1,7 @@
 @extends('new_layout')
 @section('title')
 @if ($entity->getId()) 
-    {{ __('Edit account :name', ['name' => $entity->getName()]) }} 
+    {{ __('Edit account :name', ['name' => $entity->getSerial()]) }} 
 @else 
     {{ __('New account') }} 
 @endif
@@ -27,24 +27,23 @@
     </div>
 
     <div class="col-9 mb-3">
-        {{ Form::label('lcode', __('Code'), ['class' => 'form-label']) }}
+        {{ Form::label('lcode', __('Code'), [
+            'class' => 'form-label',
+            'disabled' => 'disabled',
+        ]) }}
         {{ Form::text('lcode', old('lcode', $entity->getLCode()), ['class' => 'form-control form-control-sm' . ($errors->has('lcode') ? ' is-invalid':''), 'disabled' => $entity->getType() !== \App\Entities\Account::TYPE_LANBIDE ]) }}
         @if ($errors->has('lcode'))
            <div class="invalid-feedback">{!! $errors->first('lcode') !!}</div>
         @endif
     </div>
 
-    <div class="col-12 mb-3">
-        {{ Form::label('detail', __('detalle'), ['class' => 'form-label mt-3']) }}
-        {{ Form::textarea('detail', old('detail', $entity->getDetail()), ['class' => 'form-control form-control-sm', 'rows' => 2]) }}
-        @if ($errors->has('detail'))
-           <div class="invalid-feedback">{!! $errors->first('detail') !!}</div>
-        @endif
-    </div>
-
     <div class="col-3 mb-3">
         {{ Form::label('acronym', __('acronimo'), ['class' => 'form-label']) }}
+        <div class="input-group input-group-sm">
         {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control form-control-sm' . ($errors->has('acronym') ? ' is-invalid':'')]) }}
+            <span class="input-group-text" id="acr-addon" style="display:none"></span>
+            <span class="input-group-text" id="code-addon" style="display:none"></span>
+        </div>
         @if ($errors->has('acronym'))
            <div class="invalid-feedback">{!! $errors->first('acronym') !!}</div>
         @endif
@@ -55,6 +54,14 @@
         {{ Form::text('name', old('name', $entity->getName()), ['class' => 'form-control form-control-sm' . ($errors->has('name') ? ' is-invalid':'')]) }}
         @if ($errors->has('name'))
            <div class="invalid-feedback">{!! $errors->first('name') !!}</div>
+        @endif
+    </div>
+
+    <div class="col-12 mb-3">
+        {{ Form::label('detail', __('detalle'), ['class' => 'form-label mt-3']) }}
+        {{ Form::textarea('detail', old('detail', $entity->getDetail()), ['class' => 'form-control form-control-sm', 'rows' => 2]) }}
+        @if ($errors->has('detail'))
+           <div class="invalid-feedback">{!! $errors->first('detail') !!}</div>
         @endif
     </div>
 
@@ -73,7 +80,7 @@
     <fieldset class="mb-3">
         <!--<legend>{{ __('Subaccounts')}}</legend>-->
         @php $cols = 10; $i=0; @endphp
-        <table class="table table-bordered">
+        <table class="table">
         @for ($row=0; $row < count($areas)/$cols; $row++)
             <tr>
             @for ($col=0; $col < $cols; $col++)
@@ -100,7 +107,7 @@
                 <td class="">
                 @if (isset($users[$i]))
                     @php $e = $users[$i]; $i++; @endphp
-                    {{ Form::checkbox("users[]", $e->getId(), $entity->getusers()->contains($e), ['class' => 'form-check-input']) }}
+                    {{ Form::checkbox("users[]", $e->getId(), $entity->getusers()->contains($e), ['class' => 'form-check-input' . ($errors->has('users') ? ' is-invalid':'')]) }}
                     {{ Form::label("users[]", $e->getEmail(), ['class' => 'form-check-label']) }}
                 @endif
                 </td>
@@ -123,12 +130,36 @@
 @section('scripts')
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script>
+
     $(document).ready(function() {
-        $('#lcode').attr('disabled', jQuery.inArray($('#type').val(), ['L', 'O']) == -1);
+        changeTypeInput($('#type'));
         $('#type').change(function() {
-            $('#lcode').val('').attr('disabled', jQuery.inArray($(this).val(), ['L', 'O']) == -1);
+            changeTypeInput($(this));
+        });
+        changeCodeInput($('#lcode'));
+        $('#lcode').change(function() {
+            changeCodeInput($(this));
         });
     });
+
+    function changeTypeInput(input) {
+        var value    = input.val();
+        var options  = ['L', 'O'];
+        var disabled = jQuery.inArray(value, options) == -1;
+        if (disabled) {
+            $('#lcode').val('');
+            changeCodeInput($('#lcode'));
+        }
+        $('#lcode').attr('disabled', disabled);
+        $('#acr-addon').html(value.length ? '- '+value:'')
+                       .css('display', value.length ? 'block':'none');
+    }
+    function changeCodeInput(input) {
+        var value    = input.val();
+        $('#code-addon').html(value.length ? '- '+value:'')
+                        .css('display', value.length ? 'block':'none');
+
+    }
 
     var areas = @php echo json_encode($areas); @endphp;
     function selectArea(input) {
