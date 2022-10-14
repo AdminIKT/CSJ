@@ -45,6 +45,9 @@ class SubaccountPolicy
      */
     public function view(User $user, Subaccount $subaccount)
     {
+        return $subaccount->getUsers()->contains($user)
+            ? Response::allow()
+            : Response::deny("You do not own this subaccount");
     }
 
     /**
@@ -55,7 +58,7 @@ class SubaccountPolicy
      */
     public function create(User $user)
     {
-        //
+       
     }
 
     /**
