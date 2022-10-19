@@ -86,7 +86,7 @@
   <table class="table table-hover table-sm align-middle">
     <thead>
     <tr>
-        <th scope="col">{{ __('nombre') }}
+        <th scope="col">{{ __('acronimo') }}
             <a class="{{ request()->get('sortBy') == 'account.name' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.name', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>

@@ -37,6 +37,26 @@
         @endif
     </div>
 
+    <fieldset class="mb-3">
+        <!--<legend>{{ __('Subaccounts')}}</legend>-->
+        @php $cols = 10; $i=0; @endphp
+        <table class="table">
+        @for ($row=0; $row < count($areas)/$cols; $row++)
+            <tr>
+            @for ($col=0; $col < $cols; $col++)
+                <td class="">
+                @if (isset($areas[$i]))
+                    @php $e = $areas[$i]; $i++; @endphp
+                    {{ Form::checkbox("accounts[]", $e->getId(), $entity->getAreas()->contains($e), ['class' => 'form-check-input' . ($errors->has('accounts') ? ' is-invalid':''), 'onchange' => 'selectArea(this)']) }}
+                    {{ Form::label("accounts[]", $e->getName(), ['class' => 'form-check-label']) }}
+                @endif
+                </td>
+            @endfor
+            </tr>
+        @endfor
+        </table>
+    </fieldset>
+
     <div class="col-3 mb-3">
         {{ Form::label('acronym', __('acronimo'), ['class' => 'form-label']) }}
         <div class="input-group input-group-sm">
@@ -77,25 +97,7 @@
         @endif
     </div>
     -->
-    <fieldset class="mb-3">
-        <!--<legend>{{ __('Subaccounts')}}</legend>-->
-        @php $cols = 10; $i=0; @endphp
-        <table class="table">
-        @for ($row=0; $row < count($areas)/$cols; $row++)
-            <tr>
-            @for ($col=0; $col < $cols; $col++)
-                <td class="">
-                @if (isset($areas[$i]))
-                    @php $e = $areas[$i]; $i++; @endphp
-                    {{ Form::checkbox("accounts[]", $e->getId(), $entity->getAreas()->contains($e), ['class' => 'form-check-input' . ($errors->has('accounts') ? ' is-invalid':''), 'onchange' => 'selectArea(this)']) }}
-                    {{ Form::label("accounts[]", $e->getName(), ['class' => 'form-check-label']) }}
-                @endif
-                </td>
-            @endfor
-            </tr>
-        @endfor
-        </table>
-    </fieldset>
+  
 
     <fieldset class="mb-3">
         <legend> {{ __('usuarios') }}</legend>
@@ -144,6 +146,7 @@
 
     function changeTypeInput(input) {
         var value    = input.val();
+        if (!value) return;
         var options  = ['L', 'O'];
         var disabled = jQuery.inArray(value, options) == -1;
         if (disabled) {
