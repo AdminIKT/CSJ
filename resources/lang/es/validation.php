@@ -171,7 +171,19 @@ return [
     'attributes' => [
       'supplier' => 'proveedor',
       'receive in' => 'Recibir en',
-      'acronym' => 'acrónimo'
+      'acronym' => 'acrónimo',
+      'name' => 'nombre',
+      'email' => 'email',
+      'phone' => 'teléfono',
+      'detail' => 'detalle',
+      'nif' => 'NIF',
+      'zip' => 'CP',
+      'city' => 'población',
+      'address' => 'dirección',
+      'region' => 'provincia',
+      'nif' => 'NIF',
+      'nif' => 'NIF',
+      'nif' => 'NIF',
     ],
 
 ];

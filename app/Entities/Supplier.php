@@ -57,6 +57,13 @@ class Supplier
     /**
      * @var string
      *
+     * @ORM\Column(name="region", type="string")
+     */
+    private $region;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="name", type="string")
      */
     private $name;
@@ -272,6 +279,30 @@ class Supplier
     public function getAddress()
     {
         return $this->address;
+    }
+
+    /**
+     * Set region.
+     *
+     * @param string $region
+     *
+     * @return Supplier
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region.
+     *
+     * @return string
+     */
+    public function getRegion()
+    {
+        return $this->region;
     }
     
     /**

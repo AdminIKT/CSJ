@@ -28,7 +28,7 @@
         @endif
     </div>
 
-    <div class="col-md-3 mb-3">
+    <div class="col-md-2 mb-2">
         {{ Form::label('zip', __('Zip'), ['class' => 'form-label']) }}
         {{ Form::number('zip', old('zip', $entity->getZip()), ['class' => 'form-control form-control-sm' . ($errors->has('zip') ? ' is-invalid' :'')]) }}
         @if ($errors->has('zip'))
@@ -44,11 +44,19 @@
         @endif
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="col-md-5 mb-3">
         {{ Form::label('address', __('Address'), ['class' => 'form-label']) }}
         {{ Form::text('address', old('address', $entity->getAddress()), ['class' => 'form-control form-control-sm' . ($errors->has('address') ? ' is-invalid' :'')]) }}
         @if ($errors->has('address'))
            <div class="invalid-feedback">{!! $errors->first('address') !!}</div>
+        @endif
+    </div>
+
+    <div class="col-md-2 mb-3">
+        {{ Form::label('region', __('Region'), ['class' => 'form-label']) }}
+        {{ Form::text('region', old('region', $entity->getRegion()), ['class' => 'form-control form-control-sm' . ($errors->has('region') ? ' is-invalid' :'')]) }}
+        @if ($errors->has('region'))
+           <div class="invalid-feedback">{!! $errors->first('region') !!}</div>
         @endif
     </div>
 

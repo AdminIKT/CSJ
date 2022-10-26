@@ -25,8 +25,8 @@ class ContactRequest extends FormRequest
     {
         return [
             'name'  => 'required|max:255',
-            'email' => 'nullable|email',
-            'phone' => 'nullable|integer',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|integer',
         ];
     }
 
@@ -39,11 +39,11 @@ class ContactRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $data = $validator->getData();
+            /*$data = $validator->getData();
             if (!(isset($data['email']) || isset($data['phone']))) {
                 $validator->errors()->add("email", 'Required Email OR phone fields');
                 $validator->errors()->add("phone", 'Required Email OR phone fields');
-            }
+            }*/
         });
     }
 }

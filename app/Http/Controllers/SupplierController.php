@@ -146,6 +146,7 @@ class SupplierController extends BaseController
         if (isset($data['zip'])) $entity->setZip($data['zip']);
         if (isset($data['city'])) $entity->setCity($data['city']);
         if (isset($data['address'])) $entity->setAddress($data['address']);
+        if (isset($data['region'])) $entity->setRegion($data['region']);
         $entity->setAcceptable(isset($data['acceptable']));
         $entity->setRecommendable(isset($data['recommendable']));
 
