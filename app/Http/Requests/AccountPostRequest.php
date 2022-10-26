@@ -29,7 +29,8 @@ class AccountPostRequest extends FormRequest
             'type' => 'required',
             'lcode' => 'integer',
             'acronym' => 'required|max:3',
-            'accounts' => 'required',
+            'accounts.0' => 'required',
+            'accounts.*' => 'required|distinct',
             'users' => 'required',
             'detail' => 'nullable',
         ];

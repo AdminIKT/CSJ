@@ -37,24 +37,13 @@
         @endif
     </div>
 
-    <fieldset class="mb-3">
-        <!--<legend>{{ __('Subaccounts')}}</legend>-->
-        @php $cols = 10; $i=0; @endphp
-        <table class="table">
-        @for ($row=0; $row < count($areas)/$cols; $row++)
-            <tr>
-            @for ($col=0; $col < $cols; $col++)
-                <td class="">
-                @if (isset($areas[$i]))
-                    @php $e = $areas[$i]; $i++; @endphp
-                    {{ Form::checkbox("accounts[]", $e->getId(), $entity->getAreas()->contains($e), ['class' => 'form-check-input' . ($errors->has('accounts') ? ' is-invalid':''), 'onchange' => 'selectArea(this)']) }}
-                    {{ Form::label("accounts[]", $e->getName(), ['class' => 'form-check-label']) }}
-                @endif
-                </td>
-            @endfor
-            </tr>
-        @endfor
-        </table>
+    {{ Form::label('accounts[]', __('Areas'), ['class' => 'form-label']) }}
+    <fieldset class="mb-3 collection-container d-flex flex-wrap" 
+             data-prototype='@include("accounts.shared.form_area", ["index" => "__NAME__"])'>
+        @foreach (old('accounts', [[]]) as $i => $area)
+            @include('accounts.shared.form_area', ['index' => $i])
+        @endforeach
+        <button type="button" class="add-to-collection btn btn-sm btn-outline-secondary">{{__('New area')}}</button>
     </fieldset>
 
     <div class="col-3 mb-3">
@@ -97,7 +86,6 @@
         @endif
     </div>
     -->
-  
 
     <fieldset class="mb-3">
         <legend> {{ __('usuarios') }}</legend>
@@ -156,6 +144,7 @@
         $('#lcode').attr('disabled', disabled);
         $('#acr-addon').html(value.length ? '- '+value:'')
                        .css('display', value.length ? 'block':'none');
+        selectArea();
     }
     function changeCodeInput(input) {
         var value    = input.val();
@@ -165,23 +154,48 @@
     }
 
     var areas = @php echo json_encode($areas); @endphp;
-    function selectArea(input) {
-        var count = $("input[name='accounts[]']:checkbox:checked").length;
-        switch (count) {
+    function selectArea() {
+        var matches = 0;
+        $(":input.accounts").each(function(i, val) {
+          if ($(this).val() != null) {
+            matches++;
+          }
+        });
+        switch (matches) {
             case 1:
-                $("input[name='accounts[]']:checkbox:checked").each(function(i, checkbox) {
-                    for (var j=0; j<areas.length; j++) {
-                        if (areas[j].id == checkbox.value) {
-                            $('#acronym:input').val(areas[j].acronym);
-                            $('#name:input').val(areas[j].name);
-                        }
+                var value = $(":input.accounts").eq(matches-1).val();
+                for (var j=0; j<areas.length; j++) {
+                    if (areas[j].id == value) {
+                        $('#acronym:input').val(areas[j].acronym);
+                        var name = areas[j].name;
+                        if ($("#type:input").val())
+                        name += ' '+$("#type:input option:selected").text();
+                        $('#name:input').val(name);
                     }
-                });
+                }
                 break;
             default:
                 $('#acronym:input').val(null);
                 $('#name:input').val(null);
         }
+        return;
+    }
+
+    $(document).ready(function() {
+        $('.add-to-collection').on('click', function(e) {
+            e.preventDefault();
+            var container = $('.collection-container');
+            var count = container.children('.area').length;
+            var proto = container.data('prototype').replace(/__NAME__/g, count);
+            container.children('.area').eq(count-1).after(proto);
+            selectArea();
+        });
+        selectArea();
+    });
+
+    function rmCollection(btn) {
+        btn.closest('.area').remove();
+        selectArea();
     }
 </script>
 @endsection

@@ -59,11 +59,12 @@ class AccountController extends BaseController
                                 ->findBy([], ['email' => 'asc']);
 
         return view('accounts.create', [
-            'route' => route('accounts.store'),
-            'method' => 'POST',
-            'entity' => new Account,
-            'users' => $users,
-            'areas' => $areas,
+            'route'     => route('accounts.store'),
+            'method'    => 'POST',
+            'entity'    => new Account,
+            'users'     => $users,
+            'areas'     => $areas,
+            'accounts'  => Arr::pluck($areas, 'name', 'id'),
         ]); 
     }
 

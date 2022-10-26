@@ -1,6 +1,6 @@
 @extends('new_layout')
 @section('title')
-    {{ __('Account :name', ['name' => $entity->getSerial()]) }} <!--<small>({{$entity->getSerial()}})</small>-->
+    {{ __('Account :name', ['name' => $entity->getSerial()]) }} <small>({{$entity->getName()}})</small>
 @endsection
 @section('btn-toolbar')
     {{ Form::open([
