@@ -56,19 +56,6 @@ abstract class Action
     private $created;
 
     /**
-     * @var mixed
-     */
-    private $entity;
-
-    /**
-     * Constructor
-     */
-    public function __construct($entity)
-    {
-        $this->setEntity($entity);
-    }
-
-    /**
      * Get id.
      *
      * @return int
@@ -186,19 +173,12 @@ abstract class Action
      * @param mixed $entity
      * @return Action
      */
-    public function setEntity($entity)
-    {
-        $this->entity = $entity;
-        return $this;
-    }
+    abstract public function setEntity($entity);
 
     /**
      * @return mixed
      */
-    public function getEntity() 
-    {
-        return $this->entity;
-    }
+    abstract public function getEntity(); 
 
     /**
      *

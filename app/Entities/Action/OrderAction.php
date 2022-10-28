@@ -9,7 +9,7 @@ use App\Entities\Order;
 /**
  * Charge 
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repositories\Action\OrderRepository")
  */
 class OrderAction extends Action 
 {
@@ -23,18 +23,10 @@ class OrderAction extends Action
     private $entity;
 
     /**
-     * @inheritDoc
-     */
-    public function __construct(Order $entity)
-    {
-        parent::__construct($entity);
-    }
-
-    /**
      * @param Order $order
      * @return OrderAction
      */
-    protected function setOrder(Order $order)
+    public function setOrder(Order $order)
     {
         $this->setEntity($order);
         return $this;
@@ -43,9 +35,26 @@ class OrderAction extends Action
     /**
      * @return Order
      */
-    protected function getOrder()
+    public function getOrder()
     {
         return $this->getEntity();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setEntity($entity)
+    {
+        $this->entity = $entity;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEntity() 
+    {
+        return $this->entity;
     }
 
     /**

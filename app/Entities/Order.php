@@ -148,7 +148,7 @@ class Order implements UserAwareInterface, \JsonSerializable
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entities\Action\OrderAction", mappedBy="order", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="App\Entities\Action\OrderAction", mappedBy="entity", cascade={"persist","remove"})
      */
     private $actions;
 

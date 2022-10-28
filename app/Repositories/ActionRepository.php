@@ -13,6 +13,40 @@ class ActionRepository extends \Doctrine\ORM\EntityRepository
     use \LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
 
     /**
+     * @param array $filter
+     * @return QueryBuilder
+     */
+    protected function getQueryBuilder(array $filter = [])
+    {
+        $builder = $this->createQueryBuilder('action');
+
+        if (isset($filter['type']) &&
+            null !== ($type = $filter['type'])) {
+            $builder->andWhere("action.type = :type")
+                    ->setParameter('type', $type);
+        }
+        if (isset($filter['from']) &&
+            null !== ($from = $filter['from'])) {
+            $builder->andWhere("action.created >= :from")
+                    ->setParameter('from', $from);
+        }
+        if (isset($filter['to']) &&
+            null !== ($to = $filter['to'])) {
+            $builder->andWhere("action.created <= :to")
+                    ->setParameter('to', $to);
+        }
+
+        $builder->orderBy(
+            array_key_exists('sortBy', $filter) ?
+                    $filter['sortBy'] : 'action.created',
+            array_key_exists('sort', $filter) ?
+                    $filter['sort'] : 'DESC'
+        );
+    
+        return $builder;
+    }
+
+    /**
      * @param array{
      * } $filter
      * @param int $perPage
@@ -20,7 +54,7 @@ class ActionRepository extends \Doctrine\ORM\EntityRepository
      */
     function search(array $filter = [], $perPage = 10, $pageName= "page")
     {
-        $b = $this->createQueryBuilder('action');
+        $b = $this->getQueryBuilder($filter);
 
         $b->orderBy(
             array_key_exists('sortBy', $filter) ?

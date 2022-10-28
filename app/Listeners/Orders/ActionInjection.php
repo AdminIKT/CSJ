@@ -38,8 +38,9 @@ class ActionInjection
         //    return;
         //}
 
-        $action = new OrderAction($event->entity);
-        $action->setType(OrderAction::TYPE_STATUS)
+        $action = new OrderAction;
+        $action->setOrder($event->entity)
+            ->setType(OrderAction::TYPE_STATUS)
             ->setAction($event->entity->getStatus())
             ->setUser(Auth::user())
             ->setCreated(new \DateTime())

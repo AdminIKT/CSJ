@@ -26,12 +26,18 @@ class ActionController extends BaseController
      */
     public function index(Request $request, Order $order)
     {
-        $collection = $this->em->getRepository(Action::class)
-                               ->findBy(['order' => $order->getId()], ['created' => 'DESC']);
+        $ppg     = $request->input('perPage', Config('app.per_page'));
+        $actions = $this->em
+                        ->getRepository(Action::class)
+                        ->search(array_merge(
+                            $request->all(),
+                            ['entity' => $order->getId()]
+                        ), $ppg);
 
         return view('orders.actions', [
+            'perPage'    => $ppg,
             'entity'     => $order,
-            'collection' => $collection,
+            'collection' => $actions,
         ]);
     }
 }
