@@ -2,7 +2,8 @@
 
 namespace App\Listeners\Orders;
 
-use App\Events\MovementEvent,
+use App\Events\OrderEvent,
+    App\Events\MovementEvent,
     App\Entities\InvoiceCharge,
     App\Entities\Order;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -38,5 +39,7 @@ class UpdateStatus
                       ->setStatus(Order::STATUS_PAID) 
                       ->setCredit($event->entity->getCredit())
                       ->setInvoice($event->entity->getInvoice());
+
+        OrderEvent::dispatch($event->entity->getOrder(), OrderEvent::ACTION_STATUS);
     }
 }

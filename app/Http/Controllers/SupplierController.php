@@ -67,7 +67,7 @@ class SupplierController extends BaseController
     {
         $entity = new Supplier;
         $this->hydrateData($entity, $request->all());
-        SupplierEvent::dispatch($entity);
+        SupplierEvent::dispatch($entity, SupplierEvent::ACTION_STORE);
         $this->em->persist($entity);
         $this->em->flush();
         $dst = $request->get(

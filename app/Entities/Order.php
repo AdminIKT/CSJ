@@ -146,6 +146,13 @@ class Order implements UserAwareInterface, \JsonSerializable
     private $invoice;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entities\Action\OrderAction", mappedBy="order", cascade={"persist","remove"})
+     */
+    private $actions;
+
+    /**
      * @var DateTime 
      *
      * @ORM\Column(name="created", type="datetime")
@@ -167,6 +174,7 @@ class Order implements UserAwareInterface, \JsonSerializable
         $this->products   = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invoiceCharges  = new \Doctrine\Common\Collections\ArrayCollection();
         $this->incidences = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -607,6 +615,14 @@ class Order implements UserAwareInterface, \JsonSerializable
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * @return OrderAction[]
+     */
+    public function getActions()
+    {
+        return $this->actions;
     }
 
     /**

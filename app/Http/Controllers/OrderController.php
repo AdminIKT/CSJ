@@ -13,7 +13,8 @@ use App\Http\Requests\OrderPostRequest,
     App\Entities\Movement,
     App\Entities\Account,
     App\Entities\Area,
-    App\Entities\Order;
+    App\Entities\Order,
+    App\Events\OrderEvent;
 
 class OrderController extends BaseController
 {
@@ -112,6 +113,9 @@ class OrderController extends BaseController
         Gate::authorize("order-{$perm}", $order);
         */
         $order->setStatus($request->input('status'));
+
+        OrderEvent::dispatch($order, OrderEvent::ACTION_STATUS);
+
         $this->em->flush();
         return redirect()->back()
                          ->with("success", __('Successfully updated'));

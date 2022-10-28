@@ -34,6 +34,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderEvent::class => [
             Users\EntityInjection::class,
+            Orders\ActionInjection::class,
         ],
         SupplierEvent::class => [
             Users\EntityInjection::class,

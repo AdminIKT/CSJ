@@ -146,6 +146,12 @@ th a.active {
             </a>
           </li>
           @endcan
+          <li class="nav-item">
+            <a class="nav-link {{request()->is('actions*') ? 'active' : ''}}" href="{{ route('actions.index') }}">
+              <span data-feather="activity"></span>
+              {{ __('Activity') }}
+            </a>
+          </li>
         </ul>
         <!--<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Reports</span>

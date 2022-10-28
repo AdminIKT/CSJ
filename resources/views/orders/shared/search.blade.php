@@ -1,4 +1,4 @@
-<a data-bs-toggle="collapse" href="#collapseForm" role="button" aria-expanded="false" aria-controls="collapseForm" class="text-decoration-none">{{ __('Filter') }}</a>
+<button data-bs-toggle="collapse" data-bs-target="#collapseForm" role="button" aria-expanded="false" aria-controls="collapseForm" class="text-decoration-none btn btn-sm btn-outline-secondary btn-filter collapsed">{{ __('Filter') }}</button>
 <form id="collapseForm" action="{{ $route }}" method="GET" class="row collapse mb-3">
     @if (!(isset($exclude) && in_array('types', $exclude)))
     <div class="col">

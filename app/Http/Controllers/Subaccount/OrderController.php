@@ -99,7 +99,7 @@ class OrderController extends BaseController
                    ->increaseCompromisedCredit($order->getEstimatedCredit())
                    ;
 
-        OrderEvent::dispatch($order);
+        OrderEvent::dispatch($order, OrderEvent::ACTION_STORE);
 
         $this->em->persist($order);
         $this->em->flush();

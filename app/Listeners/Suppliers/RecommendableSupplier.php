@@ -55,6 +55,6 @@ class RecommendableSupplier
                           ->findOneBy(['type' => Settings::TYPE_RECOMMENDED_SUPPLIER_LIMIT])
                           ->getValue();
 
-        dd($limit, $collection->total());
+        //FIXME dd($limit, $collection->total());
     }
 }

@@ -72,7 +72,7 @@ class IncidenceController extends BaseController
             $incidence->setOrder($e); 
         }
 
-        IncidenceEvent::dispatch($incidence);
+        IncidenceEvent::dispatch($incidence, IncidenceEvent::ACTION_STORE);
 
         $this->em->persist($incidence);
         $this->em->flush();
@@ -153,7 +153,7 @@ class IncidenceController extends BaseController
             abort(404);
         }
 
-        IncidenceEvent::dispatch($incidence);
+        IncidenceEvent::dispatch($incidence, IncidenceEvent::ACTION_CLOSE);
 
         $incidence->setStatus(Incidence::STATUS_CLOSED);
         $this->em->flush();

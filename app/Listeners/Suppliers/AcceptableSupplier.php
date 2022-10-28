@@ -45,7 +45,7 @@ class AcceptableSupplier
                           ->findOneBy(['type' => Settings::TYPE_ACCEPTED_SUPPLIER_LIMIT])
                           ->getValue();
 
-        //TODO
+        //TODO: use Actions instead
         if ($incidence->isClosed()) {
         }
         else {

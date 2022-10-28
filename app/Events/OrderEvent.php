@@ -10,23 +10,16 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderEvent implements UserAwareEvent
+class OrderEvent extends AbstractEvent implements UserAwareEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    const ACTION_STATUS = 'status';
 
     /**
-     * @var Order 
+     * @inheritDoc
      */
-    public $entity;
-
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct(\App\Entities\Order $order)
+    public function __construct(\App\Entities\Order $order, string $action)
     {
-        $this->entity = $order;
+        parent::__construct($order, $action);
     }
 
     /**
@@ -35,15 +28,5 @@ class OrderEvent implements UserAwareEvent
     public function getUserAwareEntity()
     {
         return $this->entity;
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
     }
 }

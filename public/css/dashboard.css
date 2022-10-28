@@ -98,3 +98,18 @@ body {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
+
+.btn-filter::before {
+   content: "\1F50D";
+   margin-right: 0.5em;
+}
+.btn-filter {
+   margin-bottom: 0.5em;
+}
+.btn-filter::after {
+   content: "\25b4";
+   margin-left: 0.5em;
+}
+.btn-filter.collapsed::after {
+   content: "\25be";
+}

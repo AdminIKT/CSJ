@@ -13,6 +13,7 @@
         'route' => route('movements.index'),
         'report' => true,
     ])
+    <hr/>
     @include ('movements.shared.table', [
         'collection' => $collection, 
         'pagination' => true, 

@@ -10,9 +10,9 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class IncidenceEvent implements UserAwareEvent
+class IncidenceEvent extends AbstractEvent implements UserAwareEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    const ACTION_CLOSE = 'close';
 
     /**
      * @var Order 
@@ -20,13 +20,11 @@ class IncidenceEvent implements UserAwareEvent
     public $entity;
 
     /**
-     * Create a new event instance.
-     *
-     * @return void
+     * @inheritDoc
      */
-    public function __construct(\App\Entities\Supplier\Incidence $e)
+    public function __construct(\App\Entities\Supplier\Incidence $e, string $a)
     {
-        $this->entity = $e;
+        parent::__construct($e, $a);
     }
 
     /**
@@ -35,15 +33,5 @@ class IncidenceEvent implements UserAwareEvent
     public function getUserAwareEntity()
     {
         return $this->entity;
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
     }
 }
