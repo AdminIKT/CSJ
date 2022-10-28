@@ -153,7 +153,7 @@
     <a class='nav-link {{request()->is("orders/{$entity->getId()}/incidences*")?" active":"" }}' href="{{ route('orders.incidences.index', ['order' => $entity->getId()]) }}">{{ __('Incidences') }}</a>
   </li>
   <li class="nav-item">
-    <a class='nav-link {{request()->is("orders/{$entity->getId()}/actions*")?" active":"" }}' href="{{ route('orders.actions.index', ['order' => $entity->getId()]) }}">{{ __('Actions') }}</a>
+    <a class='nav-link {{request()->is("orders/{$entity->getId()}/actions*")?" active":"" }}' href="{{ route('orders.actions.index', ['order' => $entity->getId()]) }}">{{ __('Activity') }}</a>
   </li>
 </ul>
 

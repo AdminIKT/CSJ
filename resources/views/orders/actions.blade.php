@@ -3,6 +3,6 @@
     @include ('actions.shared.table', [
         'collection' => $collection, 
         'pagination' => true, 
-        'exclude' => ['orders']
+        'exclude' => ['entity']
     ])
 @endsection

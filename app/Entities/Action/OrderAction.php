@@ -66,10 +66,10 @@ class OrderAction extends Action
             case self::TYPE_STATUS:
                 switch ($this->getAction()) {
                     case Order::STATUS_CREATED:
-                        return 'New order';
+                        return trans('New order');
                 }
-                return 'State changed';
-            return 'Undefined';
+                return trans('State changed');
+            return trans('Undefined');
         }
     }
 }

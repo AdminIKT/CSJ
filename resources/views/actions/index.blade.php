@@ -1,5 +1,5 @@
 @extends('new_layout')
-@section('title'){{ __('Actions') }}@endsection
+@section('title'){{ __('Activity') }}@endsection
 @section('btn-toolbar')
 @endsection
 @section('content')

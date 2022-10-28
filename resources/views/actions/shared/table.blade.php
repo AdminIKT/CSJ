@@ -2,19 +2,28 @@
     <table class="table table-hover table-sm">
         <thead>
         <tr>
-            @if (!(isset($exclude) && in_array('orders', $exclude)))
-            <th>{{ __('Order') }} nº</th>
+            @if (!(isset($exclude) && in_array('entity', $exclude)))
+            <th>{{ __('Entity') }}</th>
             @endif
             <th>{{ __('Type') }}</th>
             <th>{{ __('Action') }}</th>
             <th>{{ __('User') }}</th>
-            <th>{{ __('Created') }}</th>
+            @if (!(isset($exclude) && in_array('created', $exclude)))
+            <th scope="col">{{ __('Created') }}
+              <a class="{{ request()->get('sortBy') == 'action.created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'action.created', 'sort' => 'asc']) }}">
+                  <span data-feather="chevron-up"></span>
+              </a>
+              <a class="{{ request()->get('sortBy') == 'action.created' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'action.created', 'sort' => 'desc']) }}">
+                  <span data-feather="chevron-down"></span>
+              </a>
+            </th>
+            @endif
         </tr>
         </thead>
         <tbody>
         @foreach ($collection as $action)
         <tr>
-            @if (!(isset($exclude) && in_array('orders', $exclude)))
+            @if (!(isset($exclude) && in_array('entity', $exclude)))
             <td>@if ($action->getEntity())<a href="{{ route('orders.show', ['order' => $action->getEntity()->getId()]) }}">{{ $action->getEntity()->getSequence() }}</a>@endif</td>
             @endif
             <td>{{ $action->getTypeName() }}</td>
