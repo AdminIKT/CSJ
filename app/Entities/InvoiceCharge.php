@@ -27,6 +27,13 @@ class InvoiceCharge extends Charge
      */
     private $invoice;
 
+     /**
+     * @var DateTime 
+     *
+     * @ORM\Column(name="invoiceDate", type="datetime")
+     */
+    private $invoiceDate;
+
     /**
      * Get invoice.
      *
@@ -47,6 +54,30 @@ class InvoiceCharge extends Charge
     public function setInvoice($invoice)
     {
         $this->invoice = $invoice;
+
+        return $this;
+    }
+
+     /**
+     * Get invoice date.
+     *
+     * @return DateTime
+     */
+    public function getInvoiceDate()
+    {
+        return $this->invoiceDate;
+    }
+
+    /**
+     * Set invoice date.
+     *
+     * @param string $invoiceDate
+     *
+     * @return InvoiceCharge
+     */
+    public function setInvoiceDate($invoiceDate)
+    {
+        $this->invoiceDate = $invoiceDate;
 
         return $this;
     }

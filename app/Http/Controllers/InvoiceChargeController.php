@@ -57,6 +57,7 @@ class InvoiceChargeController extends BaseController
         $movement = new InvoiceCharge;
         $movement->setCredit($data['credit'])
                  ->setInvoice($data['invoice'])
+                 ->setInvoiceDate(new \Datetime($data['invoiceDate']))
                  ->setDetail(str_replace($matches[0], "", $description))
                  ->setType(InvoiceCharge::TYPE_INVOICED)
                  ->setSubaccount($order->getSubaccount())

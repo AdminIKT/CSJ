@@ -26,6 +26,7 @@ class InvoiceChargeRequest extends FormRequest
         return [
             'detail'  => 'required|max:255',
             'invoice' => 'required|max:255',
+            'invoiceDate' => 'required',
             'credit'  => 'required|min:0',
         ];
     }
