@@ -28,6 +28,7 @@ class UserRequest extends FormRequest
                 'required',
                 'email',
                 'regex:/^[\w|\.|\-|\_]+@fpsanjorge.com$/i',
+                'unique:\App\Entities\User,email',
             ],
             'roles' => 'required',
         ];
