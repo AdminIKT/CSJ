@@ -25,7 +25,7 @@ class AreaPostRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'acronym' => 'required|max:3',
+            'acronym' => 'required|max:3|unique:\App\Entities\Area,acronym',
         ];
-    }
+    }   
 }
