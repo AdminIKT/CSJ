@@ -100,8 +100,6 @@ body {
 }
 
 .btn-filter::before {
-   content: "\1F50D";
-   margin-right: 0.5em;
 }
 .btn-filter {
    margin-bottom: 0.5em;

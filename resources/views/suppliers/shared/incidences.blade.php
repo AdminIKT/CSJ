@@ -1,42 +1,42 @@
 <div class="table-responsive">
     <table class="table table-hover table-sm">
         <thead>
-        <tr>
-            @if (!(isset($exclude) && in_array('orders', $exclude)))
-            <th>{{ __('Order') }} nº</th>
-            @endif
-            <th>{{ __('Detail') }}</th>
-            <th>{{ __('Status') }}</th>
-            <th>{{ __('User') }}</th>
-            <th>{{ __('Created') }}</th>
-            <th>{{ __('Actions') }}</th>
-        </tr>
+            <tr>
+                @if (!(isset($exclude) && in_array('orders', $exclude)))
+                <th>{{ __('Order') }} nº</th>
+                @endif
+                <th>{{ __('Detail') }}</th>
+                <th>{{ __('Status') }}</th>
+                <th>{{ __('User') }}</th>
+                <th>{{ __('Created') }}</th>
+                <th>{{ __('Actions') }}</th>
+            </tr>
         </thead>
         <tbody>
         @foreach ($entity->getIncidences() as $incidence)
-        <tr>
-            @if (!(isset($exclude) && in_array('orders', $exclude)))
-            <td>@if ($incidence->getOrder())<a href="{{ route('orders.show', ['order' => $incidence->getOrder()->getId()]) }}">{{ $incidence->getOrder()->getSequence() }}</a>@endif</td>
-            @endif
-            <td>{{ $incidence->getDetail() }}</td>
-            <td><span class="badge {{ $incidence->getStatusColor() }}">{{ $incidence->getStatusName() }}</span></td>
-            <td>{{ $incidence->getUser()->getName() }}</td>
-            <td>{{ $incidence->getCreated()->format("d/m/Y H:i") }}</td>
-            <td>
-                <div class="btn-group btn-group-sm" role="group">
-                    @can('update', $incidence)
-                    <a href="{{ route('suppliers.incidences.close', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/close") ? "active" : ""}}' data-bs-toggle="tooltip" title="close">
-                        <span data-feather="x-circle"></span>
-                    </a>
-                    @endcan
-                    @can('update', $incidence)
-                    <a href="{{ route('suppliers.incidences.edit', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/edit") ? "active" : ""}}'>
-                        <span data-feather="edit-2"></span>
-                    </a>
-                    @endcan
-                </div>
-            </td>
-        </tr>
+            <tr>
+                @if (!(isset($exclude) && in_array('orders', $exclude)))
+                <td>@if ($incidence->getOrder())<a href="{{ route('orders.show', ['order' => $incidence->getOrder()->getId()]) }}">{{ $incidence->getOrder()->getSequence() }}</a>@endif</td>
+                @endif
+                <td>{{ $incidence->getDetail() }}</td>
+                <td><span class="badge {{ $incidence->getStatusColor() }}">{{ $incidence->getStatusName() }}</span></td>
+                <td>{{ $incidence->getUser()->getName() }}</td>
+                <td>{{ $incidence->getCreated()->format("d/m/Y H:i") }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        @can('update', $incidence)
+                        <a href="{{ route('suppliers.incidences.close', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/close") ? "active" : ""}}' data-bs-toggle="tooltip" title="close">
+                            <span data-feather="x-circle"></span>
+                        </a>
+                        @endcan
+                        @can('update', $incidence)
+                        <a href="{{ route('suppliers.incidences.edit', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/edit") ? "active" : ""}}'>
+                            <span data-feather="edit-2"></span>
+                        </a>
+                        @endcan
+                    </div>
+                </td>
+            </tr>
         @endforeach
         <!--
         <tr>

@@ -100,7 +100,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script>
         function addToCollection(btn) {
             var container = $('.collection-container');

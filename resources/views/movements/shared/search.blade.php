@@ -1,4 +1,6 @@
-<button data-bs-toggle="collapse" data-bs-target="#collapseForm" role="button" aria-expanded="false" aria-controls="collapseForm" class="text-decoration-none btn btn-sm btn-outline-secondary btn-filter collapsed">{{ __('Filter') }}</button>
+<button data-bs-toggle="collapse" data-bs-target="#collapseForm" role="button" aria-expanded="false" aria-controls="collapseForm" class="text-decoration-none btn btn-sm btn-outline-secondary btn-filter m-1 collapsed">
+    <i data-feather="search"></i> {{ __('Filter') }}
+</button>
 <form id="collapseForm" action="{{ $route }}" method="GET" class="row collapse mb-3">
     <div class="col-12">
         <div class="row">

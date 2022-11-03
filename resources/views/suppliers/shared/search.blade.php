@@ -1,4 +1,7 @@
-<form action="{{ route('suppliers.index') }}" method="GET" class="row mb-3">
+<button data-bs-toggle="collapse" data-bs-target="#collapseForm" role="button" aria-expanded="false" aria-controls="collapseForm" class="text-decoration-none btn btn-sm btn-outline-secondary btn-filter m-1 ms-0 collapsed">
+    <i data-feather="search"></i> {{ __('Filter') }}
+</button>
+<form id="collapseForm" action="{{ route('suppliers.index') }}" method="GET" class="row collapse mb-3">
 <div class="col-12"><div class="row">
     <div class="col">
         <div class="input-group input-group-sm mb-3">

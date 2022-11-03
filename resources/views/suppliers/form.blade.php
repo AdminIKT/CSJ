@@ -97,7 +97,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('.add-to-collection').on('click', function(e) {

@@ -1,22 +1,29 @@
-@extends('new_layout')
+@extends('sj_layout')
 @section('title'){{ __('Movements') }}@endsection
 @section('btn-toolbar')
-    <a href="{{ route('imports.create') }}" class="btn btn-sm btn-outline-secondary me-2" title="{{__('Import')}}">
+    <!--<a href="{{ route('imports.create') }}" class="btn btn-sm btn-outline-secondary m-1 ms-0" title="{{__('Import')}}">
         <span data-feather="download-cloud"></span> {{ __('Import') }}
     </a>
-    <a href="{{ route('invoiceCharges.create') }}" class="btn btn-sm btn-outline-secondary" title="{{__('New')}}">
+    <a href="{{ route('invoiceCharges.create') }}" class="btn btn-sm btn-outline-secondary m-1" title="{{__('New')}}">
         <span data-feather="plus"></span> {{ __('New') }}
-    </a>
+    </a>-->
 @endsection
 @section('content')
+    <a href="{{ route('imports.create') }}" class="btn btn-sm btn-outline-secondary m-1 ms-0" title="{{__('Import')}}">
+        <span data-feather="download-cloud"></span> {{ __('Import') }}
+    </a>
+    <a href="{{ route('invoiceCharges.create') }}" class="btn btn-sm btn-outline-secondary m-1" title="{{__('New')}}">
+        <span data-feather="plus"></span> {{ __('New') }}
+    </a>
     @include('movements.shared.search', [
         'route' => route('movements.index'),
         'report' => true,
     ])
-    <hr/>
-    @include ('movements.shared.table', [
-        'collection' => $collection, 
-        'pagination' => true, 
-        'exclude' => []
-    ])
+    <div class="bg-white border rounded rounded-5 px-2 mb-2">
+        @include ('movements.shared.table', [
+            'collection' => $collection, 
+            'pagination' => true, 
+            'exclude' => []
+        ])
+    </div>
 @endsection

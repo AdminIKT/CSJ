@@ -1,4 +1,5 @@
-<div class="table-responsive">
+<div class="table-responsive {!! $classes ?? 'bg-white px-2 mb-2 rounded rounded-5' !!}">
+    <p class="text-muted small my-1">{{ __('Showing :itemsX-:itemsY items from a total of :totalItems', ['itemsX' => $collection->firstItem()?:0, 'itemsY' => $collection->lastItem()?:0, 'totalItems' => $collection->total()]) }}</p>
     <table class="table table-hover table-sm">
         <thead>
         <tr>

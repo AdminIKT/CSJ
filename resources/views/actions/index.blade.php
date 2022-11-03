@@ -1,12 +1,12 @@
-@extends('new_layout')
+@extends('sj_layout')
 @section('title'){{ __('Activity') }}@endsection
-@section('btn-toolbar')
-@endsection
 @section('content')
 
-@include('actions.shared.table', [
-        'collection' => $collection, 
-        'pagination' => true,
-    ])
+<div class="bg-white border rounded rounded-5 px-2 mb-2">
+    @include('actions.shared.table', [
+            'collection' => $collection, 
+            'pagination' => true,
+        ])
+</div>
   
 @endsection
