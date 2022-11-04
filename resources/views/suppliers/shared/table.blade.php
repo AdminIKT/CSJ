@@ -54,7 +54,9 @@
       @foreach ($collection as $i => $entity)
       <tr>
           <td>{{ $entity->getNif() }}</td>
-          <td>{{ $entity->getName() }}</td>
+          <td>
+            <a href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}">{{ $entity->getName() }}</a>
+          </td>
           <td>{{ $entity->getCity() }}</td>
           <td>{{ $entity->getZip() }}</td>
           <td>{{ $entity->getAddress() }}</td>

@@ -1,4 +1,4 @@
-@extends('new_layout')
+@extends('sj_layout')
 @section('title')
 @if ($entity->getId()) 
     {{ __('Edit account :name', ['name' => $entity->getSerial()]) }} 
@@ -108,7 +108,7 @@
     </fieldset>
 
     <div>
-        {{ Form::submit(__('guardar'), ['class' => 'btn btn-primary btn-sm float-end']) }}
+        {{ Form::button(__('guardar'), ['type' => 'submit', 'class' => 'btn btn-primary btn-sm btn-save float-end']) }}
         <a href="{{ url()->previous() }}" class="btn btn-sm">
             {{ __('cancelar')}}
         </a>

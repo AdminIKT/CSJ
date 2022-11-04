@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CSJ - @yield('title')</title>
     <link rel="shortcut icon" href="/img/favicon/avatar2.png" type="image/x-icon" />
-    <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
     </style>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/boxicons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
   </head>
@@ -34,7 +34,9 @@
                     <a class="btn {{ app()->getLocale() == 'eus' ? 'disabled':'' }}" href="/language/eus">eus</a>
                     <a class="btn {{ app()->getLocale() == 'es' ? 'disabled':'' }}" href="/language/es">es</a>
                 </div>
-                <a class="btn btn-sm" href="#" onclick="authCard()"><span data-feather="x"></span></a>
+                <a class="btn btn-sm" href="#" onclick="authCard()">
+                    <i class="bx bx-x"></i>
+                </a>
             </div>
             <img src="{{ Auth::user()->getAvatar() }}" class="card-avatar rounded-circle" />
             <p class="card-subtitle my-2 text-muted">{{ Auth::user()->getEmail() }}</p>
@@ -61,7 +63,7 @@
         @endif
         <div class="card-footer">
             <a class="btn btn-sm" href="{{ route('logout') }}">
-                <i data-feather="log-out"></i>
+                <i class="bx bx-log-out"></i>
                 {{ __('Logout') }}
             </a>
         </div> 
@@ -103,13 +105,13 @@
             @endcan
             @can('viewAny', App\Entities\Supplier::class)
             <a class="nav_link {{request()->is('suppliers*') ? 'active' : ''}}" href="{{ route('suppliers.index') }}" title="{{ __('Suppliers') }}">
-              <i data-feather="shopping-bag" class="nav_icon"></i>
+              <i data-feather="shopping-cart" class="nav_icon"></i>
               <span class="nav_name">{{ __('Suppliers') }}</span>
             </a>
             @endcan
             @can('viewAny', App\Entities\Order::class)
             <a class="nav_link" title="{{ __('Receptions') }}">
-              <i data-feather="package" class="nav_icon"></i>
+              <i data-feather="truck" class="nav_icon"></i>
               <span class="nav_name">{{ __('Receptions') }}</span>
             </a>
             @endcan
@@ -129,13 +131,13 @@
             @endcan
             @can('viewAny', App\Entities\Area::class)
             <a class="nav_link {{request()->is('areas*') ? 'active' : ''}}" href="{{ route('areas.index') }}" title="{{ __('Areas') }}">
-              <i data-feather="hexagon" class="nav_icon"></i>
+              <i data-feather="globe" class="nav_icon"></i>
               <span class="nav_name">{{ __('Areas') }}</span>
             </a>
             @endcan
             @can('viewAny', App\Entities\Account::class)
             <a class="nav_link {{request()->is('accounts*') ? 'active' : ''}}" href="{{ route('accounts.index') }}" title="{{ __('Accounts') }}">
-              <i data-feather="globe" class="nav_icon"></i>
+              <i data-feather="credit-card" class="nav_icon"></i>
               <span class="nav_name">{{ __('Accounts') }}</span>
             </a>
             @endcan
@@ -264,12 +266,8 @@
         function authCard() {
             var cards = $('.auth-card');
             cards.eq(0).is(':hidden') ? 
-                cards.each(function(i, e) {
-                    $(e).show(); 
-                }) :
-                cards.each(function(i, e) {
-                    $(e).hide(); 
-                });
+                cards.each(function(i, e) {$(e).show();}) :
+                cards.each(function(i, e) {$(e).hide();});
         }
     </script>
     @yield('scripts')

@@ -1,4 +1,4 @@
-@extends('new_layout')
+@extends('sj_layout')
 @section('title')
     {{ __('Account :name', ['name' => $entity->getSerial()]) }} <small>({{$entity->getName()}})</small>
 @endsection
@@ -9,12 +9,12 @@
     ]) }}
     @if ($entity->getSubaccounts()->count() === 1)
         @can('view', $entity)
-        <a href="{{ route('subaccounts.orders.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="btn btn-sm btn-outline-secondary">
+        <a href="{{ route('subaccounts.orders.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="btn btn-sm btn-outline-secondary m-1 ms-0">
             <span data-feather="file"></span> {{ __('New order') }} 
         </a>
         @endcan
         @can('update', $entity)
-        <div class="btn-group">
+        <div class="btn-group m-1">
             <button id="movementBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <span data-feather="shopping-cart"></span> {{ __('New movement') }} 
             </button>
@@ -29,7 +29,7 @@
         </div>
         @endcan
     @endif
-    <div class="btn-group btn-group-sm" role="group">
+    <div class="btn-group btn-group-sm m-1" role="group">
         @can('update', $entity)
         <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
             <span data-feather="edit-2"></span>
@@ -43,7 +43,6 @@
 @endsection
 
 @section('content')
-<p class="small"><strong>{{ __('Users') }}:</strong> {{ implode(", ", $entity->getUsers()->map(function ($e) { return $e->getName(); })->toArray()) }}</p>
 
 @if ($entity->getSubaccounts()->count() > 1)
     @include ('accounts.show.many-areas', ['entity' => $entity])
@@ -51,14 +50,20 @@
     @include ('accounts.show.one-area', ['entity' => $entity])
 @endif
 
-<ul class="nav nav-tabs justify-content-center mb-3">
+<ul class="nav nav-tabs justify-content-center border-0">
   <li class="nav-item">
-    <a class='nav-link {{request()->is("accounts/{$entity->getId()}")?" active":"" }}' href="{{ route('accounts.show', ['account' => $entity->getId()]) }}">{{__('Orders')}}</a>
+    <a class='nav-link {{request()->is("accounts/{$entity->getId()}")?" active":"" }}' href="{{ route('accounts.show', ['account' => $entity->getId()]) }}">
+        <span data-feather="file"></span> {{ __('Orders') }}
+    </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {{request()->is('accounts/*/movements')?' active':'' }}" href="{{ route('accounts.movements.index', ['account' => $entity->getId()]) }}">{{__('Movements')}}</a>
+    <a class="nav-link {{request()->is('accounts/*/movements')?' active':'' }}" href="{{ route('accounts.movements.index', ['account' => $entity->getId()]) }}">
+        <span data-feather="dollar-sign"></span> {{ __('Movements') }}
+    </a>
   </li>
 </ul>
 
-@yield('body', View::make('accounts.body', ['collection' => $collection, 'entity' => $entity, 'perPage' => $perPage]))
+<div class="bg-white border rounded rounded-5 px-2 mb-2">
+    @yield('body', View::make('accounts.body', ['collection' => $collection, 'entity' => $entity, 'perPage' => $perPage]))
+</div>
 @endsection

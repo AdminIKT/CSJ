@@ -1,6 +1,6 @@
 <div class="table-responsive">
   <p class="text-muted small my-1">{{ __('Showing :itemsX-:itemsY items from a total of :totalItems', ['itemsX' => $collection->firstItem()?:0, 'itemsY' => $collection->lastItem()?:0, 'totalItems' => $collection->total()]) }}</p>
-  <table class="table table-hover table-sm">
+  <table class="table table-sm align-middle">
     <thead>
     <tr>
         <th scope="col">{{ __('Order') }} nº
@@ -23,6 +23,7 @@
         @if (!(isset($exclude) && in_array('types', $exclude)))
         <th scope="col">{{ __('Type') }}</th>
         @endif
+        <th scope="col">{{ __('Status') }}</th>
         <th scope="col">{{ __('Estimated') }}
             <a class="{{ request()->get('sortBy') == 'orders.estimatedCredit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.estimatedCredit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -32,7 +33,6 @@
             </a>
         </th>
         <th scope="col">{{ __('Invoice') }}</th>
-        <th scope="col">{{ __('Status') }}</th>
         <th scope="col">{{ __('Credit') }}
             <a class="{{ request()->get('sortBy') == 'orders.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.credit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -88,9 +88,9 @@
             <td>{{ $order->getAccount()->getTypeName() }}</td>
             @endif
             <!--<td>{{ $order->getProducts()->count() }}</td>-->
+            <td><span class="badge {{ $order->getStatusColor() }}">{{ $order->getStatusName() }}</span></td>
             <td>{{ number_format($order->getEstimatedCredit(), 2, ",", ".") }}€</td>
             <td>@if ($order->getEstimated())<a href='{{ asset("storage/{$order->getEstimated()}") }}' target="_blank">{{ $order->getEstimated() }}</a>@else-@endif</td>
-            <td><span class="badge {{ $order->getStatusColor() }}">{{ $order->getStatusName() }}</span></td>
             <td>@if ($order->getCredit()) {{ number_format($order->getCredit(), 2, ",", ".") }}€ @endif</td>
             <td>{{ $order->getDate()->format("d/m/Y H:i") }}</td>
             @if (!(isset($exclude) && in_array('users', $exclude)))
@@ -106,17 +106,17 @@
             ]) }}
                 <div class="btn-group btn-group-sm" role="group">
                 @can('view', $order)
-                    <a href="{{ route('orders.show', ['order' => $order->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('View') }}">
+                    <a href="{{ route('orders.show', ['order' => $order->getId()]) }}" class="btn" title="{{ __('View') }}">
                         <span data-feather="eye"></span>
                     </a>
                 @endcan
                 @can('update', $order)
-                    <a href="{{ route('orders.edit', ['order' => $order->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('Edit') }}">
+                    <a href="{{ route('orders.edit', ['order' => $order->getId()]) }}" class="btn" title="{{ __('Edit') }}">
                         <span data-feather="edit-2"></span>
                     </a>
                 @endcan
                 @can('delete', $order)
-                    {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit', 'title' => __('Delete')]) }}
+                    {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn', 'type' => 'submit', 'title' => __('Delete')]) }}
                 @endcan
                 </div>
             {{ Form::close() }}

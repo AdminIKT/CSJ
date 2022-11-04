@@ -1,4 +1,4 @@
-@extends('new_layout')
+@extends('sj_layout')
 @section('title'){{ __('Assignments') }}@endsection
 @section('btn-toolbar')
     <a href="{{ route('assignments.create') }}" class="btn btn-sm btn-outline-secondary">

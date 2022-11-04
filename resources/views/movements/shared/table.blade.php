@@ -1,6 +1,6 @@
 <div class="table-responsive">
     <p class="text-muted small my-1">{{ __('Showing :itemsX-:itemsY items from a total of :totalItems', ['itemsX' => $collection->firstItem()?:0, 'itemsY' => $collection->lastItem()?:0, 'totalItems' => $collection->total()]) }}</p>
-  <table class="table table-hover table-sm">
+  <table class="table table-sm">
     <thead>
         <tr>
             @if (!(isset($exclude) && in_array('orders', $exclude)))
@@ -83,7 +83,7 @@
         @endforeach
         @if ($pagination ?? '')
         <tr>
-            <td class="text-center" colspan="{{ isset($exclude) ? 6 - count($exclude) : 6 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+            <td class="text-center" colspan="{{ isset($exclude) ? 7 - count($exclude) : 7 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
         </tr>
         @elseif ($collection->total())
         <tr style="background: #DDDDDD;">

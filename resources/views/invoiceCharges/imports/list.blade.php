@@ -1,4 +1,4 @@
-@extends('new_layout')
+@extends('sj_layout')
 @section('title'){{ __('InvoiceCharges') }}@endsection
 @section('content')
 
@@ -11,7 +11,7 @@
 }}
 
 <div class="table-responsive">
-  <table class="table table-hover table-sm">
+  <table class="table table-sm">
     <thead>
         <tr>
             <th scope="col">{{ __('Import') }}</th>

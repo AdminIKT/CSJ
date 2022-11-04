@@ -1,4 +1,4 @@
-@extends('new_layout')
+@extends('sj_layout')
 
 @section('title') 
 @if ($entity->getId()) 

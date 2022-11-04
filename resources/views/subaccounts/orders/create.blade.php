@@ -1,8 +1,8 @@
-@extends('new_layout')
+@extends('sj_layout')
 @section('title'){{ __('New order') }}@endsection
 @section('btn-toolbar')
     @can('create', 'App\Entities\Supplier')
-    <a href="{{ route('suppliers.create', ['destination' => request()->url()]) }}" class="btn btn-sm btn-outline-secondary">
+    <a href="{{ route('suppliers.create', ['destination' => request()->url()]) }}" class="btn btn-sm btn-outline-secondary m-1 ms-0">
         <span data-feather="shopping-bag"></span> {{ __('New supplier') }} 
     </a>
     @endcan

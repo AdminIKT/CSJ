@@ -25,7 +25,7 @@
  
 @section('content')
 <div class="table-responsive">
-    <table class="table table-sm align-middle table-bordered border-white">
+    <table class="table table-sm align-middle table-bordered">
         <tr>
             <th>{{ __('NIF') }}</th>
             <th>{{ __('Zip') }}</th>
@@ -35,10 +35,10 @@
             <th>{{ __('Recommendable') }}</th>
         </tr>
         <tr>
-            <td class="table-active">{{ $entity->getNif() }}</td>
-            <td class="table-active">{{ $entity->getZip() }}</td>
-            <td class="table-active">{{ $entity->getCity() }}@if ($entity->getRegion()) ({{ $entity->getRegion() }}) @endif</td>
-            <td class="table-active">{{ $entity->getAddress() }}</td>
+            <td class="table-secondary">{{ $entity->getNif() }}</td>
+            <td class="table-secondary">{{ $entity->getZip() }}</td>
+            <td class="table-secondary">{{ $entity->getCity() }}@if ($entity->getRegion()) ({{ $entity->getRegion() }}) @endif</td>
+            <td class="table-secondary">{{ $entity->getAddress() }}</td>
             <td>{{ $entity->getAcceptable() ? __('Yes'):__('No') }}</td>
             <td>{{ $entity->getRecommendable() ? __('Yes'):__('No') }}</td>
         </tr>
@@ -47,19 +47,29 @@
    
 <ul class="nav nav-tabs justify-content-center border-0">
   <li class="nav-item">
-    <a class='nav-link {{request()->is("suppliers/{$entity->getId()}", "suppliers/{$entity->getId()}/contacts*")?" active":"" }}' href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}">{{ __('Contacts') }}</a>
+    <a class='nav-link {{request()->is("suppliers/{$entity->getId()}", "suppliers/{$entity->getId()}/contacts*")?" active":"" }}' href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}">
+        <span data-feather="user"></span> {{ __('Contacts') }}
+    </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {{request()->is('suppliers/*/incidences*')?' active':'' }}" href="{{ route('suppliers.incidences.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">{{ __('Incidences') }}</a>
+    <a class="nav-link {{request()->is('suppliers/*/incidences*')?' active':'' }}" href="{{ route('suppliers.incidences.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">
+        <span data-feather="bell"></span> {{ __('Incidences') }}
+    </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {{request()->is('suppliers/*/orders*')?' active':'' }}" href="{{ route('suppliers.orders.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">{{ __('Orders') }}</a>
+    <a class="nav-link {{request()->is('suppliers/*/orders*')?' active':'' }}" href="{{ route('suppliers.orders.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">
+        <span data-feather="file"></span> {{ __('Orders') }}
+    </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {{request()->is('suppliers/*/movements*')?' active':'' }}" href="{{ route('suppliers.movements.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">{{ __('Movements') }}</a>
+    <a class="nav-link {{request()->is('suppliers/*/movements*')?' active':'' }}" href="{{ route('suppliers.movements.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">
+        <span data-feather="dollar-sign"></span> {{ __('Movements') }}
+    </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {{request()->is('suppliers/*/invoiceds*')?' active':'' }}" href="{{ route('suppliers.invoiceds.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">{{ __('Invoiced') }}</a>
+    <a class="nav-link {{request()->is('suppliers/*/invoiceds*')?' active':'' }}" href="{{ route('suppliers.invoiceds.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">
+        <span data-feather="award"></span> {{ __('Invoiced') }}
+    </a>
   </li>
 </ul>
 

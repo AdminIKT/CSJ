@@ -1,8 +1,8 @@
 <!-- FIXME in Shared view -->
-@extends('new_layout')
+@extends('sj_layout')
 @section('title'){{ __('Accounts') }}@endsection
 @section('btn-toolbar')
-    <a href="{{ route('accounts.create') }}" class="btn btn-sm btn-outline-secondary" title="{{__('New')}}">
+    <a href="{{ route('accounts.create') }}" class="btn btn-sm btn-outline-secondary m-1 ms-0" title="{{__('New')}}">
         <span data-feather="plus"></span> {{__('New')}}
     </a>
 @endsection
@@ -82,82 +82,85 @@
     </div>
 </form>
 
-<div class="table-responsive">
-  <table class="table table-hover table-sm align-middle">
-    <thead>
-    <tr>
-        <th scope="col">{{ __('acronimo') }}
-            <a class="{{ request()->get('sortBy') == 'account.name' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.name', 'sort' => 'asc']) }}">
-                <span data-feather="chevron-up"></span>
-            </a>
-            <a class="{{ request()->get('sortBy') == 'account.name' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.name', 'sort' => 'desc']) }}">
-                <span data-feather="chevron-down"></span>
-            </a>
-        </th>
-        <th scope="col">{{ __('tipo') }}</th>
-        <th scope="col">{{ __('Areas') }}</th>
-        <th scope="col">{{ __('Real credit') }}
-            <a class="{{ request()->get('sortBy') == 'account.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.credit', 'sort' => 'asc']) }}">
-                <span data-feather="chevron-up"></span>
-            </a>
-            <a class="{{ request()->get('sortBy') == 'account.credit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.credit', 'sort' => 'desc']) }}">
-                <span data-feather="chevron-down"></span>
-            </a>
-        </th>
-        <th scope="col">{{ __('Compromised credit') }}
-            <a class="{{ request()->get('sortBy') == 'account.compromisedCredit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.compromisedCredit', 'sort' => 'asc']) }}">
-                <span data-feather="chevron-up"></span>
-            </a>
-            <a class="{{ request()->get('sortBy') == 'account.compromisedCredit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.compromisedCredit', 'sort' => 'desc']) }}">
-                <span data-feather="chevron-down"></span>
-            </a>
-        </th>
-        <th scope="col">{{ __('Available credit') }}
-        </th>
-        <th scope="col">{{ __('Created') }}
-            <a class="{{ request()->get('sortBy') == 'account.created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.created', 'sort' => 'asc']) }}">
-                <span data-feather="chevron-up"></span>
-            </a>
-            <a class="{{ request()->get('sortBy') == 'account.created' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.created', 'sort' => 'desc']) }}">
-                <span data-feather="chevron-down"></span>
-            </a>
-        </th>
-        <th scope="col">{{ __('Actions') }}</th>
-    </tr>
-    </thead>
-    <tbody> 
-        @foreach ($accounts as $i => $entity)
+<div class="bg-white border rounded rounded-5 px-2 mb-2">
+    <div class="table-responsive">
+      <table class="table table-sm align-middle">
+        <thead>
         <tr>
-            <td class="align-middle">
-                <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" data-bs-toggle="tooltip" title="{{ $entity->getName() }}">{{ $entity->getSerial() }}</a>
-            </td>
-            <td class="align-middle">{{ $entity->getTypeName() }}</td>
-            <td class="align-middle">{{ implode(", ", $entity->getAreas()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
-            <td class="align-middle">{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
-            <td class="align-middle">{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
-            <td class="align-middle">{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>
-            <td class="align-middle">{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
-            <td class="align-middle">
-            {{ Form::open([
-                'route' => ['accounts.destroy', $entity->getId()], 
-                'method' => 'delete',
-            ]) }}
-            <div class="btn-group btn-group-sm" role="group">
-                <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
-                    <span data-feather="eye"></span>
+            <th scope="col">{{ __('acronimo') }}
+                <a class="{{ request()->get('sortBy') == 'account.name' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.name', 'sort' => 'asc']) }}">
+                    <span data-feather="chevron-up"></span>
                 </a>
-                <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
-                    <span data-feather="edit-2"></span>
+                <a class="{{ request()->get('sortBy') == 'account.name' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.name', 'sort' => 'desc']) }}">
+                    <span data-feather="chevron-down"></span>
                 </a>
-                {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
-            </div>
-            {{ Form::close() }}
-            </td>
+            </th>
+            <th scope="col">{{ __('tipo') }}</th>
+            <th scope="col">{{ __('Areas') }}</th>
+            <th scope="col">{{ __('Real credit') }}
+                <a class="{{ request()->get('sortBy') == 'account.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.credit', 'sort' => 'asc']) }}">
+                    <span data-feather="chevron-up"></span>
+                </a>
+                <a class="{{ request()->get('sortBy') == 'account.credit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.credit', 'sort' => 'desc']) }}">
+                    <span data-feather="chevron-down"></span>
+                </a>
+            </th>
+            <th scope="col">{{ __('Compromised credit') }}
+                <a class="{{ request()->get('sortBy') == 'account.compromisedCredit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.compromisedCredit', 'sort' => 'asc']) }}">
+                    <span data-feather="chevron-up"></span>
+                </a>
+                <a class="{{ request()->get('sortBy') == 'account.compromisedCredit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.compromisedCredit', 'sort' => 'desc']) }}">
+                    <span data-feather="chevron-down"></span>
+                </a>
+            </th>
+            <th scope="col">{{ __('Available credit') }}
+            </th>
+            <th scope="col">{{ __('Created') }}
+                <a class="{{ request()->get('sortBy') == 'account.created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.created', 'sort' => 'asc']) }}">
+                    <span data-feather="chevron-up"></span>
+                </a>
+                <a class="{{ request()->get('sortBy') == 'account.created' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.created', 'sort' => 'desc']) }}">
+                    <span data-feather="chevron-down"></span>
+                </a>
+            </th>
+            <th scope="col">{{ __('Actions') }}</th>
         </tr>
-        @endforeach
-        </tbody> 
-    </table> 
-    <div class="col-12">{{ $accounts->links("pagination::bootstrap-4") }}</div>
+        </thead>
+        <tbody> 
+            @foreach ($accounts as $i => $entity)
+            <tr>
+                <td class="align-middle">
+                    <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" data-bs-toggle="tooltip" title="{{ $entity->getName() }}">{{ $entity->getSerial() }}</a>
+                </td>
+                <td class="align-middle">{{ $entity->getTypeName() }}</td>
+                <td class="align-middle">{{ implode(", ", $entity->getAreas()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
+                <td class="align-middle">{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
+                <td class="align-middle">{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
+                <td class="align-middle">{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>
+                <td class="align-middle">{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
+                <td class="align-middle">
+                {{ Form::open([
+                    'route' => ['accounts.destroy', $entity->getId()], 
+                    'method' => 'delete',
+                ]) }}
+                <div class="btn-group btn-group-sm" role="group">
+                    <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
+                        <span data-feather="eye"></span>
+                    </a>
+                    <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
+                        <span data-feather="edit-2"></span>
+                    </a>
+                    {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
+                </div>
+                {{ Form::close() }}
+                </td>
+            </tr>
+            @endforeach
+            </tbody> 
+        </table> 
+        <div class="col-12">
+            {{ $accounts->links("pagination::bootstrap-4") }}
+        </div>
+    </div>
 </div>
-
 @endsection

@@ -90,7 +90,7 @@
                 <th>{{ __('Account') }}</th>
                 <th>{{ __('Area') }}</th>
             </tr>
-            <tr class="table-active">
+            <tr class="table-secondary">
                 <td>
                     <a href="{{ route('accounts.show', ['account' => $entity->getAccount()->getId()]) }}" title="{{ $entity->getAccount()->getName() }}">{{ $entity->getAccount()->getSerial() }}</a>
                     <small class="text-muted">{{ $entity->getAccount()->getName() }}</small>
@@ -100,14 +100,14 @@
             <tr>
                 <th colspan="2">{{ __('Supplier') }}</th>
             </tr>
-            <tr class="table-active">
+            <tr class="table-secondary">
                 <td colspan="2"><a href="{{ route('suppliers.show', ['supplier' => $entity->getSupplier()->getId()]) }}">{{ $entity->getSupplier()->getName() }}</a></td>
             </tr>
             <tr>
                 <th>{{ __('Presupuesto') }}</th>
                 <th>{{ __('Estimated') }}</th>
             </tr>
-            <tr class="table-active">
+            <tr class="table-secondary">
                 <td>@if ($entity->getEstimated())<a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank">{{ $entity->getEstimated() }}</a>@else-@endif</td>
                  <td>{{ $entity->getEstimatedCredit() ? number_format($entity->getEstimatedCredit(), 2, ",", ".").'€' : '-'}}</td>
             </tr>
@@ -115,7 +115,7 @@
                 <th>{{ __('Invoice') }}</th>
                 <th>{{ __('Credit') }}</th>
             </tr>
-            <tr class="table-active">
+            <tr class="table-secondary">
                 <td>{{ $entity->getInvoice() ?? "-" }}</td>
                 <td>{{ $entity->getCredit() ? number_format($entity->getCredit(), 2, ",", ".").'€' : '-'}}</td>
             </tr>
@@ -130,7 +130,7 @@
                 <th>{{ __('Date') }}</th>
                 <th>{{ __('Receive in') }}</th>
             </tr>
-            <tr class="table-active">
+            <tr class="table-secondary">
                 <td>
                     {{ $entity->getUser()->getName() }}
                     <span class="small text-muted">{{ Carbon\Carbon::parse($entity->getCreated())->diffForHumans() }}</span>
@@ -144,7 +144,7 @@
                     <th colspan="2">{{ __('cantidad') }}</th>
                 </tr>
                 @foreach ($entity->getProducts() as $product)
-                <tr class="table-active">
+                <tr class="table-secondary">
                     <td>{{ $product->getDetail() }}</td>
                     <td>{{ $product->getUnits() }}</td>
                     <td class="text-center">
@@ -168,73 +168,6 @@
     </div>   
 </div>
 
-<!--
-<div class="table-responsive">
-  <table class="table table-hover table-sm align-middle table-bordered">
-        <thead>
-        <tr>
-            <th>{{ __('Account') }}</th>
-            <th>{{ __('Area') }}</th>
-            <th>{{ __('Supplier') }}</th>
-            <th>{{ __('Estimated') }}</th>
-            <th>{{ __('Presupuesto') }}</th>
-            <th>{{ __('Invoice') }}</th>
-            <th>{{ __('Credit') }}</th>
-            <th>{{ __('Receive in') }}</th>
-            <th>{{ __('Detail') }}</th>
-            <th>{{ __('User') }}</th>
-            <th>{{ __('Created') }}</th>
-        </tr>
-        <thead>
-        <tbody>
-        <tr class="table-active">
-            <td><a href="{{ route('accounts.show', ['account' => $entity->getAccount()->getId()]) }}">{{ $entity->getAccount()->getSerial() }}</td>
-            <td><a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea() }}</td>
-            <td><a href="{{ route('suppliers.show', ['supplier' => $entity->getSupplier()->getId()]) }}">{{ $entity->getSupplier()->getName() }}</a></td>
-            <td>{{ number_format($entity->getEstimatedCredit(), 2, ",", ".") }}€</td>
-            <td>@if ($entity->getEstimated())<a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank">{{ $entity->getEstimated() }}</a>@else-@endif</td>
-            <td>{{ $entity->getInvoice() }}</td>
-            <td>@if ($entity->getCredit()) {{ number_format($entity->getCredit(), 2, ",", ".") }}€ @endif</td>
-            <td>{{ $entity->getReceiveInName() }}</td>
-            <td>{{ $entity->getDetail() }}</td>
-            <td>{{ $entity->getUser()->getName() }}</td>
-            <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
-        </tr>
-        </tbody>
-  </table>
-    
-  <h6>{{ __('elementos') }}</h6>
-  <table class="table table-hover table-sm align-middle">
-        <thead>
-        <tr>
-            <th>{{ __('Detail') }}</th>
-            <th>{{ __('cantidad') }}</th>
-            <th>{{ __('Actions') }}</th>
-        </tr>
-        <thead>
-        <tbody>
-        @foreach ($entity->getProducts() as $product)
-        <tr>
-            <td>{{ $product->getDetail() }}</td>
-            <td>{{ $product->getUnits() }}</td>
-            <td>
-                {{ Form::open([
-                    'route' => ['orders.products.destroy', $entity->getId(), $product->getId()], 
-                    'method' => 'delete',
-                ]) }}
-                <div class="btn-group btn-group-sm" role="group">
-                    <a href="" class='btn btn-sm btn-outline-secondary disabled'>
-                        <span data-feather="edit-2"></span>
-                   </a>
-                   {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit', 'disabled' => true]) }}
-                </div>
-            </td>
-        </tr>
-        @endforeach
-        </tbody>
-    </table>
-</div>
--->
 <ul class="nav nav-tabs justify-content-center border-0">
   <li class="nav-item">
     <a class='nav-link {{request()->is("orders/{$entity->getId()}", "orders/{$entity->getId()}/invoiceCharges*")?" active":"" }}' href="{{ route('orders.show', ['order' => $entity->getId()]) }}">

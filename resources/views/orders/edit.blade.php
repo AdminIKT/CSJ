@@ -1,9 +1,4 @@
-@extends('new_layout')
+@extends('sj_layout')
 @section('title')
     {{ __('Edit order nº :number', ['number' => $entity->getSequence()]) }}
-@endsection
-@section('btn-toolbar')
-@endsection
- 
-@section('content')
 @endsection
