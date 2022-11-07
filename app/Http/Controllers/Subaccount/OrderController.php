@@ -100,6 +100,8 @@ class OrderController extends BaseController
         if (null !== ($file = $request->file('estimated'))) {
             $path = Storage::disk('public')->putFileAs('files', $file, "{$order->getSequence()}.pdf");
             $order->setEstimated($path);
+
+            $this->uploadToDrive($file, $order);
         }
 
         OrderEvent::dispatch($order, OrderEvent::ACTION_STORE);
