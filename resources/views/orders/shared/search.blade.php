@@ -33,6 +33,14 @@
         </div>
     </div>
     @endif
+    @if (isset($suppliers))
+    <div class="col">
+        <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" id="addon-supplier">{{ __('Supplier') }}</span>
+          {{ Form::select('supplier', [null => __('selecciona')] + $suppliers, request()->input('supplier'), ['class'=>'form-select', 'aria-describedby' => 'addon-supplier']) }}
+        </div>
+    </div>
+    @endif
     <div class="col-12">
         <div class="row">
             <div class="col">

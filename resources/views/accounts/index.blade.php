@@ -28,6 +28,7 @@
               \App\Entities\Account::TYPE_EQUIPAMIENTO => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_EQUIPAMIENTO),
               \App\Entities\Account::TYPE_FUNGIBLE => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_FUNGIBLE),
               \App\Entities\Account::TYPE_LANBIDE => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_LANBIDE),
+              \App\Entities\Account::TYPE_OTHER => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_OTHER),
           ], request()->input('type'), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
         </div>
     </div>
@@ -129,16 +130,17 @@
         <tbody> 
             @foreach ($accounts as $i => $entity)
             <tr>
-                <td class="align-middle">
-                    <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" data-bs-toggle="tooltip" title="{{ $entity->getName() }}">{{ $entity->getSerial() }}</a>
+                <td>
+                    <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" data-bs-toggle="tooltip">{{ $entity->getSerial() }}</a>
+                    <span class="small text-muted">{{ $entity->getName() }}</span>
                 </td>
-                <td class="align-middle">{{ $entity->getTypeName() }}</td>
-                <td class="align-middle">{{ implode(", ", $entity->getAreas()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
-                <td class="align-middle">{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
-                <td class="align-middle">{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
-                <td class="align-middle">{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>
-                <td class="align-middle">{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
-                <td class="align-middle">
+                <td>{{ $entity->getTypeName() }}</td>
+                <td>{{ implode(", ", $entity->getAreas()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
+                <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
+                <td>{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
+                <td>{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>
+                <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
+                <td>
                 {{ Form::open([
                     'route' => ['accounts.destroy', $entity->getId()], 
                     'method' => 'delete',

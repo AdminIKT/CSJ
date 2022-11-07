@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-hover table-sm">
+    <table class="table table-sm align-middle">
         <thead>
             <tr>
                 @if (!(isset($exclude) && in_array('orders', $exclude)))

@@ -24,7 +24,7 @@ class Supplier
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
@@ -66,7 +66,7 @@ class Supplier
      *
      * @ORM\Column(name="name", type="string")
      */
-    private $name;
+    public $name;
 
     /**
      * @var string

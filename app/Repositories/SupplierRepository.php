@@ -21,6 +21,10 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
      *   acceptable: boolean,
      *   sortBy: string,
      *   sort: string
+     *   account: int,
+     *   area: int,
+     *   orders: bool
+     *   invoices: bool
      * } $filter
      * @param int $perPage
      * @param string $pageName
@@ -29,26 +33,60 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
     {
         $b = $this->createQueryBuilder('supplier');
 
+        if ((isset($filter['orders'])
+            && $filter['orders'] === true)
+            || (isset($filter['account']) 
+            && null !== ($account = $filter['account'])) 
+            || (isset($filter['area']) 
+            && null !== ($area = $filter['area'])) 
+            || (isset($filter['invoices']) 
+            && $filter['invoices'] === true)
+           ) {
+            $b->innerJoin('supplier.orders', 'orders');
+            $b->innerJoin('orders.subaccount', 'subaccount');
+        }
+
+        if (isset($filter['account']) &&
+            null !== ($account = $filter['account'])) {
+            $b->andWhere("subaccount.account = :account")
+              ->setParameter('account', $account);
+        }
+
+        if (isset($filter['area']) &&
+            null !== ($area = $filter['area'])) {
+            $b->andWhere("subaccount.area = :area")
+              ->setParameter('area', $area);
+        }
+
+        if (isset($filter['invoices']) &&
+            $filter['invoices'] === true) {
+            $b->innerJoin('orders.invoiceCharges', 'movements');
+        }
+
         if (isset($filter['nif']) &&
             null !== ($nif = $filter['nif'])) {
             $b->andWhere("supplier.nif LIKE :nif")
               ->setParameter('nif', "%{$nif}%");
         }
+        
         if (isset($filter['name']) &&
             null !== ($name = $filter['name'])) {
             $b->andWhere("supplier.name LIKE :name")
               ->setParameter('name', "%{$name}%");
         }
+
         if (isset($filter['city']) &&
             null !== ($city = $filter['city'])) {
             $b->andWhere("supplier.city LIKE :city")
               ->setParameter('city', "%{$city}%");
         }
+
         if (isset($filter['recommendable']) &&
             null !== ($recommendable = $filter['recommendable'])) {
             $b->andWhere("supplier.recommendable = :recommendable")
               ->setParameter('recommendable', $recommendable);
         }
+
         if (isset($filter['acceptable']) &&
             null !== ($acceptable = $filter['acceptable'])) {
             $b->andWhere("supplier.acceptable = :acceptable")
@@ -59,7 +97,7 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
             array_key_exists('sortBy', $filter) ?
                     $filter['sortBy'] : 'supplier.name',
             array_key_exists('sort', $filter) ?
-                    $filter['sort'] : 'DESC'
+                    $filter['sort'] : 'ASC'
         );
 
         if (!$perPage) {
@@ -68,6 +106,7 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
                                ->getQuery()
                                ->getSingleScalarResult();
         }
+        //dd($b->getQuery()->getSql(), $b->getQuery()->getParameters());
 
         return $this->paginate(
             $b->getQuery(), 

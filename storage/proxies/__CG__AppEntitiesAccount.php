@@ -66,10 +66,10 @@ class Account extends \App\Entities\Account implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'files', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'name', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'files', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
     }
 
     /**
@@ -409,6 +409,72 @@ class Account extends \App\Entities\Account implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAvailableCredit', []);
 
         return parent::getAvailableCredit();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFileId($fileId)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFileId', [$fileId]);
+
+        return parent::setFileId($fileId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFileId()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFileId', []);
+
+        return parent::getFileId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFileUrl($fileUrl)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFileUrl', [$fileUrl]);
+
+        return parent::setFileUrl($fileUrl);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFileUrl()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFileUrl', []);
+
+        return parent::getFileUrl();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addFile(\App\Entities\Account\DriveFile $file)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addFile', [$file]);
+
+        return parent::addFile($file);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFiles()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFiles', []);
+
+        return parent::getFiles();
     }
 
     /**

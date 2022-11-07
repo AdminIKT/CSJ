@@ -14,6 +14,7 @@ use App\Http\Requests\OrderPostRequest,
     App\Entities\Account,
     App\Entities\Area,
     App\Entities\Order,
+    App\Entities\Supplier,
     App\Events\OrderEvent;
 
 class OrderController extends BaseController
@@ -44,6 +45,10 @@ class OrderController extends BaseController
             array_map(function($e) { return $e->getSerial(); }, $accounts),
         );
 
+        $suppliers = $this->em->getRepository(Supplier::class)
+                         ->search(['orders' => true], null)
+                         ->items();
+
         $areas = $this->em->getRepository(Area::class)
                       ->findBy([], ['name' => 'ASC']);
 
@@ -52,6 +57,7 @@ class OrderController extends BaseController
             'collection' => $orders,
             'accounts'   => $accounts,
             'areas'      => Arr::pluck($areas, 'name', 'id'),
+            'suppliers'  => Arr::pluck($suppliers, 'name', 'id'),
         ]); 
     }
 

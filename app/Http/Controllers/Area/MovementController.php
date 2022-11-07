@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Area;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use App\Http\Controllers\BaseController,
+    App\Entities\InvoiceCharge,
     App\Entities\Movement,
+    App\Entities\Supplier,
     App\Entities\Area;
 
 class MovementController extends BaseController
@@ -26,7 +29,9 @@ class MovementController extends BaseController
     public function index(Request $request, Area $area)
     {
         $ppg   = $request->input('perPage', Config('app.per_page'));
-        $class = $request->input('movement', Movement::class);
+        $class = $request->input('supplier') ?
+            InvoiceCharge::class : 
+            $request->input('movement', Movement::class);
         $collection = $this->em->getRepository($class)
                            ->search(array_merge(
                                 $request->all(), 
@@ -39,11 +44,19 @@ class MovementController extends BaseController
             array_map(function($e) { return $e->getSerial(); }, $accounts),
         );
 
+        $suppliers = $this->em->getRepository(Supplier::class)
+                         ->search([
+                            'area'     => $area->getId(),
+                            'invoices' => true
+                            ], null)
+                         ->items();
+
         return view('areas.movements', [
             'perPage'    => $ppg,
             'entity'     => $area,
             'collection' => $collection,
             'accounts'   => $accounts,
+            'suppliers'  => Arr::pluck($suppliers, 'name', 'id'),
         ]);
     }
 }

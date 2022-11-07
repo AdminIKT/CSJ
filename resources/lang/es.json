@@ -45,6 +45,7 @@
     "Invoice": "Factura",
     "Type": "Tipo",
     "Credit": "Coste",
+    "Predicted": "Previsto",
     "Estimated": "Coste previsto",
     "Real credit": "Saldo real",
     "Compromised credit": "Saldo comprometido",

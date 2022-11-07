@@ -10,6 +10,8 @@ use App\Entities\Movement,
     App\Entities\Account,
     App\Entities\Order,
     App\Entities\Area,
+    App\Entities\Supplier,
+    App\Entities\InvoiceCharge,
     App\Events\MovementEvent,
     App\Http\Requests\MovementRequest;
 
@@ -31,7 +33,9 @@ class MovementController extends BaseController
     public function index(Request $request)
     {
         $ppg   = $request->input('perPage', Config('app.per_page'));
-        $class = $request->input('movement', Movement::class);
+        $class = $request->input('supplier') ?
+            InvoiceCharge::class : 
+            $request->input('movement', Movement::class);
         $coll  = $this->em->getRepository($class)
                       ->search($request->all(), $ppg);
 
@@ -41,6 +45,10 @@ class MovementController extends BaseController
             array_map(function($e) { return "{$e->getName()}-{$e->getType()}"; }, $accounts),
         );
 
+        $suppliers = $this->em->getRepository(Supplier::class)
+                         ->search(['invoices' => true], null)
+                         ->items();
+
         $areas = $this->em->getRepository(Area::class)
                       ->findBy([], ['name' => 'ASC']);
 
@@ -49,6 +57,7 @@ class MovementController extends BaseController
             'collection' => $coll,
             'accounts'   => $accounts,
             'areas'      => Arr::pluck($areas, 'name', 'id'),
+            'suppliers'  => Arr::pluck($suppliers, 'name', 'id'),
         ]); 
     }
 }

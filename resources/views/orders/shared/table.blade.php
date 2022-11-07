@@ -3,7 +3,7 @@
   <table class="table table-sm align-middle">
     <thead>
     <tr>
-        <th scope="col">{{ __('Order') }} nº
+        <th scope="col" colspan="3">{{ __('Order') }} nº
             <a class="{{ request()->get('sortBy') == 'orders.sequence' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.sequence', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -11,20 +11,20 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
+        @if (!(isset($exclude) && in_array('suppliers', $exclude)))
+        <th scope="col">{{ __('Supplier') }}</th>
+        @endif
         @if (!(isset($exclude) && in_array('accounts', $exclude)))
         <th scope="col">{{ __('Account') }}</th>
         @endif
         @if (!(isset($exclude) && in_array('areas', $exclude)))
         <th scope="col">{{ __('Area') }}</th>
         @endif
-        @if (!(isset($exclude) && in_array('suppliers', $exclude)))
-        <th scope="col">{{ __('Supplier') }}</th>
-        @endif
         @if (!(isset($exclude) && in_array('types', $exclude)))
         <th scope="col">{{ __('Type') }}</th>
         @endif
         <th scope="col">{{ __('Status') }}</th>
-        <th scope="col">{{ __('Estimated') }}
+        <th scope="col">{{ __('Predicted') }}
             <a class="{{ request()->get('sortBy') == 'orders.estimatedCredit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.estimatedCredit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -32,7 +32,6 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
-        <th scope="col">{{ __('Invoice') }}</th>
         <th scope="col">{{ __('Credit') }}
             <a class="{{ request()->get('sortBy') == 'orders.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.credit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -41,6 +40,9 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
+        @if (!(isset($exclude) && in_array('users', $exclude)))
+        <th scope="col">{{ __('User') }}</th>
+        @endif
         <th scope="col">{{ __('Date') }}
             <a class="{{ request()->get('sortBy') == 'orders.date' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.date', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -49,9 +51,6 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
-        @if (!(isset($exclude) && in_array('users', $exclude)))
-        <th scope="col">{{ __('User') }}</th>
-        @endif
         @if (!(isset($exclude) && in_array('actions', $exclude)))
         <th scope="col">{{ __('Actions') }}</th>
         @endif
@@ -68,7 +67,27 @@
             $totalCredit += $order->getCredit();
         @endphp
         <tr>
-            <td><a href="{{ route('orders.show', ['order' => $order->getId()]) }}">{{ $order->getSequence() }}</a></td>
+            <td>
+                <a href="{{ route('orders.show', ['order' => $order->getId()]) }}">{{ $order->getSequence() }}</a>
+            </td>
+            <td>
+               @if ($order->getEstimated())
+               <a href='{{ asset("storage/{$order->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}">
+                   <i class="bx bx-xs bx-hdd"></i>
+               </a>
+               @endif
+            </td>
+            <td>
+               @if ($order->getFileId())
+               <a href="{{ $order->getFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                   <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" width="16px">
+               </a>
+               @endif
+            </td>
+            @if (!(isset($exclude) && in_array('suppliers', $exclude)))
+            @php $trEstimated++ @endphp
+            <td><a href="{{ route('suppliers.show', ['supplier' => $order->getSupplier()->getId()]) }}" class="small text-muted">{{ $order->getSupplier()->getName() }}</a></td>
+            @endif
             @if (!(isset($exclude) && in_array('accounts', $exclude)))
             @php $trEstimated++ @endphp
             <td>
@@ -79,24 +98,21 @@
             @php $trEstimated++ @endphp
             <td><a href="{{ route('areas.show', ['area' => $order->getArea()->getId()]) }}">{{ $order->getArea()->getName() }}</a></td>
             @endif
-            @if (!(isset($exclude) && in_array('suppliers', $exclude)))
-            @php $trEstimated++ @endphp
-            <td><a href="{{ route('suppliers.show', ['supplier' => $order->getSupplier()->getId()]) }}">{{ $order->getSupplier()->getName() }}</a></td>
-            @endif
             @if (!(isset($exclude) && in_array('types', $exclude)))
             @php $trEstimated++ @endphp
             <td>{{ $order->getAccount()->getTypeName() }}</td>
             @endif
             <!--<td>{{ $order->getProducts()->count() }}</td>-->
-            <td><span class="badge {{ $order->getStatusColor() }}">{{ $order->getStatusName() }}</span></td>
+            <td>
+                <span class="badge {{ $order->getStatusColor() }}">{{ $order->getStatusName() }}</span>
+            </td>
             <td>{{ number_format($order->getEstimatedCredit(), 2, ",", ".") }}€</td>
-            <td>@if ($order->getEstimated())<a href='{{ asset("storage/{$order->getEstimated()}") }}' target="_blank">{{ $order->getEstimated() }}</a>@else-@endif</td>
             <td>@if ($order->getCredit()) {{ number_format($order->getCredit(), 2, ",", ".") }}€ @endif</td>
-            <td>{{ $order->getDate()->format("d/m/Y H:i") }}</td>
             @if (!(isset($exclude) && in_array('users', $exclude)))
             @php $trCredit++ @endphp
             <td>{{ $order->getUser()->getShort() }}</td>
             @endif
+            <td>{{ $order->getDate()->format("d/m/Y H:i") }}</td>
             @if (!(isset($exclude) && in_array('actions', $exclude)))
             @php $trCredit++ @endphp
             <td>
@@ -126,7 +142,7 @@
         @endforeach
         @if ($pagination ?? '')
         <tr>
-            <td class="text-center" colspan="{{ isset($exclude) ? 12 - count($exclude) : 12 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+            <td class="text-center" colspan="{{ isset($exclude) ? 13 - count($exclude) : 13 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
         </tr>
         @elseif ($collection->total())
         <tr style="background: #DDDDDD;">

@@ -13,7 +13,7 @@
         <span data-feather="download-cloud"></span> {{ __('Import') }}
     </a>
     <a href="{{ route('invoiceCharges.create') }}" class="btn btn-sm btn-outline-secondary m-1" title="{{__('New')}}">
-        <span data-feather="plus"></span> {{ __('New') }}
+        <span data-feather="plus"></span> {{ __('New invoiceCharge') }}
     </a>
     @include('movements.shared.search', [
         'route' => route('movements.index'),

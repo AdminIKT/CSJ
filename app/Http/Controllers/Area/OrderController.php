@@ -6,7 +6,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController,
     App\Entities\Order,
-    App\Entities\Area;
+    App\Entities\Area,
+    App\Entities\Supplier;
 
 class OrderController extends BaseController
 {
@@ -32,6 +33,13 @@ class OrderController extends BaseController
                                 $request->all(), 
                                 ['area' => $area->getId()]
                             ), $ppg);
+        $suppliers = $this->em->getRepository(Supplier::class)
+                         ->search(['area'=>$area->getId()], null)
+                         ->items();
+        $suppliers = array_combine(
+            array_map(function($e) { return $e->getId(); }, $suppliers),
+            array_map(function($e) { return $e->getName(); }, $suppliers),
+        );
 
         $accounts = $area->getAccounts()->toArray();
         $accounts = array_combine(
@@ -44,6 +52,7 @@ class OrderController extends BaseController
             'entity'     => $area,
             'collection' => $collection,
             'accounts'   => $accounts,
+            'suppliers'  => $suppliers,
         ]);
     }
 }

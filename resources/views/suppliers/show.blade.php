@@ -37,7 +37,11 @@
         <tr>
             <td class="table-secondary">{{ $entity->getNif() }}</td>
             <td class="table-secondary">{{ $entity->getZip() }}</td>
-            <td class="table-secondary">{{ $entity->getCity() }}@if ($entity->getRegion()) ({{ $entity->getRegion() }}) @endif</td>
+            <td class="table-secondary">{{ $entity->getCity() }}
+                @if ($entity->getRegion()) 
+                    <span class="small text-muted">({{ $entity->getRegion() }})</span>
+                @endif
+            </td>
             <td class="table-secondary">{{ $entity->getAddress() }}</td>
             <td>{{ $entity->getAcceptable() ? __('Yes'):__('No') }}</td>
             <td>{{ $entity->getRecommendable() ? __('Yes'):__('No') }}</td>

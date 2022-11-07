@@ -7,6 +7,24 @@
         'route' => ['accounts.destroy', $entity->getId()], 
         'method' => 'delete',
     ]) }}
+    <div class="btn-group m-1">
+        <button id="filesBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" title="{{ __('Drive storage') }}" width="20px">
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="filesBtn">
+            @foreach ($entity->getFiles() as $file)
+                <li>
+                    <a href="{{ $file->getFileUrl() }}" class="dropdown-item" target="_blank">{{ $file->getName() }}</a>
+                </li>
+            @endforeach
+            @if ($entity->getFiles()->count())
+                <li><hr class="dropdown-divider"></li>
+            @endif
+            <li>
+                <a href="{{ $entity->getFileUrl() }}" class="dropdown-item" target="_blank">{{ __('All') }}</a>
+            </li>
+        </ul>
+    </div>
     @if ($entity->getSubaccounts()->count() === 1)
         @can('view', $entity)
         <a href="{{ route('subaccounts.orders.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="btn btn-sm btn-outline-secondary m-1 ms-0">
@@ -16,7 +34,7 @@
         @can('update', $entity)
         <div class="btn-group m-1">
             <button id="movementBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <span data-feather="shopping-cart"></span> {{ __('New movement') }} 
+                <span data-feather="dollar-sign"></span> {{ __('New movement') }} 
             </button>
             <ul class="dropdown-menu" aria-labelledby="movementBtn">
                 <li>
@@ -44,11 +62,129 @@
 
 @section('content')
 
-@if ($entity->getSubaccounts()->count() > 1)
-    @include ('accounts.show.many-areas', ['entity' => $entity])
-@else
-    @include ('accounts.show.one-area', ['entity' => $entity])
-@endif
+<div class="row">
+    <div class="table-responsive col-sm-12 col-md-6">
+        <table class="table table-sm align-middle table-bordered border-white">
+            <tr>
+                <th colspan="{{ $entity->getSubaccounts()->count() === 1 ? '1': '2' }}">{{ __('acronimo') }}</th>
+                <th>{{ __('Type') }}</th>
+                @if ($entity->getSubaccounts()->count() === 1)
+                <th>{{ __('Area') }}</th>
+                @endif
+            </tr>
+            <tr class="table-secondary">
+                <td colspan="{{ $entity->getSubaccounts()->count() === 1 ? '1': '2' }}">
+                    {{ $entity->getSerial() }}
+                    <span class="small text-muted">{{ $entity->getName() }}</span>
+                </td>
+                <td>{{ $entity->getTypeName() }}</td>
+                @if ($entity->getSubaccounts()->count() === 1)
+                <td>
+                    <a href="{{ route('areas.show', ['area' => $entity->getSubaccounts()->first()->getArea()->getId()]) }}">{{ $entity->getSubaccounts()->first()->getArea()->getAcronym() }}</a>
+                    <span class="small text-muted">{{ $entity->getSubaccounts()->first()->getArea() }}</span>
+                </td>
+                @endif
+            </tr>
+            <tr>
+                <th>{{ __('Real credit') }}</th>
+                <th>{{ __('Compromised credit') }}</th>
+                <th>{{ __('Available credit') }}</th>
+            </tr>
+            <tr class="table-secondary">
+                <td>{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
+                <td>{{ number_format($entity->getCompromisedCredit(), 2, ",", ".") }}€</td>
+                <td>{{ number_format($entity->getAvailableCredit(), 2, ",", ".") }}€</td>
+            </tr>
+            @if ($entity->getSubaccounts()->count() > 1)
+            <tr>
+                <th colspan="2">{{ __('Users') }}</th>
+                <th>{{ __('Created') }}</th>
+            </tr>
+            <tr class="table-secondary">
+                <td colspan="2">
+                    {{ implode(", ", $entity->getUsers()->map(function ($e) { return $e->getName(); })->toArray()) }}
+                </td>
+                <td>
+                    {{ Carbon\Carbon::parse($entity->getCreated())->diffForHumans() }}
+                </td>
+            </tr>
+            <tr class="">
+                <td colspan="3"><b>{{ __('Detail') }}:</b> {{ $entity->getDetail() }}</td>
+            </tr>
+            @endif
+        </table>
+    </div>
+    @if ($entity->getSubaccounts()->count() > 1)
+    <div class="table-responsive col-sm-12 col-md-6">
+        @foreach ($entity->getSubaccounts() as $i => $subaccount)
+        <table class="table table-sm align-middle table-bordered border-white">
+            <tr>
+                <th>{{ __('Area') }}</th>
+                <th>{{ __('Real credit') }}</th>
+                <th>{{ __('Compromised credit') }}</th>
+                <th>{{ __('Available credit') }}</th>
+            </tr>
+            <tr class="table-secondary">
+                <td>
+                    <a href="{{ route('areas.show', ['area' => $subaccount->getArea()->getId()]) }}">{{ $subaccount->getArea()->getAcronym() }}</a>
+                    <span class="small text-muted">{{ $subaccount->getArea() }}</span>
+                </td>
+                <td>{{ number_format($subaccount->getCredit(), 2, ",", ".") }}€</td>
+                <td>{{ number_format($subaccount->getCompromisedCredit(), 2, ",", ".") }}€</td>
+                <td>{{ number_format($subaccount->getAvailableCredit(), 2, ",", ".") }}€</td>
+            </tr>
+            <tr class="table-secondary">
+                <td class="text-center" colspan="4">
+                    <div class="btn-group btn-group-sm">
+                        @can('view', $entity)
+                        <a href="{{ route('subaccounts.orders.create', ['subaccount' => $subaccount->getId()]) }}" class="btn btn-light" title="{{ __('New order') }}">
+                            <span data-feather="file"></span> {{ __('New order') }}
+                        </a>
+                        @endcan
+                        @can('update', $entity) <!-- FIXME: $subaccount gives error -->
+                        <div class="btn-group btn-group-sm">
+                            <button id="movement{$i}Btn" class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span data-feather="shopping-cart"></span> {{ __('New movement') }} 
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="movementi{$i}Btn">
+                                <li>
+                                    <a href="{{ route('subaccounts.assignments.create', ['subaccount' => $subaccount->getId()]) }}" class="dropdown-item">+<span data-feather="dollar-sign"></span> {{ __('New assignment') }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('subaccounts.charges.create', ['subaccount' => $subaccount->getId()]) }}" class="dropdown-item">-<span data-feather="dollar-sign"></span> {{ __('New charge') }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        @endcan
+                    </div>
+                </td>
+            </tr>
+        </table>
+        @endforeach
+    </div>
+    @endif
+    @if ($entity->getSubaccounts()->count() === 1)
+    <div class="table-responsive col">
+        <table class="table table-sm align-middle table-bordered border-white">
+            <tr>
+                <th>{{ __('Users') }}</th>
+                <th>{{ __('Created') }}</th>
+            </tr>
+            <tr class="table-secondary">
+                <td>
+                    {{ implode(", ", $entity->getUsers()->map(function ($e) { return $e->getName(); })->toArray()) }}
+                </td>
+                <td>
+                    {{ Carbon\Carbon::parse($entity->getCreated())->diffForHumans() }}
+                </td>
+            </tr>
+            <tr class="">
+                <td colspan="2"><b>{{ __('Detail') }}:</b> {{ $entity->getDetail() }}</td>
+            </tr>
+        </table>
+    </div>
+    @endif
+</div>
 
 <ul class="nav nav-tabs justify-content-center border-0">
   <li class="nav-item">
@@ -64,6 +200,11 @@
 </ul>
 
 <div class="bg-white border rounded rounded-5 px-2 mb-2">
-    @yield('body', View::make('accounts.body', ['collection' => $collection, 'entity' => $entity, 'perPage' => $perPage]))
+    @yield('body', View::make('accounts.body', [
+        'collection' => $collection, 
+        'entity' => $entity, 
+        'suppliers' => $suppliers ?? [],
+        'perPage' => $perPage
+    ]))
 </div>
 @endsection

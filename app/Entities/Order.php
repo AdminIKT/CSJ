@@ -29,7 +29,7 @@ class Order implements UserAwareInterface, \JsonSerializable
     const RECEIVE_IN_DEPARTMENT = 0;
     const RECEIVE_IN_RECEPTION  = 1;
 
-    const SEQUENCE_PATTERN = "@(^[\w]+)-(E|F|L)-?([\d]*)/([\d]{2})-([\d|-]+)@";
+    const SEQUENCE_PATTERN = "@(^[\w]+)-(E|F|L|O)-?([\d]*)/([\d]{2})-([\d|-]+)@";
 
     /**
      * @var int
@@ -141,6 +141,20 @@ class Order implements UserAwareInterface, \JsonSerializable
     /**
      * @var string
      *
+     * @ORM\Column(name="drive_file", type="string", nullable=true)
+     */
+    private $fileId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="drive_url", type="string", nullable=true)
+     */
+    private $fileUrl;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="invoice", type="string", nullable=true)
      */
     private $invoice;
@@ -233,6 +247,54 @@ class Order implements UserAwareInterface, \JsonSerializable
     public function getDetail()
     {
         return $this->detail;
+    }
+
+    /**
+     * Set fileId.
+     *
+     * @param string $fileId
+     *
+     * @return Order 
+     */
+    public function setFileId($fileId = null)
+    {
+        $this->fileId = $fileId;
+
+        return $this;
+    }
+
+    /**
+     * Get fileId.
+     *
+     * @return string|null
+     */
+    public function getFileId()
+    {
+        return $this->fileId;
+    }
+
+    /**
+     * Set folder.
+     *
+     * @param string $fileUrl
+     *
+     * @return Order 
+     */
+    public function setFileUrl($fileUrl)
+    {
+        $this->fileUrl = (string) $fileUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get fileUrl.
+     *
+     * @return string
+     */
+    public function getFileUrl()
+    {
+        return $this->fileUrl;
     }
 
     /**

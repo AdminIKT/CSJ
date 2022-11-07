@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate,
     Illuminate\Support\Arr;
 
 use App\Entities\Account,
     App\Entities\User,
     App\Entities\Order,
+    App\Entities\Supplier,
     App\Entities\Subaccount,
     App\Entities\Area,
     App\Repositories\OrderRepository,
@@ -97,10 +99,15 @@ class AccountController extends BaseController
         $orders = $this->em->getRepository(Order::class)
                        ->search($request->all(), $ppg);
 
+        $suppliers = $this->em->getRepository(Supplier::class)
+                         ->search(['account'=>$account->getId()], null)
+                         ->items();
+
         return view('accounts.show', [
             'perPage'    => $ppg,
             'entity'     => $account,
             'collection' => $orders,
+            'suppliers'  => Arr::pluck($suppliers, 'name', 'id'),
         ]); 
     }
 
@@ -193,5 +200,27 @@ class AccountController extends BaseController
                 $entity->addSubaccount($account);
             }
         }
+
+        if ($entity->getFileId() === null) {
+            $storage = Storage::disk('google');
+            $service = $storage->getAdapter()->getService();
+
+            $parent  = env('GOOGLE_DRIVE_FOLDER_ID');
+            $fileMetadata = new \Google_Service_Drive_DriveFile([
+                'name'     => "{$entity->getSerial()} ({$entity->getName()})",
+                'parents'  => [$parent],
+                'mimeType' => 'application/vnd.google-apps.folder',
+            ]);
+            $folder = $service->files->create($fileMetadata, [
+                            'fields' => 'id, webViewLink'
+                        ]);
+
+            $entity->setFileId($folder->getId())
+                   ->setFileUrl($folder->getWebViewLink());
+        }
+
+        //if (false !== ($result = $storage->getAdapter()->createDir($entity->getSerial(), new \League\Flysystem\Config))) {
+        //    $entity->setFolder($result['path']);
+        //}
     }
 }

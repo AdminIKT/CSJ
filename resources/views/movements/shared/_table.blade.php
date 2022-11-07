@@ -4,12 +4,9 @@
     <thead>
         <tr>
             @if (!(isset($exclude) && in_array('orders', $exclude)))
-            <th scope="col" colspan="3">
+            <th scope="col" colspan="{{ $exclude && in_array('suppliers', $exclude) ? 3 : 4 }}">
                 {{ __('Order') }}
             </th>
-            @endif
-            @if (!(isset($exclude) && in_array('suppliers', $exclude)))
-            <th scope="col"></th>
             @endif
             @if (!(isset($exclude) && in_array('accounts', $exclude)))
             <th scope="col">{{ __('Account') }}
@@ -61,7 +58,7 @@
     <tbody>
         @php 
             $totalCredit = 0; 
-            $trCredit    = 7;
+            $trCredit    = 4;
         @endphp
         @foreach ($collection as $i => $entity)
         @php 
@@ -76,30 +73,28 @@
                     <td>
                        <a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a> 
                     </td>
+                    @if (!($exclude && in_array('suppliers', $exclude)))
+                        <td>
+                           <a href="{{route('suppliers.show', ['supplier' => $entity->getOrder()->getSupplier()->getId()])}}" class="small text-muted">{{ $entity->getOrder()->getSupplier()->getName() }}</a> 
+                        </td>
+                    @endif
                     <td>
                        @if ($entity->getOrder()->getEstimated())
-                       <a href='{{ asset("storage/{$entity->getOrder()->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}">
+                       <a href='{{ asset("storage/{$entity->getOrder()->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}" class="ms-2">
                            <i class="bx bx-xs bx-hdd"></i>
                        </a>
                        @endif
                     </td>
                     <td>
                        @if ($entity->getOrder()->getFileId())
-                       <a href="{{ $entity->getOrder()->getFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
-                           <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" width="16px">
-                       </a>
+                           <a href="{{ $entity->getOrder()->getFileUrl() }}" target="_blank" title="{{ __('Google storage') }}" class="ms-2">
+                               <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" width="20px">
+                           </a>
                        @endif
                     </td>
                 @else
-                    <td scope="col" colspan="3">
+                    <th scope="col" colspan="{{ $exclude && in_array('suppliers', $exclude) ? 3 : 4 }}">
                 @endif
-            @endif
-            @if (!($exclude && in_array('suppliers', $exclude)))
-                <td>
-                    @if ($entity instanceof \App\Entities\InvoiceCharge) 
-                   <a href="{{route('suppliers.show', ['supplier' => $entity->getOrder()->getSupplier()->getId()])}}" class="small text-muted">{{ $entity->getOrder()->getSupplier()->getName() }}</a> 
-                    @endif
-                </td>
             @endif
             @if (!(isset($exclude) && in_array('accounts', $exclude)))
             <td><a href="{{route('accounts.show', ['account' => $entity->getAccount()->getId()])}}" data-bs-toggle="tooltip" title="{{ $entity->getAccount()->getName() }}">{{ $entity->getAccount()->getSerial() }}</a></td>

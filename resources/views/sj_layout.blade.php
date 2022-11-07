@@ -86,38 +86,38 @@
           
           <div class="nav_list">
             <a class="nav_link {{request()->is('/') ? 'active' : ''}}" href="{{ route('home') }}" title="{{ __('Dashboard') }}">
-              <i data-feather="grid" class="nav_icon"></i>
+              <i class="bx bxs-dashboard"></i>
               <span class="nav_name">{{ __('Dashboard') }}</span>
             </a>
             <hr style="margin-left:1rem; color:white;">
 
             @can('viewAny', App\Entities\Order::class)
             <a class="nav_link {{request()->is('orders*') ? 'active' : ''}}" href="{{ route('orders.index') }}" title="{{ __('Orders') }}">
-              <i data-feather="file" class="nav_icon"></i>
+              <i class="bx bx-file"></i>
               <span class="nav_name">{{ __('Orders') }}</span>
             </a>
             @endcan
             @can('viewAny', App\Entities\Movement::class)
             <a class="nav_link {{request()->is('movements*') ? 'active' : ''}}" href="{{ route('movements.index') }}" title="{{ __('Movements') }}">
-              <i data-feather="dollar-sign" class="nav_icon"></i>
+              <i class="bx bx-dollar"></i>
               <span class="nav_name">{{ __('Movements') }}</span>
             </a>
             @endcan
             @can('viewAny', App\Entities\Supplier::class)
             <a class="nav_link {{request()->is('suppliers*') ? 'active' : ''}}" href="{{ route('suppliers.index') }}" title="{{ __('Suppliers') }}">
-              <i data-feather="shopping-cart" class="nav_icon"></i>
+              <i class="bx bx-cart"></i>
               <span class="nav_name">{{ __('Suppliers') }}</span>
             </a>
             @endcan
             @can('viewAny', App\Entities\Order::class)
             <a class="nav_link" title="{{ __('Receptions') }}">
-              <i data-feather="truck" class="nav_icon"></i>
+              <i class="bx bxs-package"></i>
               <span class="nav_name">{{ __('Receptions') }}</span>
             </a>
             @endcan
             <!-- permissions TODO -->
             <a class="nav_link {{request()->is('actions*') ? 'active' : ''}}" href="{{ route('actions.index') }}" title="{{ __('Activity') }}">
-              <i data-feather="activity" class="nav_icon"></i>
+              <i class="bx bx-pulse"></i>
               <span class="nav_name">{{ __('Activity') }}</span>
             </a>
 
@@ -125,19 +125,19 @@
 
             @can('viewAny', App\Entities\User::class)
             <a class="nav_link {{request()->is('users*') ? 'active' : ''}}" href="{{ route('users.index') }}" title="{{ __('Users') }}">
-              <i data-feather="users" class="nav_icon"></i>
+              <i class="bx bx-user"></i>
               <span class="nav_name">{{ __('Users') }}</span>
             </a>
             @endcan
             @can('viewAny', App\Entities\Area::class)
             <a class="nav_link {{request()->is('areas*') ? 'active' : ''}}" href="{{ route('areas.index') }}" title="{{ __('Areas') }}">
-              <i data-feather="globe" class="nav_icon"></i>
+              <i class="bx bx-globe"></i>
               <span class="nav_name">{{ __('Areas') }}</span>
             </a>
             @endcan
             @can('viewAny', App\Entities\Account::class)
             <a class="nav_link {{request()->is('accounts*') ? 'active' : ''}}" href="{{ route('accounts.index') }}" title="{{ __('Accounts') }}">
-              <i data-feather="credit-card" class="nav_icon"></i>
+              <i class="bx bxs-credit-card"></i>
               <span class="nav_name">{{ __('Accounts') }}</span>
             </a>
             @endcan
@@ -146,14 +146,14 @@
 
             @can('viewAny', App\Entities\Settings::class)
             <a class="nav_link {{request()->is('settings*') ? 'active' : ''}}" href="{{ route('settings.index') }}" title="{{ __('Settings') }}">
-              <i data-feather="settings" class="nav_icon"></i>
+              <i class="bx bxs-cog"></i>
               <span class="nav_name">{{ __('Settings') }}</span>
             </a>
             @endcan
           </div>
         </div>
         <a href="{{ route('logout') }}" class="nav_link" title="{{ __('Logout') }}">
-          <i data-feather="log-out" class="nav_icon"></i>
+            <i class="bx bx-log-out"></i>
           <span class="nav_name">{{ __('Logout') }}</span>
         </a>
       </nav>

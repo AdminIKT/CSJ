@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entities\Account\DriveFile;
 
 /**
  * Account
@@ -34,6 +35,20 @@ class Account
      * @ORM\Column(name="name", type="string")
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="drive_file", type="string")
+     */
+    private $fileId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="drive_url", type="string")
+     */
+    private $fileUrl;
 
     /**
      * @var string
@@ -80,6 +95,13 @@ class Account
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\OneToMany(targetEntity="App\Entities\Account\DriveFile", mappedBy="account", cascade={"persist", "remove"})
+     */
+    private $files;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\OneToMany(targetEntity="Subaccount", mappedBy="account", cascade={"persist", "remove"})
      */
     private $subaccounts;
@@ -115,6 +137,7 @@ class Account
     public function __construct()
     {
         $this->subaccounts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->files    = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users    = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -137,7 +160,7 @@ class Account
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
 
         return $this;
     }
@@ -361,6 +384,78 @@ class Account
     public function getAvailableCredit()
     {
         return $this->credit - $this->getCompromisedCredit();
+    }
+
+    /**
+     * Set folder.
+     *
+     * @param string $fileId
+     *
+     * @return Account
+     */
+    public function setFileId($fileId)
+    {
+        $this->fileId = (string) $fileId;
+
+        return $this;
+    }
+
+    /**
+     * Get fileId.
+     *
+     * @return string
+     */
+    public function getFileId()
+    {
+        return $this->fileId;
+    }
+
+    /**
+     * Set folder.
+     *
+     * @param string $fileUrl
+     *
+     * @return Account
+     */
+    public function setFileUrl($fileUrl)
+    {
+        $this->fileUrl = (string) $fileUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get fileUrl.
+     *
+     * @return string
+     */
+    public function getFileUrl()
+    {
+        return $this->fileUrl;
+    }
+
+    /**
+     * Add DriveFile.
+     *
+     * @param DriveFile $file
+     *
+     * @return Account
+     */
+    public function addFile(DriveFile $file)
+    {
+        $file->setAccount($this);
+        $this->files[] = $file;
+        return $this;
+    }
+
+    /**
+     * Get files.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 
     /**
