@@ -81,7 +81,7 @@
     "User": "Usuario",
     "coste_estimado_disponible :disponible": "Coste previsto (Disponible: :disponible €)",
     "Estimated credit": "Coste previsto",
-    "estimated credit": "Coste previsto",
+    "estimated credit": "coste previsto",
     "Real credit: :credit € - compromised: :compromised € = available :available €": "Saldo real: :credit € - Comprometido: :compromised € = Disponible :available €",
     "intercalar": "Intercalar",
     "presupuesto": "Presupuesto",
@@ -160,7 +160,9 @@
     "Successfully created": "Creado correctamente",  
     "Edit area :name": "Editar área :name",
     "Lists": "Listados",
-    "Region": "Provincia"
+    "Region": "Provincia",
+    "Required field": "Campo obligatorio",
+    "Acronym exists": "Ya existe una cuenta con este acrónimo"
    
     
     

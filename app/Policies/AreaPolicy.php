@@ -32,7 +32,7 @@ class AreaPolicy
      */
     public function viewAny(User $user)
     {
-        return Response::deny("You cannot show areas list");
+        return \Illuminate\Auth\Access\Response::deny("You cannot show areas list");
     }
 
     /**

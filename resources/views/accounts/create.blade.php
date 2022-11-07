@@ -50,11 +50,15 @@
         {{ Form::label('acronym', __('acronimo'), ['class' => 'form-label']) }}
         <div class="input-group input-group-sm">
         {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control form-control-sm' . ($errors->has('acronym') ? ' is-invalid':'')]) }}
-            <span class="input-group-text" id="acr-addon" style="display:none"></span>
-            <span class="input-group-text" id="code-addon" style="display:none"></span>
-        </div>
-        @if ($errors->has('acronym'))
+            <span class="input-group-text @if ($errors->has('acronym')) border-danger @endif" id="acr-addon" style="display:none"></span>
+            <span class="input-group-text @if ($errors->has('acronym')) border-danger @endif" id="code-addon" style="display:none"></span>
+            @if ($errors->has('acronym'))
            <div class="invalid-feedback">{!! $errors->first('acronym') !!}</div>
+        @endif
+        </div>
+        
+        @if ($errors->has('existe'))                    
+           <div class="invalid-feedback"> {!! $errors->first('existe') !!}</div>
         @endif
     </div>
     

@@ -169,8 +169,8 @@ return [
     */
 
     'attributes' => [
-      'supplier' => 'proveedor',
-      'receive in' => 'Recibir en',
+      'supplier' => 'Proveedor',
+      'receiveIn' => 'Recibir en',
       'acronym' => 'acrónimo',
       'name' => 'nombre',
       'email' => 'email',
@@ -182,8 +182,9 @@ return [
       'address' => 'dirección',
       'region' => 'provincia',
       'nif' => 'NIF',
-      'nif' => 'NIF',
-      'nif' => 'NIF',
+      'estimatedCredit' => 'Coste previsto',
+      'type' => 'Tipo',
+      'lcode' => 'Código'      
     ],
 
 ];
