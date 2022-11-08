@@ -17,6 +17,9 @@ use App\Entities\Supplier\Contact,
  */
 class Supplier 
 {
+    const STATUS_CREATED     = 0;
+    const STATUS_VALIDATED   = 1;
+
     /**
      * @var int
      *
@@ -25,6 +28,13 @@ class Supplier
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     public $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="integer", options={"default":0})
+     */
+    private $status = Supplier::STATUS_CREATED;
 
     /**
      * @var string
@@ -159,6 +169,50 @@ class Supplier
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param int $status
+     *
+     * @return Supplier
+     */
+    public function setStatus(int $status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Is status.
+     *
+     * @param int $status
+     *
+     * @return bool
+     */
+    public function isStatus(int $status)
+    {
+        return $this->getStatus() === $status;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValidated()
+    {
+        return $this->isStatus(self::STATUS_VALIDATED);
     }
 
     /**
@@ -522,6 +576,30 @@ class Supplier
         if ($this->getCreated() === null) {
             $this->setCreated(new \DateTime('now'));
         }
+    }
+
+    /**
+     * @return string
+     */
+    public static function statusName($status) 
+    {
+        switch ($status) {
+            case self::STATUS_CREATED: 
+                return trans("Created");
+            case self::STATUS_VALIDATED: 
+                return trans("Validated");
+            default: return trans("Undefined");
+        }
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string
+     */
+    public function getStatusName()
+    {
+        return self::statusName($this->getStatus());
     }
 
     /**

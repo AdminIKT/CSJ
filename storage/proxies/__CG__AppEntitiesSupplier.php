@@ -112,10 +112,10 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'region', 'name', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'acceptable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'recommendable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
+            return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'region', 'name', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'acceptable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'recommendable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'region', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'acceptable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'recommendable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
+        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'region', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'acceptable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'recommendable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
     }
 
     /**
@@ -236,6 +236,50 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setStatus(int $status)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStatus', [$status]);
+
+        return parent::setStatus($status);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStatus()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatus', []);
+
+        return parent::getStatus();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isStatus(int $status)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isStatus', [$status]);
+
+        return parent::isStatus($status);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isValidated()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isValidated', []);
+
+        return parent::isValidated();
     }
 
     /**
@@ -577,6 +621,17 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'updateTimestamps', []);
 
         return parent::updateTimestamps();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStatusName()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatusName', []);
+
+        return parent::getStatusName();
     }
 
     /**

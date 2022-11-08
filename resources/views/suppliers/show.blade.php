@@ -27,6 +27,7 @@
 <div class="table-responsive">
     <table class="table table-sm align-middle table-bordered">
         <tr>
+            <th>{{ __('Status') }}</th>
             <th>{{ __('NIF') }}</th>
             <th>{{ __('Zip') }}</th>
             <th>{{ __('Location') }}</th>
@@ -35,6 +36,9 @@
             <th>{{ __('Recommendable') }}</th>
         </tr>
         <tr>
+            <td class="table-secondary">
+                <span class="badge {{ $entity->isValidated() ? 'bg-success' : 'bg-danger' }}">{{ $entity->getStatusName() }}</span>
+            </td>
             <td class="table-secondary">{{ $entity->getNif() }}</td>
             <td class="table-secondary">{{ $entity->getZip() }}</td>
             <td class="table-secondary">{{ $entity->getCity() }}

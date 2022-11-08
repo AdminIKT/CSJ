@@ -33,6 +33,16 @@
 <div class="col-12"><div class="row">
     <div class="col">
         <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="addon-status">{{ __('Status') }}</span>
+        {{ Form::select('status', [
+            null => __('selecciona'),
+            \App\Entities\Supplier::STATUS_CREATED => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_CREATED),
+            \App\Entities\Supplier::STATUS_VALIDATED => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_VALIDATED),
+        ], request()->input('status'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}
+        </div>
+    </div>
+    <div class="col">
+        <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="addon-type">{{ __('Recommendable') }}</span>
           {{ Form::select('recommendable', [
               null  => __('selecciona'),

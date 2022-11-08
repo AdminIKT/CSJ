@@ -36,7 +36,11 @@ class OrderController extends BaseController
     public function create(Subaccount $subaccount, Request $request)
     {
         $collection = $this->em->getRepository(Supplier::class)
-                               ->findBy(['acceptable' => true], ['name' => 'asc']);
+                               ->findBy([
+                                    'acceptable' => true,
+                                    'status'     => Supplier::STATUS_VALIDATED,
+                                    ], 
+                                    ['name' => 'asc']);
 
         $limit = $this->em->getRepository(Settings::class)
                           ->findOneBy(['type' => Settings::TYPE_INVOICED_LIMIT]);

@@ -63,6 +63,12 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
             $b->innerJoin('orders.invoiceCharges', 'movements');
         }
 
+        if (isset($filter['status']) &&
+            null !== ($status = $filter['status'])) {
+            $b->andWhere("supplier.status = :status")
+              ->setParameter('status', $status);
+        }
+
         if (isset($filter['nif']) &&
             null !== ($nif = $filter['nif'])) {
             $b->andWhere("supplier.nif LIKE :nif")

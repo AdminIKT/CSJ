@@ -32,6 +32,7 @@
           <th scope="col">{{ __('Address') }}</th>
           <th scope="col">{{ __('Recommendable') }}</th>
           <th scope="col">{{ __('Acceptable') }}</th>
+          <th scope="col">{{ __('Status') }}</th>
           @if (!(isset($exclude) && in_array('users', $exclude)))
           <th scope="col">{{ __('User') }}</th>
           @endif
@@ -57,11 +58,19 @@
           <td>
             <a href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}">{{ $entity->getName() }}</a>
           </td>
-          <td>{{ $entity->getCity() }}</td>
+          <td>
+            {{ $entity->getCity() }}
+            @if ($entity->getRegion())
+            <span class="small text-muted">({{ $entity->getRegion() }})</span>
+            @endif
+          </td>
           <td>{{ $entity->getZip() }}</td>
           <td>{{ $entity->getAddress() }}</td>
           <td>{{ $entity->getRecommendable() ? __('Yes') : __('No') }}</td>
           <td>{{ $entity->getAcceptable() ? __('Yes') : __('No') }}</td>
+          <td>
+            <span class="badge {{ $entity->isValidated() ? 'bg-success' : 'bg-danger' }}"> {{ $entity->getStatusName() }}</span>
+          </td>
           @if (!(isset($exclude) && in_array('users', $exclude)))
           <td>{{ $entity->getUser()->getShort() }}</td>
           @endif
