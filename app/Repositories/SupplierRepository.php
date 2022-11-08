@@ -81,6 +81,12 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
               ->setParameter('city', "%{$city}%");
         }
 
+        if (isset($filter['region']) &&
+            null !== ($region = $filter['region'])) {
+            $b->andWhere("supplier.region LIKE :region")
+              ->setParameter('region', "%{$region}%");
+        }
+
         if (isset($filter['recommendable']) &&
             null !== ($recommendable = $filter['recommendable'])) {
             $b->andWhere("supplier.recommendable = :recommendable")
@@ -124,6 +130,20 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
         SELECT DISTINCT(s.city) as cities FROM App\Entities\Supplier s
         WHERE LENGTH(s.city) > 1
         GROUP BY cities ORDER BY cities ASC");
+
+        return $query->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_SCALAR_COLUMN);
+    }
+
+    /**
+     * @return array
+     */
+    function regions()
+    {
+        $query = $this->getEntityManager()
+                      ->createQuery("
+        SELECT DISTINCT(s.region) as regions FROM App\Entities\Supplier s
+        WHERE LENGTH(s.region) > 1
+        GROUP BY regions ORDER BY regions ASC");
 
         return $query->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_SCALAR_COLUMN);
     }

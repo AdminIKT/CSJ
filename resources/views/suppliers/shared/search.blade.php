@@ -17,6 +17,13 @@
     </div>
     <div class="col">
         <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" id="addon-type">{{ __('Region') }}</span>
+          </select>
+          {{ Form::select('region', [null => __('selecciona')] + $regions, request()->input('region'), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
+        </div>
+    </div>
+    <div class="col">
+        <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="addon-type">{{ __('City') }}</span>
           </select>
           {{ Form::select('city', [null => __('selecciona')] + $cities, request()->input('city'), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}

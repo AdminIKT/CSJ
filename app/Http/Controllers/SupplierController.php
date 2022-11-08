@@ -27,9 +27,11 @@ class SupplierController extends BaseController
      */
     public function index(Request $request)
     {
-        $ppg    = $request->input('perPage', Config('app.per_page'));
-        $cities = $this->em->getRepository(Supplier::class)->cities();
-        $cities = array_combine($cities, $cities);
+        $ppg     = $request->input('perPage', Config('app.per_page'));
+        $cities  = $this->em->getRepository(Supplier::class)->cities();
+        $cities  = array_combine($cities, $cities);
+        $regions = $this->em->getRepository(Supplier::class)->regions();
+        $regions = array_combine($regions, $regions);
 
         $suppliers = $this->em
                           ->getRepository(Supplier::class)
@@ -38,6 +40,7 @@ class SupplierController extends BaseController
         return view('suppliers.index', [
             'perPage'    => $ppg,
             'cities'     => $cities,
+            'regions'    => $regions,
             'collection' => $suppliers,
         ]); 
     }
