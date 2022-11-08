@@ -3,7 +3,7 @@
   <table class="table table-sm align-middle">
     <thead>
     <tr>
-        <th scope="col" colspan="3">{{ __('Order') }} nº
+        <th class="small" scope="col" colspan="3">{{ __('Order') }} nº
             <a class="{{ request()->get('sortBy') == 'orders.sequence' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.sequence', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -12,19 +12,19 @@
             </a>
         </th>
         @if (!(isset($exclude) && in_array('suppliers', $exclude)))
-        <th scope="col">{{ __('Supplier') }}</th>
+        <th class="small" scope="col">{{ __('Supplier') }}</th>
         @endif
         @if (!(isset($exclude) && in_array('accounts', $exclude)))
-        <th scope="col">{{ __('Account') }}</th>
+        <th class="small" scope="col">{{ __('Account') }}</th>
         @endif
         @if (!(isset($exclude) && in_array('areas', $exclude)))
-        <th scope="col">{{ __('Area') }}</th>
+        <th class="small" scope="col">{{ __('Area') }}</th>
         @endif
         @if (!(isset($exclude) && in_array('types', $exclude)))
-        <th scope="col">{{ __('Type') }}</th>
+        <th class="small" scope="col">{{ __('Type') }}</th>
         @endif
-        <th scope="col">{{ __('Status') }}</th>
-        <th scope="col">{{ __('Predicted') }}
+        <th class="small" scope="col">{{ __('Status') }}</th>
+        <th class="small" scope="col">{{ __('Predicted') }}
             <a class="{{ request()->get('sortBy') == 'orders.estimatedCredit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.estimatedCredit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -32,7 +32,7 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
-        <th scope="col">{{ __('Credit') }}
+        <th class="small" scope="col">{{ __('Credit') }}
             <a class="{{ request()->get('sortBy') == 'orders.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.credit', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -41,9 +41,9 @@
             </a>
         </th>
         @if (!(isset($exclude) && in_array('users', $exclude)))
-        <th scope="col">{{ __('User') }}</th>
+        <th class="small" scope="col">{{ __('User') }}</th>
         @endif
-        <th scope="col">{{ __('Date') }}
+        <th class="small" scope="col">{{ __('Date') }}
             <a class="{{ request()->get('sortBy') == 'orders.date' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.date', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -52,7 +52,7 @@
             </a>
         </th>
         @if (!(isset($exclude) && in_array('actions', $exclude)))
-        <th scope="col">{{ __('Actions') }}</th>
+        <th class="small" scope="col">{{ __('Actions') }}</th>
         @endif
     </tr>
     </thead>
@@ -112,7 +112,9 @@
             @php $trCredit++ @endphp
             <td>{{ $order->getUser()->getShort() }}</td>
             @endif
-            <td>{{ $order->getDate()->format("d/m/Y H:i") }}</td>
+            <td>
+                <span class="small text-muted">{{ $order->getDate()->format("D, d M Y H:i") }}</span>
+            </td>
             @if (!(isset($exclude) && in_array('actions', $exclude)))
             @php $trCredit++ @endphp
             <td>

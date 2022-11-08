@@ -44,19 +44,19 @@
         @endif
     </div>
 
-    <div class="col-md-5 mb-3">
-        {{ Form::label('address', __('Address'), ['class' => 'form-label']) }}
-        {{ Form::text('address', old('address', $entity->getAddress()), ['class' => 'form-control form-control-sm' . ($errors->has('address') ? ' is-invalid' :'')]) }}
-        @if ($errors->has('address'))
-           <div class="invalid-feedback">{!! $errors->first('address') !!}</div>
-        @endif
-    </div>
-
     <div class="col-md-2 mb-3">
         {{ Form::label('region', __('Region'), ['class' => 'form-label']) }}
         {{ Form::text('region', old('region', $entity->getRegion()), ['class' => 'form-control form-control-sm' . ($errors->has('region') ? ' is-invalid' :'')]) }}
         @if ($errors->has('region'))
            <div class="invalid-feedback">{!! $errors->first('region') !!}</div>
+        @endif
+    </div>
+
+    <div class="col-md-5 mb-3">
+        {{ Form::label('address', __('Address'), ['class' => 'form-label']) }}
+        {{ Form::text('address', old('address', $entity->getAddress()), ['class' => 'form-control form-control-sm' . ($errors->has('address') ? ' is-invalid' :'')]) }}
+        @if ($errors->has('address'))
+           <div class="invalid-feedback">{!! $errors->first('address') !!}</div>
         @endif
     </div>
 
@@ -82,11 +82,16 @@
     @endif
 
     <div class="col-md-12 mb-3">
-        {{ Form::submit(__('guardar'), ['class' => 'btn btn-sm btn-primary float-end']) }}
+        <!--{{ Form::submit(__('guardar'), ['class' => 'btn btn-sm btn-primary float-end']) }}-->
+        <button type="submit" class="btn btn-sm btn-primary float-end">
+            <i class='bx bxs-save'></i> {{ __('guardar') }}
+        </button>
         @if (!$entity->getId())
             <button type="button" class="add-to-collection btn btn-sm btn-outline-primary mx-2 float-end">{{__('New contact')}}</button>
         @endif
-        <a href="{{ url()->previous() }}" class="btn btn-sm btn-default">{{__('cancelar')}}</a>
+        <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-secondary">
+            <i class='bx bx-x'></i> {{__('cancelar')}}
+        </a>
     </div>
     @if (isset($dst))
         {{ Form::hidden('destination', $dst ?? '') }}

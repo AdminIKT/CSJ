@@ -1,5 +1,5 @@
 <button data-bs-toggle="collapse" data-bs-target="#collapseForm" role="button" aria-expanded="false" aria-controls="collapseForm" class="text-decoration-none btn btn-sm btn-outline-secondary btn-filter m-1 ms-0 collapsed">
-    <i data-feather="search"></i> {{ __('Filter') }}
+    <i class="bx bx-xs bx-search-alt-2"></i> {{ __('Filter') }}
 </button>
 <form id="collapseForm" action="{{ $route }}" method="GET" class="row collapse mb-3">
     @if (!(isset($exclude) && in_array('types', $exclude)))
@@ -123,11 +123,11 @@
                 50 => 50,
             ], request()->input('perPage', $perPage), ['class'=>'form-select form-select-sm']) }}
             <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-              <span data-feather="search"></span>
+              <i class="bx bx-search"></i>
             </button>
             @if ($report ?? '')
             <a href="{{ route('reports.orders', request()->input()) }}" class="btn btn-sm btn-outline-primary" title="{{__('Report')}}" target="_blank">
-                  <span data-feather="bar-chart-2"></span> {{__('Report')}}
+                  <i class="bx bx-bar-chart"></i>
             </a>
             @endif
         </div>

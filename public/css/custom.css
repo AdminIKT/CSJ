@@ -3,7 +3,6 @@
     font-family: 'Roboto';
     font-weight: 400;
     font-style: normal;
-
     src: url('../fonts/Roboto-Regular.ttf') format('truetype');
 }
 
@@ -25,21 +24,26 @@ table th a.active {
     color: lightgray;
 }
 
-.btn-save::before {
+.btn-save::before {}
 
-}
+.btn-toolbar {}
 
-.btn-toolbar {
-
-}
-
-.btn-toolbar .btn {
-
-}
+.btn-toolbar .btn {}
 
 .bx {
-    font-size: 1.5em;
     vertical-align: sub;
+} 
+.card-header { /*
+    background-color: #537389;
+    background-image: url("/img/logos/_white.png");
+    background-position-x: right;
+    background-position-y: top;
+    background-size: 25%;
+    background-repeat: no-repeat;
+    color: white !important;
+*/ }
+nav .bx {
+    font-size: 1.5em !important;
 }
 .feather {
     width: 1em;

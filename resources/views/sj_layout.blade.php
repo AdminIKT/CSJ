@@ -39,7 +39,7 @@
                 </a>
             </div>
             <img src="{{ Auth::user()->getAvatar() }}" class="card-avatar rounded-circle" />
-            <p class="card-subtitle my-2 text-muted">{{ Auth::user()->getEmail() }}</p>
+            <p class="card-subtitle my-2">{{ Auth::user()->getEmail() }}</p>
             <div class="d-flex flex-wrap justify-content-center">
                 <a href="https://drive.google.com" class="mx-2" target="_blank">
                     <img src="/img/google/drive.png" title="Google Drive" width="20px">
@@ -74,9 +74,6 @@
       <nav class="nav">
         <div>
           <!--
-          <div class="img_container" style="text-align:center">
-            <img src="img/logo/_logo.png" style="width:20%"/>
-          </div>
           <a class="nav_logo {{request()->is('/') ? 'active' : ''}}" href="{{ route('home') }}" title="{{ __('Dashboard') }}">
             <i data-feather="grid" class="nav_icon"></i>
             <span class="nav_logo-name">{{ __('Dashboard') }}</span>
@@ -159,7 +156,7 @@
       </nav>
     </div>
 
-    <div class="height-100 py-2">
+    <div class="height-100 py-3">
      @if(Session::has('success'))
         <div class="row">
            <div class="alert alert-success">

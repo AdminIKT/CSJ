@@ -28,20 +28,20 @@
     @if ($entity->getSubaccounts()->count() === 1)
         @can('view', $entity)
         <a href="{{ route('subaccounts.orders.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="btn btn-sm btn-outline-secondary m-1 ms-0">
-            <span data-feather="file"></span> {{ __('New order') }} 
+            <i class="bx bx-xs bxs-file"></i> {{ __('New order') }} 
         </a>
         @endcan
         @can('update', $entity)
         <div class="btn-group m-1">
             <button id="movementBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <span data-feather="dollar-sign"></span> {{ __('New movement') }} 
+                <i class="bx bx-xs bx-dollar"></i> {{ __('New movement') }} 
             </button>
             <ul class="dropdown-menu" aria-labelledby="movementBtn">
                 <li>
-                    <a href="{{ route('subaccounts.assignments.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="dropdown-item">+<span data-feather="dollar-sign"></span> {{ __('New assignment') }}</a>
+                    <a href="{{ route('subaccounts.assignments.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="dropdown-item">+<span class="bx bx-xs bx-dollar"></span> {{ __('New assignment') }}</a>
                 </li>
                 <li>
-                    <a href="{{ route('subaccounts.charges.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="dropdown-item">-<span data-feather="dollar-sign"></span> {{ __('New charge') }}</a>
+                    <a href="{{ route('subaccounts.charges.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="dropdown-item">-<span class="bx bx-xs bx-dollar"></span> {{ __('New charge') }}</a>
                 </li>
             </ul>
         </div>
@@ -50,11 +50,11 @@
     <div class="btn-group btn-group-sm m-1" role="group">
         @can('update', $entity)
         <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
-            <span data-feather="edit-2"></span>
+            <span class="bx bx-xs bxs-pencil"></span>
         </a>
         @endcan
         @can('delete', $entity)
-        {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
+        {{ Form::button('<span class="bx bx-xs bxs-trash-alt"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
         @endcan
     </div>
     {{ Form::close() }}
@@ -138,20 +138,20 @@
                     <div class="btn-group btn-group-sm">
                         @can('view', $entity)
                         <a href="{{ route('subaccounts.orders.create', ['subaccount' => $subaccount->getId()]) }}" class="btn btn-light" title="{{ __('New order') }}">
-                            <span data-feather="file"></span> {{ __('New order') }}
+                            <span class="bx bx-xs bxs-file"></span> {{ __('New order') }}
                         </a>
                         @endcan
                         @can('update', $entity) <!-- FIXME: $subaccount gives error -->
                         <div class="btn-group btn-group-sm">
                             <button id="movement{$i}Btn" class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span data-feather="shopping-cart"></span> {{ __('New movement') }} 
+                                <span class="bx bx-xs bx-dollar"></span> {{ __('New movement') }} 
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="movementi{$i}Btn">
                                 <li>
-                                    <a href="{{ route('subaccounts.assignments.create', ['subaccount' => $subaccount->getId()]) }}" class="dropdown-item">+<span data-feather="dollar-sign"></span> {{ __('New assignment') }}</a>
+                                    <a href="{{ route('subaccounts.assignments.create', ['subaccount' => $subaccount->getId()]) }}" class="dropdown-item">+<span class="bx bx-xs bx-dollar"></span> {{ __('New assignment') }}</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('subaccounts.charges.create', ['subaccount' => $subaccount->getId()]) }}" class="dropdown-item">-<span data-feather="dollar-sign"></span> {{ __('New charge') }}</a>
+                                    <a href="{{ route('subaccounts.charges.create', ['subaccount' => $subaccount->getId()]) }}" class="dropdown-item">-<span class="bx bx-xs bx-dollar"></span> {{ __('New charge') }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -189,12 +189,12 @@
 <ul class="nav nav-tabs justify-content-center border-0">
   <li class="nav-item">
     <a class='nav-link {{request()->is("accounts/{$entity->getId()}")?" active":"" }}' href="{{ route('accounts.show', ['account' => $entity->getId()]) }}">
-        <span data-feather="file"></span> {{ __('Orders') }}
+        <span class="bx bx-xs bxs-file"></span> {{ __('Orders') }}
     </a>
   </li>
   <li class="nav-item">
     <a class="nav-link {{request()->is('accounts/*/movements')?' active':'' }}" href="{{ route('accounts.movements.index', ['account' => $entity->getId()]) }}">
-        <span data-feather="dollar-sign"></span> {{ __('Movements') }}
+        <span class="bx bx-xs bx-dollar"></span> {{ __('Movements') }}
     </a>
   </li>
 </ul>

@@ -23,8 +23,10 @@ class SupplierRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'nif' => 'required|max:9|unique:\App\Entities\Supplier,nif',
+        $entity = $this->route('supplier');
+        $rules  = [
+            //'nif' => 'required|max:9|unique:\App\Entities\Supplier,nif' . ($entity ? ",'{$entity->getNif()}'" : ""),
+            'nif' => 'required|max:9|unique:\App\Entities\Supplier,nif' . ($entity ? ",{$entity->getId()}" : ""),
             'zip' => 'integer|required',
             'name' => 'required|max:255',
             'city' => 'required|max:255',
@@ -34,6 +36,7 @@ class SupplierRequest extends FormRequest
             'contacts.*.email' => 'required|email|max:255',
             'contacts.*.phone' => 'required|integer',
         ];
+        return $rules;
     }
 
     /**
