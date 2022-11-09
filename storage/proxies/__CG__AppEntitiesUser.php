@@ -348,6 +348,17 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getAreas()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAreas', []);
+
+        return parent::getAreas();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getUsers()
     {
 
