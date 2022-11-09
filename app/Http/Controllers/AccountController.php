@@ -142,6 +142,7 @@ class AccountController extends BaseController
      */
     public function update(AccountPutRequest $request, Account $account)
     {
+        dd($request->validated());
         $this->hydrateData($account, $request->validated());
         $this->em->flush();
         return redirect()->route('accounts.show', ['account' => $account->getId()])

@@ -4,7 +4,7 @@
   <table class="table table-hover table-sm align-middle">
       <thead>
       <tr>
-          <th scope="col">{{ __('NIF') }}
+          <th class="small" scope="col">{{ __('NIF') }}
             <a class="{{ request()->get('sortBy') == 'supplier.nif' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.nif', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -12,7 +12,7 @@
                 <span data-feather="chevron-down"></span>
             </a>
           </th>
-          <th scope="col">{{ __('Name') }}
+          <th class="small" scope="col">{{ __('Name') }}
             <a class="{{ request()->get('sortBy') == 'supplier.name' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.name', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -20,7 +20,15 @@
                 <span data-feather="chevron-down"></span>
             </a>
           </th>
-          <th scope="col">{{ __('City') }}
+          <th class="small" scope="col"> {{ __('Zip') }}
+            <a class="{{ request()->get('sortBy') == 'supplier.zip' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.zip', 'sort' => 'asc']) }}">
+                <span data-feather="chevron-up"></span>
+            </a>
+            <a class="{{ request()->get('sortBy') == 'supplier.zip' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.zip', 'sort' => 'desc']) }}">
+                <span data-feather="chevron-down"></span>
+            </a>
+          </th>
+          <th class="small" scope="col">{{ __('City') }}
             <a class="{{ request()->get('sortBy') == 'supplier.city' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.city', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -28,16 +36,31 @@
                 <span data-feather="chevron-down"></span>
             </a>
           </th>
-          <th scope="col">{{ __('Zip') }}</th>
-          <th scope="col">{{ __('Address') }}</th>
-          <th scope="col">{{ __('Recommendable') }}</th>
-          <th scope="col">{{ __('Acceptable') }}</th>
-          <th scope="col">{{ __('Status') }}</th>
+          <th class="small" scope="col">{{ __('Address') }}</th>
+          <th class="small" scope="col">{{ __('Status') }}</th>
+          <th class="small" scope="col"></th>
+          <th class="small" scope="col"></th>
+          <th class="small" scope="col">{{ __('Predicted') }}
+            <a class="{{ request()->get('sortBy') == 'invoiced.estimated' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'invoiced.estimated', 'sort' => 'asc']) }}">
+                <span data-feather="chevron-up"></span>
+            </a>
+            <a class="{{ request()->get('sortBy') == 'invoiced.estimated' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'invoiced.estimated', 'sort' => 'desc']) }}">
+                <span data-feather="chevron-down"></span>
+            </a>
+          </th>
+          <th class="small" scope="col">{{ __('Invoiced') }}
+            <a class="{{ request()->get('sortBy') == 'invoiced.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'invoiced.credit', 'sort' => 'asc']) }}">
+                <span data-feather="chevron-up"></span>
+            </a>
+            <a class="{{ request()->get('sortBy') == 'invoiced.credit' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'invoiced.credit', 'sort' => 'desc']) }}">
+                <span data-feather="chevron-down"></span>
+            </a>
+          </th>
           @if (!(isset($exclude) && in_array('users', $exclude)))
-          <th scope="col">{{ __('User') }}</th>
+          <th class="small" scope="col">{{ __('User') }}</th>
           @endif
           @if (!(isset($exclude) && in_array('created', $exclude)))
-          <th scope="col">{{ __('Created') }}
+          <th class="small" scope="col">{{ __('Created') }}
             <a class="{{ request()->get('sortBy') == 'supplier.created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.created', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -47,7 +70,7 @@
           </th>
           @endif
           @if (!(isset($exclude) && in_array('actions', $exclude)))
-          <th scope="col">{{ __('Actions') }}</th>
+          <th class="small" scope="col">{{ __('Actions') }}</th>
           @endif
       </tr>
       </thead>
@@ -58,18 +81,28 @@
           <td>
             <a href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}">{{ $entity->getName() }}</a>
           </td>
+          <td>{{ $entity->getZip() }}</td>
           <td>
             {{ $entity->getCity() }}
             @if ($entity->getRegion())
             <span class="small text-muted">({{ $entity->getRegion() }})</span>
             @endif
           </td>
-          <td>{{ $entity->getZip() }}</td>
           <td>{{ $entity->getAddress() }}</td>
-          <td>{{ $entity->getRecommendable() ? __('Yes') : __('No') }}</td>
-          <td>{{ $entity->getAcceptable() ? __('Yes') : __('No') }}</td>
           <td>
-            <span class="badge {{ $entity->isValidated() ? 'bg-success' : 'bg-danger' }}"> {{ $entity->getStatusName() }}</span>
+            <span class="badge {{ $entity->isValidated() ? 'bg-success' : 'bg-danger' }}">{{ $entity->getStatusName() }}</span>
+          </td>
+          <td>@if ($entity->getAcceptable()) <span class="badge bg-success">{{ __('Acceptable') }}</span> @endif</td>
+          <td>@if ($entity->getRecommendable()) <span class="badge bg-success">{{ __('Recommendable') }}</span> @endif</td>
+          <td>
+            @if (null !== ($inv = $entity->getInvoiced(date('Y'))))
+            {{ number_format($inv->getEstimated(), 2, ",", ".")}} €
+            @endif
+          </td>
+          <td>
+            @if (null !== ($inv = $entity->getInvoiced(date('Y'))))
+            {{ number_format($inv->getCredit(), 2, ",", ".")}} €
+            @endif
           </td>
           @if (!(isset($exclude) && in_array('users', $exclude)))
           <td>{{ $entity->getUser()->getShort() }}</td>
@@ -99,7 +132,7 @@
       @endforeach
       @if ($pagination ?? '')
       <tr align="center">
-          <td colspan="10">{{ $collection->links("pagination::bootstrap-4") }}</td>
+          <td colspan="13">{{ $collection->links("pagination::bootstrap-4") }}</td>
       </tr>
       @endif
       </tbody>

@@ -129,7 +129,7 @@
                     </a>
                 @endcan
                 @can('update', $order)
-                    <a href="{{ route('orders.edit', ['order' => $order->getId()]) }}" class="btn" title="{{ __('Edit') }}">
+                    <a href="{{ route('orders.edit', ['order' => $order->getId(), 'destination' => route('orders.index')]) }}" class="btn" title="{{ __('Edit') }}">
                         <span data-feather="edit-2"></span>
                     </a>
                 @endcan

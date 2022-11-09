@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Doctrine\ORM\EntityManagerInterface;
+use Illuminate\Foundation\Http\FormRequest;
 use App\Entities\Account;
+use App\Entities\Subaccount;
 
-class AccountPutRequest extends FormRequest
+class OrderPutRequest extends FormRequest
 {
     /**
      * @EntityManagerInterface
@@ -39,9 +40,11 @@ class AccountPutRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
-            'users' => 'required',
-            'detail' => 'nullable',
+            'receiveIn'         => 'required',
+            'detail'            => 'nullable|max:255',
+            'products.*.id'     => 'nullable|int',
+            'products.*.detail' => 'required|max:255',
+            'products.*.units'  => 'required|min:1',
         ];
     }
 }

@@ -15,7 +15,7 @@
     <div class="row">
         @can('update', App\Entities\Supplier::class)
         <div class="col mb-3">
-            {{ Form::label('status', __('Type'), ['class' => 'form-label']) }}
+            {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
             {{ Form::select('status', [
                 null => __('selecciona'),
                 \App\Entities\Supplier::STATUS_CREATED => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_CREATED),
@@ -107,7 +107,9 @@
             <i class='bx bxs-save'></i> {{ __('guardar') }}
         </button>
         @if (!$entity->getId())
-            <button type="button" class="add-to-collection btn btn-sm btn-outline-primary mx-2 float-end">{{__('New contact')}}</button>
+            <button type="button" class="add-to-collection btn btn-sm btn-outline-primary mx-2 float-end">
+                <i class='bx bx-plus'></i><i class='bx bx-user'></i> {{__('New contact')}}
+            </button>
         @endif
         <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-secondary">
             <i class='bx bx-x'></i> {{__('cancelar')}}

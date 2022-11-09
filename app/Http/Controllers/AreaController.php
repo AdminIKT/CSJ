@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entities\Area,
+    App\Entities\Account,
     App\Http\Requests\AreaPostRequest;
 
 class AreaController extends BaseController
@@ -73,10 +74,17 @@ class AreaController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Area $area)
+    public function show(Request $request, Area $area)
     {
+        $ppg      = $request->input('perPage', Config('app.per_page'));
+        $accounts = $this->em->getRepository(Account::class)
+                             ->search(array_merge(
+                                $request->all(), 
+                                ['area' => $area->getId()]),
+                                $ppg);
         return view('areas.show', [
-            'entity' => $area,
+            'entity'     => $area,
+            'collection' => $accounts,
         ]); 
     }
 

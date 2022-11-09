@@ -80,9 +80,9 @@
     </div>
 
     <fieldset class="row mb-3 collection-container" 
-             data-prototype='@include("subaccounts.orders.shared.form_product", ["index" => "__NAME__"])'>
+             data-prototype='@include("subaccounts.orders.shared.form_product", ["index" => "__NAME__", "product" => []])'>
         <legend>{{__('elementos')}}</legend>
-        @foreach (old('products', [[]]) as $i => $product)
+        @foreach (old('products', []) as $i => $product)
             @include("subaccounts.orders.shared.form_product", ["index" => $i, 'product' => $product])
         @endforeach
     </fieldset>
@@ -100,17 +100,8 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/custom/form-collections.js') }}"></script>
     <script>
-        function addToCollection(btn) {
-            var container = $('.collection-container');
-            var count = container.children().length;
-            var proto = container.data('prototype').replace(/__NAME__/g, count);
-            container.append(proto);
-        }
-
-        function rmCollection(btn) {
-            btn.closest('div').remove();
-        }
 
         function displayCustom(input) {
             if ($(input).prop('checked')) {

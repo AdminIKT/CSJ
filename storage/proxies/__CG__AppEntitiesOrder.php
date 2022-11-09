@@ -722,17 +722,6 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function fromArray(array $values)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'fromArray', [$values]);
-
-        return parent::fromArray($values);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function jsonSerialize()
     {
 

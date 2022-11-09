@@ -14,17 +14,21 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * @param array{
+     *   status: int,
      *   nif: string,
      *   name: string,
      *   city: string,
+     *   region: string,
      *   recommendable: boolean,
      *   acceptable: boolean,
      *   sortBy: string,
      *   sort: string
      *   account: int,
      *   area: int,
-     *   orders: bool
-     *   invoices: bool
+     *   orders: bool,
+     *   invoices: bool,
+     *   estimated: float,
+     *   invoiced: float,
      * } $filter
      * @param int $perPage
      * @param string $pageName
@@ -61,6 +65,29 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
         if (isset($filter['invoices']) &&
             $filter['invoices'] === true) {
             $b->innerJoin('orders.invoiceCharges', 'movements');
+        }
+
+        //if ((isset($filter['estimated'])
+        //    && null !== ($estimated = $filter['estimated'])) 
+        //    || (isset($filter['credit']) 
+        //    && null !== ($credit = $filter['credit'])) 
+        //) {
+            $b->leftJoin('supplier.invoiced', 'invoiced')
+              ->andWhere('invoiced.year = :year')
+              ->setParameter('year', date('Y'));
+        //}
+
+        if (isset($filter['estimated']) &&
+            null !== ($estimated = $filter['estimated'])) {
+            $op = $filter['estimatedOp'];
+            $b->andWhere("invoiced.estimated {$op} :estimated")
+              ->setParameter('estimated', $estimated);
+        }
+        if (isset($filter['credit']) &&
+            null !== ($credit = $filter['credit'])) {
+            $op = $filter['creditOp'];
+            $b->andWhere("invoiced.credit {$op} :credit")
+              ->setParameter('credit', $credit);
         }
 
         if (isset($filter['status']) &&

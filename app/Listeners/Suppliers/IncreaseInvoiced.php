@@ -46,7 +46,6 @@ class IncreaseInvoiced
             $supplier->addInvoiced($invoiced);
         }
 
-        //FIXME: Validate Invoiced limit?
         $invoiced->increaseCredit($order->getCredit()); 
     }
 }

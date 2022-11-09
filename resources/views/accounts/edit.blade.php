@@ -14,7 +14,16 @@
 
     <div class="col-3 mb-3">
         {{ Form::label('acronym', __('acronimo'), ['class' => 'form-label']) }}
-        {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control form-control-sm' . ($errors->has('acronym') ? ' is-invalid':'')]) }}
+        <div class="input-group input-group-sm">
+            {{ Form::text('acronym', old('acronym', $entity->getSerial()), ['class' => 'form-control', 'disabled' => true]) }}
+            <!--
+            {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control', 'disabled' => true]) }}
+            <span class="input-group-text">-</span>
+            {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control', 'disabled' => true]) }}
+            <span class="input-group-text">-</span>
+            {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control', 'disabled' => true]) }}
+            -->
+        </div>
         @if ($errors->has('acronym'))
            <div class="invalid-feedback">{!! $errors->first('acronym') !!}</div>
         @endif

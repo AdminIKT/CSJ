@@ -6,31 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Entities\Account;
 use Doctrine\ORM\EntityManagerInterface;
 
-class AccountPostRequest extends FormRequest
+class AccountPostRequest extends AccountPutRequest 
 {
-    /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -38,16 +15,13 @@ class AccountPostRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|max:255',
-            'type' => 'required',
-            'lcode' => 'integer',
-            'acronym' => 'required|max:3',
-            'accounts.0' => 'required',
-            'accounts.*' => 'required|distinct',
-            'users' => 'required',
-            'detail' => 'nullable',
-        ];
+        return array_merge( parent::rules(), [
+                'type' => 'required',
+                'lcode' => 'integer',
+                'acronym' => 'required|max:3',
+                'accounts.0' => 'required',
+                'accounts.*' => 'required|distinct',
+                ]);
     }
 
     /**
@@ -84,7 +58,6 @@ class AccountPostRequest extends FormRequest
             if($existe) {
                 $validator->errors()->add('acronym', __('Acronym exists'));               
             }
-
         });
     }
 }

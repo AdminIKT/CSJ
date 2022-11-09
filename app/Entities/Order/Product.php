@@ -3,6 +3,7 @@
 namespace App\Entities\Order;
 
 use Doctrine\ORM\Mapping as ORM;
+use Illuminate\Contracts\Support\Arrayable;
 
 use App\Entities\Order,
     App\Entities\Supplier;
@@ -14,7 +15,7 @@ use App\Entities\Order,
  * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks
  */
-class Product
+class Product implements Arrayable
 {
     /**
      * @var int
@@ -43,7 +44,7 @@ class Product
      * @var Order
      *
      * @ORM\ManyToOne(targetEntity="App\Entities\Order", inversedBy="products")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=true)
      */
     private $order;
 
@@ -122,11 +123,11 @@ class Product
     /**
      * Set order.
      *
-     * @param Order $order
+     * @param Order|null $order
      *
      * @return Product
      */
-    public function setOrder(Order $order)
+    public function setOrder(Order $order = null)
     {
         $this->order = $order;
 
@@ -207,13 +208,26 @@ class Product
      * @param Array $values
      * @return product 
      */
-    public function fromArray(array $values) 
+    static public function fromArray(array $values) 
     {
-        $this->setDetail($values['detail'])
-             ->setCount($values['count'])
-             ->setTotal($values['total'])
+        $product = new Self();
+        $product->setDetail($values['detail'])
+             ->setUnits($values['units'])
+             //->setTotal($values['total'])
          ;
 
-        return $this;
+        return $product;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray()
+    {
+        return [
+            'id'     => $this->getId(),
+            'detail' => $this->getDetail(),
+            'units'  => $this->getUnits(),
+        ];
     }
 }

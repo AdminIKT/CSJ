@@ -2,54 +2,26 @@
 
 namespace App\Http\Requests;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Entities\Account;
 use App\Entities\Subaccount;
 
-class OrderPostRequest extends FormRequest
+class OrderPostRequest extends OrderPutRequest 
 {
     /**
-     * @EntityManagerInterface
-     */ 
-    protected $em;
-
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
+     * @inheritDoc
      */
     public function rules()
     {
         if (null === ($entity = $this->em->find(Subaccount::class, $this->route('subaccount')))) {
             abort(404);
         }
-        return [
-            'estimatedCredit'     => "required|numeric|between:0,{$entity->getAvailableCredit()}",
-            'estimated'           => 'mimes:pdf',
-            'receiveIn'           => 'required',
-            'supplier'            => 'required',
-            'products.*.detail'   => 'required|max:255',
-            'products.*.units'    => 'required|min:1',
-        ];
+
+        return array_merge(
+            parent::rules(), [
+                'estimatedCredit'     => "required|numeric|between:0,{$entity->getAvailableCredit()}",
+                'estimated'           => 'mimes:pdf',
+                'supplier'            => 'required',
+            ]);
     }
 
     /**

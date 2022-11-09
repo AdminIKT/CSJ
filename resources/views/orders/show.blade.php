@@ -156,13 +156,14 @@
             </tr>
             @if (count($entity->getProducts())) 
                 <tr>
-                    <th>{{ __('elementos') }}</th>
-                    <th colspan="2">{{ __('cantidad') }}</th>
+                    <th colspan="2">{{ __('elementos') }}</th>
+                    <th>{{ __('cantidad') }}</th>
                 </tr>
                 @foreach ($entity->getProducts() as $product)
                 <tr class="table-secondary">
-                    <td>{{ $product->getDetail() }}</td>
+                    <td colspan="2">{{ $product->getDetail() }}</td>
                     <td>{{ $product->getUnits() }}</td>
+                    <!--
                     <td class="text-center">
                         {{ Form::open([
                             'route' => ['orders.products.destroy', $entity->getId(), $product->getId()], 
@@ -175,6 +176,7 @@
                            {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn', 'type' => 'submit', 'disabled' => true]) }}
                         </div>
                     </td>
+                    -->
                 </tr>
                 @endforeach
             @endif

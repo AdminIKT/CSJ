@@ -8,12 +8,13 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Gate,
     Illuminate\Support\Arr;
 
-use App\Http\Requests\OrderPostRequest,
+use App\Http\Requests\OrderPutRequest,
     App\Entities\InvoiceCharge,
     App\Entities\Movement,
     App\Entities\Account,
     App\Entities\Area,
     App\Entities\Order,
+    App\Entities\Order\Product,
     App\Entities\Supplier,
     App\Events\OrderEvent;
 
@@ -95,6 +96,59 @@ class OrderController extends BaseController
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function update(OrderPutRequest $request, Order $order)
+    {
+        $values = $request->validated();
+       // $values = $request->validate([
+       //     'receiveIn'         => ['required'],
+       //     'detail'            => ['nullable', 'max:255'],
+       //     'products.*.id'     => ['nullable', 'int'],
+       //     'products.*.detail' => ['required', 'max:255'],
+       //     'products.*.units'  => ['required', 'min:1'],
+       // ]);
+
+        $order->setReceiveIn($values['receiveIn'])
+              ->setDetail($values['detail']);
+
+        if (isset($values['products'])) {
+            $products = $values['products'];
+            foreach ($order->getProducts() as $product) {
+                if (false !== ($key = array_search(
+                        $product->getId(),  
+                        array_column($products, 'id')))
+                ) { 
+                    $product->setDetail($products[$key]['detail'])
+                            ->setUnits($products[$key]['units']);
+                }
+                else {
+                    $order->removeProduct($product);
+                }
+            }
+            foreach ($products as $product) {
+                if (!$product['id']) {
+                    $order->addProduct(Product::fromArray($product));
+                }
+            }
+        }
+        else {
+            foreach ($order->getProducts() as $product) {
+                $order->removeProduct($product);
+            }
+        }
+
+        $this->em->flush();
+        return redirect()->route('orders.show', ['order' => $order->getId()])
+                         ->with('success', __('Successfully updated'));
+    }
+
+    /**
+     * FIXME
      * Remove the specified resource from storage.
      *
      * @param  int  $id

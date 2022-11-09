@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Http\Requests\UserRequest;
 use App\Entities\User,
-    App\Entities\Role;
+    App\Entities\Role,
+    App\Entities\Account,
+    App\Entities\Action;
 
 class UserController extends BaseController
 {
@@ -39,10 +41,18 @@ class UserController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
+        $ppg      = $request->input('perPage', Config('app.per_page'));
+        $accounts = $this->em->getRepository(Account::class)
+                             ->search(array_merge(
+                                $request->all(), 
+                                ['user' => $user->getId()]),
+                                $ppg);
+
         return view('users.show', [
-            'entity' => $user,
+            'entity'     => $user,
+            'collection' => $accounts,
         ]); 
     }
 

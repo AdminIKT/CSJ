@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Subaccount;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request,
-    Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
+    Illuminate\Support\Arr,
+    Illuminate\Http\UploadedFile,
+    Illuminate\Support\Facades\Storage,
+    Illuminate\Validation\ValidationException;
 
 use App\Http\Controllers\BaseController,
     App\Http\Requests\OrderPostRequest;
@@ -17,6 +19,7 @@ use App\Entities\Account,
     App\Entities\Order\Product,
     App\Entities\Account\DriveFile,
     App\Events\OrderEvent;
+use App\Exceptions\Supplier\InvoicedLimitException;
 
 class OrderController extends BaseController
 {
@@ -35,33 +38,28 @@ class OrderController extends BaseController
      */
     public function create(Subaccount $subaccount, Request $request)
     {
-        $collection = $this->em->getRepository(Supplier::class)
-                               ->findBy([
-                                    'acceptable' => true,
-                                    'status'     => Supplier::STATUS_VALIDATED,
-                                    ], 
-                                    ['name' => 'asc']);
+        $suppliers = $this->em->getRepository(Supplier::class)
+                          ->findBy([
+                            'acceptable' => true,
+                            'status'     => Supplier::STATUS_VALIDATED,
+                            ], 
+                            ['name' => 'asc']);
 
         $limit = $this->em->getRepository(Settings::class)
                           ->findOneBy(['type' => Settings::TYPE_INVOICED_LIMIT]);
 
-        $suppliers = array_combine(
-            array_map(function($e) { return $e->getId(); }, $collection),
-            array_map(function($e) { return $e->getName(); }, $collection),
-        );
-
         $disableds = array_combine(
-            array_map(function($e) { return $e->getId(); }, $collection),
+            array_map(function($e) { return $e->getId(); }, $suppliers),
             array_map(function($e) use ($limit) { 
-                return ['disabled' => null !== ($inv = $e->getInvoiced(date('Y'))) && $inv->getCredit() >= $limit->getValue()];
-            }, $collection),
+                return ['disabled' => null !== ($inv = $e->getInvoiced(date('Y'))) && $inv->getEstimated() >= $limit->getValue()];
+            }, $suppliers),
         );
 
         return view('subaccounts.orders.create', [
             'subaccount' => $subaccount,
-            'suppliers'  => $suppliers,
             'disableds'  => $disableds,
             'entity'     => new Order,
+            'suppliers'  => Arr::pluck($suppliers, 'name', 'id'),
         ]); 
     }
 
@@ -100,7 +98,6 @@ class OrderController extends BaseController
                    ->increaseCompromisedCredit($order->getEstimatedCredit())
                    ;
 
-        // FIXME: store locally or upload to drive
         if (null !== ($file = $request->file('estimated'))) {
             $path = Storage::disk('public')->putFileAs('files', $file, "{$order->getSequence()}.pdf");
             $order->setEstimated($path);
@@ -108,7 +105,13 @@ class OrderController extends BaseController
             $this->uploadToDrive($file, $order);
         }
 
-        OrderEvent::dispatch($order, OrderEvent::ACTION_STORE);
+        try {
+            OrderEvent::dispatch($order, OrderEvent::ACTION_STORE);
+        } catch (InvoicedLimitException $e) {
+            throw ValidationException::withMessages(['supplier' => $e->getMessage()]);
+        } catch (Exception $e) {
+            throw $e;
+        }
 
         $this->em->persist($order);
         $this->em->flush();

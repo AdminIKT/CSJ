@@ -40,6 +40,8 @@ Route::get('/callback', [Controllers\SocialiteController::class, 'handleProvider
  */
 Route::resources([
     'users'                     => Controllers\UserController::class,
+    'users.orders'              => Controllers\User\OrderController::class,
+    'users.actions'             => Controllers\User\ActionController::class,
     'movements'                 => Controllers\MovementController::class,
     'accounts'                  => Controllers\AccountController::class,
     'accounts.movements'        => Controllers\Account\MovementController::class,

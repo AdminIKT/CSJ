@@ -17,6 +17,7 @@ class AccountRepository extends \Doctrine\ORM\EntityRepository
      *   name: string,
      *   type: string,
      *   area: int,
+     *   user: int,
      *   compromisedOp: float. Required with compromised,
      *   compromised: float,
      *   availableOp: float. Required with available,
@@ -48,6 +49,12 @@ class AccountRepository extends \Doctrine\ORM\EntityRepository
             null !== ($area = $filter['area'])) {
             $b->andWhere("subaccount.area = :area")
               ->setParameter('area', $area);
+        }
+        if (isset($filter['user']) &&
+            null !== ($user = $filter['user'])) {
+            $b->innerJoin('account.users', 'users')
+              ->andWhere("users.id IN (:user)")
+              ->setParameter('user', [$user]);
         }
         if (isset($filter['compromised']) &&
             null !== ($compromised = $filter['compromised'])) {

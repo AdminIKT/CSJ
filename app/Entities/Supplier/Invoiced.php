@@ -39,6 +39,13 @@ class Invoiced
     private $credit = 0;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="estimated", type="float", options={"default":0})
+     */
+    private $estimated = 0;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToOne(targetEntity="App\Entities\Supplier", inversedBy="invoiced")
@@ -149,6 +156,30 @@ class Invoiced
     }
 
     /**
+     * Set estimated.
+     *
+     * @param float $estimated
+     *
+     * @return Invoiced
+     */
+    public function setEstimated(float $estimated)
+    {
+        $this->estimated = $estimated;
+
+        return $this;
+    }
+
+    /**
+     * Get estimated.
+     *
+     * @return float
+     */
+    public function getEstimated()
+    {
+        return $this->estimated;
+    }
+
+    /**
      * Set created.
      *
      * @param \Datetime $created
@@ -159,6 +190,19 @@ class Invoiced
     {
         $this->created = $created;
 
+        return $this;
+    }
+
+    /**
+     * Set increaseEstimated.
+     *
+     * @param float $credit
+     *
+     * @return Invoiced
+     */
+    public function increaseEstimated(float $credit)
+    {
+        $this->estimated += $credit;
         return $this;
     }
 

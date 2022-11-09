@@ -24,33 +24,51 @@
 @endsection
  
 @section('content')
-<div class="table-responsive">
-    <table class="table table-sm align-middle table-bordered">
-        <tr>
-            <th>{{ __('Status') }}</th>
-            <th>{{ __('NIF') }}</th>
-            <th>{{ __('Zip') }}</th>
-            <th>{{ __('Location') }}</th>
-            <th>{{ __('Address') }}</th>
-            <th>{{ __('Acceptable') }}</th>
-            <th>{{ __('Recommendable') }}</th>
-        </tr>
-        <tr>
-            <td class="table-secondary">
-                <span class="badge {{ $entity->isValidated() ? 'bg-success' : 'bg-danger' }}">{{ $entity->getStatusName() }}</span>
-            </td>
-            <td class="table-secondary">{{ $entity->getNif() }}</td>
-            <td class="table-secondary">{{ $entity->getZip() }}</td>
-            <td class="table-secondary">{{ $entity->getCity() }}
-                @if ($entity->getRegion()) 
-                    <span class="small text-muted">({{ $entity->getRegion() }})</span>
-                @endif
-            </td>
-            <td class="table-secondary">{{ $entity->getAddress() }}</td>
-            <td>{{ $entity->getAcceptable() ? __('Yes'):__('No') }}</td>
-            <td>{{ $entity->getRecommendable() ? __('Yes'):__('No') }}</td>
-        </tr>
-    </table>
+<div class="row">
+    <div class="table-responsive col-sm-12 col-md-6">
+        <table class="table table-sm align-middle table-bordered">
+            <tr>
+                <th>{{ __('Status') }}</th>
+                <th>{{ __('NIF') }}</th>
+                <th>{{ __('Zip') }}</th>
+                <th>{{ __('Location') }}</th>
+                <th>{{ __('Address') }}</th>
+                <th>{{ __('Acceptable') }}</th>
+                <th>{{ __('Recommendable') }}</th>
+            </tr>
+            <tr>
+                <td class="table-secondary">
+                    <span class="badge {{ $entity->isValidated() ? 'bg-success' : 'bg-danger' }}">{{ $entity->getStatusName() }}</span>
+                </td>
+                <td class="table-secondary">{{ $entity->getNif() }}</td>
+                <td class="table-secondary">{{ $entity->getZip() }}</td>
+                <td class="table-secondary">{{ $entity->getCity() }}
+                    @if ($entity->getRegion()) 
+                        <span class="small text-muted">({{ $entity->getRegion() }})</span>
+                    @endif
+                </td>
+                <td class="table-secondary">{{ $entity->getAddress() }}</td>
+                <td>{{ $entity->getAcceptable() ? __('Yes'):__('No') }}</td>
+                <td>{{ $entity->getRecommendable() ? __('Yes'):__('No') }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="table-responsive col-sm-12 col-md-6">
+        <table class="table table-sm align-middle table-bordered">
+            <tr>
+                <th>{{ __('Invoiced') }}</th>
+                <th>{{ __('Predicted') }}</th>
+                <th>{{ __('Credit') }}</th>
+            </tr>
+            @foreach ($entity->getInvoiced() as $inv)
+            <tr>
+                <td>{{ $inv->getYear() }}</td>
+                <td class="table-secondary">{{ number_format($inv->getEstimated(), 2, ",", ".")}} €</td>
+                <td class="table-secondary">{{ number_format($inv->getCredit(), 2, ",", ".")}} €</td>
+            </tr>
+            @endforeach
+        </table>
+    </div>
 </div>
    
 <ul class="nav nav-tabs justify-content-center border-0">

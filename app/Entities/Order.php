@@ -611,7 +611,7 @@ class Order implements UserAwareInterface, \JsonSerializable
     public function addProduct(Product $product)
     {
         $product->setOrder($this);
-        $this->products[] = $product;
+        $this->products->add($product);
         return $this;
     }
 
@@ -624,6 +624,7 @@ class Order implements UserAwareInterface, \JsonSerializable
      */
     public function removeProduct(Product $product)
     {
+        $product->setOrder(null);
         return $this->products->removeElement($product);
     }
 
@@ -745,25 +746,6 @@ class Order implements UserAwareInterface, \JsonSerializable
         if ($this->getCreated() === null) {
             $this->setCreated(new \DateTime('now'));
         }
-    }
-
-    /**
-     * @param Array $values
-     * @return Order
-     */
-    public function fromArray(array $values) 
-    {
-        $this->setDetail($values['detail']);
-
-        if (isset($values['products']) && is_array($values['products'])) {
-            foreach ($values['products'] as $_product) {
-                $product = new Product;
-                $product->fromArray($_product);
-                $this->addProduct($product);
-            }
-        }
-
-        return $this;
     }
 
     /**

@@ -1,7 +1,6 @@
-
-<div class="contact border mb-3 p-3" style="position:relative">
+<div class="contact border mb-1 p-2" style="position:relative">
     @if ($index) 
-    <input type="button" class="btn btn-smd" onclick="rmCollection(this)" value="X" style="position:absolute; top:0px; right:0px;">
+    <a href="#" class="bx bx-sm bxs-x-square" onclick="rmCollection(this)" style="position:absolute; top:0px; right:0px;"></a>
     @endif
     <div class="row">
         <div class="col-md-6 mb-1 has-validations">
