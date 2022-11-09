@@ -23,9 +23,10 @@ class AreaPostRequest extends FormRequest
      */
     public function rules()
     {
+        $entity = $this->route('area');
         return [
             'name' => 'required|max:255',
-            'acronym' => 'required|max:3|unique:\App\Entities\Area,acronym',
+            'acronym' => 'required|max:3|unique:\App\Entities\Area,acronym' . ($entity ? ",{$entity->getId()}" : ""),
         ];
     }   
 }

@@ -23,12 +23,13 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        $entity = $this->route('user');
         return [
             'email' => [
                 'required',
                 'email',
                 'regex:/^[\w|\.|\-|\_]+@fpsanjorge.com$/i',
-                'unique:\App\Entities\User,email',
+                'unique:\App\Entities\User,email' . ($entity ? ",{$entity->getId()}" : ""),
             ],
             'roles' => 'required',
         ];
