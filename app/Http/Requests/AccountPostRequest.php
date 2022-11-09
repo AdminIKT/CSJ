@@ -17,7 +17,7 @@ class AccountPostRequest extends AccountPutRequest
     {
         return array_merge( parent::rules(), [
                 'type' => 'required',
-                'lcode' => 'integer',
+                'lcode' => 'string',
                 'acronym' => 'required|max:3',
                 'accounts.0' => 'required',
                 'accounts.*' => 'required|distinct',
