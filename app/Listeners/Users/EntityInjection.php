@@ -44,6 +44,5 @@ class EntityInjection
         }
 
         $entity->setUser(Auth::user());
-        $this->em->flush();
     }
 }

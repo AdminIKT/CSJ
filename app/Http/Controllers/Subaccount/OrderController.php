@@ -98,19 +98,19 @@ class OrderController extends BaseController
                    ->increaseCompromisedCredit($order->getEstimatedCredit())
                    ;
 
-        if (null !== ($file = $request->file('estimated'))) {
-            $path = Storage::disk('public')->putFileAs('files', $file, "{$order->getSequence()}.pdf");
-            $order->setEstimated($path);
-
-            $this->uploadToDrive($file, $order);
-        }
-
         try {
             OrderEvent::dispatch($order, OrderEvent::ACTION_STORE);
         } catch (InvoicedLimitException $e) {
             throw ValidationException::withMessages(['supplier' => $e->getMessage()]);
         } catch (Exception $e) {
             throw $e;
+        }
+
+        if (null !== ($file = $request->file('estimated'))) {
+            $path = Storage::disk('public')->putFileAs('files', $file, "{$order->getSequence()}.pdf");
+            $order->setEstimated($path);
+
+            $this->uploadToDrive($file, $order);
         }
 
         $this->em->persist($order);
