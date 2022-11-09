@@ -58,6 +58,5 @@ class IncreaseEstimated
         if (($ex = $invoiced->getEstimated()-$limit->getValue()) > 0) {
             throw new InvoicedLimitException(__("The order credit exceeds in :credit€ the supplier's annual billing limit established on :limit€", ['limit' => $limit->getValue(), 'credit' => $ex]));
         }
-        dd($limit);
     }
 }
