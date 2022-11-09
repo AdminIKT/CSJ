@@ -67,15 +67,15 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
             $b->innerJoin('orders.invoiceCharges', 'movements');
         }
 
-        //if ((isset($filter['estimated'])
-        //    && null !== ($estimated = $filter['estimated'])) 
-        //    || (isset($filter['credit']) 
-        //    && null !== ($credit = $filter['credit'])) 
-        //) {
+        if ((isset($filter['estimated'])
+            && null !== ($estimated = $filter['estimated'])) 
+            || (isset($filter['credit']) 
+            && null !== ($credit = $filter['credit'])) 
+        ) {
             $b->leftJoin('supplier.invoiced', 'invoiced')
               ->andWhere('invoiced.year = :year')
               ->setParameter('year', date('Y'));
-        //}
+        }
 
         if (isset($filter['estimated']) &&
             null !== ($estimated = $filter['estimated'])) {
