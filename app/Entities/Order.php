@@ -159,6 +159,13 @@ class Order implements UserAwareInterface, \JsonSerializable
      */
     private $invoice;
 
+     /**
+     * @var DateTime 
+     *
+     * @ORM\Column(name="invoiceDate", type="datetime", nullable=true)
+     */
+    private $invoiceDate;
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -389,6 +396,30 @@ class Order implements UserAwareInterface, \JsonSerializable
     public function setInvoice($invoice = null)
     {
         $this->invoice = $invoice;
+
+        return $this;
+    }
+
+     /**
+     * Get invoice date.
+     *
+     * @return DateTime
+     */
+    public function getInvoiceDate()
+    {
+        return $this->invoiceDate;
+    }
+
+    /**
+     * Set invoice date.
+     *
+     * @param DateTime $invoiceDate
+     *
+     * @return InvoiceCharge
+     */
+    public function setInvoiceDate(\DateTime $invoiceDate)
+    {
+        $this->invoiceDate = $invoiceDate;
 
         return $this;
     }

@@ -128,11 +128,18 @@
                 <td>{{ $entity->getEstimatedCredit() ? number_format($entity->getEstimatedCredit(), 2, ",", ".").'€' : '-'}}</td>
             </tr>
             <tr>
-                <th>{{ __('Invoice') }}</th>
+                <th>{{ __('Invoice') }} <small class="text-muted">({{ __('Date') }})</small></th>
                 <th>{{ __('Credit') }}</th>
             </tr>
             <tr class="table-secondary">
-                <td>{{ $entity->getInvoice() ?? "-" }}</td>
+                <td>
+                    {{ $entity->getInvoice() ?? "-" }}
+                    @if ($entity->getInvoiceDate())
+                    <small class="text-muted">
+                        ({{ $entity->getInvoiceDate()->format("D, d M Y H:i") }})
+                    </small>
+                    @endif
+                </td>
                 <td>{{ $entity->getCredit() ? number_format($entity->getCredit(), 2, ",", ".").'€' : '-'}}</td>
             </tr>
         </table>

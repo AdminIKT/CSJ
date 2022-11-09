@@ -38,7 +38,8 @@ class UpdateStatus
         $invoiceCharge->getOrder()
                       ->setStatus(Order::STATUS_PAID) 
                       ->setCredit($event->entity->getCredit())
-                      ->setInvoice($event->entity->getInvoice());
+                      ->setInvoice($event->entity->getInvoice())
+                      ->setInvoiceDate($event->entity->getInvoiceDate());
 
         OrderEvent::dispatch($event->entity->getOrder(), OrderEvent::ACTION_STATUS);
     }
