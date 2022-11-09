@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use \Illuminate\Contracts\Auth\Authenticatable;
 use LaravelDoctrine\ACL\Roles\HasRoles;
 use LaravelDoctrine\ACL\Mappings as ACL;
@@ -301,6 +302,22 @@ class User implements Authenticatable, HasRolesContract
     public function getAccounts()
     {
         return $this->accounts;
+    }
+
+    /**
+     * Get areas.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAreas()
+    {
+        $areas = [];
+        foreach ($this->getAccounts() as $account) {
+            $areas = array_merge(
+                        $areas, 
+                        $account->getAreas()->toArray());
+        }
+        return new ArrayCollection($areas);
     }
 
     /**

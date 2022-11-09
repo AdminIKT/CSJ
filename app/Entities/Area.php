@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Deparment 
@@ -139,9 +140,7 @@ class Area implements \JsonSerializable
      */
     public function getAccounts()
     {
-        return new \Doctrine\Common\Collections\ArrayCollection($this->getSubaccounts()->map(function($e) {
-            return $e->getAccount();
-        })->toArray());
+        return new ArrayCollection($this->getSubaccounts()->map(function($e) {return $e->getAccount();})->toArray());
     }
 
     /**

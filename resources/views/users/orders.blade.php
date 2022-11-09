@@ -1,9 +1,9 @@
 @extends('users.show')
 @section('body')
     @include('orders.shared.search', [
-        'route' => route('users.orders.index', ['user' => $entity->getId()]), 
+        'route'    => route('users.orders.index', ['user' => $entity->getId()]), 
+        'areas'    => Arr::pluck($entity->getAreas(), 'name', 'id'),
         'accounts' => Arr::pluck($entity->getAccounts(), 'name', 'id'),
-        'exclude'  => ['areas'],
     ])
     @include ('orders.shared.table', [
         'collection' => $collection, 
