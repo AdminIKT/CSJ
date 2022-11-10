@@ -29,7 +29,7 @@ class Order implements UserAwareInterface, \JsonSerializable
     const RECEIVE_IN_DEPARTMENT = 0;
     const RECEIVE_IN_RECEPTION  = 1;
 
-    const SEQUENCE_PATTERN = "@(^[\w]+)-(E|F|L|O)-?([\d]*)/([\d]{2})-([\d|-]+)@";
+    const SEQUENCE_PATTERN = "@(^[\w]+)-(E|F|L|O)-?([\w]*)/([\d]{2})-([\d|-]+)@";
 
     /**
      * @var int
