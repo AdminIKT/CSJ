@@ -13,6 +13,7 @@
     {{ method_field($method) }}
 
     <div class="row">
+        @if ($entity->getId()) 
         @can('update', App\Entities\Supplier::class)
         <div class="col mb-3">
             {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
@@ -26,6 +27,7 @@
             @endif
         </div>
         @endcan
+        @endif
 
         <div class="col mb-3">
             {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}

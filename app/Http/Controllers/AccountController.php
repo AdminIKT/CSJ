@@ -170,10 +170,13 @@ class AccountController extends BaseController
      */
     protected function hydrateData(Account $entity, array $data)
     {
-        $entity->setName($data['name'])
-            ->setAcronym($data['acronym'])
+        $entity->setName($data['name'])            
             ->setDetail($data['detail'])
             ;
+
+        if (isset($data['acronym'])) {
+            $entity->setAcronym($data['acronym']);
+        }
 
         if (isset($data['type'])) {
             $entity->setType($data['type']);
