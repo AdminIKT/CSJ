@@ -39,12 +39,15 @@ class OrderPostRequest extends OrderPutRequest
             $data = $validator->getData();
             if (isset($data['custom']) && $data['custom']) {
                 if (!isset($data['sequence']) || is_null($data['sequence']))
-                $validator->errors()->add('sequence', 'Required field');
+                $validator->errors()->add('sequence', __('Required field'));
             }
-            if (!isset($data['estimated']) && isset($data['estimatedCredit']) && $data['estimatedCredit']) {
+            if (!isset($data['estimated'])) {
                 if ($data['estimatedCredit'] >= $limit->getValue()) {
-                    $validator->errors()->add('estimated', 'Required field');
+                    $validator->errors()->add('estimated', __('Required field'));
                 }
+                elseif(!isset($data['products'])) {
+                    $validator->errors()->add('estimated', __('If not present elements are required'));
+                }     
             }
         });
     }
