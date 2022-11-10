@@ -15,21 +15,30 @@
     <div class="col-3 mb-3">
         {{ Form::label('acronym', __('acronimo'), ['class' => 'form-label']) }}
         <div class="input-group input-group-sm">
-            {{ Form::text('acronym', old('acronym', $entity->getSerial()), ['class' => 'form-control', 'disabled' => true]) }}
-            <!--
             {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control', 'disabled' => true]) }}
             <span class="input-group-text">-</span>
-            {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control', 'disabled' => true]) }}
+            <span class="input-group-text">{{ $entity->getType() }}</span>
+            @if ($entity->getLCode())
             <span class="input-group-text">-</span>
-            {{ Form::text('acronym', old('acronym', $entity->getAcronym()), ['class' => 'form-control', 'disabled' => true]) }}
-            -->
+            <span class="input-group-text">{{ $entity->getLCode() }}</span>
+            @endif
         </div>
         @if ($errors->has('acronym'))
            <div class="invalid-feedback">{!! $errors->first('acronym') !!}</div>
         @endif
     </div>
+
+    <div class="col-4 mb-3">
+        {{ Form::label('type', __('tipo'), ['class' => 'form-label']) }}
+        {{ Form::text('acronym', $entity->getTypeName(), ['class' => 'form-control form-control-sm', 'disabled' => true]) }}
+    </div>
+
+    <div class="col-5 mb-3">
+        {{ Form::label('lcode', __('Code'), ['class' => 'form-label']) }}
+        {{ Form::text('lcode', $entity->getLCode(), ['class' => 'form-control form-control-sm', 'disabled' => true ]) }}
+    </div>
     
-    <div class="col-9 mb-3">
+    <div class="col-12 mb-3">
         {{ Form::label('name', __('nombre'), ['class' => 'form-label']) }}
         {{ Form::text('name', old('name', $entity->getName()), ['class' => 'form-control form-control-sm' . ($errors->has('name') ? ' is-invalid':'')]) }}
         @if ($errors->has('name'))

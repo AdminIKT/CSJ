@@ -28,10 +28,10 @@
         <div class="input-group input-group-sm">
         {{ Form::number('credit', old('credit', $entity->getCredit()), ['class' => 'form-control' . ($errors->has('credit') ? ' is-invalid':''), 'step' => '0.01', 'min' => 0]) }}
         <span class="input-group-text">€</span>
-        </div>
         @if ($errors->has('credit'))
            <div class="invalid-feedback">{!! $errors->first('credit') !!}</div>
         @endif
+        </div>
     </div>
     <div class="col-md-12 mb-3">
         {{ Form::label('detail', __('Detail'), ['class' => 'form-label mt-3']) }}

@@ -101,8 +101,10 @@ class OrderController extends BaseController
         try {
             OrderEvent::dispatch($order, OrderEvent::ACTION_STORE);
         } catch (InvoicedLimitException $e) {
-            throw ValidationException::withMessages(['supplier' => $e->getMessage()]);
-        } catch (Exception $e) {
+            throw ValidationException::withMessages([
+                'supplier' => $e->getMessage()
+            ]);
+        } catch (\Exception $e) {
             throw $e;
         }
 

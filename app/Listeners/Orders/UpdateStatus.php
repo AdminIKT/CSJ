@@ -6,6 +6,7 @@ use App\Events\OrderEvent,
     App\Events\MovementEvent,
     App\Entities\InvoiceCharge,
     App\Entities\Order;
+use App\Exceptions\Order\InvalidStatusException;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -29,18 +30,23 @@ class UpdateStatus
      */
     public function handle(MovementEvent $event)
     {
-        $invoiceCharge = $event->entity;
-        if (!($invoiceCharge instanceof InvoiceCharge && 
+        $charge = $event->entity;
+        if (!($charge instanceof InvoiceCharge && 
              $event->action === MovementEvent::ACTION_STORE
         )) {
             return;
         }
-        $invoiceCharge->getOrder()
-                      ->setStatus(Order::STATUS_PAID) 
-                      ->setCredit($event->entity->getCredit())
-                      ->setInvoice($event->entity->getInvoice())
-                      ->setInvoiceDate($event->entity->getInvoiceDate());
 
-        OrderEvent::dispatch($event->entity->getOrder(), OrderEvent::ACTION_STATUS);
+        $order = $charge->getOrder();
+        if ($order->isPaid()) {
+            throw new InvalidStatusException(__("Order status is :status", ['status' => $order->getStatusName()]));
+        }
+
+        $order->setStatus(Order::STATUS_PAID) 
+              ->setCredit($charge->getCredit())
+              ->setInvoice($charge->getInvoice())
+              ->setInvoiceDate($charge->getInvoiceDate());
+
+        OrderEvent::dispatch($order, OrderEvent::ACTION_STATUS);
     }
 }

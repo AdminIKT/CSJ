@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Entities\Order;
 
 class InvoiceChargeRequest extends FormRequest
 {
@@ -43,7 +44,7 @@ class InvoiceChargeRequest extends FormRequest
             $data = $validator->getData();
             if (isset($data['detail'])) {
                 $matches = [];
-                if (!preg_match(\App\Entities\Order::SEQUENCE_PATTERN, $data['detail'])) {
+                if (!preg_match(Order::SEQUENCE_PATTERN, $data['detail'])) {
                     $validator->errors()->add("detail", "Unmatched an order sequence pattern");
                 }
             }

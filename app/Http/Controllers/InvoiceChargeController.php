@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request,
+    Illuminate\Validation\ValidationException;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entities\InvoiceCharge,
     App\Entities\Order,
     App\Entities\Account,
     App\Events\MovementEvent,
-    App\Http\Requests\InvoiceChargeRequest;
+    App\Http\Requests\InvoiceChargeRequest,
+    App\Exceptions\Account\InsufficientCreditException
+        as AccountInsufficientCredit,
+    App\Exceptions\Order\InvalidStatusException
+        as OrderInvalidStatus;
 
 class InvoiceChargeController extends BaseController
 {
@@ -43,16 +48,10 @@ class InvoiceChargeController extends BaseController
                           ->findOneBy(['sequence' => $matches[0]]);
 
         if (!$order) {
-            return redirect()->back()
-                             ->withInput()
-                             ->withErrors(["detail" => "Order {$matches[0]} not found"]);
+            throw ValidationException::withMessages([
+                "detail" => "Order {$matches[0]} not found"
+                ]);
         }
-        //FIXME
-        //else if (!$order->isStatus(Order::STATUS_CREATED)) {
-        //    return redirect()->back()
-        //                     ->withInput()
-        //                     ->withErrors(["detail" => "Order status is {$order->getStatusName()}"]);
-        //}
 
         $movement = new InvoiceCharge;
         $movement->setCredit($data['credit'])
@@ -63,7 +62,19 @@ class InvoiceChargeController extends BaseController
                  ->setSubaccount($order->getSubaccount())
                  ->setOrder($order);
 
-        MovementEvent::dispatch($movement, __FUNCTION__);
+        try {
+            MovementEvent::dispatch($movement, __FUNCTION__);
+        } catch (OrderInvalidStatus $e) {
+            throw ValidationException::withMessages([
+                'detail' => $e->getMessage()
+            ]);
+        } catch (AccountInsufficientCredit $e) {
+            throw ValidationException::withMessages([
+                'credit' => $e->getMessage()
+            ]);
+        } catch (\Exception $e) {
+            throw $e;
+        }
 
         $this->em->persist($movement);
         $this->em->flush();

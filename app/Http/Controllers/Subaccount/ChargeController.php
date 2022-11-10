@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Subaccount;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request,
+    Illuminate\Validation\ValidationException;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Http\Controllers\BaseController,
@@ -10,7 +11,8 @@ use App\Http\Controllers\BaseController,
     App\Entities\Charge,
     App\Entities\Assignment,
     App\Entities\Subaccount,
-    App\Entities\Account;
+    App\Entities\Account,
+    App\Exceptions\Account\InsufficientCreditException;
 
 class ChargeController extends BaseController
 {
@@ -62,7 +64,15 @@ class ChargeController extends BaseController
                ->setType($values['type'])
                ->setDetail($values['detail']);
 
-        MovementEvent::dispatch($entity, __FUNCTION__);
+        try {
+            MovementEvent::dispatch($entity, __FUNCTION__);
+        } catch (InsufficientCreditException $e) {
+            throw ValidationException::withMessages([
+                'credit' => $e->getMessage()
+            ]);
+        } catch (\Exception $e) {
+            throw $e;
+        }
 
         $this->em->persist($entity);
         $this->em->flush();
