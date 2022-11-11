@@ -3,36 +3,38 @@
 </button>
 <form id="collapseForm" action="{{ route('suppliers.index') }}" method="GET" class="collapse mb-3">
     <div class="row row-cols-lg-5">
-        <div class="col-md-4 col-lg">
+        <div class="col-md-4">
             <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="addon-status">{{ __('Status') }}</span>
             {{ Form::select('status', [
-                null => __('selecciona'),
-                \App\Entities\Supplier::STATUS_CREATED => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_CREATED),
-                \App\Entities\Supplier::STATUS_VALIDATED => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_VALIDATED),
+            null => __('selecciona'),
+            \App\Entities\Supplier::STATUS_PENDING => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_PENDING),
+            \App\Entities\Supplier::STATUS_VALIDATED => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_VALIDATED),
+            \App\Entities\Supplier::STATUS_RECOMMENDABLE => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_RECOMMENDABLE),
+            \App\Entities\Supplier::STATUS_NO_ACCEPTABLE => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_NO_ACCEPTABLE),
             ], request()->input('status'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}
             </div>
         </div>
-        <div class="col-6 col-md-4 col-lg">
+        <div class="col-6 col-md-4">
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="basic-addon1">{{ __('Nif') }}</span>
               {{ Form::text('nif', request()->input('nif'), ['class' => 'form-control']) }}
             </div>
         </div>
-        <div class="col-6 col-md-4 col-lg">
+        <div class="col-6 col-md-4">
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="basic-addon1">{{ __('Name') }}</span>
               {{ Form::text('name', request()->input('name'), ['class' => 'form-control']) }}
             </div>
         </div>
-        <div class="col-md-6 col-lg">
+        <div class="col-12 col-md-6">
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="addon-type">{{ __('Region') }}</span>
               </select>
               {{ Form::select('region', [null => __('selecciona')] + $regions, request()->input('region'), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
             </div>
         </div>
-        <div class="col-md-6 col-lg">
+        <div class="col-12 col-md-6">
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="addon-type">{{ __('City') }}</span>
               </select>
@@ -41,27 +43,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 col-lg-3">
-            <div class="input-group input-group-sm mb-3">
-              <span class="input-group-text" id="addon-type">{{ __('Recommendable') }}</span>
-              {{ Form::select('recommendable', [
-                  null  => __('selecciona'),
-                  true  => __('Yes'),
-                  false => __('No'),
-              ], request()->input('recommendable'), ['class'=>'form-select']) }}
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-            <div class="input-group input-group-sm mb-3">
-              <span class="input-group-text" id="addon-type">{{ __('Acceptable') }}</span>
-              {{ Form::select('acceptable', [
-                  null  => __('selecciona'),
-                  true  => __('Yes'),
-                  false => __('No'),
-              ], request()->input('acceptable'), ['class'=>'form-select']) }}
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-12 col-md-6">
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="basic-addon1">{{ __('Predicted') }}</span>
               <div class="input-group-prepend">
@@ -75,7 +57,7 @@
               <span class="input-group-text">€</span>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-12 col-md-6">
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="basic-addon1">{{ __('Invoiced') }}</span>
               <div class="input-group-prepend">

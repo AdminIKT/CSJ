@@ -116,14 +116,14 @@
     </div>
     @if ($entity->getSubaccounts()->count() > 1)
     <div class="table-responsive col-sm-12 col-md-6">
-        @foreach ($entity->getSubaccounts() as $i => $subaccount)
         <table class="table table-sm align-middle table-bordered border-white">
-            <tr>
-                <th>{{ __('Area') }}</th>
-                <th>{{ __('Real credit') }}</th>
-                <th>{{ __('Compromised credit') }}</th>
-                <th>{{ __('Available credit') }}</th>
-            </tr>
+        <tr>
+            <th>{{ __('Areas') }}</th>
+            <th>{{ __('Real credit') }}</th>
+            <th>{{ __('Compromised credit') }}</th>
+            <th>{{ __('Available credit') }}</th>
+        </tr>
+        @foreach ($entity->getSubaccounts() as $i => $subaccount)
             <tr class="table-secondary">
                 <td>
                     <a href="{{ route('areas.show', ['area' => $subaccount->getArea()->getId()]) }}">{{ $subaccount->getArea()->getAcronym() }}</a>
@@ -133,17 +133,17 @@
                 <td>{{ number_format($subaccount->getCompromisedCredit(), 2, ",", ".") }}€</td>
                 <td>{{ number_format($subaccount->getAvailableCredit(), 2, ",", ".") }}€</td>
             </tr>
-            <tr class="table-secondary">
-                <td class="text-center" colspan="4">
+            <tr>
+                <td class="text-center py-2" colspan="4">
                     <div class="btn-group btn-group-sm">
                         @can('view', $entity)
-                        <a href="{{ route('subaccounts.orders.create', ['subaccount' => $subaccount->getId()]) }}" class="btn btn-light" title="{{ __('New order') }}">
+                        <a href="{{ route('subaccounts.orders.create', ['subaccount' => $subaccount->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('New order') }}">
                             <span class="bx bx-xs bxs-file"></span> {{ __('New order') }}
                         </a>
                         @endcan
                         @can('update', $entity) <!-- FIXME: $subaccount gives error -->
                         <div class="btn-group btn-group-sm">
-                            <button id="movement{$i}Btn" class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button id="movement{$i}Btn" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="bx bx-xs bx-dollar"></span> {{ __('New movement') }} 
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="movementi{$i}Btn">
@@ -159,8 +159,8 @@
                     </div>
                 </td>
             </tr>
-        </table>
         @endforeach
+        </table>
     </div>
     @endif
     @if ($entity->getSubaccounts()->count() === 1)

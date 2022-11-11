@@ -33,7 +33,7 @@ class OrderPostRequest extends OrderPutRequest
     public function withValidator($validator)
     {
         $limit = $this->em->getRepository(\App\Entities\Settings::class)
-                          ->findOneBy(['type' => \App\Entities\Settings::TYPE_ESTIMATED_LIMIT]);
+                          ->findOneBy(['type' => \App\Entities\Settings::TYPE_ORDER_ESTIMATED_LIMIT]);
 
         $validator->after(function ($validator) use ($limit) {
             $data = $validator->getData();

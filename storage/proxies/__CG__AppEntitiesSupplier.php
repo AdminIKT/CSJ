@@ -112,10 +112,10 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'region', 'name', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'acceptable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'recommendable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
+            return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'region', 'name', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidenceCount', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'orderCount', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'region', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'acceptable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'recommendable', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
+        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'nif', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'zip', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'city', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'address', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'region', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'contacts', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'incidenceCount', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'orderCount', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'invoiced', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Supplier' . "\0" . 'updated'];
     }
 
     /**
@@ -274,12 +274,45 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
+    public function isPending()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPending', []);
+
+        return parent::isPending();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function isValidated()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'isValidated', []);
 
         return parent::isValidated();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isRecommendable()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isRecommendable', []);
+
+        return parent::isRecommendable();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isNoAcceptable()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isNoAcceptable', []);
+
+        return parent::isNoAcceptable();
     }
 
     /**
@@ -417,50 +450,6 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getAcceptable()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAcceptable', []);
-
-        return parent::getAcceptable();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setAcceptable($acceptable)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAcceptable', [$acceptable]);
-
-        return parent::setAcceptable($acceptable);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getRecommendable()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRecommendable', []);
-
-        return parent::getRecommendable();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setRecommendable($recommendable)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRecommendable', [$recommendable]);
-
-        return parent::setRecommendable($recommendable);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function setUser(\App\Entities\User $user)
     {
 
@@ -533,6 +522,94 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProducts', []);
 
         return parent::getProducts();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOrderCount($count)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOrderCount', [$count]);
+
+        return parent::setOrderCount($count);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrderCount()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOrderCount', []);
+
+        return parent::getOrderCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function increaseOrderCount()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'increaseOrderCount', []);
+
+        return parent::increaseOrderCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function decreaseOrderCount()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'decreaseOrderCount', []);
+
+        return parent::decreaseOrderCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIncidenceCount($count)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIncidenceCount', [$count]);
+
+        return parent::setIncidenceCount($count);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIncidenceCount()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIncidenceCount', []);
+
+        return parent::getIncidenceCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function increaseIncidenceCount()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'increaseIncidenceCount', []);
+
+        return parent::increaseIncidenceCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function decreaseIncidenceCount()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'decreaseIncidenceCount', []);
+
+        return parent::decreaseIncidenceCount();
     }
 
     /**
@@ -632,6 +709,17 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatusName', []);
 
         return parent::getStatusName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStatusColor()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatusColor', []);
+
+        return parent::getStatusColor();
     }
 
     /**

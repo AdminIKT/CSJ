@@ -14,11 +14,11 @@ use LaravelDoctrine\ACL\Permissions\HasPermissions;
  */
 class Settings
 {
-    const TYPE_CURRENT_YEAR                = 0;
-    const TYPE_ESTIMATED_LIMIT             = 1;
-    const TYPE_INVOICED_LIMIT              = 2;
-    const TYPE_RECOMMENDED_SUPPLIER_LIMIT  = 3;
-    const TYPE_ACCEPTED_SUPPLIER_LIMIT     = 4;
+    const TYPE_CURRENT_YEAR                  = 0;
+    const TYPE_ORDER_ESTIMATED_LIMIT         = 1;
+    const TYPE_SUPPLIER_INVOICED_LIMIT       = 2;
+    const TYPE_SUPPLIER_NO_ACCEPTABLE_LIMIT  = 3;
+    const TYPE_SUPPLIER_RECOMMENDABLE_LIMIT  = 4;
 
     /**
      * @ORM\Id
@@ -120,11 +120,11 @@ class Settings
     {
         switch ($type) {
             case self::TYPE_CURRENT_YEAR: return trans("año_seleccion");
-            case self::TYPE_ESTIMATED_LIMIT: return trans("limite_presupuesto");
-            case self::TYPE_INVOICED_LIMIT:  return trans("limite_facturado");
-            case self::TYPE_RECOMMENDED_SUPPLIER_LIMIT:
+            case self::TYPE_ORDER_ESTIMATED_LIMIT: return trans("limite_presupuesto");
+            case self::TYPE_SUPPLIER_INVOICED_LIMIT:  return trans("limite_facturado");
+            case self::TYPE_SUPPLIER_RECOMMENDABLE_LIMIT:
                 return trans("limite_pedidos_proveedor");
-            case self::TYPE_ACCEPTED_SUPPLIER_LIMIT:
+            case self::TYPE_SUPPLIER_NO_ACCEPTABLE_LIMIT:
                 return trans("limite_incidencias_proveedor");
             default: return trans("Undefined");
         }
@@ -138,13 +138,13 @@ class Settings
         switch ($type) {
             case self::TYPE_CURRENT_YEAR: 
                 return trans("año_seleccion_descripcion");
-            case self::TYPE_ESTIMATED_LIMIT: 
+            case self::TYPE_ORDER_ESTIMATED_LIMIT: 
                 return trans("limite_presupuesto_descripcion");
-            case self::TYPE_INVOICED_LIMIT:  
+            case self::TYPE_SUPPLIER_INVOICED_LIMIT:  
                 return trans("limite_facturado_descripcion");
-            case self::TYPE_RECOMMENDED_SUPPLIER_LIMIT:
+            case self::TYPE_SUPPLIER_RECOMMENDABLE_LIMIT:
                 return trans("limite_pedidos_proveedor_descripcion");
-            case self::TYPE_ACCEPTED_SUPPLIER_LIMIT:
+            case self::TYPE_SUPPLIER_NO_ACCEPTABLE_LIMIT:
                 return trans("limite_incidencias_proveedor_descripcion");
             default: return trans("Undefined");
         }

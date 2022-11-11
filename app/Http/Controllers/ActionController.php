@@ -14,8 +14,7 @@ class ActionController extends BaseController
      */
     protected function authorization()
     {
-        //TODO
-        //$this->authorizeResource(Action::class, 'action');
+        $this->authorizeResource(Action::class, 'action');
     }
 
     /**

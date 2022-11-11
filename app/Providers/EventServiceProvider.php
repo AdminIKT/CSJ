@@ -36,6 +36,7 @@ class EventServiceProvider extends ServiceProvider
             Users\EntityInjection::class,
             Orders\ActionInjection::class,
             Suppliers\IncreaseEstimated::class,
+            Suppliers\RecommendableSupplier::class,
         ],
         SupplierEvent::class => [
             Users\EntityInjection::class,
@@ -48,7 +49,6 @@ class EventServiceProvider extends ServiceProvider
             Orders\UpdateStatus::class,
             Accounts\RestoreCredit::class,
             Suppliers\IncreaseInvoiced::class,
-            Suppliers\RecommendableSupplier::class,
         ],
     ];
 

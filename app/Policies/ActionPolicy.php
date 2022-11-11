@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Entities\User;
-use App\Entities\Setting;
+use App\Entities\Action;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy
+class ActionPolicy
 {
     use HandlesAuthorization;
 
@@ -32,19 +32,19 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return \Illuminate\Auth\Access\Response::deny("You cannot show actions list");
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Entities\User  $user
-     * @param  \App\Entities\User  $entity
+     * @param  \App\Entities\Action  $action
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, User $entity)
+    public function view(User $user, Action $action)
     {
-        return $user === $entity;
+        return Response::deny("You cannot show action detail");
     }
 
     /**
@@ -55,41 +55,41 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return Response::deny("You cannot create a new action");
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Entities\User  $user
-     * @param  \App\Entities\User  $entity
+     * @param  \App\Entities\Action  $action
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, User $entity)
+    public function update(User $user, Action $action)
     {
-        //
+        return Response::deny("You cannot update an action");
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Entities\User  $user
-     * @param  \App\Entities\User  $entity
+     * @param  \App\Entities\Action  $action
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, User $entity)
+    public function delete(User $user, Action $action)
     {
-        //
+        return Response::deny("You cannot delete an action");
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Entities\User  $user
-     * @param  \App\Entities\User  $entity
+     * @param  \App\Entities\Action  $action
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, User $entity)
+    public function restore(User $user, Action $action)
     {
         //
     }
@@ -98,10 +98,10 @@ class UserPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Entities\User  $user
-     * @param  \App\Entities\User  $entity
+     * @param  \App\Entities\Action  $action
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, User $entity)
+    public function forceDelete(User $user, Action $action)
     {
         //
     }

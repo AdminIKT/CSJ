@@ -17,8 +17,10 @@ use App\Entities\Supplier\Contact,
  */
 class Supplier 
 {
-    const STATUS_CREATED     = 0;
-    const STATUS_VALIDATED   = 1;
+    const STATUS_PENDING       = 0;
+    const STATUS_VALIDATED     = 1;
+    const STATUS_RECOMMENDABLE = 2;
+    const STATUS_NO_ACCEPTABLE = -1;
 
     /**
      * @var int
@@ -34,7 +36,7 @@ class Supplier
      *
      * @ORM\Column(name="status", type="integer", options={"default":0})
      */
-    private $status = Supplier::STATUS_CREATED;
+    private $status = Supplier::STATUS_PENDING;
 
     /**
      * @var string
@@ -79,20 +81,6 @@ class Supplier
     public $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="accp", type="boolean", options={"default":true})
-     */
-    private $acceptable = true;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="rcmm", type="boolean", options={"default":false})
-     */
-    private $recommendable = false;
-
-    /**
      * @var User 
      *
      * @ORM\ManyToOne(targetEntity="App\Entities\User", inversedBy="suppliers")
@@ -113,6 +101,20 @@ class Supplier
      * @ORM\OrderBy({"created" = "DESC"})
      */
     private $incidences;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="incidences", type="integer", options={"default":0})
+     */
+    private $incidenceCount = 0;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="orders", type="integer", options={"default":0})
+     */
+    private $orderCount = 0;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -210,9 +212,33 @@ class Supplier
     /**
      * @return bool
      */
+    public function isPending()
+    {
+        return $this->isStatus(self::STATUS_PENDING);
+    }
+
+    /**
+     * @return bool
+     */
     public function isValidated()
     {
         return $this->isStatus(self::STATUS_VALIDATED);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRecommendable()
+    {
+        return $this->isStatus(self::STATUS_RECOMMENDABLE);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNoAcceptable()
+    {
+        return $this->isStatus(self::STATUS_NO_ACCEPTABLE);
     }
 
     /**
@@ -358,50 +384,6 @@ class Supplier
     {
         return $this->region;
     }
-    
-    /**
-     * Get acceptable.
-     *
-     * @return bool.
-     */
-    public function getAcceptable()
-    {
-        return $this->acceptable;
-    }
-    
-    /**
-     * Set acceptable.
-     *
-     * @param bool acceptable the value to set.
-     * @return Supplier
-     */
-    public function setAcceptable($acceptable)
-    {
-        $this->acceptable = (bool) $acceptable;
-        return $this;
-    }
-    
-    /**
-     * Get recommendable.
-     *
-     * @return bool.
-     */
-    public function getRecommendable()
-    {
-        return $this->recommendable;
-    }
-    
-    /**
-     * Set recommendable.
-     *
-     * @param bool recommendable the value to set.
-     * @return Supplier
-     */
-    public function setRecommendable($recommendable)
-    {
-        $this->recommendable = (bool) $recommendable;
-        return $this;
-    }
 
     /**
      * Set user.
@@ -481,6 +463,86 @@ class Supplier
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * Set orderCount.
+     *
+     * @param int $count
+     * @return int
+     */
+    public function setOrderCount($count)
+    {
+        $this->orderCount = (int) $count;
+        return $this;
+    }
+
+    /**
+     * Get orders.
+     *
+     * @return int
+     */
+    public function getOrderCount()
+    {
+        return $this->orderCount;
+    }
+
+    /**
+     * @return Supplier
+     */
+    public function increaseOrderCount()
+    {
+        $this->orderCount++;
+        return $this;
+    }
+
+    /**
+     * @return Supplier
+     */
+    public function decreaseOrderCount()
+    {
+        $this->orderCount--;
+        return $this;
+    }
+
+    /**
+     * Set incidenceCount.
+     *
+     * @param int $count
+     * @return int
+     */
+    public function setIncidenceCount($count)
+    {
+        $this->incidenceCount = (int) $count;
+        return $this;
+    }
+
+    /**
+     * Get incidences.
+     *
+     * @return int
+     */
+    public function getIncidenceCount()
+    {
+        return $this->incidenceCount;
+    }
+
+    /**
+     * @return Supplier
+     */
+    public function increaseIncidenceCount()
+    {
+        $this->incidenceCount++;
+        return $this;
+    }
+
+    /**
+     * @return Supplier
+     */
+    public function decreaseIncidenceCount()
+    {
+        $this->incidenceCount--;
+        return $this;
     }
 
     /**
@@ -584,22 +646,54 @@ class Supplier
     public static function statusName($status) 
     {
         switch ($status) {
-            case self::STATUS_CREATED: 
-                return trans("Created");
+            case self::STATUS_PENDING: 
+                return trans("Validation pending");
             case self::STATUS_VALIDATED: 
-                return trans("Validated");
+                return trans("In evaluation");
+            case self::STATUS_RECOMMENDABLE: 
+                return trans("Acceptable");
+            case self::STATUS_NO_ACCEPTABLE: 
+                return trans("No acceptable");
             default: return trans("Undefined");
         }
     }
 
     /**
-     * Get status.
+     * @return string
+     */
+    public static function statusColor($status) 
+    {
+        switch ($status) {
+            case self::STATUS_PENDING: 
+                return "bg-dark";
+            case self::STATUS_VALIDATED: 
+                return "bg-warning";
+            case self::STATUS_RECOMMENDABLE: 
+                return "bg-success";
+            case self::STATUS_NO_ACCEPTABLE: 
+                return "bg-danger";
+            default: return "bg-light text-dark";
+        }
+    }
+
+    /**
+     * Get status name.
      *
      * @return string
      */
     public function getStatusName()
     {
         return self::statusName($this->getStatus());
+    }
+
+    /**
+     * Get status color.
+     *
+     * @return string
+     */
+    public function getStatusColor()
+    {
+        return self::statusColor($this->getStatus());
     }
 
     /**

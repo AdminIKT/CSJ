@@ -19,8 +19,6 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
      *   name: string,
      *   city: string,
      *   region: string,
-     *   recommendable: boolean,
-     *   acceptable: boolean,
      *   sortBy: string,
      *   sort: string
      *   account: int,
@@ -118,18 +116,6 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
             null !== ($region = $filter['region'])) {
             $b->andWhere("supplier.region LIKE :region")
               ->setParameter('region', "%{$region}%");
-        }
-
-        if (isset($filter['recommendable']) &&
-            null !== ($recommendable = $filter['recommendable'])) {
-            $b->andWhere("supplier.recommendable = :recommendable")
-              ->setParameter('recommendable', $recommendable);
-        }
-
-        if (isset($filter['acceptable']) &&
-            null !== ($acceptable = $filter['acceptable'])) {
-            $b->andWhere("supplier.acceptable = :acceptable")
-              ->setParameter('acceptable', $acceptable);
         }
 
         $b->orderBy(

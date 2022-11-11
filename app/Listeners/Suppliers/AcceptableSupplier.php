@@ -4,6 +4,7 @@ namespace App\Listeners\Suppliers;
 
 use App\Events\IncidenceEvent,
     App\Entities\Settings,
+    App\Entities\Supplier,
     App\Entities\Supplier\Incidence;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -38,17 +39,24 @@ class AcceptableSupplier
         $incidence = $event->entity;
         $supplier  = $incidence->getSupplier();
 
-        $collection = $this->em->getRepository(Incidence::class)
-                           ->search($supplier, Incidence::STATUS_OPENED);
+        $incidence->isClosed() ?
+            $supplier->decreaseIncidenceCount() :
+            $supplier->increaseIncidenceCount();
 
         $limit = $this->em->getRepository(Settings::class)
-                          ->findOneBy(['type' => Settings::TYPE_ACCEPTED_SUPPLIER_LIMIT])
+                          ->findOneBy(['type' => Settings::TYPE_SUPPLIER_NO_ACCEPTABLE_LIMIT])
                           ->getValue();
 
-        //TODO: use Actions instead
-        if ($incidence->isClosed()) {
+        if ($supplier->getIncidenceCount() >= $limit) {
+            $supplier->setStatus(Supplier::STATUS_NO_ACCEPTABLE);
         }
-        else {
+        elseif ($supplier->isNoAcceptable()) {
+            $limit = $this->em->getRepository(Settings::class)
+                        ->findOneBy(['type' => Settings::TYPE_SUPPLIER_RECOMMENDABLE_LIMIT])
+                        ->getValue();
+            $supplier->getOrderCount() >= $limit ?
+                $supplier->setStatus(Supplier::STATUS_RECOMMENDABLE) :
+                $supplier->setStatus(Supplier::STATUS_VALIDATED);
         }
     }
 }

@@ -53,10 +53,11 @@ class IncreaseEstimated
         $invoiced->increaseEstimated($order->getEstimatedCredit()); 
 
         $limit = $this->em->getRepository(Settings::class)
-                          ->findOneBy(['type' => Settings::TYPE_INVOICED_LIMIT]);
+                          ->findOneBy(['type' => Settings::TYPE_SUPPLIER_INVOICED_LIMIT])
+                          ->getValue();
 
-        if (($ex = $invoiced->getEstimated()-$limit->getValue()) > 0) {
-            throw new InvoicedLimitException(__("The order credit exceeds in :credit€ the supplier's annual billing limit established on :limit€", ['limit' => $limit->getValue(), 'credit' => $ex]));
+        if (($ex = $invoiced->getEstimated() - $limit) > 0) {
+            throw new InvoicedLimitException(__("The order credit exceeds in :credit€ the supplier's annual billing limit established on :limit€", ['limit' => $limit, 'credit' => $ex]));
         }
     }
 }

@@ -116,7 +116,12 @@ class SupplierController extends BaseController
      */
     public function update(SupplierRequest $request, Supplier $supplier)
     {
-        $this->hydrateData($supplier, $request->all());
+        $values = $request->all();
+        if ($supplier->isNoAcceptable() 
+            && (int) $values['status'] > $supplier->getStatus()) {
+            $supplier->setIncidenceCount(0);
+        }
+        $this->hydrateData($supplier, $values);
         $this->em->flush();
         return redirect()->route('suppliers.show', ['supplier' => $supplier->getId()])
                          ->with('success', __('Successfully updated'));
@@ -151,8 +156,6 @@ class SupplierController extends BaseController
         if (isset($data['address'])) $entity->setAddress($data['address']);
         if (isset($data['region'])) $entity->setRegion($data['region']);
         if (isset($data['status'])) $entity->setStatus($data['status']);
-        $entity->setAcceptable(isset($data['acceptable']));
-        $entity->setRecommendable(isset($data['recommendable']));
 
         if (isset($data['contacts'])) {
             foreach ($data['contacts'] as $raw) {

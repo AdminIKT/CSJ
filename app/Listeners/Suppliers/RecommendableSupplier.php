@@ -2,10 +2,10 @@
 
 namespace App\Listeners\Suppliers;
 
-use App\Events\MovementEvent,
+use App\Events\OrderEvent,
     App\Entities\Settings,
-    App\Entities\Movement,
-    App\Entities\InvoiceCharge;
+    App\Entities\Supplier,
+    App\Entities\Order;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,30 +31,28 @@ class RecommendableSupplier
     /**
      * Handle the event.
      *
-     * @param  MovementEvent  $event
+     * @param  OrderEvent  $event
      * @return void
      */
-    public function handle(MovementEvent $event)
+    public function handle(OrderEvent $event)
     {
-        $movement = $event->entity;
-        if (!($movement instanceof InvoiceCharge && 
-             $event->action === MovementEvent::ACTION_STORE
-        )) {
+        if (!($event->action === OrderEvent::ACTION_STATUS && 
+            $event->entity->isStatus(Order::STATUS_CHECKED_AGREED))) {
             return;
         }
 
-        $supplier = $movement->getSupplier();
-
-        $collection = $this->em
-                           ->getRepository(InvoiceCharge::class)
-                           ->search([
-                            'supplier' => $supplier->getId(),
-                           ]);
+        $supplier = $event->entity->getSupplier();
+        $supplier->increaseOrderCount();
+        if ($supplier->isRecommendable()) {
+            return;
+        }
 
         $limit = $this->em->getRepository(Settings::class)
-                          ->findOneBy(['type' => Settings::TYPE_RECOMMENDED_SUPPLIER_LIMIT])
-                          ->getValue();
+                    ->findOneBy(['type' => Settings::TYPE_SUPPLIER_RECOMMENDABLE_LIMIT])
+                    ->getValue();
 
-        //FIXME dd($limit, $collection->total());
+        if ($supplier->getOrderCount() >= $limit) {
+            $supplier->setStatus(Supplier::STATUS_RECOMMENDABLE);
+        }
     }
 }

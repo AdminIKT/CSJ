@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Subaccount;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManagerInterface,
+    Doctrine\Common\Collections\Criteria 
+        as DoctrineCriteria;
 use Illuminate\Http\Request,
     Illuminate\Support\Arr,
     Illuminate\Http\UploadedFile,
@@ -38,15 +40,15 @@ class OrderController extends BaseController
      */
     public function create(Subaccount $subaccount, Request $request)
     {
+        $criteria = new DoctrineCriteria;
+        $criteria->where(DoctrineCriteria::expr()
+                 ->gte('status', Supplier::STATUS_VALIDATED));
         $suppliers = $this->em->getRepository(Supplier::class)
-                          ->findBy([
-                            'acceptable' => true,
-                            'status'     => Supplier::STATUS_VALIDATED,
-                            ], 
-                            ['name' => 'asc']);
+                          ->matching($criteria)
+                          ->toArray();
 
         $limit = $this->em->getRepository(Settings::class)
-                          ->findOneBy(['type' => Settings::TYPE_INVOICED_LIMIT]);
+                          ->findOneBy(['type' => Settings::TYPE_SUPPLIER_INVOICED_LIMIT]);
 
         $disableds = array_combine(
             array_map(function($e) { return $e->getId(); }, $suppliers),
