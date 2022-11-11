@@ -39,6 +39,7 @@
         @endif
         </div>
 
+        @can('viewAny', App\Entities\Order::class)
         {{ Form::label('custom', __('intercalar'), ['class' => 'form-label']) }}
         {{ Form::checkbox("custom", true, old('custom'), ['class' => 'form-check-input', 'onchange' => 'displayCustom(this)']) }}         
         <div id="custom-fields" class="row d-none">
@@ -59,6 +60,12 @@
                 {{ Form::date("date", old('date', now()), ['class' => 'form-control form-control-sm', 'disabled' => true]) }}
             </div>
         </div>
+        @else
+        <div class="mb-3">
+            {{ Form::label('date', __('Date'), ['class' => 'form-label']) }}
+            {{ Form::date("date", old('date', now()), ['class' => 'form-control form-control-sm', 'disabled' => true]) }}
+        </div>
+        @endif
     </div>
 
     <div class="col-md-6 mb-3">
@@ -88,11 +95,15 @@
     </fieldset>
 
     <div class="col-md-12">
-        {{ Form::submit(__('guardar'), ['class' => 'btn btn-sm btn-primary float-end']) }}
-        <button type="button" class="btn btn-sm btn-outline-primary float-end mx-2" onclick="addToCollection()">
-            <span data-thead="plus"></span> {{__('nuevo_elemento')}}
+        <button type="submit" class="btn btn-sm btn-primary float-end">
+            <i class='bx bxs-save'></i> {{ __('guardar') }}
         </button>
-        <a href="{{ url()->previous() }}" class="btn btn-sm">{{__('cancelar')}}</a>
+        <button type="button" class="btn btn-sm btn-outline-primary float-end mx-2" onclick="addToCollection()">
+            <i class="bx bx-plus"></i> {{__('nuevo_elemento')}}
+        </button>
+        <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-secondary">
+            <i class='bx bx-x'></i> {{__('cancelar')}}
+        </a>
     </div>
 
     {{ Form::close() }}
