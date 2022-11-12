@@ -112,15 +112,28 @@
               <span class="nav_name">{{ __('Receptions') }}</span>
             </a>
             @endcan
-            <!-- permissions TODO -->
+            @can('viewAny', App\Entities\Action::class)
             <a class="nav_link {{request()->is('actions*') ? 'active' : ''}}" href="{{ route('actions.index') }}" title="{{ __('Activity') }}">
               <i class="bx bx-pulse"></i>
               <span class="nav_name">{{ __('Activity') }}</span>
             </a>
-
-            <hr style="margin-left:1rem; color:white;">
+            @else
+            <a class="nav_link {{request()->is('users/*') ? 'active' : ''}}" href="{{ route('users.show', ['user' => Auth::user()->getId()]) }}" title="{{ __('My accounts') }}">
+              <i class="bx bxs-credit-card"></i>
+              <span class="nav_name">{{ __('My accounts') }}</span>
+            </a>
+            <a class="nav_link {{request()->is('users/*/orders') ? 'active' : ''}}" href="{{ route('users.orders.index', ['user' => Auth::user()->getId()]) }}" title="{{ __('My orders') }}">
+              <i class="bx bx-file"></i>
+              <span class="nav_name">{{ __('My orders') }}</span>
+            </a>
+            <a class="nav_link {{request()->is('users/*/actions') ? 'active' : ''}}" href="{{ route('users.actions.index', ['user' => Auth::user()->getId()]) }}" title="{{ __('My activity') }}">
+              <i class="bx bx-pulse"></i>
+              <span class="nav_name">{{ __('My activity') }}</span>
+            </a>
+            @endcan
 
             @can('viewAny', App\Entities\User::class)
+            <hr style="margin-left:1rem; color:white;">
             <a class="nav_link {{request()->is('users*') ? 'active' : ''}}" href="{{ route('users.index') }}" title="{{ __('Users') }}">
               <i class="bx bx-user"></i>
               <span class="nav_name">{{ __('Users') }}</span>
@@ -139,9 +152,8 @@
             </a>
             @endcan
 
-            <hr style="margin-left:1rem; color:white;">
-
             @can('viewAny', App\Entities\Settings::class)
+            <hr style="margin-left:1rem; color:white;">
             <a class="nav_link {{request()->is('settings*') ? 'active' : ''}}" href="{{ route('settings.index') }}" title="{{ __('Settings') }}">
               <i class="bx bxs-cog"></i>
               <span class="nav_name">{{ __('Settings') }}</span>

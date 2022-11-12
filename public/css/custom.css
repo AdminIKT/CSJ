@@ -31,7 +31,7 @@ table th a.active {
 .btn-toolbar .btn {}
 
 .bx {
-    vertical-align: sub;
+    vertical-align: middle;
 } 
 .card-header { /*
     background-color: #537389;

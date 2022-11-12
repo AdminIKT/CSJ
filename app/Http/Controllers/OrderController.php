@@ -105,13 +105,6 @@ class OrderController extends BaseController
     public function update(OrderPutRequest $request, Order $order)
     {
         $values = $request->validated();
-       // $values = $request->validate([
-       //     'receiveIn'         => ['required'],
-       //     'detail'            => ['nullable', 'max:255'],
-       //     'products.*.id'     => ['nullable', 'int'],
-       //     'products.*.detail' => ['required', 'max:255'],
-       //     'products.*.units'  => ['required', 'min:1'],
-       // ]);
 
         $order->setReceiveIn($values['receiveIn'])
               ->setDetail($values['detail']);
@@ -166,6 +159,7 @@ class OrderController extends BaseController
     public function status(Request $request, Order $order)
     {
         /*
+        TODO
         $refl = new \ReflectionClass(Order::class);
         $cons = $refl->getConstants();
         $cons = array_flip(array_reverse($cons, true));

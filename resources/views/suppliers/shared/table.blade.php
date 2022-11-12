@@ -38,8 +38,22 @@
           </th>
           <th class="small" scope="col">{{ __('Address') }}</th>
           <th class="small" scope="col">{{ __('Status') }}</th>
-          <th class="small" scope="col"></th>
-          <th class="small" scope="col"></th>
+          <th class="small" scope="col">{{ __('Orders') }}
+            <a class="{{ request()->get('sortBy') == 'supplier.orderCount' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.orderCount', 'sort' => 'asc']) }}">
+                <span data-feather="chevron-up"></span>
+            </a>
+            <a class="{{ request()->get('sortBy') == 'supplier.orderCount' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.orderCount', 'sort' => 'desc']) }}">
+                <span data-feather="chevron-down"></span>
+            </a>
+          </th>
+          <th class="small" scope="col">{{ __('Incidences') }}
+            <a class="{{ request()->get('sortBy') == 'supplier.incidenceCount' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.incidenceCount', 'sort' => 'asc']) }}">
+                <span data-feather="chevron-up"></span>
+            </a>
+            <a class="{{ request()->get('sortBy') == 'supplier.incidenceCount' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.incidenceCount', 'sort' => 'desc']) }}">
+                <span data-feather="chevron-down"></span>
+            </a>
+          </th>
           <th class="small" scope="col">{{ __('Predicted') }}
             <a class="{{ request()->get('sortBy') == 'invoiced.estimated' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'invoiced.estimated', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -90,10 +104,10 @@
           </td>
           <td>{{ $entity->getAddress() }}</td>
           <td>
-            <span class="badge {{ $entity->isValidated() ? 'bg-success' : 'bg-danger' }}">{{ $entity->getStatusName() }}</span>
+            <span class="badge {{ $entity->getStatusColor() }}">{{ $entity->getStatusName() }}</span>
           </td>
-          <td>@if ($entity->getAcceptable()) <span class="badge bg-success">{{ __('Acceptable') }}</span> @endif</td>
-          <td>@if ($entity->getRecommendable()) <span class="badge bg-success">{{ __('Recommendable') }}</span> @endif</td>
+          <td>{{ $entity->getOrderCount() }}</td>
+          <td>{{ $entity->getIncidenceCount() }}</td>
           <td>
             @if (null !== ($inv = $entity->getInvoiced(date('Y'))))
             {{ number_format($inv->getEstimated(), 2, ",", ".")}} €

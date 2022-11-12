@@ -153,9 +153,10 @@ class IncidenceController extends BaseController
             abort(404);
         }
 
+        $incidence->setStatus(Incidence::STATUS_CLOSED);
+
         IncidenceEvent::dispatch($incidence, IncidenceEvent::ACTION_CLOSE);
 
-        $incidence->setStatus(Incidence::STATUS_CLOSED);
         $this->em->flush();
 
         return redirect()->back()->with('success', 'Successfully closed');

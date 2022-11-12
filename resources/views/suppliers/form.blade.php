@@ -13,21 +13,21 @@
     {{ method_field($method) }}
 
     <div class="row">
-        @if ($entity->getId()) 
-        @can('update', App\Entities\Supplier::class)
+        @can('viewAny', App\Entities\Supplier::class)
         <div class="col mb-3">
             {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
             {{ Form::select('status', [
                 null => __('selecciona'),
-                \App\Entities\Supplier::STATUS_CREATED => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_CREATED),
-                \App\Entities\Supplier::STATUS_VALIDATED => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_VALIDATED),
+                \App\Entities\Supplier::STATUS_PENDING       => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_PENDING),
+                \App\Entities\Supplier::STATUS_VALIDATED     => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_VALIDATED),
+                \App\Entities\Supplier::STATUS_RECOMMENDABLE => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_RECOMMENDABLE),
+                \App\Entities\Supplier::STATUS_NO_ACCEPTABLE => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_NO_ACCEPTABLE),
             ], old('status', $entity->getStatus()), ['class'=>'form-select form-select-sm' . ($errors->has('status') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
             @if ($errors->has('status'))
                <div class="invalid-feedback">{!! $errors->first('status') !!}</div>
             @endif
         </div>
         @endcan
-        @endif
 
         <div class="col mb-3">
             {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
@@ -80,19 +80,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12 mb-3">
-            <div class="form-check form-check-inline">
-                {{ Form::checkbox('acceptable', true, old('acceptable', $entity->getAcceptable()), ['class' => 'form-check-input']) }}
-                {{ Form::label('acceptable', __('Acceptable'), ['class' => 'form-check-label']) }}
-            </div>
-            <div class="form-check form-check-inline">
-                {{ Form::checkbox('recommendable', true, old('recommendable', $entity->getRecommendable()), ['class' => 'form-check-input']) }}
-                {{ Form::label('recommendable', __('Recommendable'), ['class' => 'form-check-label']) }}
-            </div>
-        </div>
-    </div>
-   
     @if (!$entity->getId())
     <fieldset class="col-md-12 mb-3 collection-container" 
              data-prototype='@include("suppliers.shared.form_contact", ["index" => "__NAME__"])'>
