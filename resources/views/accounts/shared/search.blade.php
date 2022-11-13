@@ -2,6 +2,18 @@
     <i class="bx bx-xs bx-search-alt-2"></i> {{ __('Filter') }}
 </button>
 <form id="collapseForm" action="{{ $route }}" method="GET" class="row collapse mb-3">
+    @if (!(isset($exclude) && in_array('status', $exclude)))
+    <div class="col">
+        <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="addon-status">{{ __('Status') }}</span>
+        {{ Form::select('status', [
+            null => __('selecciona'),
+            \App\Entities\Account::STATUS_INACTIVE => \App\Entities\Account::statusName(\App\Entities\Account::STATUS_INACTIVE),
+            \App\Entities\Account::STATUS_ACTIVE => \App\Entities\Account::statusName(\App\Entities\Account::STATUS_ACTIVE),
+        ], request()->input('status'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}
+        </div>
+    </div>
+    @endif
     <div class="col">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="basic-addon1">{{ __('Name') }}</span>

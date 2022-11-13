@@ -112,10 +112,10 @@ class Account extends \App\Entities\Account implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'name', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'files', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
+            return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'status', 'name', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'files', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'files', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
+        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'files', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
     }
 
     /**
@@ -236,6 +236,50 @@ class Account extends \App\Entities\Account implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setStatus(int $status)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStatus', [$status]);
+
+        return parent::setStatus($status);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStatus()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatus', []);
+
+        return parent::getStatus();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isStatus(int $status)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isStatus', [$status]);
+
+        return parent::isStatus($status);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isActive()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isActive', []);
+
+        return parent::isActive();
     }
 
     /**
@@ -665,6 +709,28 @@ class Account extends \App\Entities\Account implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTypeName', []);
 
         return parent::getTypeName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStatusColor()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatusColor', []);
+
+        return parent::getStatusColor();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStatusName()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatusName', []);
+
+        return parent::getStatusName();
     }
 
     /**

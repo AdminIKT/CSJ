@@ -57,11 +57,19 @@ class OrderController extends BaseController
             }, $suppliers),
         );
 
+        $lastest = $this->em->getRepository(Order::class)
+                        ->search([
+                            'account' => $subaccount->getAccount(),
+                            'from' => new \Datetime("1-1-". date('Y')),
+                            'sort' => 'DESC',
+                        ], null);
+
         return view('subaccounts.orders.create', [
             'subaccount' => $subaccount,
             'disableds'  => $disableds,
             'entity'     => new Order,
             'suppliers'  => Arr::pluck($suppliers, 'name', 'id'),
+            'lastest'    => $lastest,
         ]); 
     }
 
@@ -114,7 +122,19 @@ class OrderController extends BaseController
             $path = Storage::disk('public')->putFileAs('files', $file, "{$order->getSequence()}.pdf");
             $order->setEstimated($path);
 
-            $this->uploadToDrive($file, $order);
+            try {
+                $this->uploadToDrive($file, $order);
+            } catch (\Google\Exception $e) {
+                foreach ($e->getErrors() as $error) {
+                    throw ValidationException::withMessages([
+                        'estimated' => $error['message']
+                    ]);
+                }
+            } catch (\Exception $e) {
+                throw ValidationException::withMessages([
+                    'estimated' => $e->getMessage()
+                ]);
+            }
         }
 
         $this->em->persist($order);
@@ -169,7 +189,7 @@ class OrderController extends BaseController
         //    }
         //}
         foreach ($order->getAccount()->getFiles() as $folder) {
-            if ($folder->getName() == $order->getDate()->format('Y')) {
+            if ($folder->getName() === $order->getDate()->format('Y')) {
                 $child = $folder;
             }
         }

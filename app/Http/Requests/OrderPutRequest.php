@@ -41,6 +41,7 @@ class OrderPutRequest extends FormRequest
     {
         return [
             'receiveIn'         => 'required',
+            'date'              => 'nullable',
             'detail'            => 'nullable|max:255',
             'products.*.id'     => 'nullable|int',
             'products.*.detail' => 'required|max:255',

@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Gate,
-    Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage,
+    Illuminate\Support\Facades\Gate,
+    Illuminate\Support\Arr,
+    Illuminate\Validation\ValidationException;
 
 use App\Entities\Account,
     App\Entities\User,
@@ -80,6 +81,19 @@ class AccountController extends BaseController
     {
         $entity = new Account;
         $this->hydrateData($entity, $request->validated());
+        try {
+            $this->uploadToDrive($entity);
+        } catch (\Google\Exception $e) {
+            foreach ($e->getErrors() as $error) {
+                throw ValidationException::withMessages([
+                    'acronym' => $error['message']
+                ]);
+            }
+        } catch (\Exception $e) {
+            throw ValidationException::withMessages([
+                'acronym' => $e->getMessage()
+            ]);
+        }
         $this->em->persist($entity);
         $this->em->flush();
         return redirect()->route('accounts.show', ['account' => $entity->getId()])
@@ -172,6 +186,7 @@ class AccountController extends BaseController
     {
         $entity->setName($data['name'])            
             ->setDetail($data['detail'])
+            ->setStatus($data['status'])
             ;
 
         if (isset($data['acronym'])) {
@@ -204,13 +219,18 @@ class AccountController extends BaseController
             }
         }
 
-        if ($entity->getFileId() === null) {
+    }
+
+    //FIXME: Permissions
+    protected function uploadToDrive(Account $account)
+    {
+        if ($account->getFileId() === null) {
             $storage = Storage::disk('google');
             $service = $storage->getAdapter()->getService();
 
             $parent  = env('GOOGLE_DRIVE_FOLDER_ID');
             $fileMetadata = new \Google_Service_Drive_DriveFile([
-                'name'     => "{$entity->getSerial()} ({$entity->getName()})",
+                'name'     => "{$account->getSerial()} ({$account->getName()})",
                 'parents'  => [$parent],
                 'mimeType' => 'application/vnd.google-apps.folder',
             ]);
@@ -218,12 +238,13 @@ class AccountController extends BaseController
                             'fields' => 'id, webViewLink'
                         ]);
 
-            $entity->setFileId($folder->getId())
+            $account->setFileId($folder->getId())
                    ->setFileUrl($folder->getWebViewLink());
         }
 
-        //if (false !== ($result = $storage->getAdapter()->createDir($entity->getSerial(), new \League\Flysystem\Config))) {
-        //    $entity->setFolder($result['path']);
+        //if (false !== ($result = $storage->getAdapter()->createDir($account->getSerial(), new \League\Flysystem\Config))) {
+        //    $account->setFolder($result['path']);
         //}
+
     }
 }

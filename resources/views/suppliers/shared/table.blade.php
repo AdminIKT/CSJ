@@ -1,7 +1,7 @@
 <p class="small">{{ __('Showing :itemsX-:itemsY items from a total of :totalItems', ['itemsX' => $collection->firstItem()?:0, 'itemsY' => $collection->lastItem()?:0, 'totalItems' => $collection->total()]) }}</p>
 
 <div class="table-responsive">
-  <table class="table table-hover table-sm align-middle">
+  <table class="table table-sm align-middle">
       <thead>
       <tr>
           <th class="small" scope="col">{{ __('NIF') }}
@@ -36,8 +36,6 @@
                 <span data-feather="chevron-down"></span>
             </a>
           </th>
-          <th class="small" scope="col">{{ __('Address') }}</th>
-          <th class="small" scope="col">{{ __('Status') }}</th>
           <th class="small" scope="col">{{ __('Orders') }}
             <a class="{{ request()->get('sortBy') == 'supplier.orderCount' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'supplier.orderCount', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -91,20 +89,22 @@
       <tbody>
       @foreach ($collection as $i => $entity)
       <tr>
-          <td>{{ $entity->getNif() }}</td>
           <td>
-            <a href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}">{{ $entity->getName() }}</a>
+            {{ $entity->getNif() }}</td>
+          </td>
+          <td>
+            <span class="cbg me-1 {{ $entity->getStatusColor() }}" title="{{ $entity->getStatusName() }}"></span>
+            <a href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}" class="">{{ $entity->getName() }}</a>
           </td>
           <td>{{ $entity->getZip() }}</td>
           <td>
             {{ $entity->getCity() }}
+            @if ($entity->getAddress())
+            <span class="small text-muted">, {{ $entity->getAddress() }}</span>
+            @endif
             @if ($entity->getRegion())
             <span class="small text-muted">({{ $entity->getRegion() }})</span>
             @endif
-          </td>
-          <td>{{ $entity->getAddress() }}</td>
-          <td>
-            <span class="badge {{ $entity->getStatusColor() }}">{{ $entity->getStatusName() }}</span>
           </td>
           <td>{{ $entity->getOrderCount() }}</td>
           <td>{{ $entity->getIncidenceCount() }}</td>
@@ -131,13 +131,13 @@
               'method' => 'delete',
           ]) }}
               <div class="btn-group btn-group-sm" role="group">
-                  <a href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}" class="btn btn-outline-secondary">
+                  <a href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}" class="btn btn-light">
                     <span data-feather="eye"></span>
                   </a>
-                  <a href="{{ route('suppliers.edit', ['supplier' => $entity->getId()]) }}" class="btn btn-outline-secondary">
+                  <a href="{{ route('suppliers.edit', ['supplier' => $entity->getId()]) }}" class="btn btn-light">
                     <span data-feather="edit-2"></span>
                   </a>
-                  {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'disabled' => $entity->getOrders()->count() ? true : false]) }}
+                  {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-light', 'disabled' => $entity->getOrders()->count() ? true : false]) }}
               </div>
           {{ Form::close() }}
           </td>

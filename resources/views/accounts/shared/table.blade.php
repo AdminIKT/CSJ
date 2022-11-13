@@ -46,6 +46,7 @@
         @foreach ($collection as $i => $entity)
         <tr>
             <td>
+                <span class="me-1 cbg {{ $entity->getStatusColor() }}" title="{{ $entity->getStatusName() }}"></span>
                 <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" data-bs-toggle="tooltip">{{ $entity->getSerial() }}</a>
                 <span class="small text-muted">{{ $entity->getName() }}</span>
             </td>

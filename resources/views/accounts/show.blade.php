@@ -7,6 +7,7 @@
         'route' => ['accounts.destroy', $entity->getId()], 
         'method' => 'delete',
     ]) }}
+    @if ($entity->getFileUrl())
     <div class="btn-group m-1">
         <button id="filesBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" title="{{ __('Drive storage') }}" width="20px">
@@ -25,6 +26,7 @@
             </li>
         </ul>
     </div>
+    @endif
     @if ($entity->getSubaccounts()->count() === 1)
         @can('view', $entity)
         <a href="{{ route('subaccounts.orders.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="btn btn-sm btn-outline-secondary m-1 ms-0">
@@ -74,6 +76,7 @@
             </tr>
             <tr class="table-secondary">
                 <td colspan="{{ $entity->getSubaccounts()->count() === 1 ? '1': '2' }}">
+                    <span class="cbg me-1 {{ $entity->getStatusColor() }}"> </span>
                     {{ $entity->getSerial() }}
                     <span class="small text-muted">{{ $entity->getName() }}</span>
                 </td>

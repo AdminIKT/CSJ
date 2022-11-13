@@ -104,6 +104,12 @@ nav .feather {
    content: "\25be";
 }
 
+.cbg {
+    padding: .25em;
+    border-radius: 4px;
+    display: inline-block; 
+}
+
 /**
  * Auth card
  */

@@ -4,15 +4,15 @@
     <thead>
         <tr>
             @if (!(isset($exclude) && in_array('orders', $exclude)))
-            <th scope="col" colspan="3">
+            <th class="small" scope="col" colspan="3">
                 {{ __('Order') }}
             </th>
             @endif
             @if (!(isset($exclude) && in_array('suppliers', $exclude)))
-            <th scope="col"></th>
+            <th class="small" scope="col">{{ __('Supplier') }}</th>
             @endif
             @if (!(isset($exclude) && in_array('accounts', $exclude)))
-            <th scope="col">{{ __('Account') }}
+            <th class="small" scope="col">{{ __('Account') }}
                 <a class="{{ request()->get('sortBy') == 'account.acronym' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.acronym', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
                 </a>
@@ -22,7 +22,7 @@
             </th>
             @endif
             @if (!(isset($exclude) && in_array('areas', $exclude)))
-            <th scope="col">{{ __('Area') }}
+            <th class="small" scope="col">{{ __('Area') }}
                 <a class="{{ request()->get('sortBy') == 'area.name' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'area.name', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
                 </a>
@@ -31,7 +31,7 @@
                 </a>
             </th>
             @endif
-            <th scope="col">{{ __('Type') }}
+            <th class="small" scope="col">{{ __('Type') }}
                 <a class="{{ request()->get('sortBy') == 'movement.type' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.type', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
                 </a>
@@ -39,7 +39,7 @@
                     <span data-feather="chevron-down"></span>
                 </a>
             </th>
-            <th scope="col">{{ __('importe') }}
+            <th class="small" scope="col">{{ __('importe') }}
                 <a class="{{ request()->get('sortBy') == 'movement.credit' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.credit', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
                 </a>
@@ -47,8 +47,8 @@
                     <span data-feather="chevron-down"></span>
                 </a>
             </th>
-            <th scope="col">{{ __('Detail') }}</th>
-            <th scope="col">{{ __('Created') }}
+            <th class="small" scope="col">{{ __('Detail') }}</th>
+            <th class="small" scope="col">{{ __('Created') }}
                 <a class="{{ request()->get('sortBy') == 'movement.created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.created', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
                 </a>
@@ -109,9 +109,9 @@
             @endif
             <td>
                 @if ($entity instanceof \App\Entities\Charge) 
-                    <span class="badge bg-danger"> </span>
+                    <span class="me-1 cbg bg-danger"></span>
                 @elseif ($entity instanceof \App\Entities\Assignment) 
-                    <span class="badge bg-success"> </span>
+                    <span class="me-1 cbg bg-success"></span>
                 @endif
                 {{ $entity->getTypeName() }}
             </td>

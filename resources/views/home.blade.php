@@ -15,7 +15,7 @@
 @section('content')
 
 <div class="row" data-masonry='{"percentPosition": true }'>
-@foreach (Auth::user()->getAccounts() as $account)
+@foreach (Auth::user()->getAccounts()->filter(function($item) { return $item->isActive(); }) as $account)
 <div class="col-md-3 mb-3">
 <div class="card text-center">
   <div class="card-header">{{ $account->getTypeName() }}</div>

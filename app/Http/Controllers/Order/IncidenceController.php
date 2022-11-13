@@ -26,10 +26,14 @@ class IncidenceController extends BaseController
      */
     public function index(Request $request, Order $order)
     {
+        $ppg       = $request->input('perPage', Config('app.per_page'));
         $collection = $this->em->getRepository(Incidence::class)
-                               ->findBy(['order' => $order->getId()], ['created' => 'DESC']);
+                               ->findBy(
+                                ['order' => $order->getId()], 
+                                ['created' => 'DESC']);
 
         return view('orders.incidences', [
+            'perPage'    => $ppg,
             'entity'     => $order,
             'collection' => $collection,
         ]);

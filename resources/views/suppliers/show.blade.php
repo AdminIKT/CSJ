@@ -26,20 +26,14 @@
 @section('content')
 <div class="row">
     <div class="table-responsive col-sm-12 col-md-6">
-        <table class="table table-sm align-middle table-bordered">
+        <table class="table table-sm align-middle table-bordered border-white">
             <tr>
-                <th>{{ __('Status') }}</th>
                 <th>{{ __('NIF') }}</th>
                 <th>{{ __('Zip') }}</th>
                 <th>{{ __('Location') }}</th>
                 <th>{{ __('Address') }}</th>
-                <th>{{ __('Orders') }}</th>
-                <th>{{ __('Incidences') }}</th>
             </tr>
             <tr>
-                <td class="table-secondary">
-                    <span class="badge {{ $entity->getStatusColor() }}">{{ $entity->getStatusName() }}</span>
-                </td>
                 <td class="table-secondary">{{ $entity->getNif() }}</td>
                 <td class="table-secondary">{{ $entity->getZip() }}</td>
                 <td class="table-secondary">{{ $entity->getCity() }}
@@ -48,21 +42,30 @@
                     @endif
                 </td>
                 <td class="table-secondary">{{ $entity->getAddress() }}</td>
+            </tr>
+            <tr>
+                <td rowspan="2" colspan="2" class="text-center">
+                    <span class="badge {{ $entity->getStatusColor() }}">{{ $entity->getStatusName() }}</span>
+                </td>
+                <th>{{ __('Orders') }}</th>
+                <th>{{ __('Incidences') }}</th>
+            </tr>
+            <tr>
                 <td>{{ $entity->getOrderCount() }}</td>
                 <td>{{ $entity->getIncidenceCount() }}</td>
             </tr>
         </table>
     </div>
     <div class="table-responsive col-sm-12 col-md-6">
-        <table class="table table-sm align-middle table-bordered">
+        <table class="table table-sm align-middle table-bordered border-white">
             <tr>
-                <th>{{ __('Invoiced') }}</th>
+                <th>{{ __('Year') }}</th>
                 <th>{{ __('Predicted') }}</th>
-                <th>{{ __('Credit') }}</th>
+                <th>{{ __('Invoiced') }}</th>
             </tr>
             @foreach ($entity->getInvoiced() as $inv)
             <tr>
-                <td>{{ $inv->getYear() }}</td>
+                <td class="border">{{ $inv->getYear() }}</td>
                 <td class="table-secondary">{{ number_format($inv->getEstimated(), 2, ",", ".")}} €</td>
                 <td class="table-secondary">{{ number_format($inv->getCredit(), 2, ",", ".")}} €</td>
             </tr>

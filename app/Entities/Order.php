@@ -38,7 +38,14 @@ class Order implements UserAwareInterface, \JsonSerializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="seq", type="string")
+     */
+    public $sequence;
 
     /**
      * @var int
@@ -60,13 +67,6 @@ class Order implements UserAwareInterface, \JsonSerializable
      * @ORM\Column(name="detail", type="string", nullable=true)
      */
     private $detail;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="seq", type="string")
-     */
-    private $sequence;
 
     /**
      * @var DateTime 

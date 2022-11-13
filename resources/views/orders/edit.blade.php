@@ -15,11 +15,17 @@
 
     <div class="row">
         <div class="col mb-3">
-            {{ Form::label('receiveIn', __('Receive in'), ['class' => 'form-label mt-3']) }}
+            {{ Form::label('receiveIn', __('Receive in'), ['class' => 'form-label']) }}
             {{ Form::select('receiveIn', [null => __('selecciona'), \App\Entities\Order::RECEIVE_IN_DEPARTMENT => App\Entities\Order::receiveInName(\App\Entities\Order::RECEIVE_IN_DEPARTMENT), \App\Entities\Order::RECEIVE_IN_RECEPTION => \App\Entities\Order::receiveInName(\App\Entities\Order::RECEIVE_IN_RECEPTION)], old('receiveIn', $entity->getReceiveIn()), ['class' => 'form-select form-select-sm' . ($errors->has('receiveIn') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
             @if ($errors->has('receiveIn'))
                <div class="invalid-feedback">{!! $errors->first('receiveIn') !!}</div>
             @endif
+        </div>
+
+        <div class="col mb-3">
+            {{ Form::label('date', __('Date'), ['class' => 'form-label']) }}
+            {{ Form::date("date", old('date', $entity->getDate()), ['class' => 'form-control form-control-sm']) }}
+        </div>
     </div>
 
     <div class="row">

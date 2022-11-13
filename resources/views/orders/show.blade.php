@@ -11,8 +11,7 @@
     ]) }}
         <div class="input-group input-group-sm">
             <span class="input-group-text">
-                <i class="badge {!! $entity->getStatusColor() !!}">
-                </i>
+                <i class="cbg {!! $entity->getStatusColor() !!}"></i>
             </span>
             <select id="statusSel" name="status" class="form-select" onchange="enableBtn(this)">
                 <option selected="selected" disabled="true">{{ $entity->getStatusName() }}</option>
@@ -31,9 +30,11 @@
                 @can('order-status-checked-invoiced', $entity)
                     <option value="{{ App\Entities\Order::STATUS_CHECKED_INVOICED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_INVOICED) }}</option>
                 @endcan
+                <!--
                 @can('order-status-paid', $entity)
                     <option value="{{ App\Entities\Order::STATUS_PAID }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_PAID) }}</option>
                 @endcan
+                -->
             </select>
             <button id="statusBtn" class="btn btn-outline-secondary disabled" type="submit">{{ __('guardar') }}</button>
         </div>
@@ -90,29 +91,25 @@
     <div class="table-responsive col-sm-12 col-md-6">
         <table class="table table-sm align-middle table-bordered border-white">
             <tr>
-                <th>{{ __('Account') }}</th>
+                <th colspan="2">{{ __('Account') }}</th>
                 <th>{{ __('Area') }}</th>
             </tr>
             <tr class="table-secondary">
-                <td>
+                <td colspan="2">
                     <a href="{{ route('accounts.show', ['account' => $entity->getAccount()->getId()]) }}" title="{{ $entity->getAccount()->getName() }}">{{ $entity->getAccount()->getSerial() }}</a>
                     <small class="text-muted">{{ $entity->getAccount()->getName() }}</small>
                 </td>
                 <td><a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea() }}</td>
             </tr>
             <tr>
-                <th colspan="2">{{ __('Supplier') }}</th>
-            </tr>
-            <tr class="table-secondary">
-                <td colspan="2">
-                    <a href="{{ route('suppliers.show', ['supplier' => $entity->getSupplier()->getId()]) }}">{{ $entity->getSupplier()->getName() }}</a>
-                </td>
-            </tr>
-            <tr>
+                <th>{{ __('Supplier') }}</th>
                 <th>{{ __('Presupuesto') }}</th>
                 <th>{{ __('Estimated') }}</th>
             </tr>
             <tr class="table-secondary">
+                <td>
+                    <a href="{{ route('suppliers.show', ['supplier' => $entity->getSupplier()->getId()]) }}">{{ $entity->getSupplier()->getName() }}</a>
+                </td>
                 <td>@if ($entity->getEstimated())
                         <a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}" class="me-2">
                             <i class="bx bx-xs bx-hdd"></i>
@@ -129,7 +126,7 @@
             </tr>
             <tr>
                 <th>{{ __('Invoice') }} <small class="text-muted">({{ __('Date') }})</small></th>
-                <th>{{ __('Credit') }}</th>
+                <th colspan="2">{{ __('Credit') }}</th>
             </tr>
             <tr class="table-secondary">
                 <td>
@@ -140,7 +137,7 @@
                     </small>
                     @endif
                 </td>
-                <td>{{ $entity->getCredit() ? number_format($entity->getCredit(), 2, ",", ".").'€' : '-'}}</td>
+                <td colspan="2">{{ $entity->getCredit() ? number_format($entity->getCredit(), 2, ",", ".").'€' : '-'}}</td>
             </tr>
         </table>
     </div>
@@ -196,8 +193,8 @@
 
 <ul class="nav nav-tabs justify-content-center border-0">
   <li class="nav-item">
-    <a class='nav-link {{request()->is("orders/{$entity->getId()}", "orders/{$entity->getId()}/invoiceCharges*")?" active":"" }}' href="{{ route('orders.show', ['order' => $entity->getId()]) }}">
-    <span class="bx bx-xs bx-dollar"></span> {{ __('Movements') }}
+    <a class='nav-link {{request()->is("orders/{$entity->getId()}", "orders/{$entity->getId()}/actions*")?" active":"" }}' href="{{ route('orders.show', ['order' => $entity->getId()]) }}">
+    <span class="bx bx-xs bx-pulse"></span> {{ __('Activity') }}
     </a>
   </li>
   <li class="nav-item">
@@ -205,18 +202,13 @@
     <span class="bx bx-xs bxs-bell"></span> {{ __('Incidences') }}
     </a>
   </li>
-  <li class="nav-item">
-    <a class='nav-link {{request()->is("orders/{$entity->getId()}/actions*")?" active":"" }}' href="{{ route('orders.actions.index', ['order' => $entity->getId()]) }}">
-    <span data-feather="activity"></span> {{ __('Activity') }}
-    </a>
-  </li>
 </ul>
 
 <div class="bg-white border rounded rounded-5 px-2 mb-2">
-    @yield('body', View::make('movements.shared.table', [
-        'collection' => $collection, 
-        'exclude' => ['orders', 'suppliers', 'accounts', 'areas'],
-        'pagination' => true,
+    @yield('body', View::make('orders.body', [
+        'collection' => $collection,
+        'entity' => $entity,
+        'perPage' => $perPage
     ]))
 </div>
 @endsection

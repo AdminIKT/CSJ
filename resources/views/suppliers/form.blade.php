@@ -16,6 +16,10 @@
         @can('viewAny', App\Entities\Supplier::class)
         <div class="col mb-3">
             {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
+            <div class="input-group input-group-sm">
+            <span class="input-group-text">
+                <i class="cbg {!! $entity->getStatusColor() !!}"></i>
+            </span>
             {{ Form::select('status', [
                 null => __('selecciona'),
                 \App\Entities\Supplier::STATUS_PENDING       => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_PENDING),
@@ -26,6 +30,7 @@
             @if ($errors->has('status'))
                <div class="invalid-feedback">{!! $errors->first('status') !!}</div>
             @endif
+            </div>
         </div>
         @endcan
 

@@ -23,6 +23,7 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
      *   area: int,
      *   account: int,
      *   supplier: int,
+     *   user: int,
      *   estimatedOp: float. Required with estimated,
      *   estimated: float,
      *   creditOp: float. Required with credit,
@@ -91,6 +92,11 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
             null !== ($supplier = $filter['supplier'])) {
             $b->andWhere("orders.supplier = :supplier")
               ->setParameter('supplier', $supplier);
+        }
+        if (isset($filter['user']) &&
+            null !== ($user = $filter['user'])) {
+            $b->andWhere("orders.user = :user")
+              ->setParameter('user', $user);
         }
 
         $b->orderBy(

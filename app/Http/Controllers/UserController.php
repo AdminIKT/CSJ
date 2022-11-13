@@ -46,9 +46,10 @@ class UserController extends BaseController
         $ppg      = $request->input('perPage', Config('app.per_page'));
         $accounts = $this->em->getRepository(Account::class)
                              ->search(array_merge(
-                                $request->all(), 
-                                ['user' => $user->getId()]),
-                                $ppg);
+                                $request->all(), [
+                                    'user' => $user->getId(),
+                                    'status' => Account::STATUS_ACTIVE,
+                                ]), $ppg);
 
         return view('users.show', [
             'entity'     => $user,

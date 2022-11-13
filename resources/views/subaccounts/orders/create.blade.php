@@ -8,7 +8,6 @@
     @endcan
 @endsection
 @section('content')
-
     {{ Form::open([
         'route' => ['subaccounts.orders.store', ['subaccount' => $subaccount->getId()]], 
         'method' => 'POST', 
@@ -38,15 +37,23 @@
            <div class="invalid-feedback">{!! $errors->first("supplier") !!}</div>
         @endif
         </div>
-
         @can('viewAny', App\Entities\Order::class)
+        {{ Form::checkbox("custom", true, old('custom'), ['id' => 'custom', 'class' => 'form-check-input', 'onchange' => 'displayCustom(this)']) }}         
         {{ Form::label('custom', __('intercalar'), ['class' => 'form-label']) }}
-        {{ Form::checkbox("custom", true, old('custom'), ['class' => 'form-check-input', 'onchange' => 'displayCustom(this)']) }}         
-        <div id="custom-fields" class="row d-none">
-            <div class="col-md-12 text-center small" id="sequence-alert"></div>
+        <small class="text-muted">{{ __('Last order')}}: 
+        @if ($lastest->count()) 
+        {{ $lastest->first()->getSequence() }} {{ Carbon\Carbon::parse($lastest->first()->getDate())->diffForHumans() }} 
+        @else {{ __('None') }}  @endif
+        </small>
+        <div id="custom-fields" class="row border rounded py-2 d-none">
+            <div class="col-md-12 text-center text-muted small pb-2" id="sequence-alert"></div>
             <div class="col-md-4">
                 {{ Form::label('previous', __('Select previous'), ['class' => 'form-label']) }}
-                {{ Form::select('previous', array_merge([null => __('selecciona')], $subaccount->getOrders()->map(function($e) {return $e->getSequence(); })->toArray()), old('previous', null), ['class'=>'form-select form-select-sm', 'disabled' => true, 'onchange' => 'selectSequence(this)'], [null => ['disabled' => true]]) }}
+                <!--{{ Form::select('previous', array_merge([null => __('selecciona')], $lastest->map(function($e) {return $e->getSequence(); })->toArray()), old('previous', null), ['class'=>'form-select form-select-sm', 'disabled' => true, 'onchange' => 'selectSequence(this)'], [null => ['disabled' => true]]) }}-->
+                {{ Form::select('previous', [null => __('selecciona')] + Arr::pluck($lastest->items(), 'sequence', 'id'), old('previous', null), ['id' => 'previous', 'class'=>'form-select form-select-sm'. ($errors->has('previous') ? ' is-invalid':''), 'disabled' => true, 'onchange' => 'selectSequence($(this))'], [null => ['disabled' => true]]) }}
+                @if ($errors->has('previous'))
+                   <div class="invalid-feedback">{!! $errors->first('previous') !!}</div>
+                @endif
             </div>
             <div class="col-md-4">
                 {{ Form::label('sequence', __('Current sequence'), ['class' => 'form-label']) }}
@@ -57,12 +64,20 @@
             </div>
             <div class="col-md-4">
                 {{ Form::label('date', __('Date'), ['class' => 'form-label']) }}
-                {{ Form::date("date", old('date', now()), ['class' => 'form-control form-control-sm', 'disabled' => true]) }}
+                {{ Form::date("date", old('date', now()), ['class' => 'form-control form-control-sm' . ($errors->has('date') ? ' is-invalid':''), 'disabled' => true]) }}
+                @if ($errors->has('date'))
+                   <div class="invalid-feedback">{!! $errors->first('date') !!}</div>
+                @endif
             </div>
         </div>
         @else
         <div class="mb-3">
             {{ Form::label('date', __('Date'), ['class' => 'form-label']) }}
+            <small class="text-muted">{{ __('Last order')}}:
+            @if ($lastest->count()) 
+            {{ $lastest->first()->getSequence() }} {{ Carbon\Carbon::parse($lastest->first()->getDate())->diffForHumans() }} 
+            @else {{ __('None') }}  @endif
+            </small>
             {{ Form::date("date", old('date', now()), ['class' => 'form-control form-control-sm', 'disabled' => true]) }}
         </div>
         @endif
@@ -114,6 +129,11 @@
     <script src="{{ asset('js/custom/form-collections.js') }}"></script>
     <script>
 
+        var sequence = @php echo json_encode(array_combine(
+                $lastest->map(function($e) { return $e->getId(); })->toArray(),
+                $lastest->items()
+            )); @endphp;
+
         function displayCustom(input) {
             if ($(input).prop('checked')) {
                 $('#custom-fields').removeClass('d-none');
@@ -129,18 +149,44 @@
                            ;
                 });
             } 
+            var select = $('#previous:input');
+            dateWarning(getPreviousItem(select), getNextItem(select));
         }
 
-        var sequence = @php echo json_encode($subaccount->getOrders()->toArray()); @endphp;
+        function getPreviousItem(input) {
+            if (id = input.val()) {
+                return sequence[id];
+            }
+            return false;
+        }
+
+        function getNextItem(input) {
+            var index = input.children('option:selected').index();
+            if (index > 1) {
+                var id = input.children('option').eq(index-1).val();
+                return sequence[id];
+            }
+            return false;
+        }
+
+        function dateWarning(prev, next) {
+            var msg;
+            if (prev !== false) {
+                if (next !== false)
+                    msg = "Date must be between " + prev.date + " and " + next.date;
+                else
+                    msg = "Date must be greather than " + prev.date;
+            }
+            $('#sequence-alert').html(msg);
+        }
+
+        console.log(sequence);
         function selectSequence(input) {
-            var index = $(input).val();
-            var prev = sequence[index];
+            var prev = getPreviousItem(input);
+            var next = getNextItem(input);
             $('#sequence:input').val(prev.sequence + "-1");
             $('#date:input').val(prev.date);
-            if (index < sequence.length-1) var next = sequence[index++].date;
-            else var next = new Date(); 
-            var msg = "Date must be between " + prev.date + " and " + next;
-            $('#sequence-alert').html(msg);
+            dateWarning(prev, next);
         }
 
         $(document).ready(function() {

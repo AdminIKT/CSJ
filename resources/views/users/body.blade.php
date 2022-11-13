@@ -4,7 +4,8 @@
 
     @include('accounts.shared.search', [
         'route' => route('users.show', ['user' => $entity->getId()]), 
-        'exclude'  => ['areas'],
+        'areas' => Arr::pluck($entity->getAreas(), 'name', 'id'),
+        'exclude'  => ['status'],
     ])
 
     @include ('accounts.shared.table', [

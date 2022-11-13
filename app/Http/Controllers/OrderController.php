@@ -16,6 +16,7 @@ use App\Http\Requests\OrderPutRequest,
     App\Entities\Order,
     App\Entities\Order\Product,
     App\Entities\Supplier,
+    App\Entities\Action\OrderAction as Action,
     App\Events\OrderEvent;
 
 class OrderController extends BaseController
@@ -69,16 +70,18 @@ class OrderController extends BaseController
      */
     public function show(Request $request, Order $order)
     {
-        $ppg = $request->input('perPage', Config('app.per_page'));
-        $collection = $this->em->getRepository(InvoiceCharge::class)
-                           ->search(array_merge(
-                                $request->all(), 
-                                ['order' => $order->getId()]
-                           ), $ppg);
+        $ppg     = $request->input('perPage', Config('app.per_page'));
+        $actions = $this->em
+                        ->getRepository(Action::class)
+                        ->search(array_merge(
+                            $request->all(),
+                            ['entity' => $order->getId()]
+                        ), $ppg);
 
         return view('orders.show', [
+            'perPage'    => $ppg,
             'entity'     => $order,
-            'collection' => $collection,
+            'collection' => $actions,
         ]); 
     }
 
@@ -107,7 +110,8 @@ class OrderController extends BaseController
         $values = $request->validated();
 
         $order->setReceiveIn($values['receiveIn'])
-              ->setDetail($values['detail']);
+              ->setDetail($values['detail'])
+              ->setDate(new \DateTime($values['date']));
 
         if (isset($values['products'])) {
             $products = $values['products'];

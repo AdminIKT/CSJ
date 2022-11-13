@@ -16,6 +16,7 @@ class AccountRepository extends \Doctrine\ORM\EntityRepository
      * @param array{
      *   name: string,
      *   type: string,
+     *   status: int,
      *   area: int,
      *   user: int,
      *   compromisedOp: float. Required with compromised,
@@ -39,6 +40,11 @@ class AccountRepository extends \Doctrine\ORM\EntityRepository
             null !== ($name = $filter['name'])) {
             $b->andWhere("account.name LIKE :name")
               ->setParameter('name', "%{$name}%");
+        }
+        if (isset($filter['status']) &&
+            null !== ($status = $filter['status'])) {
+            $b->andWhere("account.status = :status")
+              ->setParameter('status', $status);
         }
         if (isset($filter['type']) &&
             null !== ($type = $filter['type'])) {

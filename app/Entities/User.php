@@ -77,6 +77,7 @@ class User implements Authenticatable, HasRolesContract
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Account", mappedBy="users")
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     private $accounts;
 

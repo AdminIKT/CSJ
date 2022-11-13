@@ -54,7 +54,7 @@
         </div>
         @if (Auth::user()->getAccounts()->count())
         <div class="card-body">
-            @foreach (Auth::user()->getAccounts() as $account)
+            @foreach (Auth::user()->getAccounts()->filter(function($item) { return $item->isActive(); }) as $account)
               <a class="dropdown-item border my-1 rounded" href="{{ route('accounts.show', ['account' => $account->getId()]) }}">
                   {{ $account->getSerial() }} ({{$account->getName()}})
               </a>
