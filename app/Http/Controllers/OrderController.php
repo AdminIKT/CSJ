@@ -178,4 +178,41 @@ class OrderController extends BaseController
         return redirect()->back()
                          ->with("success", __('Successfully updated'));
     }
+
+    /**
+     * @return \Illuminate\Http\Response
+     */
+    public function receptions(Request $request)
+    {
+        $ppg    = $request->input('perPage', Config('app.per_page'));
+        $orders = $this->em->getRepository(Order::class)
+                        ->search(array_merge(
+                            $request->all(), [
+                            'receiveIn' => Order::RECEIVE_IN_RECEPTION,
+                            'status'    => Order::STATUS_CREATED,
+                            ]
+                        ), $ppg);
+
+        $accounts = $this->em->getRepository(Account::class)
+                         ->findBy([], ['name' => 'ASC']);
+        $accounts = array_combine(
+            array_map(function($e) { return $e->getId(); }, $accounts),
+            array_map(function($e) { return $e->getSerial(); }, $accounts),
+        );
+
+        $suppliers = $this->em->getRepository(Supplier::class)
+                         ->search(['orders' => true], null)
+                         ->items();
+
+        $areas = $this->em->getRepository(Area::class)
+                      ->findBy([], ['name' => 'ASC']);
+
+        return view('orders.receptions', [
+            'perPage'    => $ppg,
+            'collection' => $orders,
+            'accounts'   => $accounts,
+            'areas'      => Arr::pluck($areas, 'name', 'id'),
+            'suppliers'  => Arr::pluck($suppliers, 'name', 'id'),
+        ]); 
+    }
 }

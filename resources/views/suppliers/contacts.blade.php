@@ -25,10 +25,12 @@
                     <a href="{{ route('suppliers.contacts.edit', ['supplier' => $entity->getId(), 'contact' => $contact->getId()]) }}" class='btn btn-sm btn-light {{request()->is("suppliers/{$entity->getId()}/contacts/{$contact->getId()}/edit") ? "active" : ""}}'>
                         <i class="bx bx-pencil"></i>
                    </a>
-                {{ Form::button('<i class="bx bx-trash"></i>', ['class' => 'btn btn-light', 'type' => 'submit', 'disabled' => $entity->getContacts()->count() > 1 ? false : true]) }}
-                <!--
-                <a class="btn btn-light" onclick="return confirm('Are you sure?')" href="{{route('suppliers.contacts.destroy', ['supplier' => $entity->getId(), 'contact' => $contact->getId()])}}"><i class="bx bx-trash"></i></a>
-                -->
+                {{ Form::button('<i class="bx bx-trash"></i>', [
+                    'class' => 'btn btn-light', 
+                    'type' => 'submit', 
+                    'disabled' => $entity->getContacts()->count() > 1 ? false : true,
+                    'onclick' => "return confirm('".__('delete.confirm')."')",
+                ]) }}
                 </div>
                 {{ Form::close() }}
             </td>

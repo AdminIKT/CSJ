@@ -69,6 +69,7 @@ Route::resources([
 ], [
     'middleware' => 'auth'
 ]);
+Route::get('/receptions', [Controllers\OrderController::class, 'receptions'])->name('orders.receptions');
 Route::post('/orders/{order}/status', [Controllers\OrderController::class, 'status'])->name('orders.status');
 Route::get('/suppliers/{supplier}/indicence/{incidence}/close', [Controllers\Supplier\IncidenceController::class, 'close'])->name('suppliers.incidences.close');
 Route::get('/imports', [Controllers\InvoiceCharge\ImportController::class, 'create'])->name('imports.create');

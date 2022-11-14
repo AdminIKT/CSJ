@@ -24,6 +24,7 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
      *   account: int,
      *   supplier: int,
      *   user: int,
+     *   receiveIn: int,
      *   estimatedOp: float. Required with estimated,
      *   estimated: float,
      *   creditOp: float. Required with credit,
@@ -60,6 +61,11 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
             null !== ($type = $filter['type'])) {
             $b->andWhere("account.type = :type")
               ->setParameter('type', $type);
+        }
+        if (isset($filter['receiveIn']) &&
+            null !== ($receiveIn = $filter['receiveIn'])) {
+            $b->andWhere("orders.receiveIn = :receiveIn")
+              ->setParameter('receiveIn', $receiveIn);
         }
         if (isset($filter['status']) &&
             null !== ($status = $filter['status'])) {

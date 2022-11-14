@@ -49,6 +49,7 @@
                   {{ Form::text('sequence', request()->input('sequence'), ['class' => 'form-control']) }}
                 </div>
             </div>
+            @if (!(isset($exclude) && in_array('status', $exclude)))
             <div class="col">
                 <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text" id="addon-status">{{ __('Status') }}</span>
@@ -66,6 +67,7 @@
                 ], request()->input('status'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}
                 </div>
             </div>
+            @endif
             <div class="col">
                 <div class="input-group input-group-sm mb-3">
                   <span class="input-group-text" id="addon-from">{{ __('desde') }}</span>

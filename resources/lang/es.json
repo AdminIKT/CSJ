@@ -164,7 +164,8 @@
     "Lists": "Listados",
     "Region": "Provincia",
     "Required field": "Campo obligatorio",
-    "Acronym exists": "Ya existe una cuenta con este acrónimo"
+    "Acronym exists": "Ya existe una cuenta con este acrónimo",
+    "delete.confirm": "¿Estás segura/seguro de que quieres eliminar?"
    
     
     

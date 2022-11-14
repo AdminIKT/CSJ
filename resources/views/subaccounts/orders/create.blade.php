@@ -38,7 +38,7 @@
         @endif
         </div>
         @can('viewAny', App\Entities\Order::class)
-        {{ Form::checkbox("custom", true, old('custom'), ['id' => 'custom', 'class' => 'form-check-input', 'onchange' => 'displayCustom(this)']) }}         
+        {{ Form::checkbox("custom", true, old('custom'), ['id' => 'custom', 'class' => 'form-check-input', 'onchange' => 'sequences.displayCustom()']) }}         
         {{ Form::label('custom', __('intercalar'), ['class' => 'form-label']) }}
         <small class="text-muted">{{ __('Last order')}}: 
         @if ($lastest->count()) 
@@ -49,8 +49,7 @@
             <div class="col-md-12 text-center text-muted small pb-2" id="sequence-alert"></div>
             <div class="col-md-4">
                 {{ Form::label('previous', __('Select previous'), ['class' => 'form-label']) }}
-                <!--{{ Form::select('previous', array_merge([null => __('selecciona')], $lastest->map(function($e) {return $e->getSequence(); })->toArray()), old('previous', null), ['class'=>'form-select form-select-sm', 'disabled' => true, 'onchange' => 'selectSequence(this)'], [null => ['disabled' => true]]) }}-->
-                {{ Form::select('previous', [null => __('selecciona')] + Arr::pluck($lastest->items(), 'sequence', 'id'), old('previous', null), ['id' => 'previous', 'class'=>'form-select form-select-sm'. ($errors->has('previous') ? ' is-invalid':''), 'disabled' => true, 'onchange' => 'selectSequence($(this))'], [null => ['disabled' => true]]) }}
+                {{ Form::select('previous', [null => __('selecciona')] + Arr::pluck($lastest->items(), 'sequence', 'id'), old('previous', null), ['id' => 'previous', 'class'=>'form-select form-select-sm'. ($errors->has('previous') ? ' is-invalid':''), 'disabled' => true, 'onchange' => 'sequences.change()'], [null => ['disabled' => true]]) }}
                 @if ($errors->has('previous'))
                    <div class="invalid-feedback">{!! $errors->first('previous') !!}</div>
                 @endif
@@ -127,70 +126,19 @@
 
 @section('scripts')
     <script src="{{ asset('js/custom/form-collections.js') }}"></script>
-    <script>
+    <script src="{{ asset('js/custom/order-intercalate.js') }}"></script>
 
-        var sequence = @php echo json_encode(array_combine(
+    <script>
+        var lastest = @php echo json_encode(array_combine(
                 $lastest->map(function($e) { return $e->getId(); })->toArray(),
                 $lastest->items()
             )); @endphp;
 
-        function displayCustom(input) {
-            if ($(input).prop('checked')) {
-                $('#custom-fields').removeClass('d-none');
-                $('#custom-fields :input').each(function() {
-                    $(this).attr('disabled', false);
-                });
-            }
-            else {
-                $('#custom-fields').addClass('d-none');
-                $('#custom-fields :input').each(function() {
-                    $(this).attr('disabled', true)
-                           //.val(null)
-                           ;
-                });
-            } 
-            var select = $('#previous:input');
-            dateWarning(getPreviousItem(select), getNextItem(select));
-        }
-
-        function getPreviousItem(input) {
-            if (id = input.val()) {
-                return sequence[id];
-            }
-            return false;
-        }
-
-        function getNextItem(input) {
-            var index = input.children('option:selected').index();
-            if (index > 1) {
-                var id = input.children('option').eq(index-1).val();
-                return sequence[id];
-            }
-            return false;
-        }
-
-        function dateWarning(prev, next) {
-            var msg;
-            if (prev !== false) {
-                if (next !== false)
-                    msg = "Date must be between " + prev.date + " and " + next.date;
-                else
-                    msg = "Date must be greather than " + prev.date;
-            }
-            $('#sequence-alert').html(msg);
-        }
-
-        console.log(sequence);
-        function selectSequence(input) {
-            var prev = getPreviousItem(input);
-            var next = getNextItem(input);
-            $('#sequence:input').val(prev.sequence + "-1");
-            $('#date:input').val(prev.date);
-            dateWarning(prev, next);
-        }
+        let sequences = new Sequences(lastest);
 
         $(document).ready(function() {
-            displayCustom($('#custom:input'));
+            sequences.displayCustom();
         });
     </script>
+
 @endsection

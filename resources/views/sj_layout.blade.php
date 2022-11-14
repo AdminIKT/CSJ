@@ -89,7 +89,7 @@
             <hr style="margin-left:1rem; color:white;">
 
             @can('viewAny', App\Entities\Order::class)
-            <a class="nav_link {{request()->is('orders*') ? 'active' : ''}}" href="{{ route('orders.index') }}" title="{{ __('Orders') }}">
+            <a class="nav_link {{preg_match('$orders*$', Request::path()) ? 'active' : ''}}" href="{{ route('orders.index') }}" title="{{ __('Orders') }}">
               <i class="bx bx-file"></i>
               <span class="nav_name">{{ __('Orders') }}</span>
             </a>
@@ -107,7 +107,7 @@
             </a>
             @endcan
             @can('viewAny', App\Entities\Order::class)
-            <a class="nav_link" title="{{ __('Receptions') }}">
+            <a class="nav_link {{preg_match('$receptions$', Request::path()) ? 'active' : ''}}" href="{{ route('orders.receptions') }}" title="{{ __('Receptions') }}">
               <i class="bx bxs-package"></i>
               <span class="nav_name">{{ __('Receptions') }}</span>
             </a>

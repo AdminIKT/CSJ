@@ -19,5 +19,6 @@
     "cancelar": "Ezeztatu",
     "departamentos": "Mintegiak",
     "Actions": "Acciones",
-    "Pagination": "Paginación"
+    "Pagination": "Paginación",
+    "delete.confirm": "Ziur ezabatu nahi duzula?"
 }
