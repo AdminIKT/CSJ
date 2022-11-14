@@ -62,13 +62,24 @@
                 'method' => 'delete',
             ]) }}
             <div class="btn-group btn-group-sm" role="group">
-                <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
-                    <span data-feather="eye"></span>
+                @can('view', $entity)
+                <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" class="btn btn-light">
+                    <i class="bx bxs-show"></i>
                 </a>
-                <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
-                    <span data-feather="edit-2"></span>
+                @endcan
+                @can('update', $entity)
+                <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-light">
+                    <i class="bx bxs-pencil"></i>
                 </a>
-                {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
+                @endcan
+                @can('delete', $entity)
+                {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
+                    'title'   => __('Delete'),
+                    'class'   => 'btn btn-light', 
+                    'type'    => 'submit',
+                    'onclick' => "return confirm('".__('delete.confirm')."')",
+                ]) }}
+                @endcan
             </div>
             {{ Form::close() }}
             </td>

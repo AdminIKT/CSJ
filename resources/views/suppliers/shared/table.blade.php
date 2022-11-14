@@ -131,13 +131,24 @@
               'method' => 'delete',
           ]) }}
               <div class="btn-group btn-group-sm" role="group">
+                  @can('view', $entity)
                   <a href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}" class="btn btn-light">
-                    <span data-feather="eye"></span>
+                    <i class="bx bxs-show"></i>
                   </a>
+                  @endcan
+                  @can('update', $entity)
                   <a href="{{ route('suppliers.edit', ['supplier' => $entity->getId()]) }}" class="btn btn-light">
-                    <span data-feather="edit-2"></span>
+                    <i class="bx bxs-pencil"></i>
                   </a>
-                  {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-light', 'disabled' => $entity->getOrders()->count() ? true : false]) }}
+                  @endcan
+                  @can('delete', $entity)
+                  {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
+                    'title'    => __('Delete'),
+                    'class'    => 'btn btn-light', 
+                    'disabled' => $entity->getOrders()->count() ? true : false,
+                    'onclick'  => "return confirm('".__('delete.confirm')."')",
+                  ]) }}
+                  @endcan
               </div>
           {{ Form::close() }}
           </td>

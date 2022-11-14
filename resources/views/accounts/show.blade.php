@@ -52,11 +52,15 @@
     <div class="btn-group btn-group-sm m-1" role="group">
         @can('update', $entity)
         <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
-            <span class="bx bx-xs bxs-pencil"></span>
+            <span class="bx bxs-pencil"></span>
         </a>
         @endcan
         @can('delete', $entity)
-        {{ Form::button('<span class="bx bx-xs bxs-trash-alt"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
+        {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
+            'class'   => 'btn btn-outline-secondary', 
+            'type'    => 'submit',
+            'onclick' => "return confirm('".__('delete.confirm')."')",
+        ]) }}
         @endcan
     </div>
     {{ Form::close() }}

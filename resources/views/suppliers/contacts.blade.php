@@ -23,9 +23,9 @@
                 ]) }}
                 <div class="btn-group btn-group-sm" role="group">
                     <a href="{{ route('suppliers.contacts.edit', ['supplier' => $entity->getId(), 'contact' => $contact->getId()]) }}" class='btn btn-sm btn-light {{request()->is("suppliers/{$entity->getId()}/contacts/{$contact->getId()}/edit") ? "active" : ""}}'>
-                        <i class="bx bx-pencil"></i>
+                        <i class="bx bxs-pencil"></i>
                    </a>
-                {{ Form::button('<i class="bx bx-trash"></i>', [
+                {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
                     'class' => 'btn btn-light', 
                     'type' => 'submit', 
                     'disabled' => $entity->getContacts()->count() > 1 ? false : true,

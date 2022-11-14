@@ -15,10 +15,19 @@
         <span data-feather="bell"></span> {{ __('New incidence') }}
     </a>
     <div class="btn-group btn-group-sm m-1" role="group">
+        @can('update', $entity)
         <a href="{{ route('suppliers.edit', ['supplier' => $entity->getId()]) }}" class="btn btn-outline-secondary">
-            <span data-feather="edit-2"></span>
+            <i class="bx bxs-pencil"></i>
         </a>
-        {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit', 'disabled' => $entity->getOrders()->count() ? true : false]) }}
+        @endcan
+        @can('delete', $entity)
+        {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
+                'class'    => 'btn btn-outline-secondary', 
+                'type'     => 'submit', 
+                'disabled' => $entity->getOrders()->count() ? true : false,
+                'onclick'  => "return confirm('".__('delete.confirm')."')",
+        ]) }}
+        @endcan
     </div>
     {{ Form::close() }}
 @endsection

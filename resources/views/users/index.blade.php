@@ -38,13 +38,17 @@
                     ]) }}
         
                     <div class="btn-group btn-group-sm">
-                        <a href="{{route('users.show', ['user' => $entity->getId()])}}" class="btn btn-outline-secondary">
-                            <span data-feather="eye"></span>
+                        <a href="{{route('users.show', ['user' => $entity->getId()])}}" class="btn btn-light">
+                            <span class="bx bxs-show"></span>
                         </a>
-                        <a href="{{route('users.edit', ['user' => $entity->getId()])}}" class="btn btn-outline-secondary">
-                            <span data-feather="edit-2"></span>
+                        <a href="{{route('users.edit', ['user' => $entity->getId()])}}" class="btn btn-light">
+                            <span class="bx bxs-pencil"></span>
                         </a>
-                        {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit']) }}
+                        {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
+                            'class'   => 'btn btn-light', 
+                            'type'    => 'submit',
+                            'onclick' => "return confirm('".__('delete.confirm')."')",
+                        ]) }}
                     </div>
                 {{ Form::close() }}
                 </td>

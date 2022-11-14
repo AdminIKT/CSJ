@@ -124,17 +124,22 @@
             ]) }}
                 <div class="btn-group btn-group-sm" role="group">
                 @can('view', $order)
-                    <a href="{{ route('orders.show', ['order' => $order->getId()]) }}" class="btn" title="{{ __('View') }}">
-                        <span data-feather="eye"></span>
+                    <a href="{{ route('orders.show', ['order' => $order->getId()]) }}" class="btn btn-light" title="{{ __('View') }}">
+                        <span class="bx bxs-show"></span>
                     </a>
                 @endcan
                 @can('update', $order)
-                    <a href="{{ route('orders.edit', ['order' => $order->getId(), 'destination' => route('orders.index')]) }}" class="btn" title="{{ __('Edit') }}">
-                        <span data-feather="edit-2"></span>
+                    <a href="{{ route('orders.edit', ['order' => $order->getId(), 'destination' => route('orders.index')]) }}" class="btn btn-light" title="{{ __('Edit') }}">
+                        <span class="bx bxs-pencil"></span>
                     </a>
                 @endcan
                 @can('delete', $order)
-                    {{ Form::button('<span data-feather="trash"></span>', ['class' => 'btn', 'type' => 'submit', 'title' => __('Delete')]) }}
+                    {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
+                        'title'   => __('Delete'),
+                        'class'   => 'btn btn-light', 
+                        'type'    => 'submit',
+                        'onclick' => "return confirm('".__('delete.confirm')."')",
+                    ]) }}
                 @endcan
                 </div>
             {{ Form::close() }}

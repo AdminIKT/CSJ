@@ -78,10 +78,16 @@
     <div class="btn-group btn-group-sm" role="group">
         @can('update', $entity)
         <a href="{{ route('orders.edit', ['order' => $entity->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('Edit') }}">
-            <span class="bx bxs-pencil bx-xs bx-tada-hover"></span>
+            <i class="bx bxs-pencil bx-xs bx-tada-hover"></i>
         </a>
         @endcan
-        {{ Form::button('<span class="bx bx-xs bxs-trash-alt bx-tada-hover"></span>', ['class' => 'btn btn-outline-secondary', 'type' => 'submit', 'disabled' => $entity->isPending() ? false : true]) }}
+        @can('delete', $entity)
+        {{ Form::button('<i class="bx bx-xs bxs-trash-alt bx-tada-hover"></i>', [
+            'class'    => 'btn btn-outline-secondary', 
+            'type'     => 'submit', 
+            'onclick'  => "return confirm('".__('delete.confirm')."')",
+        ]) }}
+        @endcan
     </div>
     {{ Form::close() }}
 @endsection
