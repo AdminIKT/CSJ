@@ -56,8 +56,8 @@
                 <td rowspan="2" colspan="2" class="text-center">
                     <span class="badge {{ $entity->getStatusColor() }}">{{ $entity->getStatusName() }}</span>
                 </td>
-                <th>{{ __('Orders') }}</th>
-                <th>{{ __('Incidences') }}</th>
+                <th>{{ __('Agreed orders') }}</th>
+                <th>{{ __('Opened incidences') }}</th>
             </tr>
             <tr>
                 <td>{{ $entity->getOrderCount() }}</td>
