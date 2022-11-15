@@ -100,7 +100,7 @@
         @endif
     </div>
 
-    <fieldset class="row mb-3 collection-container" 
+    <fieldset class="col-md-12 mb-3 collection-container" 
              data-prototype='@include("subaccounts.orders.shared.form_product", ["index" => "__NAME__", "product" => []])'>
         <legend>{{__('elementos')}}</legend>
         @foreach (old('products', []) as $i => $product)

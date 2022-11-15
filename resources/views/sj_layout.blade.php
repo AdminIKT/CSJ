@@ -169,20 +169,15 @@
     </div>
 
     <div class="height-100 py-3">
-     @if(Session::has('success'))
-        <div class="row">
-           <div class="alert alert-success">
-               {{ Session::get('success') }}
-               @php
-                   Session::forget('success');
-               @endphp
-           </div>
-        </div>
-     @endif
-     @if (count($errors) > 0)
-        <!--
-        @php var_dump($errors) @endphp
-        <div class="row">
+        @if(Session::has('success'))
+            <div class="alert alert-success">
+                {{ Session::get('success') }}
+            </div>
+            @php Session::forget('success'); @endphp
+        @endif
+        @if (count($errors) > 0)
+            <!--
+            @php var_dump($errors) @endphp
             <div class="alert alert-danger">
                 <strong>Whoops!</strong> There were some problems with your input.<br><br>
                 <ul>
@@ -191,9 +186,8 @@
                     @endforeach
                 </ul>
             </div>
-        </div>
-        -->
-     @endif
+            -->
+        @endif
         <!--<h1 class="h2">@yield('title', 'CSJ')</h1>-->
         <div class="btn-toolbar">
           @yield('btn-toolbar')
