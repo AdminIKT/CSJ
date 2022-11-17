@@ -141,7 +141,7 @@ nav {
 @media screen and (min-width: 768px) {
   body {
     margin: calc(var(--header-height) + 1rem) 0 0 0;
-    padding-left: calc(var(--nav-width) + 2rem);
+    padding-left: calc(var(--nav-width) + 1rem);
   }
 
   .header {
@@ -170,6 +170,7 @@ nav {
   }
 
   .body-pd {
-    padding-left: calc(var(--nav-width) + 188px);
+    /*padding-left: calc(var(--nav-width) + 188px);*/
+    padding-left: calc(var(--nav-width) + 156px + 1em);
   }
 }

@@ -63,6 +63,7 @@
                     \App\Entities\Order::STATUS_CHECKED_INVOICED => \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_INVOICED),
                     \App\Entities\Order::STATUS_RECEIVED => \App\Entities\Order::statusName(\App\Entities\Order::STATUS_RECEIVED),
                     \App\Entities\Order::STATUS_PAID => \App\Entities\Order::statusName(\App\Entities\Order::STATUS_PAID),
+                    \App\Entities\Order::STATUS_CANCELLED => \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CANCELLED),
                     \App\Entities\Order::STATUS_MOVED => \App\Entities\Order::statusName(\App\Entities\Order::STATUS_MOVED),
                 ], request()->input('status'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}
                 </div>

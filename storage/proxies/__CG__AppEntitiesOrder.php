@@ -384,6 +384,17 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function hasCredit()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasCredit', []);
+
+        return parent::hasCredit();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getCredit()
     {
 
@@ -505,6 +516,17 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function isCancelled()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isCancelled', []);
+
+        return parent::isCancelled();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function isPending()
     {
 
@@ -621,6 +643,17 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addInvoiceCharge', [$invoiceCharge]);
 
         return parent::addInvoiceCharge($invoiceCharge);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasInvoiceCharge()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasInvoiceCharge', []);
+
+        return parent::hasInvoiceCharge();
     }
 
     /**

@@ -38,6 +38,9 @@ class AuthServiceProvider extends ServiceProvider
         //    return $e->isPending() && $e->getAccount()->getUsers()->contains($user);
         //});
 
+        G::define('order-status-cancelled', function(User $user, Order $e) {
+            return $user->isAdmin() && !$e->isCancelled();
+        });
         G::define('order-status-received', function(User $user, Order $e) {
             return $e->isStatus(Order::STATUS_CREATED);
         });

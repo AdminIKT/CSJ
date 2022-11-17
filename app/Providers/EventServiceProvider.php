@@ -35,8 +35,12 @@ class EventServiceProvider extends ServiceProvider
         OrderEvent::class => [
             Users\EntityInjection::class,
             Orders\ActionInjection::class,
-            Suppliers\IncreaseEstimated::class,
+            //ACTION_STORE
+            Suppliers\RestoreCredit::class,
+            //ACTION_STATUS && STATUS IN (AGREED)
             Suppliers\RecommendableSupplier::class,
+            //ACTION_STATUS && STATUS IN (PENDING, CANCELLED)
+            Accounts\RestoreCredit::class,
         ],
         SupplierEvent::class => [
             Users\EntityInjection::class,
@@ -47,8 +51,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         MovementEvent::class => [
             Orders\UpdateStatus::class,
+            //ACTION_STORE
             Accounts\RestoreCredit::class,
-            Suppliers\IncreaseInvoiced::class,
+            Suppliers\RestoreCredit::class,
         ],
     ];
 

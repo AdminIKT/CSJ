@@ -53,7 +53,7 @@ class OrderController extends BaseController
         $disableds = array_combine(
             array_map(function($e) { return $e->getId(); }, $suppliers),
             array_map(function($e) use ($limit) { 
-                return ['disabled' => null !== ($inv = $e->getInvoiced(date('Y'))) && $inv->getEstimated() >= $limit->getValue()];
+                return ['disabled' => null !== ($inv = $e->getInvoiced(date('Y'))) && $inv->getTotal() >= $limit->getValue()];
             }, $suppliers),
         );
 
@@ -102,11 +102,7 @@ class OrderController extends BaseController
             ])); //FIXME
         }
 
-        $subaccount->addOrder($order)
-                   ->increaseCompromisedCredit($order->getEstimatedCredit())
-                   ->getAccount()
-                   ->increaseCompromisedCredit($order->getEstimatedCredit())
-                   ;
+        $subaccount->addOrder($order);
 
         try {
             OrderEvent::dispatch($order, OrderEvent::ACTION_STORE);

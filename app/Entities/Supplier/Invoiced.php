@@ -132,6 +132,14 @@ class Invoiced
     }
 
     /**
+     * @return float
+     */
+    public function getTotal()
+    {
+        return $this->getEstimated() + $this->getCredit();
+    }
+
+    /**
      * Set credit.
      *
      * @param float $credit
@@ -216,6 +224,32 @@ class Invoiced
     public function increaseCredit(float $credit)
     {
         $this->credit += $credit;
+        return $this;
+    }
+
+    /**
+     * Set decreaseEstimated.
+     *
+     * @param float $credit
+     *
+     * @return Invoiced
+     */
+    public function decreaseEstimated(float $credit)
+    {
+        $this->estimated -= $credit;
+        return $this;
+    }
+
+    /**
+     * Set decreaseCredit.
+     *
+     * @param float $credit
+     *
+     * @return Invoiced
+     */
+    public function decreaseCredit(float $credit)
+    {
+        $this->credit -= $credit;
         return $this;
     }
 

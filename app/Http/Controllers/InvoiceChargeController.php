@@ -14,7 +14,8 @@ use App\Entities\InvoiceCharge,
     App\Exceptions\Account\InsufficientCreditException
         as AccountInsufficientCredit,
     App\Exceptions\Order\InvalidStatusException
-        as OrderInvalidStatus;
+        as OrderInvalidStatus,
+    App\Exceptions\Supplier\InvoicedLimitException;
 
 class InvoiceChargeController extends BaseController
 {
@@ -69,6 +70,10 @@ class InvoiceChargeController extends BaseController
                 'detail' => $e->getMessage()
             ]);
         } catch (AccountInsufficientCredit $e) {
+            throw ValidationException::withMessages([
+                'credit' => $e->getMessage()
+            ]);
+        } catch (InvoicedLimitException $e) {
             throw ValidationException::withMessages([
                 'credit' => $e->getMessage()
             ]);
