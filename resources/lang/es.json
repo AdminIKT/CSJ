@@ -178,7 +178,9 @@
     "Edit order nº :number": "Editar pedido nº :number",
     "My accounts": "Mis cuentas",
     "My orders": "Mis pedidos",
-    "My activity": "Mi actividad"
+    "My activity": "Mi actividad",
+    "Order receptions": "Recepción de pedidos",
+    "Credit of :credit€ exceeds the available credit of the :account account set to :available€":"El importe :credit€ excede el saldo disponible (:available€) de la cuenta :account"
     
     
     

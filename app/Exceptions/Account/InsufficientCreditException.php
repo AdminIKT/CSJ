@@ -13,7 +13,7 @@ class InsufficientCreditException extends \Exception
     {
         $msg = __("Credit of :credit€ exceeds the available credit of the :account account set to :available€", [
             'credit'    => number_format($credit, 2, ",", "."), 
-            'account'   => $acc->getAcronym(),
+            'account'   => $acc->getSerial(),
             'available' => number_format($acc->getAvailableCredit(), 2, ",", "."),
             ]);
 
