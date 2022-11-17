@@ -17,6 +17,7 @@ use App\Entities\Order\Product,
  */
 class Order implements UserAwareInterface, \JsonSerializable
 {
+    const STATUS_CANCELLED              = -1;
     const STATUS_CREATED                = 0;
     const STATUS_RECEIVED               = 1;
     const STATUS_CHECKED_NOT_AGREED     = 2;
@@ -367,6 +368,14 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
+     * @return bool 
+     */
+    public function hasCredit()
+    {
+        return $this->credit !== null;
+    }
+
+    /**
      * Get credit.
      *
      * @return float
@@ -497,6 +506,14 @@ class Order implements UserAwareInterface, \JsonSerializable
     /**
      * @return bool
      */
+    public function isCancelled()
+    {
+        return $this->isStatus(self::STATUS_CANCELLED);
+    }
+
+    /**
+     * @return bool
+     */
     public function isPending()
     {
         return $this->isStatus(self::STATUS_CREATED);
@@ -610,6 +627,14 @@ class Order implements UserAwareInterface, \JsonSerializable
         $invoiceCharge->setOrder($this);
         $this->invoiceCharges[] = $invoiceCharge;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasInvoiceCharge()
+    {
+        return $this->getInvoiceCharges()->count() > 0;
     }
 
     /**
@@ -811,6 +836,8 @@ class Order implements UserAwareInterface, \JsonSerializable
                 return "bg-info text-dark";
             case self::STATUS_PAID: 
                 return "bg-primary";
+            case self::STATUS_CANCELLED: 
+                return "bg-cancelled";
             case self::STATUS_MOVED: 
             default: return "bg-light text-dark";
         }
@@ -822,6 +849,8 @@ class Order implements UserAwareInterface, \JsonSerializable
     public static function statusName($status) 
     {
         switch ($status) {
+            case self::STATUS_CANCELLED: 
+                return trans("Cancelled");
             case self::STATUS_CREATED: 
                 return trans("Pending");
             case self::STATUS_RECEIVED: 

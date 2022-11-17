@@ -31,8 +31,8 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div class="btn-group btn-group-sm">
-                    <a class="btn {{ app()->getLocale() == 'eus' ? 'disabled':'' }}" href="/language/eus">eus</a>
-                    <a class="btn {{ app()->getLocale() == 'es' ? 'disabled':'' }}" href="/language/es">es</a>
+                    <a class="btn {{ app()->getLocale() == 'eus' ? 'disabled':'text-white' }}" href="/language/eus">eus</a>
+                    <a class="btn {{ app()->getLocale() == 'es' ? 'disabled':'text-white' }}" href="/language/es">es</a>
                 </div>
                 <a class="btn btn-sm" href="#" onclick="authCard()">
                     <i class="bx bx-x"></i>
@@ -40,20 +40,23 @@
             </div>
             <img src="{{ Auth::user()->getAvatar() }}" class="card-avatar rounded-circle" />
             <p class="card-subtitle my-2">{{ Auth::user()->getEmail() }}</p>
-            <div class="d-flex flex-wrap justify-content-center">
-                <a href="https://drive.google.com" class="mx-2" target="_blank">
-                    <img src="/img/google/drive.png" title="Google Drive" width="20px">
-                </a>
-                <a href="https://gmail.google.com" class="mx-2" target="_blank">
-                    <img src="/img/google/gmail.png" title="Google Gmail" width="20px">
-                </a>
-                <a href="https://calendar.google.com" class="mx-2" target="_blank">
-                    <img src="/img/google/calendar.png" title="Google Calendar" width="20px">
-                </a>
-            </div>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center py-1" style="
+            background:rgba(0,0,0,.03); border-bottom: 1px solid rgba(0,0,0,.125);
+        ">
+            <a href="https://drive.google.com" class="mx-2" target="_blank">
+                <img src="/img/google/drive.png" title="Google Drive" width="20px">
+            </a>
+            <a href="https://gmail.google.com" class="mx-2" target="_blank">
+                <img src="/img/google/gmail.png" title="Google Gmail" width="20px">
+            </a>
+            <a href="https://calendar.google.com" class="mx-2" target="_blank">
+                <img src="/img/google/calendar.png" title="Google Calendar" width="20px">
+            </a>
         </div>
         @if (Auth::user()->getAccounts()->count())
         <div class="card-body">
+            <h6 class="text-muted">{{ __('My accounts') }}</h6>
             @foreach (Auth::user()->getAccounts()->filter(function($item) { return $item->isActive(); }) as $account)
               <a class="dropdown-item border my-1 rounded" href="{{ route('accounts.show', ['account' => $account->getId()]) }}">
                   {{ $account->getSerial() }} ({{$account->getName()}})

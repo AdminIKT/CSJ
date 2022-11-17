@@ -24,6 +24,11 @@ table th a.active {
     color: lightgray;
 }
 
+.bg-cancelled {
+    background: lightgray;
+    color: gray;
+}
+
 .btn-save::before {}
 
 .btn-toolbar {}
@@ -33,7 +38,7 @@ table th a.active {
 .bx {
     vertical-align: middle;
 } 
-.card-header { /*
+header .card-header {
     background-color: #537389;
     background-image: url("/img/logos/_white.png");
     background-position-x: right;
@@ -41,7 +46,8 @@ table th a.active {
     background-size: 25%;
     background-repeat: no-repeat;
     color: white !important;
-*/ }
+}
+
 nav .bx {
     font-size: 1.5em !important;
 }

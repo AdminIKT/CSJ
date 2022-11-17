@@ -2,7 +2,9 @@
 
 namespace App\Listeners\Accounts;
 
-use App\Events\MovementEvent,
+use App\Events\AbstractEvent,
+    App\Events\MovementEvent,
+    App\Events\OrderEvent,
     App\Entities\Charge,
     App\Entities\InvoiceCharge,
     App\Entities\Assignment,
@@ -25,10 +27,64 @@ class RestoreCredit
     /**
      * Handle the event.
      *
+     * @param  \App\Events\AbstractEvent  $event
+     * @return void
+     */
+    public function handle(AbstractEvent $event)
+    {
+        switch (true) {
+            case $event instanceof MovementEvent:
+                $this->_movementCredit($event);
+                break;
+            case $event instanceof OrderEvent:
+                $this->_orderCredit($event);
+                break;
+        }
+    }
+
+    /**
+     * @param  \App\Events\OrderEvent  $event
+     * @return void
+     */
+    protected function _orderCredit(OrderEvent $event)
+    {
+        $order = $event->entity;
+        switch (true) {
+            case $event->action === OrderEvent::ACTION_STORE:
+                $order->getSubaccount()
+                      ->increaseCompromisedCredit($order->getEstimatedCredit())
+                      ->getAccount()
+                      ->increaseCompromisedCredit($order->getEstimatedCredit())
+                      ;
+                break;
+
+            case $event->action ===  OrderEvent::ACTION_STATUS:
+                if (!$order->isCancelled()) {
+                    return;
+                }
+                if ($order->hasCredit()) {
+                    $order->getSubaccount()
+                          ->increaseCredit($order->getCredit())
+                          ->getAccount()
+                          ->increaseCredit($order->getCredit())
+                          ;
+                }
+                else {
+                    $order->getSubaccount()
+                          ->decreaseCompromisedCredit($order->getEstimatedCredit())
+                          ->getAccount()
+                          ->decreaseCompromisedCredit($order->getEstimatedCredit())
+                          ;
+                }
+                break;
+        }
+    }
+
+    /**
      * @param  \App\Events\MovementEvent  $event
      * @return void
      */
-    public function handle(MovementEvent $event)
+    protected function _movementCredit(MovementEvent $event)
     {
         $movement   = $event->entity;
         $credit     = $movement->getCredit();
@@ -62,41 +118,5 @@ class RestoreCredit
                 //TODO
                 break;
         }
-
-
-        /*
-        switch ($event->action) {
-            case MovementEvent::ACTION_STORE:
-                switch (true) {
-                    case $movement instanceof InvoiceCharge:
-                        $function = "decreaseCredit";
-                        $subaccount->decreaseCompromisedCredit($movement->getCredit())
-                                   ->getAccount()
-                                   ->decreaseCompromisedCredit($movement->getCredit());
-                        break;
-                    case $movement instanceof Charge:
-                        $function = "decreaseCredit";
-                        break;
-                    case $movement instanceof Assignment:
-                        $function = "increaseCredit";
-                        break;
-                }
-                break;
-            case MovementEvent::ACTION_DESTROY:
-                switch (true) {
-                    case $movement instanceof Assignment:
-                        $function = "decreaseCredit";
-                        break;
-                    case $movement instanceof Charge:
-                        $function = "increaseCredit";
-                        break;
-                }
-                break;
-
-        }
-        $subaccount->$function($movement->getCredit())
-                   ->getAccount()
-                   ->$function($movement->getCredit());
-        */
     }
 }

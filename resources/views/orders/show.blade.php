@@ -30,6 +30,9 @@
                 @can('order-status-checked-invoiced', $entity)
                     <option value="{{ App\Entities\Order::STATUS_CHECKED_INVOICED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_INVOICED) }}</option>
                 @endcan
+                @can('order-status-cancelled', $entity)
+                    <option value="{{ App\Entities\Order::STATUS_CANCELLED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CANCELLED) }}</option>
+                @endcan
                 <!--
                 @can('order-status-paid', $entity)
                     <option value="{{ App\Entities\Order::STATUS_PAID }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_PAID) }}</option>
