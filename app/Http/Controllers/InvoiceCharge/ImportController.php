@@ -38,7 +38,8 @@ class ImportController extends BaseController
         foreach ($rows as $row) {
             $entity = new InvoiceCharge;
             $entity->setCredit($row['credit'])
-                   ->setInvoice($row['invoice']);
+                   ->setInvoice($row['invoice'])
+                   ->setInvoiceDate($row['date']);
 
             $order = null;
             if (preg_match(
@@ -51,7 +52,7 @@ class ImportController extends BaseController
                 if ($order) {
                     $entity->setOrder($order);
                 }
-                $entity->setDetail(str_replace($matches[0], "", $row['sequence']));
+                $entity->setDetail(trim(str_replace($matches[0], "", $row['sequence'])));
             }
             if (!$order) {
                 $entity->setDetail($row['sequence']);
@@ -65,6 +66,11 @@ class ImportController extends BaseController
 
     public function store(Request $request)
     {
+        $data = $request->validate([
+            'item.*.credit'  => 'required|min:1', 
+            'item.*.invoice' => 'required', 
+            'item.*.date'    => 'required', 
+        ]);
         dd($request->all());
     } 
 

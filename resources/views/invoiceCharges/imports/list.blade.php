@@ -10,70 +10,99 @@
    ])
 }}
 
-<div class="table-responsive">
   <table class="table table-sm">
     <thead>
-        <tr>
-            <th scope="col">{{ __('Import') }}</th>
-            <th scope="col">{{ __('Order') }}</th>
-            <th scope="col">{{ __('Status') }}</th>
-            <!--<th scope="col">{{ __('Account') }}</th>-->
-            <th scope="col">{{ __('Credit') }}</th>
-            <th scope="col">{{ __('Invoice') }}</th>
-            <th scope="col">{{ __('Type') }}</th>
-            <th scope="col">{{ __('Detail') }}</th>
-        </tr>
+        <th scope="col">{{ __('Import') }}</th>
+        <th scope="col">{{ __('Credit') }}</th>
+        <th scope="col">{{ __('Invoice') }}</th>
+        <th scope="col">{{ __('Date') }}</th>
+        <!--<th scope="col">{{ __('Type') }}</th>-->
+        <th scope="col" colspan="3">{{ __('Detail') }}</th>
     </thead>
     <tbody>
         @foreach ($collection as $i => $entity)
         <tr>
             <td>
-            {{ Form::checkbox("item[$i]", true, old("item[$i]", $entity->getOrder() && $entity->getOrder()->isPending()), ['class' => 'form-check-input', 'disabled' => !($entity->getOrder() && $entity->getOrder()->isPending())]) }} 
+                <span class="cbg me-2 {{ $entity->getOrder() ? 'bg-success' : 'bg-danger' }}"></span>
+                {{ Form::checkbox("item[$i][import]", true, old("item[$i][import]", $entity->getOrder() !== null), [
+                    'class'    => 'form-check-input ' . ($entity->getOrder() ? 'border-success' : 'border-danger'), 
+                    'onclick'  => "rowState($(this))",
+                    'disabled' => !$entity->getOrder(), 
+                ]) }} 
             </td>
-            <td>@if ($entity->getOrder())
-                <a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a>
-            @else
-                <span class="text-danger">{{ __('Order not found') }}</span>
-            @endif</td>
-            <td>@if ($entity->getOrder())
-                <span class="{{ $entity->getOrder()->isPending() ? '':'text-danger' }}">{{ $entity->getOrder()->getStatusName() }}</span>
-            @else
-                <span class="text-danger">{{ __('Order not found') }}</span>
-            @endif</td>
-            <!--<td>@if ($entity->getOrder())
-                <a href="{{route('accounts.show', ['account' => $entity->getAccount()->getId()])}}">{{ $entity->getAccount()->getName() }}-{{ $entity->getAccount()->getType() }}</a>
-            @else
-                <span class="text-danger">{{ __('Order not found') }}</span>
-            @endif</td>-->
-            <td>@if ($entity->getOrder() && $entity->getOrder()->isPending())
-                
+            <td>
                 <div class="input-group input-group-sm mb-3">
-                    {{ Form::number("credit[$i]", old("credit[$i]", $entity->getCredit()), ['step' => '0.01', 'min' => 0, 'class' => 'form-control' . ($errors->has('credit[$i]') ? ' is-invalid':'') ]) }}
+                    {{ Form::number("item[$i][credit]", old("item[$i][credit]", $entity->getCredit()), [
+                        'step' => '0.01', 
+                        'min' => 0, 
+                        'class' => 'form-control' . ($errors->has("item[$i][credit]") ? ' is-invalid':''),
+                        'disabled' => !$entity->getOrder(), 
+                    ]) }}
                     <span class="input-group-text">€</span>
                 </div>
+            </td>
+            <td>
+                {{ Form::text("item[$i][invoice]", old("item[$i][invoice]", $entity->getInvoice()), [
+                    'class'    => 'form-control form-control-sm' . ($errors->has("item[$i][invoice]") ? ' is-invalid':''),
+                    'disabled' => !$entity->getOrder(), 
+                ]) }}
+            </td>
+            <td>
+                {{ Form::date("item[$i][date]", old("item[$i][date]", $entity->getInvoiceDate()), [
+                    'class'    => 'form-control form-control-sm' . ($errors->has("item[$i][date]") ? ' is-invalid':''), 
+                    'disabled' => !$entity->getOrder(), 
+                ]) }}
+            </td>
+            <!--<td class=""><small>{{ __('Invoice charge') }}</small></td>-->
+            @if (null !== ($order = $entity->getOrder()))
+            <td>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white">
+                        <i class="badge {!! $order->getStatusColor() !!}">{{ $order->getStatusName() }}</i>
+                    </span>
+                    {{ Form::select("order[$i]", [
+                        $order->getId() => $order->getSequence(),
+                        ], 
+                        old("order[$i]", $entity->getOrder()->getId()), [
+                            'class'=>'form-select form-select-sm' . ($errors->has('order[$i]') ? ' is-invalid': ''),
+                    ]) }}
+                </div>
+                <small class="text-muted">{{ __(':area on :date, estimated in :credit€', [
+                    'area'   => $order->getArea(), 
+                    'date'   => $order->getDate()->format('d/m/Y'),
+                    'credit' => number_format($order->getEstimatedCredit(), 2, ",", "."),
+                ]) }}</small>
+            </td>
+            <td>
+                {{ Form::select("supplier[$i]", [
+                    $order->getSupplier()->getId() => $order->getSupplier()->getName(),
+                    ], 
+                    old("supplier[$i]", $order->getSupplier()->getId()), [
+                        'class'=>'form-select form-select-sm' . ($errors->has('supplier[$i]') ? ' is-invalid': ''),
+                ]) }}
+            </td>
+            <td>
+                {{ Form::textarea("detail[$i]", old("detail[$i]", $entity->getDetail()), [
+                    'class'    => 'form-control form-control-sm' . ($errors->has("detail[$i]") ? ' is-invalid': ''),
+                    'rows'     => 1,
+                ]) }}
+            </td>
             @else
-                {{ $entity->getCredit() }}€
-            @endif</td>
-            <td>@if ($entity->getOrder() && $entity->getOrder()->isPending())
-                {{ Form::text("invoice[$i]", old("invoice[$i]", $entity->getInvoice()), ['class' => 'form-control form-control-sm' . ($errors->has('invoice[$i]') ? ' is-invalid':'')]) }}
-            @else
-                {{ $entity->getInvoice() }}
-            @endif</td>
-            <td>@if ($entity->getOrder() && $entity->getOrder()->isPending())
-                {{ Form::select("type[$i]", [null => __('selecciona'), \App\Entities\InvoiceCharge::TYPE_INVOICED => \App\Entities\InvoiceCharge::typeName(\App\Entities\InvoiceCharge::TYPE_INVOICED)], old("type[$i]", $entity->getType()), ['class'=>'form-select form-select-sm' . ($errors->has('type[$i]') ? ' is-invalid': '')]) }}
-            @else
-                {{ $entity->getTypeName() }}
-            @endif</td>
-            <td>@if ($entity->getOrder() && $entity->getOrder()->isPending())
-                {{ Form::textarea("detail[$i]", old("detail[$i]", $entity->getDetail()), ['class' => 'form-control form-control-sm' . ($errors->has("detail[$i]") ? ' is-invalid': ''), 'rows' => 1]) }}
-            @else
-                {{ $entity->getDetail() }}
-            @endif</td>
+            <td colspan="3">
+                {{ Form::textarea("detail[$i]", old("detail[$i]", $entity->getDetail()), [
+                    'class'    => 'form-control form-control-sm' . ($errors->has("detail[$i]") ? ' is-invalid': ''),
+                    'rows'     => 1,
+                    'disabled' => !$entity->getOrder(), 
+                ]) }}
+                <small class="text-muted">{{ __('Order not found') }}</small>
+            </td>
+            @endif
         </tr>
         @endforeach
     </tbody>
   </table>
 </div>
+            
 <div>
     <a href="{{ url()->previous() }}" class="btn btn-sm ">Cancel</a>
     {{ Form::submit(__('Import'), ['class' => 'btn btn-primary btn-sm float-end']) }}
@@ -81,3 +110,15 @@
 
     {{ Form::close() }}
 @endsection
+@section('scripts')
+    <script>
+        function rowState(input) {
+            console.log(input.closest('tr'));
+            input.closest('tr').find('.form-control').each(function(i,el) {
+                $(el).attr('disabled', !input.prop('checked'));
+            });
+        }
+    </script>
+@endsection
+
+
