@@ -124,6 +124,14 @@
             ]) }}
                 <div class="btn-group btn-group-sm" role="group">
                 @can('view', $order)
+                    <a class="btn btn-light" 
+                        title="{{ __('Pdf') }}"
+                        href="{{ route('orders.invoices.create', ['order' => $order->getId()]) }}" 
+                        target="_blank">
+                        <span class="bx bx-xs bxs-file-pdf bx-tada-hover"></span>
+                    </a>
+                @endcan
+                @can('view', $order)
                     <a href="{{ route('orders.show', ['order' => $order->getId()]) }}" class="btn btn-light" title="{{ __('View') }}">
                         <span class="bx bxs-show"></span>
                     </a>
