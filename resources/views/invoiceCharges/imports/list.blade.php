@@ -1,5 +1,7 @@
 @extends('sj_layout')
-@section('title'){{ __('InvoiceCharges') }}@endsection
+@section('title')
+    {{ __('Import invoiceCharges') }}
+@endsection
 @section('content')
 
 {{ Form::open([
@@ -30,7 +32,7 @@
                     'disabled' => !$entity->getOrder(), 
                 ]) }} 
             </td>
-            <td>
+            <td class="editable">
                 <div class="input-group input-group-sm mb-3">
                     {{ Form::number("item[$i][credit]", old("item[$i][credit]", $entity->getCredit()), [
                         'step' => '0.01', 
@@ -41,13 +43,13 @@
                     <span class="input-group-text">€</span>
                 </div>
             </td>
-            <td>
+            <td class="editable">
                 {{ Form::text("item[$i][invoice]", old("item[$i][invoice]", $entity->getInvoice()), [
                     'class'    => 'form-control form-control-sm' . ($errors->has("item[$i][invoice]") ? ' is-invalid':''),
                     'disabled' => !$entity->getOrder(), 
                 ]) }}
             </td>
-            <td>
+            <td class="editable">
                 {{ Form::date("item[$i][date]", old("item[$i][date]", $entity->getInvoiceDate()), [
                     'class'    => 'form-control form-control-sm' . ($errors->has("item[$i][date]") ? ' is-invalid':''), 
                     'disabled' => !$entity->getOrder(), 
@@ -55,7 +57,7 @@
             </td>
             <!--<td class=""><small>{{ __('Invoice charge') }}</small></td>-->
             @if (null !== ($order = $entity->getOrder()))
-            <td>
+            <td class="editable">
                 <div class="input-group input-group-sm">
                     <span class="input-group-text bg-white">
                         <i class="badge {!! $order->getStatusColor() !!}">{{ $order->getStatusName() }}</i>
@@ -73,7 +75,7 @@
                     'credit' => number_format($order->getEstimatedCredit(), 2, ",", "."),
                 ]) }}</small>
             </td>
-            <td>
+            <td class="editable">
                 {{ Form::select("supplier[$i]", [
                     $order->getSupplier()->getId() => $order->getSupplier()->getName(),
                     ], 
@@ -81,7 +83,7 @@
                         'class'=>'form-select form-select-sm' . ($errors->has('supplier[$i]') ? ' is-invalid': ''),
                 ]) }}
             </td>
-            <td>
+            <td class="editable">
                 {{ Form::textarea("detail[$i]", old("detail[$i]", $entity->getDetail()), [
                     'class'    => 'form-control form-control-sm' . ($errors->has("detail[$i]") ? ' is-invalid': ''),
                     'rows'     => 1,
@@ -92,7 +94,7 @@
                 {{ Form::textarea("detail[$i]", old("detail[$i]", $entity->getDetail()), [
                     'class'    => 'form-control form-control-sm' . ($errors->has("detail[$i]") ? ' is-invalid': ''),
                     'rows'     => 1,
-                    'disabled' => !$entity->getOrder(), 
+                    'disabled' => true, 
                 ]) }}
                 <small class="text-muted">{{ __('Order not found') }}</small>
             </td>
@@ -113,10 +115,11 @@
 @section('scripts')
     <script>
         function rowState(input) {
-            console.log(input.closest('tr'));
-            input.closest('tr').find('.form-control').each(function(i,el) {
-                $(el).attr('disabled', !input.prop('checked'));
-            });
+            input.closest('tr')
+                 .find('td.editable :input')
+                 .each(function(i,el) {
+                    $(el).attr('disabled', !input.prop('checked'));
+                 });
         }
     </script>
 @endsection

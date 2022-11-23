@@ -72,9 +72,16 @@ Route::resources([
 Route::get('/receptions', [Controllers\OrderController::class, 'receptions'])->name('orders.receptions');
 Route::post('/orders/{order}/status', [Controllers\OrderController::class, 'status'])->name('orders.status');
 Route::get('/suppliers/{supplier}/indicence/{incidence}/close', [Controllers\Supplier\IncidenceController::class, 'close'])->name('suppliers.incidences.close');
+// Charge import
+// FIXME
 Route::get('/imports', [Controllers\InvoiceCharge\ImportController::class, 'create'])->name('imports.create');
 Route::post('/imports', [Controllers\InvoiceCharge\ImportController::class, 'list'])->name('imports.list');
 Route::post('/imports.store', [Controllers\InvoiceCharge\ImportController::class, 'store'])->name('imports.store');
+
+Route::get('/import-step-1', [Controllers\Movement\ImportController::class, 'createStep1'])->name('imports.create.step1');
+Route::post('/import-step-1', [Controllers\Movement\ImportController::class, 'storeStep1'])->name('imports.store.step1');
+Route::get('/import-step-2', [Controllers\Movement\ImportController::class, 'createStep2'])->name('imports.create.step2');
+Route::post('/import-step-2', [Controllers\Movement\ImportController::class, 'storeStep2'])->name('imports.store.step2');
 // Reports
 Route::get('/reports/orders', [Controllers\ReportController::class, 'orders'])->name('reports.orders');
 Route::get('/reports/movements', [Controllers\ReportController::class, 'movements'])->name('reports.movements');

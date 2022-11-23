@@ -20,6 +20,7 @@ class OrderPostRequest extends OrderPutRequest
 
         return array_merge(
             parent::rules(), [
+                'sequence'            => 'unique:\App\Entities\Order,sequence',
                 'estimatedCredit'     => "required|numeric|between:0,{$entity->getAvailableCredit()}",
                 'estimated'           => 'mimes:pdf',
                 'supplier'            => 'required',
