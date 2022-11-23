@@ -44,7 +44,7 @@ class Order implements UserAwareInterface, \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="seq", type="string")
+     * @ORM\Column(name="seq", type="string", unique=true)
      */
     public $sequence;
 
