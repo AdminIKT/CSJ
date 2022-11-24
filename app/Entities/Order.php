@@ -528,6 +528,15 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
+     * @return bool
+     */
+    public function isPayable()
+    {
+        return !($this->isStatus(self::STATUS_CANCELLED)
+                || $this->isStatus(self::STATUS_PAID));
+    }
+
+    /**
      * Get color.
      *
      * @return string

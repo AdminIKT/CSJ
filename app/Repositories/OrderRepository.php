@@ -105,12 +105,14 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
               ->setParameter('user', $user);
         }
 
-        $b->orderBy(
+        $b->addOrderBy(
             array_key_exists('sortBy', $filter) ?
                     $filter['sortBy'] : 'orders.date',
             array_key_exists('sort', $filter) ?
                     $filter['sort'] : 'DESC'
         );
+
+        $b->addOrderBy('orders.sequence', 'DESC');
 
         if (!$perPage) {
             $perPage = clone $b;

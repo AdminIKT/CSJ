@@ -55,7 +55,9 @@ class ImportController extends BaseController
             //dd($request->old());
         }
 
-        $rows = $request->session()->get('rows');
+        if (null === ($rows = $request->session()->get('rows'))) {
+            return redirect()->route('imports.create.step1');
+        }
 
         return view('movements.import.step2', [
             'collection' => $this->getRowCharges($rows),

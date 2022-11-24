@@ -38,7 +38,7 @@ class UpdateStatus
         }
 
         $order = $charge->getOrder();
-        if ($order->isPaid()) {
+        if (!$order->isPayable()) {
             throw new InvalidStatusException(__("Order status is :status", ['status' => $order->getStatusName()]));
         }
 

@@ -30,7 +30,8 @@ class OrderController extends BaseController
      */
     protected function authorization()
     {
-        $this->middleware('can:view,subaccount')->only(['create', 'store']);
+        $this->middleware('can:view,subaccount')
+             ->only(['create', 'store']);
     }
 
     /**
@@ -95,7 +96,7 @@ class OrderController extends BaseController
         $order = new Order;
         $this->hydrateData($order, $request->all());
         if (!$order->getSequence()) {
-            $order->setDate(new \DateTime);
+            $order->setDate(new \DateTime('today'));
             $order->setSequence(implode("-", [
                 "{$subaccount->getSerial()}/{$order->getDate()->format('y')}",
                 isset($sequence) ? $sequence : 1
@@ -150,7 +151,11 @@ class OrderController extends BaseController
         if (isset($data['estimatedCredit']))    $entity->setEstimatedCredit($data['estimatedCredit']);
         if (isset($data['detail']))             $entity->setDetail($data['detail']);
         if (isset($data['sequence']))           $entity->setSequence($data['sequence']);
-        if (isset($data['date']))               $entity->setDate(new \Datetime($data['date']));
+        if (isset($data['date'])) {
+            $entity->setDate(new \Datetime($data['date']));
+            //FIXME: Is necessary?
+            $entity->getDate()->settime(0,0);
+        }
         if (isset($data['supplier'])) {
             if (null === ($e = $this->em->find(Supplier::class, $data['supplier']))) {
                 throw new \RuntimeException("Supplier {$data['supplier']} not found"); 

@@ -40,9 +40,6 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
-        @if (!(isset($exclude) && in_array('users', $exclude)))
-        <th class="small" scope="col">{{ __('User') }}</th>
-        @endif
         <th class="small" scope="col">{{ __('Date') }}
             <a class="{{ request()->get('sortBy') == 'orders.date' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.date', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
@@ -51,6 +48,9 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
+        @if (!(isset($exclude) && in_array('users', $exclude)))
+        <th class="small" scope="col">{{ __('User') }}</th>
+        @endif
         @if (!(isset($exclude) && in_array('actions', $exclude)))
         <th class="small" scope="col">{{ __('Actions') }}</th>
         @endif
@@ -108,13 +108,13 @@
             </td>
             <td>{{ number_format($order->getEstimatedCredit(), 2, ",", ".") }}€</td>
             <td>@if ($order->getCredit()) {{ number_format($order->getCredit(), 2, ",", ".") }}€ @endif</td>
+            <td>
+                <span class="small text-muted">{{ $order->getDate()->format("D, d M Y H:i") }}</span>
+            </td>
             @if (!(isset($exclude) && in_array('users', $exclude)))
             @php $trCredit++ @endphp
             <td>{{ $order->getUser()->getShort() }}</td>
             @endif
-            <td>
-                <span class="small text-muted">{{ $order->getDate()->format("D, d M Y H:i") }}</span>
-            </td>
             @if (!(isset($exclude) && in_array('actions', $exclude)))
             @php $trCredit++ @endphp
             <td>
@@ -123,6 +123,12 @@
                 'method' => 'delete',
             ]) }}
                 <div class="btn-group btn-group-sm" role="group">
+                @can('viewany', \App\Entities\Order::class)
+                    <button type="button" class="btn btn-light" title="{{ __('Copy to clipboard') }}"
+                            data-clip="P#{{ $order->getSequence() }}" onclick="copyToClipboard($(this))">
+                        <span class="bx bxs-copy"></span>
+                    </button>
+                @endcan
                 @can('view', $order)
                     <a class="btn btn-light" 
                         title="{{ __('Pdf') }}"

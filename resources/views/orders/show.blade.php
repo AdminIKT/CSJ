@@ -142,7 +142,7 @@
                     {{ $entity->getInvoice() ?? "-" }}
                     @if ($entity->getInvoiceDate())
                     <small class="text-muted">
-                        ({{ $entity->getInvoiceDate()->format("D, d M Y H:i") }})
+                        ({{ $entity->getInvoiceDate()->format("D, d M Y") }})
                     </small>
                     @endif
                 </td>
@@ -164,7 +164,7 @@
                     {{ $entity->getUser()->getName() }}
                     <span class="small text-muted">{{ Carbon\Carbon::parse($entity->getCreated())->diffForHumans() }}</span>
                 </td>
-                <td>{{ $entity->getDate()->format("d/m/Y H:i") }}</td>
+                <td>{{ $entity->getDate()->format("D, d M Y") }}</td>
                 <td>{{ $entity->getReceiveInName() }}</td>
             </tr>
             @if (count($entity->getProducts())) 

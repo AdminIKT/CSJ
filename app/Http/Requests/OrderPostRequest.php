@@ -55,12 +55,12 @@ class OrderPostRequest extends OrderPutRequest
                     }
                     else {
                         $prev = $this->em->getRepository(Order::class)
-                                ->findOneBy([
-                                    'id' => $data['previous']
-                                ]);
+                                ->findOneBy(['id' => $data['previous']]);
 
-                        if ($date < $prev->getDate()) {
-                            $validator->errors()->add('date', __('Must be greather than :date', ['date' => $prev->getDate()->format('d/m/Y')]));
+                        if ($date->format('Y-m-d') < $prev->getDate()->format('Y-m-d')) {
+                            $validator->errors()->add('date', __('Must be greather than :date', [
+                                'date' => $prev->getDate()->format('d/m/Y')
+                            ]));
                         }
 
                         $qb = $this->em->createQueryBuilder();
@@ -75,9 +75,12 @@ class OrderPostRequest extends OrderPutRequest
                            ->setMaxResults(1);
 
                         $next = $qb->getQuery()->getOneOrNullResult();
-                        if ($next && $date > $next->getDate()) {
-                            $validator->errors()->add('date', __('Must be less than :date', ['date' => $next->getDate()->format('d/m/Y')]));
+                        if ($next && $date->format('Y-m-d') > $next->getDate()->format('Y-m-d')) {
+                            $validator->errors()->add('date', __('Must be less than :date', [
+                                'date' => $next->getDate()->format('d/m/Y')
+                            ]));
                         }
+                        //dd($date, $prev, $next);
                     }
                 }
             }

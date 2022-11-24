@@ -62,13 +62,19 @@
                 'method' => 'delete',
             ]) }}
             <div class="btn-group btn-group-sm" role="group">
+                @can('viewany', \App\Entities\Account::class)
+                    <button type="button" class="btn btn-light" title="{{ __('Copy to clipboard') }}"
+                            data-clip="C#{{ $entity->getSerial() }}" onclick="copyToClipboard($(this))">
+                        <span class="bx bxs-copy"></span>
+                    </button>
+                @endcan
                 @can('view', $entity)
-                <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" class="btn btn-light">
+                <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" class="btn btn-light" title="{{ __('View') }}">
                     <i class="bx bxs-show"></i>
                 </a>
                 @endcan
                 @can('update', $entity)
-                <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-light">
+                <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-light" title="{{ __('Edit') }}">
                     <i class="bx bxs-pencil"></i>
                 </a>
                 @endcan

@@ -549,6 +549,17 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function isPayable()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPayable', []);
+
+        return parent::isPayable();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getStatusColor()
     {
 

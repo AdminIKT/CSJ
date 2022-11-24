@@ -11,24 +11,25 @@
     'novalidate' => true,
    ])
 }}
-    <table class="table table-sm">
+    <table class="table table-sm  table-striped">
         <thead>
-            <th scope="col">{{ __('Import') }}</th>
-            <th scope="col">{{ __('Credit') }}</th>
-            <th scope="col">{{ __('Invoice') }}</th>
-            <th scope="col">{{ __('Date') }}</th>
+            <th scope="col" class="col">{{ __('Import') }}</th>
+            <th scope="col" class="col-1">{{ __('Credit') }}</th>
+            <th scope="col" class="col-1">{{ __('Invoice') }}</th>
+            <th scope="col" class="col-1">{{ __('Date') }}</th>
             <!--<th scope="col">{{ __('Type') }}</th>-->
             <th scope="col" colspan="3">{{ __('Detail') }}</th>
         </thead>
         <tbody>
         @foreach ($collection as $i => $entity)
+            @php $editable = (null !== ($order = $entity->getOrder()) && $order->isPayable()); @endphp  
             <tr class="border-white">
                 <td>
-                    <span class="cbg me-2 {{ $entity->getOrder() ? 'bg-success' : 'bg-danger' }}"></span>
-                    {{ Form::checkbox("item[$i][import]", true, old("item.{$i}.import", $entity->getOrder() !== null), [
-                        'class'    => 'form-check-input ' . ($entity->getOrder() ? 'border-success' : 'border-danger'), 
+                    <span class="cbg me-2 {{ $editable ? 'bg-success' : 'bg-danger' }}"></span>
+                    {{ Form::checkbox("item[$i][import]", true, old("item.{$i}.import", $editable), [
+                        'class'    => 'form-check-input ' . ($editable ? 'border-success' : 'border-danger'), 
                         'onclick'  => "rowState($(this))",
-                        'disabled' => !$entity->getOrder(), 
+                        'disabled' => !$editable, 
                     ]) }} 
                 </td>
                 <td class="editable">
@@ -63,8 +64,6 @@
                         <div class="invalid-feedback">{!! $errors->first("item.{$i}.date") !!}</div>
                     @endif
                 </td>
-                <!-- TODO Validations -->
-                <!--<td class=""><small>{{ __('Invoice charge') }}</small></td>-->
                 @if (null !== ($order = $entity->getOrder()))
                 <td class="editable">
                     <div class="input-group input-group-sm">
@@ -75,7 +74,7 @@
                             $order->getId() => $order->getSequence(),
                             ], 
                             old("order[$i]", $entity->getOrder()->getId()), [
-                                'class'=>'form-select form-select-sm' . ($errors->has('order[$i]') ? ' is-invalid': ''),
+                                'class'    =>'form-select form-select-sm' . ($errors->has('order[$i]') ? ' is-invalid': ''),
                         ]) }}
                     </div>
                 </td>
@@ -84,7 +83,7 @@
                         $order->getSupplier()->getId() => $order->getSupplier()->getName(),
                         ], 
                         old("supplier[$i]", $order->getSupplier()->getId()), [
-                            'class'=>'form-select form-select-sm' . ($errors->has('supplier[$i]') ? ' is-invalid': ''),
+                            'class'    =>'form-select form-select-sm' . ($errors->has('supplier[$i]') ? ' is-invalid': ''),
                     ]) }}
                 </td>
                 <td class="editable">
@@ -104,14 +103,19 @@
                 @endif
             </tr>
             <tr>
-                <td colspan="7" class="text-center pt-0">
+                <td colspan="7" class="text-end pt-0">
                     <small class="text-muted">
+                    {{ $entity->getTypeName() }}:
                     @if (null !== ($order = $entity->getOrder()))
-                        {{ __(':area on :date, estimated in :credit€', [
-                            'area'   => $order->getArea(), 
-                            'date'   => $order->getDate()->format('d/m/Y'),
-                            'credit' => number_format($order->getEstimatedCredit(), 2, ",", "."),
-                        ]) }}
+                        {!! __('<a href=":route" target="_blank">:account</a> on :date, estimated in :credit€', [
+                            'route'   => route('accounts.show', ['account' => $order->getAccount()->getId()]), 
+                            'account' => $order->getAccount(),
+                            'date'    => $order->getDate()->format('d/m/Y'),
+                            'credit'  => number_format($order->getEstimatedCredit(), 2, ",", "."),
+                        ]) !!}
+                        <a href="{{route('orders.show', ['order' => $order->getId()])}}" target="_blank">
+                            <i class="bx bx-show"></i>
+                        </a>
                     @else
                         {{ __('Order not found') }}
                     @endif
@@ -123,7 +127,7 @@
     </table>
             
     <div>
-        {{ Form::button("<i class='bx bxs-save'></i>". __('Import'), [
+        {{ Form::button("<i class='bx bxs-file-import'></i> ". __('Import'), [
             'type'  => 'submit',
             'class' => 'btn btn-primary btn-sm float-end',
         ]) }}

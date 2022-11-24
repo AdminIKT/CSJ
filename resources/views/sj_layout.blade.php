@@ -276,6 +276,16 @@
                 cards.each(function(i, e) {$(e).hide();});
         }
     </script>
+    <script>
+        function copyToClipboard(el) {
+            var text = el.attr('data-clip');
+            navigator.clipboard.writeText(text).then(function () {
+                alert("'"+text+"' copied, do a CTRL - V to paste")
+            }, function () {
+                alert("Failure to copy. Check permissions for clipboard")
+            });
+        }
+    </script>
     @yield('scripts')
   </body>
 </html>
