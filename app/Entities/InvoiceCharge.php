@@ -13,6 +13,8 @@ class InvoiceCharge extends Charge
 {
     const TYPE_INVOICED = 5;
 
+    const HZ_PREFIX = 'P';
+
     /**
      * @var Account 
      *
@@ -21,66 +23,9 @@ class InvoiceCharge extends Charge
     private $order;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="invoice", type="string")
+     * @var int
      */
-    private $invoice;
-
-     /**
-     * @var DateTime 
-     *
-     * @ORM\Column(name="invoiceDate", type="datetime")
-     */
-    private $invoiceDate;
-
-    /**
-     * Get invoice.
-     *
-     * @return string
-     */
-    public function getInvoice()
-    {
-        return $this->invoice;
-    }
-
-    /**
-     * Set invoice.
-     *
-     * @param string $invoice
-     *
-     * @return InvoiceCharge
-     */
-    public function setInvoice($invoice)
-    {
-        $this->invoice = $invoice;
-
-        return $this;
-    }
-
-     /**
-     * Get invoice date.
-     *
-     * @return DateTime
-     */
-    public function getInvoiceDate()
-    {
-        return $this->invoiceDate;
-    }
-
-    /**
-     * Set invoice date.
-     *
-     * @param string $invoiceDate
-     *
-     * @return InvoiceCharge
-     */
-    public function setInvoiceDate($invoiceDate)
-    {
-        $this->invoiceDate = $invoiceDate;
-
-        return $this;
-    }
+    private $type = self::TYPE_INVOICED;
 
     /**
      * Set order.

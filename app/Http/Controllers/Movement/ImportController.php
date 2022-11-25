@@ -6,7 +6,9 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Rap2hpoutre\FastExcel\Facades\FastExcel;
-use App\Entities\Order,
+use App\Entities\Account,
+    App\Entities\Order,
+    App\Entities\Charge,
     App\Entities\InvoiceCharge;
 
 class ImportController extends BaseController
@@ -20,10 +22,11 @@ class ImportController extends BaseController
     /**
      * @return \Illuminate\Http\Response
      */
-    public function createStep1()
+    public function createStep1(Request $request)
     {
-        return view('movements.import.step1', [
-        ]); 
+        $request->session()->forget('file-rows');
+
+        return view('movements.import.step1'); 
     }
 
     /**
@@ -34,15 +37,12 @@ class ImportController extends BaseController
         $data = $request->validate([
             'file' => 'required|mimes:xlsx',
         ]);
-        if (empty($request->session()->get('rows'))) {
+        if (empty($request->session()->get('file-rows'))) {
             $path = $request->file->path();
             $rows = FastExcel::import($path);
-            $request->session()->put('rows', $rows);
+            $request->session()->put('file-rows', $rows);
         }
-        else {
-            $rows = $request->session()->get('rows');
-            $request->session()->put('rows', $rows);
-        }
+
         return redirect()->route('imports.create.step2');
     }
 
@@ -55,12 +55,12 @@ class ImportController extends BaseController
             //dd($request->old());
         }
 
-        if (null === ($rows = $request->session()->get('rows'))) {
+        if (null === ($rows = $request->session()->get('file-rows'))) {
             return redirect()->route('imports.create.step1');
         }
 
         return view('movements.import.step2', [
-            'collection' => $this->getRowCharges($rows),
+            'collection' => $this->getCharges($rows),
         ]); 
     }
 
@@ -77,33 +77,87 @@ class ImportController extends BaseController
         dd($request->all());
     }
 
-    protected function getRowCharges($rows = [])
+    /**
+     * Retrieve charges
+     */
+    protected function getCharges($rows = [])
     {
+        $hzPattern  = "@^(".Charge::HZ_PREFIX."|".InvoiceCharge::HZ_PREFIX.")#.*@i";
         $collection = [];
-        foreach ($rows as $row) {
-            $entity = new InvoiceCharge;
-            $entity->setCredit($row['credit'])
-                   ->setInvoice($row['invoice'])
-                   ->setInvoiceDate($row['date']);
 
-            $order = null;
-            if (preg_match(
-                Order::SEQUENCE_PATTERN, 
-                $row['sequence'], 
-                $matches)) 
-            {
-                $order = $this->em->getRepository(Order::class)
-                              ->findOneBy(['sequence' => $matches[0]]);
-                if ($order) {
-                    $entity->setOrder($order);
+        foreach ($rows as $row) {
+            $hzSequence = $row['sequence'];
+            if (preg_match($hzPattern, $hzSequence, $matches)) {
+                $row['sequence'] = substr($matches[0], 2);
+                switch (strtoupper($matches[1])) {
+                    case Charge::HZ_PREFIX:
+                        $collection[] = $this->getCharge($row);
+                        break;
+                    case InvoiceCharge::HZ_PREFIX:
+                        $collection[] = $this->getInvoiceCharge($row);
+                        break;
                 }
-                $entity->setDetail(trim(str_replace($matches[0], "", $row['sequence'])));
+            } 
+            else {
+                continue;
             }
-            if (!$order) {
-                $entity->setDetail($row['sequence']);
-            }
-            $collection[] = $entity;
         }
+        //dd($collection);
         return $collection;
+    }
+
+    /**
+     * @param array $row
+     * @return InvoiceCharge
+     */
+    protected function getInvoiceCharge(array $row)
+    {
+        $entity = new InvoiceCharge;
+        $entity->setCredit($row['credit'])
+               ->setInvoice($row['invoice'])
+               ->setInvoiceDate($row['date']);
+
+        if (preg_match(
+            Order::SEQUENCE_PATTERN, 
+            $row['sequence'], 
+            $matches)) 
+        {
+            $order = $this->em->getRepository(Order::class)
+                          ->findOneBy(['sequence' => $matches[0]]);
+            if ($order) {
+                $entity->setOrder($order);
+            }
+            $entity->setDetail(trim(str_replace($matches[0], "", $row['sequence'])));
+        }
+        if (!isset($order)) {
+            $entity->setDetail($row['sequence']);
+        }
+
+        return $entity;
+    }
+
+    /**
+     * @param array $row
+     * @return InvoiceCharge
+     */
+    protected function getCharge(array $row)
+    {
+        $entity = new Charge;
+        $entity->setCredit($row['credit'])
+               ->setInvoice($row['invoice'])
+               ->setInvoiceDate($row['date'])
+               ->setType(Charge::TYPE_INVOICED_ACCOUNT);
+
+        if (preg_match(
+            Account::SEQUENCE_PATTERN, 
+            $row['sequence'], 
+            $matches)) 
+        {
+            dd($matches);
+        }
+        if (!isset($account)) {
+            $entity->setDetail($row['sequence']);
+        }
+        return $entity;
     }
 }

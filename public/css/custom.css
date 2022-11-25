@@ -116,6 +116,23 @@ nav .feather {
     display: inline-block; 
 }
 
+span.clip {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    left: -6em;
+    top: 0.5em;
+    font-size: 0.75em;
+    background: lightgreen;
+    border-radius: 5px;
+    padding: 0.25em 0.5em;
+    color: green;
+}
+span.clip::after {
+    content: "\2713";
+    margin-left: 0.25em;
+}
+
 /**
  * Auth card
  */

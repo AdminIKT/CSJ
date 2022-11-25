@@ -177,9 +177,9 @@ abstract class Movement
      *
      * @return Movement
      */
-    public function setCredit(float $credit)
+    public function setCredit($credit)
     {
-        $this->credit = $credit;
+        $this->credit = (float) $credit;
 
         return $this;
     }

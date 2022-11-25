@@ -63,6 +63,7 @@
             ]) }}
             <div class="btn-group btn-group-sm" role="group">
                 @can('viewany', \App\Entities\Account::class)
+                    <span class="clip">{{ __("Copied") }}</span>
                     <button type="button" class="btn btn-light" title="{{ __('Copy to clipboard') }}"
                             data-clip="C#{{ $entity->getSerial() }}" onclick="copyToClipboard($(this))">
                         <span class="bx bxs-copy"></span>

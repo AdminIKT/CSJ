@@ -22,7 +22,9 @@
         </thead>
         <tbody>
         @foreach ($collection as $i => $entity)
-            @php $editable = (null !== ($order = $entity->getOrder()) && $order->isPayable()); @endphp  
+            @php $editable = !$entity instanceof App\Entities\InvoiceCharge 
+                             || (null !== ($order = $entity->getOrder()) && $order->isPayable()); 
+            @endphp  
             <tr class="border-white">
                 <td>
                     <span class="cbg me-2 {{ $editable ? 'bg-success' : 'bg-danger' }}"></span>
@@ -38,7 +40,6 @@
                             'step' => '0.01', 
                             'min' => 0, 
                             'class' => 'form-control' . ($errors->has("item.{$i}.credit") ? ' is-invalid':''),
-                            'disabled' => !$entity->getOrder(), 
                         ]) }}
                         <span class="input-group-text">€</span>
                         @if ($errors->has("item.{$i}.credit"))
@@ -49,7 +50,6 @@
                 <td class="editable">
                     {{ Form::text("item[$i][invoice]", old("item.{$i}.invoice", $entity->getInvoice()), [
                         'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.invoice") ? ' is-invalid':''),
-                        'disabled' => !$entity->getOrder(), 
                     ]) }}
                     @if ($errors->has("item.{$i}.invoice"))
                         <div class="invalid-feedback">{!! $errors->first("item.{$i}.invoice") !!}</div>
@@ -58,13 +58,12 @@
                 <td class="editable">
                     {{ Form::date("item[$i][date]", old("item.{$i}.date", $entity->getInvoiceDate()), [
                         'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.date") ? ' is-invalid':''), 
-                        'disabled' => !$entity->getOrder(), 
                     ]) }}
                     @if ($errors->has("item.{$i}.date"))
                         <div class="invalid-feedback">{!! $errors->first("item.{$i}.date") !!}</div>
                     @endif
                 </td>
-                @if (null !== ($order = $entity->getOrder()))
+                @if ($entity instanceof App\Entities\InvoiceCharge && null !== ($order = $entity->getOrder()))
                 <td class="editable">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-white">
@@ -103,21 +102,25 @@
                 @endif
             </tr>
             <tr>
-                <td colspan="7" class="text-end pt-0">
+                <td colspan="7" class="text-end pt-0 pe-2">
                     <small class="text-muted">
                     {{ $entity->getTypeName() }}:
-                    @if (null !== ($order = $entity->getOrder()))
-                        {!! __('<a href=":route" target="_blank">:account</a> on :date, estimated in :credit€', [
-                            'route'   => route('accounts.show', ['account' => $order->getAccount()->getId()]), 
-                            'account' => $order->getAccount(),
-                            'date'    => $order->getDate()->format('d/m/Y'),
-                            'credit'  => number_format($order->getEstimatedCredit(), 2, ",", "."),
-                        ]) !!}
-                        <a href="{{route('orders.show', ['order' => $order->getId()])}}" target="_blank">
-                            <i class="bx bx-show"></i>
-                        </a>
+                    @if ($entity instanceof App\Entities\InvoiceCharge)
+                        @if (null !== ($order = $entity->getOrder()))
+                            {!! __('<a href=":route" target="_blank">:account</a> on :date, estimated in :credit€', [
+                                'route'   => route('accounts.show', ['account' => $order->getAccount()->getId()]), 
+                                'account' => $order->getAccount(),
+                                'date'    => $order->getDate()->format('d/m/Y'),
+                                'credit'  => number_format($order->getEstimatedCredit(), 2, ",", "."),
+                            ]) !!}
+                            <a href="{{route('orders.show', ['order' => $order->getId()])}}" target="_blank">
+                                <i class="bx bx-show"></i>
+                            </a>
+                        @else
+                            {{ __('Order not found') }}
+                        @endif
                     @else
-                        {{ __('Order not found') }}
+                            {{ __('New charge') }}
                     @endif
                     </small>
                 </td>
