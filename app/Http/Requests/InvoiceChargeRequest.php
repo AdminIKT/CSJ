@@ -3,7 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Entities\Order;
+use App\Entities\Account,
+    App\Entities\Order,
+    App\Entities\Charge,
+    App\Entities\InvoiceCharge;
 
 class InvoiceChargeRequest extends FormRequest
 {
@@ -25,10 +28,12 @@ class InvoiceChargeRequest extends FormRequest
     public function rules()
     {
         return [
-            'detail'  => 'required|max:255',
-            'invoice' => 'required|max:255',
+            'detail'      => 'required|max:255',
+            'invoice'     => 'required|max:255',
             'invoiceDate' => 'required',
-            'credit'  => 'required|min:0',
+            'credit'      => 'required|min:0',
+            'hzyear'      => 'required|int',
+            'hzentry'     => 'required',
         ];
     }
 
@@ -43,9 +48,25 @@ class InvoiceChargeRequest extends FormRequest
         $validator->after(function ($validator) {
             $data = $validator->getData();
             if (isset($data['detail'])) {
-                $matches = [];
-                if (!preg_match(Order::SEQUENCE_PATTERN, $data['detail'])) {
-                    $validator->errors()->add("detail", "Unmatched an order sequence pattern");
+
+                if (!preg_match(InvoiceCharge::HZ_PATTERN, $data['detail'], $matches)) {
+                    $validator->errors()
+                              ->add("detail", "Unmatched a valid sequence pattern");
+                }
+                else {
+                    $detail = substr($matches[0], 2);
+                    switch (strtoupper($matches[1])) {
+                        case Charge::HZ_PREFIX:
+                            if (!preg_match(Account::SEQUENCE_PATTERN, $detail)) {
+                                $validator->errors()->add("detail", "Unmatched an account sequence pattern");
+                            }
+                            break;
+                        case InvoiceCharge::HZ_PREFIX:
+                            if (!preg_match(Order::SEQUENCE_PATTERN, $detail)) {
+                                $validator->errors()->add("detail", "Unmatched an order sequence pattern");
+                            }
+                            break;
+                    }
                 }
             }
         });

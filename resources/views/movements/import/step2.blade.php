@@ -11,19 +11,25 @@
     'novalidate' => true,
    ])
 }}
-    <table class="table table-sm  table-striped">
+    <table class="table table-sm">
         <thead>
             <th scope="col" class="col">{{ __('Import') }}</th>
-            <th scope="col" class="col-1">{{ __('Credit') }}</th>
-            <th scope="col" class="col-1">{{ __('Invoice') }}</th>
-            <th scope="col" class="col-1">{{ __('Date') }}</th>
-            <!--<th scope="col">{{ __('Type') }}</th>-->
-            <th scope="col" colspan="3">{{ __('Detail') }}</th>
+            <th scope="col" class="col">{{ __('Credit') }}</th>
+            <th scope="col" class="col">{{ __('Invoice') }}</th>
+            <th scope="col" class="col">{{ __('Date') }}</th>
+            <th scope="col" class="col">{{ __('HZ code') }} <small class="text-muted">{{ __('Year') }}-{{ __('Entry') }}</small></th>
+            <th scope="col" class="col-7" colspan="3">{{ __('Detail') }}</th>
         </thead>
         <tbody>
         @foreach ($collection as $i => $entity)
-            @php $editable = !$entity instanceof App\Entities\InvoiceCharge 
-                             || (null !== ($order = $entity->getOrder()) && $order->isPayable()); 
+            @php $editable = (get_class($entity) === App\Entities\Charge::class
+                              && $entity->getSubaccount() !== null
+                              && $entity->getId() === null
+                              ) 
+                              || (get_class($entity) === App\Entities\InvoiceCharge::class
+                              && null !== ($order = $entity->getOrder())
+                              && $order->isPayable()
+                              ); 
             @endphp  
             <tr class="border-white">
                 <td>
@@ -56,71 +62,143 @@
                     @endif
                 </td>
                 <td class="editable">
-                    {{ Form::date("item[$i][date]", old("item.{$i}.date", $entity->getInvoiceDate()), [
-                        'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.date") ? ' is-invalid':''), 
+                    {{ Form::date("item[$i][invoiceDate]", old("item.{$i}.invoiceDate", $entity->getInvoiceDate()), [
+                        'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.invoiceDate") ? ' is-invalid':''), 
                     ]) }}
-                    @if ($errors->has("item.{$i}.date"))
-                        <div class="invalid-feedback">{!! $errors->first("item.{$i}.date") !!}</div>
+                    @if ($errors->has("item.{$i}.invoiceDate"))
+                        <div class="invalid-feedback">{!! $errors->first("item.{$i}.invoiceDate") !!}</div>
                     @endif
                 </td>
-                @if ($entity instanceof App\Entities\InvoiceCharge && null !== ($order = $entity->getOrder()))
                 <td class="editable">
                     <div class="input-group input-group-sm">
-                        <span class="input-group-text bg-white">
-                            <i class="badge {!! $order->getStatusColor() !!}">{{ $order->getStatusName() }}</i>
-                        </span>
-                        {{ Form::select("order[$i]", [
-                            $order->getId() => $order->getSequence(),
-                            ], 
-                            old("order[$i]", $entity->getOrder()->getId()), [
-                                'class'    =>'form-select form-select-sm' . ($errors->has('order[$i]') ? ' is-invalid': ''),
+                        {{ Form::text("item[$i][hzyear]", old("item.{$i}.hzyear", $entity->getHzYear()), [
+                            'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.hzyear") ? ' is-invalid':''),
                         ]) }}
+                        <span class="input-group-text">-</span>
+                        {{ Form::text("item[$i][hzentry]", old("item.{$i}.hzentry", $entity->getHzEntry()), [
+                            'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.hzentry") ? ' is-invalid':''),
+                        ]) }}
+                        @if ($errors->has("item.{$i}.hzyear"))
+                            <div class="invalid-feedback">{!! $errors->first("item.{$i}.hzyear") !!}</div>
+                        @endif
+                        @if ($errors->has("item.{$i}.hzentry"))
+                            <div class="invalid-feedback">{!! $errors->first("item.{$i}.hzentry") !!}</div>
+                        @endif
                     </div>
                 </td>
-                <td class="editable">
-                    {{ Form::select("supplier[$i]", [
-                        $order->getSupplier()->getId() => $order->getSupplier()->getName(),
-                        ], 
-                        old("supplier[$i]", $order->getSupplier()->getId()), [
-                            'class'    =>'form-select form-select-sm' . ($errors->has('supplier[$i]') ? ' is-invalid': ''),
-                    ]) }}
-                </td>
-                <td class="editable">
-                    {{ Form::textarea("detail[$i]", old("detail[$i]", $entity->getDetail()), [
-                        'class'    => 'form-control form-control-sm' . ($errors->has("detail[$i]") ? ' is-invalid': ''),
-                        'rows'     => 1,
-                    ]) }}
-                </td>
+
+                @if ($entity instanceof App\Entities\InvoiceCharge && null !== ($order = $entity->getOrder()))
+                    <td class="editable">
+                        {{ Form::hidden("item[$i][charge]", App\Entities\InvoiceCharge::HZ_PREFIX) }}
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-white">
+                                <i class="badge {!! $order->getStatusColor() !!}">{{ $order->getStatusName() }}</i>
+                            </span>
+                            {{ Form::select("item[$i][order]", [
+                                $order->getId() => $order->getSequence(),
+                                ], 
+                                old("item.{$i}.order", $entity->getOrder()->getId()), [
+                                    'class'    =>'form-select form-select-sm' . ($errors->has("item.{$i}.order") ? ' is-invalid': ''),
+                            ]) }}
+                            @if ($errors->has("item.{$i}.order"))
+                                <div class="invalid-feedback">{!! $errors->first("item.{$i}.order") !!}</div>
+                            @endif
+                        </div>
+                    </td>
+                    <td class="editable">
+                        {{ Form::select("item[$i][supplier]", [
+                            $order->getSupplier()->getId() => $order->getSupplier()->getName(),
+                            ], 
+                            old("item.{$i}.supplier", $order->getSupplier()->getId()), [
+                                'class'    =>'form-select form-select-sm' . ($errors->has("item.{$i}.supplier") ? ' is-invalid': ''),
+                        ]) }}
+                        @if ($errors->has("item.{$i}.supplier"))
+                            <div class="invalid-feedback">{!! $errors->first("item.{$i}.supplier") !!}</div>
+                        @endif
+                    </td>
+                    <td class="editable">
+                        {{ Form::textarea("item[$i][detail]", old("item.{$i}.detail", $entity->getDetail()), [
+                            'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.detail") ? ' is-invalid': ''),
+                            'rows'     => 1,
+                        ]) }}
+                        @if ($errors->has("item.{$i}.detail"))
+                            <div class="invalid-feedback">{!! $errors->first("item.{$i}.detail") !!}</div>
+                        @endif
+                    </td>
+                @elseif (get_class($entity) === App\Entities\Charge::class && null !== ($acc = $entity->getSubaccount()))
+                    <td class="editable">
+                        {{ Form::hidden("item[$i][charge]", App\Entities\Charge::HZ_PREFIX) }}
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-white">
+                                <i class="cbg {!! $acc->getAccount()->getStatusColor() !!}"></i>
+                            </span>
+                            {{ Form::select("item[$i][account]", [null => __('selecciona')] + 
+                                array_combine(
+                                    $acc->getAccount()->getSubaccounts()->map(function($s) {
+                                        return $s->getId();
+                                    })->toArray(),
+                                    $acc->getAccount()->getSubaccounts()->map(function($s) {
+                                        return $s->getArea()->getAcronym();
+                                    })->toArray()
+                                ),
+                                old("item.{$i}.account", $acc->getAccount()->getSubaccounts()->count() == 1 ? $acc->getId() : null), [
+                                    'class'    =>'form-select form-select-sm' . ($errors->has("item.{$i}.account") ? ' is-invalid': ''),
+                                ],
+                                [null => ["disabled" => true]]
+                            ) }}
+                            @if ($errors->has("item.{$i}.account"))
+                                <div class="invalid-feedback">{!! $errors->first("item.{$i}.account") !!}</div>
+                            @endif
+                        </div>
+                    </td>
+                    <td colspan="2" class="editable">
+                        {{ Form::textarea("item[$i][detail]", old("item.{$i}.detail", $entity->getDetail()), [
+                            'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.detail") ? ' is-invalid': ''),
+                            'rows'     => 1,
+                        ]) }}
+                        @if ($errors->has("item.{$i}.detail"))
+                            <div class="invalid-feedback">{!! $errors->first("item.{$i}.detail") !!}</div>
+                        @endif
+                    </td>
                 @else
-                <td colspan="3">
-                    {{ Form::textarea("detail[$i]", old("detail[$i]", $entity->getDetail()), [
-                        'class'    => 'form-control form-control-sm' . ($errors->has("detail[$i]") ? ' is-invalid': ''),
-                        'rows'     => 1,
-                        'disabled' => true, 
-                    ]) }}
-                </td>
+                    <td colspan="3">
+                        {{ Form::textarea("item[$i][detail]", old("item.{$i}.detail", $entity->getDetail()), [
+                            'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.detail") ? ' is-invalid': ''),
+                            'rows'     => 1,
+                            'disabled' => true, 
+                        ]) }}
+                    </td>
                 @endif
             </tr>
             <tr>
-                <td colspan="7" class="text-end pt-0 pe-2">
-                    <small class="text-muted">
-                    {{ $entity->getTypeName() }}:
+                <td></td>
+                <td colspan="7" class="text-start pt-0">
                     @if ($entity instanceof App\Entities\InvoiceCharge)
                         @if (null !== ($order = $entity->getOrder()))
-                            {!! __('<a href=":route" target="_blank">:account</a> on :date, estimated in :credit€', [
-                                'route'   => route('accounts.show', ['account' => $order->getAccount()->getId()]), 
+                            <a href="{{route('orders.show', ['order' => $order->getId()])}}" target="_blank">
+                                <i class="bx bx-show"></i>
+                            </a>
+                            <small class="">{{ $entity->getTypeName() }}:</small>
+                            <small class="text-muted">
+                            {!! __(':account on :date, estimated in :credit€', [
                                 'account' => $order->getAccount(),
                                 'date'    => $order->getDate()->format('d/m/Y'),
                                 'credit'  => number_format($order->getEstimatedCredit(), 2, ",", "."),
                             ]) !!}
-                            <a href="{{route('orders.show', ['order' => $order->getId()])}}" target="_blank">
+                            </small>
+                        @else
+                            <small class="text-danger">{{ __('Order not found') }}</small>
+                        @endif
+                    @elseif ($entity instanceof App\Entities\Charge) 
+                        @if (null !== ($acc = $entity->getSubaccount()))
+                            <a href="{{route('accounts.show', ['account' => $acc->getAccount()->getId()])}}" target="_blank">
                                 <i class="bx bx-show"></i>
                             </a>
+                            <small class="">{{ $entity->getTypeName() }}:</small>
+                            <small class="text-muted">{{ $acc->getAccount() }}</small>
                         @else
-                            {{ __('Order not found') }}
+                            <small class="text-danger">{{ __('Account not found') }}</small>
                         @endif
-                    @else
-                            {{ __('New charge') }}
                     @endif
                     </small>
                 </td>
@@ -134,7 +212,7 @@
             'type'  => 'submit',
             'class' => 'btn btn-primary btn-sm float-end',
         ]) }}
-        <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-secondary">
+        <a href="{{ url()->previous() }}" class="btn btn-sm">
             <i class='bx bx-x'></i> {{__('cancelar')}}
         </a>
     </div>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Movement;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\BaseController,
+    App\Http\Requests\Movement\ImportChargeRequest;
+
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Rap2hpoutre\FastExcel\Facades\FastExcel;
@@ -17,7 +19,10 @@ class ImportController extends BaseController
      * @inheritDoc
      * TODO
      */
-    protected function authorization(){}
+    protected function authorization()
+    {
+        $this->middleware('can:viewAny,'.Movement::class);
+    }
 
     /**
      * @return \Illuminate\Http\Response
@@ -51,10 +56,6 @@ class ImportController extends BaseController
      */
     public function createStep2(Request $request)
     {
-        if ($request->old() !== []) {
-            //dd($request->old());
-        }
-
         if (null === ($rows = $request->session()->get('file-rows'))) {
             return redirect()->route('imports.create.step1');
         }
@@ -67,14 +68,22 @@ class ImportController extends BaseController
     /**
      * @return \Illuminate\Http\Response
      */
-    public function storeStep2(Request $request)
+    public function storeStep2(ImportChargeRequest $request)
     {
-        $data = $request->validate([
-            'item.*.credit'  => 'required|min:1', 
-            'item.*.invoice' => 'required', 
-            'item.*.date'    => 'required', 
-        ]);
-        dd($request->all());
+        $values  = $request->all();
+        $charges = [];
+        foreach ($values['item'] as $item) {
+            switch ($item['charge']) {
+                case InvoiceCharge::HZ_PREFIX:
+                    $charge = InvoiceCharge::fromArray($item);
+                    break;
+                case Charge::HZ_PREFIX:
+                    $charge = Charge::fromArray($item);
+                    break;
+            }    
+            $charges[] = $charge;
+        }
+        dd($charges);
     }
 
     /**
@@ -82,7 +91,7 @@ class ImportController extends BaseController
      */
     protected function getCharges($rows = [])
     {
-        $hzPattern  = "@^(".Charge::HZ_PREFIX."|".InvoiceCharge::HZ_PREFIX.")#.*@i";
+        $hzPattern  = InvoiceCharge::HZ_PATTERN;
         $collection = [];
 
         foreach ($rows as $row) {
@@ -91,7 +100,7 @@ class ImportController extends BaseController
                 $row['sequence'] = substr($matches[0], 2);
                 switch (strtoupper($matches[1])) {
                     case Charge::HZ_PREFIX:
-                        $collection[] = $this->getCharge($row);
+                        $collection[] = $this->getAccountCharge($row);
                         break;
                     case InvoiceCharge::HZ_PREFIX:
                         $collection[] = $this->getInvoiceCharge($row);
@@ -115,7 +124,9 @@ class ImportController extends BaseController
         $entity = new InvoiceCharge;
         $entity->setCredit($row['credit'])
                ->setInvoice($row['invoice'])
-               ->setInvoiceDate($row['date']);
+               ->setInvoiceDate($row['date'])
+               ->setHzCode("{$row['year']}-{$row['entry']}")
+               ;
 
         if (preg_match(
             Order::SEQUENCE_PATTERN, 
@@ -138,26 +149,54 @@ class ImportController extends BaseController
 
     /**
      * @param array $row
-     * @return InvoiceCharge
+     * @return Charge
      */
-    protected function getCharge(array $row)
+    protected function getAccountCharge(array $row)
     {
-        $entity = new Charge;
-        $entity->setCredit($row['credit'])
+        $hzCode = "{$row['year']}-{$row['entry']}";
+        $charge = $this->em
+                       ->getRepository(Charge::class)
+                       ->findOneBy([
+                            'hzCode' => $hzCode,
+                            'type'   => Charge::TYPE_INVOICED_ACCOUNT,
+                        ]);
+
+        if ($charge) {
+            return $charge;
+        }
+
+        $charge = new Charge;
+        $charge->setCredit($row['credit'])
                ->setInvoice($row['invoice'])
                ->setInvoiceDate($row['date'])
-               ->setType(Charge::TYPE_INVOICED_ACCOUNT);
+               ->setType(Charge::TYPE_INVOICED_ACCOUNT)
+               ->setHzCode($hzCode)
+               ;
 
         if (preg_match(
             Account::SEQUENCE_PATTERN, 
             $row['sequence'], 
             $matches)) 
         {
-            dd($matches);
+            $criteria = [
+                'acronym' => $matches[1],
+                'type'    => $matches[2],
+            ];
+            if ($matches[3]) $criteria['lcode'] = $matches[3];
+            $account = $this->em
+                            ->getRepository(Account::class)
+                            ->findOneBy($criteria);
+
+            //fixme: which subaccount
+            if ($account) {
+                $subaccount = $account->getSubaccounts()->first();
+                $charge->setSubaccount($subaccount);
+            }
+            $charge->setDetail(trim(str_replace($matches[0], "", $row['sequence'])));
         }
-        if (!isset($account)) {
-            $entity->setDetail($row['sequence']);
+        if (!isset($subaccount)) {
+            $charge->setDetail($row['sequence']);
         }
-        return $entity;
+        return $charge;
     }
 }

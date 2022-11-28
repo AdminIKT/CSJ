@@ -53,16 +53,13 @@ class ChargeController extends BaseController
     public function store(Subaccount $subaccount, Request $request)
     {
         $values = $request->validate([
-            'type'   => ['required'],
-            'credit' => ['required'],
-            'detail' => ['max:255'],
+            'type'    => ['required'],
+            'credit'  => ['required'],
+            'detail'  => ['max:255'],
         ]);
 
-        $entity = new Charge;
-        $entity->setSubaccount($subaccount)
-               ->setCredit($values['credit'])
-               ->setType($values['type'])
-               ->setDetail($values['detail']);
+        $entity = Charge::fromArray($values);
+        $entity->setSubaccount($subaccount);
 
         try {
             MovementEvent::dispatch($entity, __FUNCTION__);
