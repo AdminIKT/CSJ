@@ -5,7 +5,7 @@
 @section('content')
 
     {{ Form::open([
-        'route' => ['imports.store.step1'], 
+        'route' => $route, 
         'method' => 'POST', 
         'class' => 'row',
         'enctype' => 'multipart/form-data',

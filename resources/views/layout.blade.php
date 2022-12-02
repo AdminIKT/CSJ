@@ -45,7 +45,7 @@
           <a class="nav-link {{request()->is('orders*') ? 'active' : ''}}" href="{{ route('orders.index') }}">{{ __('Orders') }}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{request()->is('invoiceCharges*') ? 'active' : ''}}" href="{{ route('invoiceCharges.index') }}">{{ __('InvoiceCharges') }}</a>
+          <a class="nav-link {{request()->is('orderCharges*') ? 'active' : ''}}" href="{{ route('orderCharges.index') }}">{{ __('OrderCharges') }}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{request()->is('suppliers*') ? 'active' : ''}}" href="{{ route('suppliers.index') }}">{{ __('Suppliers') }}</a>

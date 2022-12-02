@@ -1,6 +1,6 @@
 @extends('sj_layout')
 @section('title')
-    {{ __('Import invoiceCharges') }}
+    {{ __('Import orderCharges') }}
 @endsection
 @section('content')
 

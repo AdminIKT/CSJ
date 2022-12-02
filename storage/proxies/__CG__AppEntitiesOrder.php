@@ -112,10 +112,10 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'sequence', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'subaccount', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'supplier', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceCharges', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceDate', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'actions', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
+            return ['__isInitialized__', 'id', 'sequence', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'subaccount', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'supplier', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'orderCharges', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceDate', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'actions', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'subaccount', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'supplier', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceCharges', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceDate', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'actions', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
+        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'subaccount', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'supplier', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'orderCharges', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceDate', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'actions', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
     }
 
     /**
@@ -648,34 +648,34 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addInvoiceCharge(\App\Entities\InvoiceCharge $invoiceCharge)
+    public function addOrderCharge(\App\Entities\OrderCharge $orderCharge)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addInvoiceCharge', [$invoiceCharge]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addOrderCharge', [$orderCharge]);
 
-        return parent::addInvoiceCharge($invoiceCharge);
+        return parent::addOrderCharge($orderCharge);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function hasInvoiceCharge()
+    public function hasOrderCharge()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasInvoiceCharge', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasOrderCharge', []);
 
-        return parent::hasInvoiceCharge();
+        return parent::hasOrderCharge();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getInvoiceCharges()
+    public function getOrderCharges()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInvoiceCharges', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOrderCharges', []);
 
-        return parent::getInvoiceCharges();
+        return parent::getOrderCharges();
     }
 
     /**

@@ -14,6 +14,7 @@ use App\Events\OrderEvent,
 
 use App\Listeners\Users,
     App\Listeners\Accounts,
+    App\Listeners\Charges,
     App\Listeners\Orders,
     App\Listeners\Suppliers
     ;
@@ -51,9 +52,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         MovementEvent::class => [
             Orders\UpdateStatus::class,
-            //ACTION_STORE
             Accounts\RestoreCredit::class,
             Suppliers\RestoreCredit::class,
+            Charges\EnsureOfDuplicates::class,
         ],
     ];
 

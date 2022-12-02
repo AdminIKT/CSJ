@@ -210,7 +210,7 @@ class Product implements Arrayable
      */
     static public function fromArray(array $values) 
     {
-        $product = new Self();
+        $product = new static();
         $product->setDetail($values['detail'])
              ->setUnits($values['units'])
              //->setTotal($values['total'])

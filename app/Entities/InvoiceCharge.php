@@ -3,9 +3,10 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
- * InvoiceCharge
+ * OrderCharge
  *
  * @ORM\Entity(repositoryClass="App\Repositories\InvoiceChargeRepository")
  */
@@ -13,55 +14,122 @@ class InvoiceCharge extends Charge
 {
     const TYPE_INVOICED = 5;
 
-    const HZ_PREFIX = 'P';
-
-    const HZ_PATTERN = "@^(".Charge::HZ_PREFIX."|".InvoiceCharge::HZ_PREFIX.")#.*@i";
-
+    const HZ_PREFIX = 'C';
 
     /**
-     * @var Account 
+     * TODO: code must be unique within type in DB 
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Order", inversedBy="invoiceCharges")
+     * @ORM\Column(name="hz_code", type="string")
      */
-    private $order;
+    private $hzCode;
 
     /**
-     * @var int
+     * @var string
+     *
+     * @ORM\Column(name="invoice", type="string")
      */
-    private $type = self::TYPE_INVOICED;
+    private $invoice;
+
+     /**
+     * @var DateTime 
+     *
+     * @ORM\Column(name="invoiceDate", type="datetime")
+     */
+    private $invoiceDate;
 
     /**
-     * Set order.
+     * Get hzYear.
      *
-     * @param Order $order
-     *
-     * @return Order
+     * @return string
      */
-    public function setOrder(Order $order)
+    public function getHzYear()
     {
-        $this->order = $order;
+        $pieces = explode("-", $this->hzCode);
+        return isset($pieces[0]) ? $pieces[0] : "";
+    }
+
+    /**
+     * Get hzEntry.
+     *
+     * @return string
+     */
+    public function getHzEntry()
+    {
+        $pieces = explode("-", $this->hzCode);
+        return isset($pieces[1]) ? $pieces[1] : "";
+    }
+
+    /**
+     * Get hzCode.
+     *
+     * @return string
+     */
+    public function getHzCode()
+    {
+        return $this->hzCode;
+    }
+
+    /**
+     * Set hzCode.
+     *
+     * @param string $hzCode
+     *
+     * @return Charge
+     */
+    public function setHzCode($hzCode)
+    {
+        $this->hzCode = $hzCode;
 
         return $this;
     }
 
     /**
-     * Get order.
+     * Get invoice.
      *
-     * @return Order 
+     * @return string
      */
-    public function getOrder()
+    public function getInvoice()
     {
-        return $this->order;
+        return $this->invoice;
     }
 
     /**
-     * Get supplier.
+     * Set invoice.
      *
-     * @return Supplier 
+     * @param string $invoice
+     *
+     * @return Charge
      */
-    public function getSupplier()
+    public function setInvoice($invoice)
     {
-        return $this->getOrder()->getSupplier();
+        $this->invoice = $invoice;
+
+        return $this;
+    }
+
+     /**
+     * Get invoice date.
+     *
+     * @return DateTime
+     */
+    public function getInvoiceDate()
+    {
+        return $this->invoiceDate;
+    }
+
+    /**
+     * Set invoice date.
+     *
+     * @param string $invoiceDate
+     *
+     * @return Charge
+     */
+    public function setInvoiceDate($invoiceDate)
+    {
+        $this->invoiceDate = $invoiceDate;
+
+        return $this;
     }
 
     /**
@@ -75,5 +143,24 @@ class InvoiceCharge extends Charge
             default:
                 return parent::typeName($type);
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hydrate(array $raw)
+    {
+        parent::hydrate($raw);
+
+        if (isset($raw['invoice'])) { 
+            $this->setInvoice($raw['invoice']);
+        }
+        if (isset($raw['invoiceDate'])) {
+            $date = $raw['invoiceDate'] instanceof DateTime ? 
+                $raw['invoiceDate'] : new DateTime($raw['invoiceDate']);
+            $this->setInvoiceDate($date);
+        }
+
+        return $this;
     }
 }

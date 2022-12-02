@@ -5,6 +5,7 @@ namespace App\Http\Requests\Movement;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Entities\Order,
     App\Entities\Charge,
+    App\Entities\OrderCharge,
     App\Entities\InvoiceCharge;
 
 class ImportChargeRequest extends FormRequest
@@ -29,7 +30,7 @@ class ImportChargeRequest extends FormRequest
         return [
             'item.*.credit'      => 'required|min:1', 
             'item.*.invoice'     => 'required', 
-            'item.*.invoiceDate' => 'required', 
+            'item.*.invoiceDate' => 'required|date', 
             'item.*.hzyear'      => 'required|int',
             'item.*.hzentry'     => 'required',
         ];
@@ -47,7 +48,7 @@ class ImportChargeRequest extends FormRequest
             $data = $validator->getData();
             foreach ($data['item'] as $i => $values) {
                 switch ($values['charge']) {
-                    case InvoiceCharge::HZ_PREFIX:
+                    case OrderCharge::HZ_PREFIX:
                         if (!(isset($values['order']) && $values['order'] !== null)) {
                             $validator->errors()
                                       ->add("item.{$i}.order", __('Required field'));
@@ -57,7 +58,7 @@ class ImportChargeRequest extends FormRequest
                                       ->add("item.{$i}.supplier", __('Required field'));
                         }
                         break;
-                    case Charge::HZ_PREFIX:
+                    case InvoiceCharge::HZ_PREFIX:
                         if (!(isset($values['account']) && $values['account'] !== null)) {
                             $validator->errors()
                                       ->add("item.{$i}.account", __('Required field'));

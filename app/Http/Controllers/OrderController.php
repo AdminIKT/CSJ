@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Gate,
     Illuminate\Support\Arr;
 
 use App\Http\Requests\OrderPutRequest,
-    App\Entities\InvoiceCharge,
+    App\Entities\OrderCharge,
     App\Entities\Movement,
     App\Entities\Account,
     App\Entities\Area,

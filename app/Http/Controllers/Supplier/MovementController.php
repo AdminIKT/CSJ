@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 use App\Http\Controllers\BaseController,
     App\Entities\Area,
     App\Entities\Account,
-    App\Entities\InvoiceCharge,
+    App\Entities\OrderCharge,
     App\Entities\Supplier;
 
 class MovementController extends BaseController
@@ -29,7 +29,7 @@ class MovementController extends BaseController
     public function index(Request $request, Supplier $supplier)
     {
         $ppg = $request->input('perPage', Config('app.per_page'));
-        $collection = $this->em->getRepository(InvoiceCharge::class)
+        $collection = $this->em->getRepository(OrderCharge::class)
                            ->search(array_merge(
                                 $request->all(), 
                                 ['supplier' => $supplier->getId()]

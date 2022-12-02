@@ -58,7 +58,8 @@ class ChargeController extends BaseController
             'detail'  => ['max:255'],
         ]);
 
-        $entity = Charge::fromArray($values);
+        $entity = new Charge;
+        $entity->hydrate($values);
         $entity->setSubaccount($subaccount);
 
         try {

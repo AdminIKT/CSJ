@@ -103,11 +103,11 @@ Controllers\Supplier\OrderController
 Controllers\Supplier\MovementController
     index: can:view,supplier
 
-Controllers\InvoiceChargeController
+Controllers\OrderChargeController
     create:
     store:
 
-Controllers\InvoiceCharge\ImportController
+Controllers\OrderCharge\ImportController
     *create:
     *list:
     *store:

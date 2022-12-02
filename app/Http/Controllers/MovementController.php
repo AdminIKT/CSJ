@@ -11,7 +11,7 @@ use App\Entities\Movement,
     App\Entities\Order,
     App\Entities\Area,
     App\Entities\Supplier,
-    App\Entities\InvoiceCharge,
+    App\Entities\OrderCharge,
     App\Events\MovementEvent,
     App\Http\Requests\MovementRequest;
 
@@ -34,7 +34,7 @@ class MovementController extends BaseController
     {
         $ppg   = $request->input('perPage', Config('app.per_page'));
         $class = $request->input('supplier') ?
-            InvoiceCharge::class : 
+            OrderCharge::class : 
             $request->input('movement', Movement::class);
         $coll  = $this->em->getRepository($class)
                       ->search($request->all(), $ppg);

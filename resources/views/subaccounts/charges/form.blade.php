@@ -16,7 +16,6 @@
         {{ Form::select('type', [
             null => __('selecciona'),
             \App\Entities\Charge::TYPE_CASH => \App\Entities\Charge::typeName(\App\Entities\Charge::TYPE_CASH),
-            \App\Entities\Charge::TYPE_INVOICED_ACCOUNT => \App\Entities\Charge::typeName(\App\Entities\Charge::TYPE_INVOICED_ACCOUNT),
             \App\Entities\Charge::TYPE_OTHER => \App\Entities\Charge::typeName(\App\Entities\Charge::TYPE_OTHER),
         ], old('type', $entity->getType()), ['class'=>'form-select form-select-sm' . ($errors->has('type') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
         @if ($errors->has('type'))

@@ -18,15 +18,15 @@
             <th scope="col" class="col">{{ __('Invoice') }}</th>
             <th scope="col" class="col">{{ __('Date') }}</th>
             <th scope="col" class="col">{{ __('HZ code') }} <small class="text-muted">{{ __('Year') }}-{{ __('Entry') }}</small></th>
-            <th scope="col" class="col-7" colspan="3">{{ __('Detail') }}</th>
+            <th scope="col" class="col" colspan="3">{{ __('Detail') }}</th>
         </thead>
         <tbody>
         @foreach ($collection as $i => $entity)
-            @php $editable = (get_class($entity) === App\Entities\Charge::class
+            @php $editable = $entity->getId() === null
+                              && (get_class($entity) === App\Entities\InvoiceCharge::class
                               && $entity->getSubaccount() !== null
-                              && $entity->getId() === null
                               ) 
-                              || (get_class($entity) === App\Entities\InvoiceCharge::class
+                              || (get_class($entity) === App\Entities\OrderCharge::class
                               && null !== ($order = $entity->getOrder())
                               && $order->isPayable()
                               ); 
@@ -87,9 +87,9 @@
                     </div>
                 </td>
 
-                @if ($entity instanceof App\Entities\InvoiceCharge && null !== ($order = $entity->getOrder()))
+                @if ($entity instanceof App\Entities\OrderCharge && null !== ($order = $entity->getOrder()))
                     <td class="editable">
-                        {{ Form::hidden("item[$i][charge]", App\Entities\InvoiceCharge::HZ_PREFIX) }}
+                        {{ Form::hidden("item[$i][charge]", App\Entities\OrderCharge::HZ_PREFIX) }}
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-white">
                                 <i class="badge {!! $order->getStatusColor() !!}">{{ $order->getStatusName() }}</i>
@@ -125,9 +125,9 @@
                             <div class="invalid-feedback">{!! $errors->first("item.{$i}.detail") !!}</div>
                         @endif
                     </td>
-                @elseif (get_class($entity) === App\Entities\Charge::class && null !== ($acc = $entity->getSubaccount()))
+                @elseif (get_class($entity) === App\Entities\InvoiceCharge::class && null !== ($acc = $entity->getSubaccount()))
                     <td class="editable">
-                        {{ Form::hidden("item[$i][charge]", App\Entities\Charge::HZ_PREFIX) }}
+                        {{ Form::hidden("item[$i][charge]", App\Entities\InvoiceCharge::HZ_PREFIX) }}
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-white">
                                 <i class="cbg {!! $acc->getAccount()->getStatusColor() !!}"></i>
@@ -173,34 +173,38 @@
             <tr>
                 <td></td>
                 <td colspan="7" class="text-start pt-0">
-                    @if ($entity instanceof App\Entities\InvoiceCharge)
+                    <small class="">{{ $entity->getTypeName() }}:</small>
+                    @if ($entity instanceof App\Entities\OrderCharge)
                         @if (null !== ($order = $entity->getOrder()))
-                            <a href="{{route('orders.show', ['order' => $order->getId()])}}" target="_blank">
-                                <i class="bx bx-show"></i>
-                            </a>
-                            <small class="">{{ $entity->getTypeName() }}:</small>
                             <small class="text-muted">
-                            {!! __(':account on :date, estimated in :credit€', [
+                            {!! __(':account on :date estimated in :credit€', [
                                 'account' => $order->getAccount(),
                                 'date'    => $order->getDate()->format('d/m/Y'),
                                 'credit'  => number_format($order->getEstimatedCredit(), 2, ",", "."),
                             ]) !!}
                             </small>
+                            <a href="{{route('orders.show', ['order' => $order->getId()])}}" target="_blank">
+                                <i class="bx bx-show"></i>
+                            </a>
                         @else
                             <small class="text-danger">{{ __('Order not found') }}</small>
                         @endif
-                    @elseif ($entity instanceof App\Entities\Charge) 
+                    @elseif ($entity instanceof App\Entities\InvoiceCharge) 
                         @if (null !== ($acc = $entity->getSubaccount()))
+                            <small class="text-muted">{{ $acc->getAccount() }}</small>
                             <a href="{{route('accounts.show', ['account' => $acc->getAccount()->getId()])}}" target="_blank">
                                 <i class="bx bx-show"></i>
                             </a>
-                            <small class="">{{ $entity->getTypeName() }}:</small>
-                            <small class="text-muted">{{ $acc->getAccount() }}</small>
                         @else
                             <small class="text-danger">{{ __('Account not found') }}</small>
                         @endif
                     @endif
-                    </small>
+                    @if ($entity->getId())
+                        <small class="text-danger">({{ __('Charge :code allready imported on :created', [
+                            'code'    => $entity->getHzCode(),
+                            'created' => $entity->getCreated()->format('D, d M Y H:i'),
+                        ]) }})</small>
+                    @endif
                 </td>
             </tr>
         @endforeach

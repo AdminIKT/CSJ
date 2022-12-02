@@ -6,7 +6,7 @@ use App\Events\AbstractEvent,
     App\Events\MovementEvent,
     App\Events\OrderEvent,
     App\Entities\Charge,
-    App\Entities\InvoiceCharge,
+    App\Entities\OrderCharge,
     App\Entities\Assignment,
     App\Exceptions\Account\InsufficientCreditException;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -99,7 +99,7 @@ class RestoreCredit
                                    ->increaseCredit($credit);
                         break;
                     case $movement instanceof Charge:
-                        if ($movement instanceof InvoiceCharge) {
+                        if ($movement instanceof OrderCharge) {
                             $compromised = $movement->getOrder()->getEstimatedCredit();
                             $subaccount->decreaseCompromisedCredit($compromised)
                                        ->getAccount()

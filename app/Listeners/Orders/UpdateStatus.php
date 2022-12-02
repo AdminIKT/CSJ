@@ -4,7 +4,7 @@ namespace App\Listeners\Orders;
 
 use App\Events\OrderEvent,
     App\Events\MovementEvent,
-    App\Entities\InvoiceCharge,
+    App\Entities\OrderCharge,
     App\Entities\Order;
 use App\Exceptions\Order\InvalidStatusException;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,7 +31,7 @@ class UpdateStatus
     public function handle(MovementEvent $event)
     {
         $charge = $event->entity;
-        if (!($charge instanceof InvoiceCharge && 
+        if (!($charge instanceof OrderCharge && 
              $event->action === MovementEvent::ACTION_STORE
         )) {
             return;

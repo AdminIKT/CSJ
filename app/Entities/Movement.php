@@ -14,7 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorMap({
  *  "charge" = "Charge", 
  *  "assign" = "Assignment",
- *  "inv" = "InvoiceCharge"
+ *  "inv"    = "InvoiceCharge",
+ *  "ord"    = "OrderCharge"
  * })
  * @ORM\HasLifecycleCallbacks
  */
@@ -32,7 +33,7 @@ abstract class Movement
     /**
      * @var Subaccount 
      *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Subaccount", inversedBy="invoiceCharges")
+     * @ORM\ManyToOne(targetEntity="App\Entities\Subaccount", inversedBy="orderCharges")
      */
     private $subaccount;
 
@@ -70,13 +71,6 @@ abstract class Movement
      * @ORM\Column(name="updated", type="datetime")
      */
     private $updated;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
 
     /**
      * Get id.

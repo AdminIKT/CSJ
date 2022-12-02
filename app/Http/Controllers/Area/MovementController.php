@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Http\Controllers\BaseController,
-    App\Entities\InvoiceCharge,
+    App\Entities\OrderCharge,
     App\Entities\Movement,
     App\Entities\Supplier,
     App\Entities\Area;
@@ -30,7 +30,7 @@ class MovementController extends BaseController
     {
         $ppg   = $request->input('perPage', Config('app.per_page'));
         $class = $request->input('supplier') ?
-            InvoiceCharge::class : 
+            OrderCharge::class : 
             $request->input('movement', Movement::class);
         $collection = $this->em->getRepository($class)
                            ->search(array_merge(

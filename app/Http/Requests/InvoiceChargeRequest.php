@@ -6,7 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Entities\Account,
     App\Entities\Order,
     App\Entities\Charge,
-    App\Entities\InvoiceCharge;
+    App\Entities\InvoiceCharge,
+    App\Entities\OrderCharge;
 
 class InvoiceChargeRequest extends FormRequest
 {
@@ -49,21 +50,28 @@ class InvoiceChargeRequest extends FormRequest
             $data = $validator->getData();
             if (isset($data['detail'])) {
 
-                if (!preg_match(InvoiceCharge::HZ_PATTERN, $data['detail'], $matches)) {
+                if (!preg_match(OrderCharge::HZ_PATTERN, $data['detail'], $matches)) {
                     $validator->errors()
-                              ->add("detail", "Unmatched a valid sequence pattern");
+                              ->add("detail", trans("Unmatched a valid charge :pattern pattern", [
+                                    'pattern' => OrderCharge::HZ_PATTERN
+                                ]));
                 }
                 else {
-                    $detail = substr($matches[0], 2);
                     switch (strtoupper($matches[1])) {
-                        case Charge::HZ_PREFIX:
-                            if (!preg_match(Account::SEQUENCE_PATTERN, $detail)) {
-                                $validator->errors()->add("detail", "Unmatched an account sequence pattern");
+                        case InvoiceCharge::HZ_PREFIX:
+                            if (!preg_match(Account::SEQUENCE_PATTERN, $matches[2])) {
+                                $validator->errors()->add("detail", trans("Unmatched a valid account :pattern pattern in :sequence", [
+                                    'pattern'  => Account::SEQUENCE_PATTERN,
+                                    'sequence' => $matches[2],
+                                ]));
                             }
                             break;
-                        case InvoiceCharge::HZ_PREFIX:
-                            if (!preg_match(Order::SEQUENCE_PATTERN, $detail)) {
-                                $validator->errors()->add("detail", "Unmatched an order sequence pattern");
+                        case OrderCharge::HZ_PREFIX:
+                            if (!preg_match(Order::SEQUENCE_PATTERN, $matches[2])) {
+                                $validator->errors()->add("detail", trans("Unmatched a valid order :pattern pattern in :sequence", [
+                                    'pattern'  => Order::SEQUENCE_PATTERN,
+                                    'sequence' => $matches[2],
+                                ]));
                             }
                             break;
                     }

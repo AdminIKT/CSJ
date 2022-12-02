@@ -62,7 +62,7 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
 
         if (isset($filter['invoices']) &&
             $filter['invoices'] === true) {
-            $b->innerJoin('orders.invoiceCharges', 'movements');
+            $b->innerJoin('orders.orderCharges', 'movements');
         }
 
         if ((isset($filter['estimated'])

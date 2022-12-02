@@ -7,7 +7,7 @@ use App\Events\AbstractEvent,
     App\Events\MovementEvent,
     App\Entities\Order,
     App\Entities\Movement,
-    App\Entities\InvoiceCharge,
+    App\Entities\OrderCharge,
     App\Entities\Settings,
     App\Entities\Supplier\Invoiced;
 use App\Exceptions\Supplier\InvoicedLimitException;
@@ -100,7 +100,7 @@ class RestoreCredit
     protected function _movementCredit(MovementEvent $event)
     {
         $movement = $event->entity;
-        if (!($movement instanceof InvoiceCharge && 
+        if (!($movement instanceof OrderCharge && 
              $event->action === MovementEvent::ACTION_STORE
         )) {
             return;

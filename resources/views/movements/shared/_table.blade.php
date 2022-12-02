@@ -69,7 +69,7 @@
         @endphp
         <tr>
             @if (!(isset($exclude) && in_array('orders', $exclude)))
-                @if ($entity instanceof \App\Entities\InvoiceCharge) 
+                @if ($entity instanceof \App\Entities\OrderCharge) 
                     <td>
                        <a href="{{route('orders.show', ['order' => $entity->getOrder()->getId()])}}">{{ $entity->getOrder()->getSequence() }}</a> 
                     </td>

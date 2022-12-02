@@ -107,9 +107,9 @@ class Order implements UserAwareInterface, \JsonSerializable
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entities\InvoiceCharge", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="App\Entities\OrderCharge", mappedBy="order")
      */
-    private $invoiceCharges;
+    private $orderCharges;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -194,7 +194,7 @@ class Order implements UserAwareInterface, \JsonSerializable
     public function __construct()
     {
         $this->products   = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->invoiceCharges  = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->orderCharges  = new \Doctrine\Common\Collections\ArrayCollection();
         $this->incidences = new \Doctrine\Common\Collections\ArrayCollection();
         $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -424,7 +424,7 @@ class Order implements UserAwareInterface, \JsonSerializable
      *
      * @param DateTime $invoiceDate
      *
-     * @return InvoiceCharge
+     * @return OrderCharge
      */
     public function setInvoiceDate(\DateTime $invoiceDate)
     {
@@ -625,35 +625,35 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
-     * Add invoiceCharge.
+     * Add orderCharge.
      *
-     * @param InvoiceCharge $invoiceCharge
+     * @param OrderCharge $orderCharge
      *
      * @return Order
      */
-    public function addInvoiceCharge(InvoiceCharge $invoiceCharge)
+    public function addOrderCharge(OrderCharge $orderCharge)
     {
-        $invoiceCharge->setOrder($this);
-        $this->invoiceCharges[] = $invoiceCharge;
+        $orderCharge->setOrder($this);
+        $this->orderCharges[] = $orderCharge;
         return $this;
     }
 
     /**
      * @return bool
      */
-    public function hasInvoiceCharge()
+    public function hasOrderCharge()
     {
-        return $this->getInvoiceCharges()->count() > 0;
+        return $this->getOrderCharges()->count() > 0;
     }
 
     /**
-     * Get invoiceCharges.
+     * Get orderCharges.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getInvoiceCharges()
+    public function getOrderCharges()
     {
-        return $this->invoiceCharges;
+        return $this->orderCharges;
     }
 
     /**
