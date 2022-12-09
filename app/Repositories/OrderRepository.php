@@ -139,7 +139,8 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
                     ->innerJoin('o.subaccount', 's')
                     ->andWhere('s.account = :account')
                     ->setParameter('account', $account->getId())
-                    ->orderBy('o.date', 'desc')
+                    ->addOrderBy('o.date', 'desc')
+                    ->addOrderBy('o.sequence', 'desc')
                     ->setMaxResults(1)
                     ->getQuery()
                     ->getOneOrNullResult();
