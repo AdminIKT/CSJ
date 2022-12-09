@@ -41,9 +41,6 @@ class Charge extends Movement
             $this->setType($values['type']);
         if (isset($values['detail'])) 
             $this->setDetail($values['detail']);
-        if (isset($values['hzyear']) && isset($values['hzentry'])) { 
-            $this->setHzCode("{$values['hzyear']}-{$values['hzentry']}");
-        }
         return $this;
     }
 }

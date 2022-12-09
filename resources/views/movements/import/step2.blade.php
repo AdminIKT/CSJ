@@ -22,16 +22,17 @@
         </thead>
         <tbody>
         @foreach ($collection as $i => $entity)
-            @php $editable = $entity->getId() === null
-                              && (get_class($entity) === App\Entities\InvoiceCharge::class
-                              && $entity->getSubaccount() !== null
-                              ) 
-                              || (get_class($entity) === App\Entities\OrderCharge::class
-                              && null !== ($order = $entity->getOrder())
-                              && $order->isPayable()
-                              ); 
-            @endphp  
             <tr class="border-white">
+                @php $editable = $entity->getId() === null
+                                  && (get_class($entity) !== App\Entities\Charge::class)
+                                  && (get_class($entity) === App\Entities\InvoiceCharge::class
+                                  && $entity->getSubaccount() !== null
+                                  ) 
+                                  || (get_class($entity) === App\Entities\OrderCharge::class
+                                  && null !== ($order = $entity->getOrder())
+                                  && $order->isPayable()
+                                  ); 
+                @endphp  
                 <td>
                     <span class="cbg me-2 {{ $editable ? 'bg-success' : 'bg-danger' }}"></span>
                     {{ Form::checkbox("item[$i][import]", true, old("item.{$i}.import", $editable), [
@@ -53,6 +54,7 @@
                         @endif
                     </div>
                 </td>
+                @if ($entity instanceof \App\Entities\InvoiceCharge)
                 <td class="editable">
                     {{ Form::text("item[$i][invoice]", old("item.{$i}.invoice", $entity->getInvoice()), [
                         'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.invoice") ? ' is-invalid':''),
@@ -86,6 +88,9 @@
                         @endif
                     </div>
                 </td>
+                @else
+                <td colspan="3" class="text-center">-</td>
+                @endif
 
                 @if ($entity instanceof App\Entities\OrderCharge && null !== ($order = $entity->getOrder()))
                     <td class="editable">

@@ -160,6 +160,9 @@ class InvoiceCharge extends Charge
                 $raw['invoiceDate'] : new DateTime($raw['invoiceDate']);
             $this->setInvoiceDate($date);
         }
+        if (isset($raw['hzyear']) && isset($raw['hzentry'])) { 
+            $this->setHzCode("{$raw['hzyear']}-{$raw['hzentry']}");
+        }
 
         return $this;
     }

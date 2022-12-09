@@ -28,6 +28,13 @@ use App\Exceptions\Account\InsufficientCreditException
 
 class ImportController extends InvoiceChargeController
 {
+    const COL_SEQUENCE      = "DESCRIPCION";
+    const COL_CREDIT        = "IMPORTE";
+    const COL_INVOICE       = "NUM FACTURA";
+    const COL_INVOICEDATE   = "F FACTURA";
+    const COL_HZYEAR        = "EJERCICIO";
+    const COL_HZENTRY       = "ASIENTO REAL";
+
     /**
      * @return \Illuminate\Http\Response
      */
@@ -55,12 +62,12 @@ class ImportController extends InvoiceChargeController
             if (count($rows)) {
                 $errors = [];
                 foreach ([
-                    'sequence', 
-                    'credit', 
-                    'invoice', 
-                    'invoiceDate', 
-                    'hzyear', 
-                    'hzentry'] as $col) {
+                    self::COL_SEQUENCE, 
+                    self::COL_CREDIT, 
+                    self::COL_INVOICE, 
+                    self::COL_INVOICEDATE, 
+                    self::COL_HZYEAR, 
+                    self::COL_HZENTRY] as $col) {
                     if (!array_key_exists($col, $rows[0]))
                         $errors[] = $col;
                 }
@@ -157,7 +164,15 @@ class ImportController extends InvoiceChargeController
         $collection = [];
         $hzPattern  = OrderCharge::HZ_PATTERN;
 
-        foreach ($rows as $row) {
+        foreach ($rows as $_row) {
+            $row = [
+                'sequence'      => $_row[self::COL_SEQUENCE],
+                'credit'        => $_row[self::COL_CREDIT],
+                'invoice'       => $_row[self::COL_INVOICE],
+                'invoiceDate'   => $_row[self::COL_INVOICEDATE],
+                'hzyear'        => $_row[self::COL_HZYEAR],
+                'hzentry'       => $_row[self::COL_HZENTRY],
+            ];
             $hzSequence = $row['sequence'];
             $hzCode     = "{$row['hzyear']}-{$row['hzentry']}";
             if (preg_match($hzPattern, $hzSequence, $matches)) {
@@ -191,11 +206,14 @@ class ImportController extends InvoiceChargeController
                         $this->hydrateInvoicedOrder($matches[2], $charge);
                         break;
                 }
-                $collection[] = $charge;
             } 
             else {
-                //TODO: 
+                $charge = new Charge;
+                $charge->hydrate($row);
+                $charge->setType(Charge::TYPE_OTHER);
+                $charge->setDetail($hzSequence);
             }
+            $collection[] = $charge;
         }
         return $collection;
     }
