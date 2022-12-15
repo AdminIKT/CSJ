@@ -98,7 +98,7 @@ class OrderController extends BaseController
         if (!$order->getSequence()) {
             $order->setDate(new \DateTime('today'));
             $order->setSequence(implode("-", [
-                "{$subaccount->getSerial()}/{$order->getDate()->format('y')}",
+                "{$subaccount->getAccount()->getSerial()}/{$order->getDate()->format('y')}",
                 isset($sequence) ? $sequence : 1
             ])); //FIXME
         }

@@ -28,14 +28,21 @@
     </div>
     @endif
     @if ($entity->getSubaccounts()->count() === 1)
-        @can('view', $entity)
-        <a href="{{ route('subaccounts.orders.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="btn btn-sm btn-outline-secondary m-1 ms-0">
-            <i class="bx bx-xs bxs-file"></i> {{ __('New order') }} 
-        </a>
-        @endcan
-        @can('update', $entity)
-        <div class="btn-group m-1">
-            <button id="movementBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="btn-group btn-group-sm m-1">
+            @can('viewany', \App\Entities\Account::class)
+            <button type="button" class="btn btn-outline-secondary" title="{{ __('Copy to clipboard') }}"
+                    data-clip="C#{{ $entity->getSerial() }}" onclick="copyToClipboard($(this))">
+                <span class="clip">{{ __("Copied") }}</span>
+                <span class="bx bxs-copy"></span>
+            </button>
+            @endcan
+            @can('view', $entity)
+            <a href="{{ route('subaccounts.orders.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="btn btn-outline-secondary">
+                <i class="bx bx-xs bxs-file"></i> {{ __('New order') }} 
+            </a>
+            @endcan
+            @can('update', $entity)
+            <button id="movementBtn" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bx bx-xs bx-dollar"></i> {{ __('New movement') }} 
             </button>
             <ul class="dropdown-menu" aria-labelledby="movementBtn">
@@ -46,12 +53,12 @@
                     <a href="{{ route('subaccounts.charges.create', ['subaccount' => $entity->getSubaccounts()->first()->getId()]) }}" class="dropdown-item">-<span class="bx bx-xs bx-dollar"></span> {{ __('New charge') }}</a>
                 </li>
             </ul>
+            @endcan
         </div>
-        @endcan
     @endif
     <div class="btn-group btn-group-sm m-1" role="group">
         @can('update', $entity)
-        <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary">
+        <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('Edit') }}">
             <span class="bx bxs-pencil"></span>
         </a>
         @endcan
@@ -59,6 +66,7 @@
         {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
             'class'   => 'btn btn-outline-secondary', 
             'type'    => 'submit',
+            'title'   => __('Delete'),
             'onclick' => "return confirm('".__('delete.confirm')."')",
         ]) }}
         @endcan
@@ -143,6 +151,13 @@
             <tr>
                 <td class="text-center py-2" colspan="4">
                     <div class="btn-group btn-group-sm">
+                    @can('viewany', \App\Entities\Account::class)
+                    <button type="button" class="btn btn-outline-secondary" title="{{ __('Copy to clipboard') }}"
+                            data-clip="C#{{ $subaccount->getSerial() }}" onclick="copyToClipboard($(this))">
+                        <span class="clip">{{ __("Copied") }}</span>
+                        <span class="bx bxs-copy"></span>
+                    </button>
+                    @endcan
                         @can('view', $entity)
                         <a href="{{ route('subaccounts.orders.create', ['subaccount' => $subaccount->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('New order') }}">
                             <span class="bx bx-xs bxs-file"></span> {{ __('New order') }}

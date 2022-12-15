@@ -94,6 +94,7 @@
 
                 @if ($entity instanceof App\Entities\OrderCharge && null !== ($order = $entity->getOrder()))
                     <td class="editable">
+                        {{ Form::hidden("item[$i][type]", App\Entities\OrderCharge::TYPE_ORDER_INVOICED) }}
                         {{ Form::hidden("item[$i][charge]", App\Entities\OrderCharge::HZ_PREFIX) }}
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-white">
@@ -132,6 +133,7 @@
                     </td>
                 @elseif (get_class($entity) === App\Entities\InvoiceCharge::class && null !== ($acc = $entity->getSubaccount()))
                     <td class="editable">
+                        {{ Form::hidden("item[$i][type]", App\Entities\OrderCharge::TYPE_INVOICED) }}
                         {{ Form::hidden("item[$i][charge]", App\Entities\InvoiceCharge::HZ_PREFIX) }}
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-white">
@@ -143,10 +145,10 @@
                                         return $s->getId();
                                     })->toArray(),
                                     $acc->getAccount()->getSubaccounts()->map(function($s) {
-                                        return $s->getArea()->getAcronym();
+                                        return $s->getSerial();
                                     })->toArray()
                                 ),
-                                old("item.{$i}.account", $acc->getAccount()->getSubaccounts()->count() == 1 ? $acc->getId() : null), [
+                                old("item.{$i}.account", $acc), [
                                     'class'    =>'form-select form-select-sm' . ($errors->has("item.{$i}.account") ? ' is-invalid': ''),
                                 ],
                                 [null => ["disabled" => true]]

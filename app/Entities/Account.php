@@ -22,7 +22,7 @@ class Account
     const STATUS_INACTIVE   = 0;
     const STATUS_ACTIVE     = 1;
 
-    const SEQUENCE_PATTERN = "@(^\w+)-(E|F|L|O)(-(\w+))?@";
+    const SEQUENCE_PATTERN = "@(^\w+)-(E|F|L|O)(-(\w+))?(/(\w+))?@";
 
     /**
      * @var int

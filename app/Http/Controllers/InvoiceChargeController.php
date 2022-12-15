@@ -156,8 +156,21 @@ class InvoiceChargeController extends BaseController
 
             //fixme: which subaccount
             if ($account) {
-                $subaccount = $account->getSubaccounts()->first();
-                $charge->setSubaccount($subaccount);
+                $subaccounts = $account->getSubaccounts();
+                if ($subaccounts->count() > 1) {
+                    if (isset($matches[6])) {
+                        foreach ($subaccounts as $sub) {
+                            if ($sub->getArea()->getAcronym() === $matches[6]) $subaccount = $sub;
+                        }
+                    }
+                }
+                else {
+                    $sub = $subaccounts->first();
+                    if (!isset($matches[6]) || $sub->getArea()->getAcronym() === $matches[6]) $subaccount = $sub;
+                }
+                if (isset($subaccount)) {
+                    $charge->setSubaccount($subaccount);
+                }
             }
             $charge->setDetail(trim(str_replace($matches[0], "", $sequence)));
         }

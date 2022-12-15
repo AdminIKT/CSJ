@@ -281,7 +281,8 @@
             var text = el.attr('data-clip');
             navigator.clipboard.writeText(text).then(function () {
                 //alert("'"+text+"' copied, do a CTRL - V to paste")
-                el.parent('.btn-group').children('.clip').eq(0).show().delay(500).fadeOut();
+                //el.closest('.btn-group').find('.clip').eq(0);
+                el.closest('.btn-group').find('.clip:first').show().delay(500).fadeOut();
             }, function () {
                 alert("Failure to copy. Check permissions for clipboard")
             });

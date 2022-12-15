@@ -46,24 +46,29 @@ class ImportChargeRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $data = $validator->getData();
-            foreach ($data['item'] as $i => $values) {
-                switch ($values['charge']) {
-                    case OrderCharge::HZ_PREFIX:
-                        if (!(isset($values['order']) && $values['order'] !== null)) {
-                            $validator->errors()
-                                      ->add("item.{$i}.order", __('Required field'));
-                        }
-                        if (!(isset($values['supplier']) && $values['supplier'] !== null)) {
-                            $validator->errors()
-                                      ->add("item.{$i}.supplier", __('Required field'));
-                        }
-                        break;
-                    case InvoiceCharge::HZ_PREFIX:
-                        if (!(isset($values['account']) && $values['account'] !== null)) {
-                            $validator->errors()
-                                      ->add("item.{$i}.account", __('Required field'));
-                        }
-                        break;
+            if (!isset($data['item'])) {
+                $validator->errors()->add('item', __('Required field'));
+            }
+            else {
+                foreach ($data['item'] as $i => $values) {
+                    switch ($values['charge']) {
+                        case OrderCharge::HZ_PREFIX:
+                            if (!(isset($values['order']) && $values['order'] !== null)) {
+                                $validator->errors()
+                                          ->add("item.{$i}.order", __('Required field'));
+                            }
+                            if (!(isset($values['supplier']) && $values['supplier'] !== null)) {
+                                $validator->errors()
+                                          ->add("item.{$i}.supplier", __('Required field'));
+                            }
+                            break;
+                        case InvoiceCharge::HZ_PREFIX:
+                            if (!(isset($values['account']) && $values['account'] !== null)) {
+                                $validator->errors()
+                                          ->add("item.{$i}.account", __('Required field'));
+                            }
+                            break;
+                    }
                 }
             }
         });

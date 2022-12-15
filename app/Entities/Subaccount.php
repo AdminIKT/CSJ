@@ -309,7 +309,12 @@ class Subaccount
      */
     public function getSerial()
     {
-        return $this->getAccount()->getSerial();
+        $account = $this->getAccount();
+        $serial  = $account->getSerial();
+        if ($account->getSubaccounts()->count() > 1) {
+            $serial .= "/{$this->getArea()->getAcronym()}";
+        }
+        return $serial;
     }
 
     /**

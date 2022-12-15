@@ -64,10 +64,30 @@
             <div class="btn-group btn-group-sm" role="group">
                 @can('viewany', \App\Entities\Account::class)
                     <span class="clip">{{ __("Copied") }}</span>
+                    @if ($entity->getSubaccounts()->count() === 1)
                     <button type="button" class="btn btn-light" title="{{ __('Copy to clipboard') }}"
                             data-clip="C#{{ $entity->getSerial() }}" onclick="copyToClipboard($(this))">
                         <span class="bx bxs-copy"></span>
                     </button>
+                    @else
+                    <button type="button" 
+                        id="{{$entity->getId()}}-clip-btn" 
+                        class="btn btn-light dropdown-toggle" 
+                        title="{{ __('Copy to clipboard') }}"
+                        data-bs-toggle="dropdown"
+                        >
+                        <span class="bx bxs-copy"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="{{$entity->getId()}}-clip-btn">
+                        @foreach ($entity->getSubaccounts() as $acc)
+                        <li>
+                            <a href="#" data-clip="C#{{ $acc->getSerial() }}" onclick="copyToClipboard($(this))" class="dropdown-item">
+                                {{ $acc->getSerial() }}
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                    @endif
                 @endcan
                 @can('view', $entity)
                 <a href="{{ route('accounts.show', ['account' => $entity->getId()]) }}" class="btn btn-light" title="{{ __('View') }}">

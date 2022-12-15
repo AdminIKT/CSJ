@@ -111,7 +111,6 @@ class ImportController extends InvoiceChargeController
 
                     $charge = new OrderCharge;
                     $charge->hydrate($raw)
-                           ->setType(OrderCharge::TYPE_ORDER_INVOICED)
                            ->setOrder($order)
                            ->setSubaccount($order->getSubaccount());
                     break;
@@ -122,7 +121,6 @@ class ImportController extends InvoiceChargeController
 
                     $charge = new InvoiceCharge;
                     $charge->hydrate($raw)
-                           ->setType(OrderCharge::TYPE_INVOICED)
                            ->setSubaccount($acc);
                     break;
             }    

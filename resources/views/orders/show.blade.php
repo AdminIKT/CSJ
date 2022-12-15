@@ -79,6 +79,13 @@
         'class' => 'm-1 me-0'
     ]) }}
     <div class="btn-group btn-group-sm" role="group">
+        @can('viewany', \App\Entities\Order::class)
+            <button type="button" class="btn btn-outline-secondary" title="{{ __('Copy to clipboard') }}"
+                    data-clip="P#{{ $entity->getSequence() }}" onclick="copyToClipboard($(this))">
+                <span class="clip">{{ __("Copied") }}</span>
+                <span class="bx bxs-copy"></span>
+            </button>
+        @endcan
         @can('update', $entity)
         <a href="{{ route('orders.edit', ['order' => $entity->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('Edit') }}">
             <i class="bx bxs-pencil bx-xs bx-tada-hover"></i>
