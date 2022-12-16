@@ -94,7 +94,7 @@
 
                 @if ($entity instanceof App\Entities\OrderCharge && null !== ($order = $entity->getOrder()))
                     <td class="editable">
-                        {{ Form::hidden("item[$i][type]", App\Entities\OrderCharge::TYPE_ORDER_INVOICED) }}
+                        {{ Form::hidden("item[$i][type]", $entity->getType()) }}
                         {{ Form::hidden("item[$i][charge]", App\Entities\OrderCharge::HZ_PREFIX) }}
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-white">
@@ -133,7 +133,7 @@
                     </td>
                 @elseif (get_class($entity) === App\Entities\InvoiceCharge::class && null !== ($acc = $entity->getSubaccount()))
                     <td class="editable">
-                        {{ Form::hidden("item[$i][type]", App\Entities\OrderCharge::TYPE_INVOICED) }}
+                        {{ Form::hidden("item[$i][type]", $entity->getType()) }}
                         {{ Form::hidden("item[$i][charge]", App\Entities\InvoiceCharge::HZ_PREFIX) }}
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-white">

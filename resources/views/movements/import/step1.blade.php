@@ -5,7 +5,7 @@
 @section('content')
 
     {{ Form::open([
-        'route' => $route, 
+        'route' => [$route, ['charge' => request()->get('charge')]], 
         'method' => 'POST', 
         'class' => 'row',
         'enctype' => 'multipart/form-data',

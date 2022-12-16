@@ -9,13 +9,13 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="importBtn">
             <li>
-                <a href="{{ route('imports.create.step1') }}" class="dropdown-item" title="{{__('Invoice charge')}}">
-                    {{ __('Invoice charge') }}
+                <a href="{{ route('imports.create.step1', ['charge' => \App\Entities\InvoiceCharge::TYPE_CASH]) }}" class="dropdown-item" title="{{__('Cobro en caja')}}">
+                    {{ App\Entities\InvoiceCharge::typeName(App\Entities\InvoiceCharge::TYPE_CASH) }}
                 </a>
             </li>
             <li>
-                <a href="{{ route('imports.create.step1') }}" class="dropdown-item" title="{{__('Cobro en caja')}}">
-                    {{ __('Cobro en caja') }}
+                <a href="{{ route('imports.create.step1', ['charge' => \App\Entities\InvoiceCharge::TYPE_INVOICED]) }}" class="dropdown-item" title="{{__('Invoice charge')}}">
+                    {{ App\Entities\InvoiceCharge::typeName(App\Entities\InvoiceCharge::TYPE_INVOICED) }}
                 </a>
             </li>
         </ul>

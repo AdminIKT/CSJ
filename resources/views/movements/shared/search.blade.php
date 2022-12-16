@@ -47,8 +47,9 @@
                   <span class="input-group-text" id="addon-type">{{ __('Type') }}</span>
                   {{ Form::select('type', [
                         null   => __('Selecciona'),
-                        App\Entities\Charge::TYPE_CASH => App\Entities\Charge::typeName(App\Entities\Charge::TYPE_CASH),
-                        App\Entities\OrderCharge::TYPE_INVOICED => App\Entities\OrderCharge::typeName(App\Entities\OrderCharge::TYPE_INVOICED),
+                        App\Entities\InvoiceCharge::TYPE_CASH => App\Entities\InvoiceCharge::typeName(App\Entities\InvoiceCharge::TYPE_CASH),
+                        App\Entities\InvoiceCharge::TYPE_INVOICED => App\Entities\OrderCharge::typeName(App\Entities\InvoiceCharge::TYPE_INVOICED),
+                        App\Entities\OrderCharge::TYPE_ORDER_INVOICED => App\Entities\OrderCharge::typeName(App\Entities\OrderCharge::TYPE_ORDER_INVOICED),
                         App\Entities\Charge::TYPE_OTHER => App\Entities\Charge::typeName(App\Entities\Charge::TYPE_OTHER),
                         App\Entities\Assignment::TYPE_ANUAL => App\Entities\Assignment::typeName(App\Entities\Assignment::TYPE_ANUAL),
                         App\Entities\Assignment::TYPE_EXTRAORDINARY => App\Entities\Assignment::typeName(App\Entities\Assignment::TYPE_EXTRAORDINARY),

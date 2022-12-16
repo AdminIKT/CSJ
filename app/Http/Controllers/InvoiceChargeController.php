@@ -60,6 +60,7 @@ class InvoiceChargeController extends BaseController
             case InvoiceCharge::HZ_PREFIX:
                 $charge = new InvoiceCharge;
                 $charge->hydrate($data)
+                        //FIXME: 
                        ->setType(InvoiceCharge::TYPE_INVOICED);
                 $this->hydrateInvoicedAccount($matches[2], $charge);
                 if (null === ($acc = $charge->getSubaccount())) {

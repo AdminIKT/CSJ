@@ -12,6 +12,7 @@ use DateTime;
  */
 class InvoiceCharge extends Charge 
 {
+    const TYPE_CASH     = 0;
     const TYPE_INVOICED = 5;
 
     const HZ_PREFIX = 'C';
@@ -138,6 +139,8 @@ class InvoiceCharge extends Charge
     public static function typeName($type)
     {
         switch ($type) {
+            case self::TYPE_CASH:
+                return trans("Cobro en caja");
             case self::TYPE_INVOICED:
                 return trans("Invoice charge");
             default:

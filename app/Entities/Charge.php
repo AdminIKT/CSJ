@@ -11,8 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Charge extends Movement 
 {
-    const TYPE_CASH             = 0;
-    const TYPE_OTHER            = 1;
+    const TYPE_OTHER   = 1;
 
     /**
      * @inheritDoc
@@ -20,8 +19,6 @@ class Charge extends Movement
     public static function typeName($type)
     {
         switch ($type) {
-            case self::TYPE_CASH:
-                return trans("Cobro en caja");
             case self::TYPE_OTHER:
                 return trans("Other charge");
             default:
