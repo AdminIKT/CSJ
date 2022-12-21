@@ -32,6 +32,7 @@ class SupplierRequest extends FormRequest
             'city' => 'required|max:255',
             'address' => 'required|max:255',
             'region' => 'required|max:255',
+            'detail'  => 'nullable|max:255',
             'contacts.*.name'  => 'nullable|required|max:255',
             'contacts.*.email' => 'required|email|max:255',
             'contacts.*.phone' => 'required|integer',

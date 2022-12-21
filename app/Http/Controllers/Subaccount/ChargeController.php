@@ -36,7 +36,8 @@ class ChargeController extends BaseController
     public function create(Subaccount $subaccount, Request $request)
     {
         $entity = new Charge;
-        $entity->setSubaccount($subaccount);
+        $entity->setSubaccount($subaccount)
+               ->setType(Charge::TYPE_OTHER);
 
         return view('subaccounts.charges.form', [
             'dst'    => $request->input('destination'),

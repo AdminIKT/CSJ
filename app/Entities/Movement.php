@@ -259,6 +259,21 @@ abstract class Movement
     }
 
     /**
+     * @param array $values
+     * @return Movement 
+     */
+    public function hydrate(array $values)
+    {
+        if (isset($values['credit'])) 
+            $this->setCredit($values['credit']);
+        if (isset($values['type'])) 
+            $this->setType($values['type']);
+        if (isset($values['detail'])) 
+            $this->setDetail($values['detail']);
+        return $this;
+    }
+
+    /**
      * Get type name.
      *
      * @return string

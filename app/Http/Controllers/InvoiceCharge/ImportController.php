@@ -37,17 +37,18 @@ class ImportController extends InvoiceChargeController
 
     const SESSION_FILE_DATA     = "parsed-inv-charges";
     const FILE_INVOICED_SHEET   = 1;
-    const FILE_CASH_SHEET       = 3;
+    const FILE_CASH_SHEET       = 1;
 
     /**
      * @return \Illuminate\Http\Response
      */
-    public function createStep1(Request $request)
+    public function createStep1(Request $rq)
     {
-        $request->session()->forget(static::SESSION_FILE_DATA);
+        $rq->session()->forget(static::SESSION_FILE_DATA);
         
         return view('movements.import.step1', [
             'route' => 'imports.store.step1',
+            'type'  => $rq->get('charge', InvoiceCharge::TYPE_CASH),
         ]); 
     }
 
@@ -100,6 +101,7 @@ class ImportController extends InvoiceChargeController
 
         return view('movements.import.step2', [
             'collection' => $this->getCharges($rows, $type),
+            'type'       => $type,
         ]); 
     }
 

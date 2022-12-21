@@ -156,6 +156,7 @@ class SupplierController extends BaseController
         if (isset($data['address'])) $entity->setAddress($data['address']);
         if (isset($data['region'])) $entity->setRegion($data['region']);
         if (isset($data['status'])) $entity->setStatus($data['status']);
+        if (isset($data['detail'])) $entity->setDetail($data['detail']);
 
         if (isset($data['contacts'])) {
             foreach ($data['contacts'] as $raw) {

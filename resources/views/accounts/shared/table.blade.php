@@ -82,7 +82,7 @@
                         @foreach ($entity->getSubaccounts() as $acc)
                         <li>
                             <a href="#" data-clip="C#{{ $acc->getSerial() }}" onclick="copyToClipboard($(this))" class="dropdown-item">
-                                {{ $acc->getSerial() }}
+                                {{ $acc->getArea() }}
                             </a>
                         </li>
                         @endforeach

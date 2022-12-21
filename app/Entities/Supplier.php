@@ -81,6 +81,13 @@ class Supplier
     public $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="detail", type="string", nullable=true)
+     */
+    private $detail;
+
+    /**
      * @var User 
      *
      * @ORM\ManyToOne(targetEntity="App\Entities\User", inversedBy="suppliers")
@@ -383,6 +390,30 @@ class Supplier
     public function getRegion()
     {
         return $this->region;
+    }
+
+    /**
+     * Set detail.
+     *
+     * @param string|null $detail
+     *
+     * @return Supplier
+     */
+    public function setDetail($detail = null)
+    {
+        $this->detail = $detail;
+
+        return $this;
+    }
+
+    /**
+     * Get detail.
+     *
+     * @return string
+     */
+    public function getDetail()
+    {
+        return $this->detail;
     }
 
     /**

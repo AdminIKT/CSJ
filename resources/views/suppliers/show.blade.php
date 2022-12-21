@@ -63,6 +63,9 @@
                 <td>{{ $entity->getOrderCount() }}</td>
                 <td>{{ $entity->getIncidenceCount() }}</td>
             </tr>
+            <tr class="">
+                <td colspan="4"><b>{{ __('Detail') }}:</b> {{ $entity->getDetail() }}</td>
+            </tr>
         </table>
     </div>
     <div class="table-responsive col-sm-12 col-md-6">

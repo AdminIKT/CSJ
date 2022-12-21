@@ -1,5 +1,5 @@
 @extends('sj_layout')
-@section('title'){{ __('New invoiceCharge') }}@endsection
+@section('title'){{ __('New charge (:charge)', ['charge' => App\Entities\InvoiceCharge::typeName(\App\Entities\InvoiceCharge::TYPE_INVOICED)]) }}@endsection
 
 @section('content')
 

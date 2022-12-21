@@ -83,6 +83,13 @@
                <div class="invalid-feedback">{!! $errors->first('address') !!}</div>
             @endif
         </div>
+        <div class="col-md-12 mb-3">
+            {{ Form::label('detail', __('Detail'), ['class' => 'form-label mt-3']) }}
+            {{ Form::textarea('detail', old('detail', null), ['class' => 'form-control form-control-sm', 'rows' => 2]) }}
+            @if ($errors->has('detail'))
+               <div class="invalid-feedback">{!! $errors->first('detail') !!}</div>
+            @endif
+        </div>
     </div>
 
     @if (!$entity->getId())

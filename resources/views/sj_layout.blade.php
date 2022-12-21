@@ -133,6 +133,11 @@
               <i class="bx bx-pulse"></i>
               <span class="nav_name">{{ __('My activity') }}</span>
             </a>
+            <hr style="margin-left:1rem; color:white;">
+            <a class="nav_link {{request()->is('suppliers*') ? 'active' : ''}}" href="{{ route('suppliers.create', ['destination' => request()->url()]) }}" title="{{ __('New supplier') }}">
+              <i class="bx bx-cart"></i>
+              <span class="nav_name">{{ __('New supplier') }}</span>
+            </a>
             @endcan
 
             @can('viewAny', App\Entities\User::class)

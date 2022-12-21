@@ -3,7 +3,7 @@
 @if ($entity->getId()) 
     {{ __('Edit charge') }} 
 @else 
-    {{ __('New charge') }} 
+    {{ __('New charge (:charge)', ['charge' => $entity->getTypeName()]) }} 
 @endif
 @endsection
  

@@ -56,10 +56,8 @@ class AssignmentController extends BaseController
         ]);
 
         $entity = new Assignment;
-        $entity->setSubaccount($subaccount)
-               ->setCredit($values['credit'])
-               ->setType($values['type'])
-               ->setDetail($values['detail']);
+        $entity->hydrate($values);
+        $entity->setSubaccount($subaccount);
 
         MovementEvent::dispatch($entity, __FUNCTION__);
 

@@ -1,6 +1,6 @@
 @extends('sj_layout')
 @section('title')
-    {{ __('Import invoiceCharges') }}
+    {{ __('Import charges (:charge)', ['charge' => \App\Entities\InvoiceCharge::typeName($type)]) }}
 @endsection
 @section('content')
 
