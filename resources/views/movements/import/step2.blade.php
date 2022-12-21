@@ -148,7 +148,7 @@
                                         return $s->getSerial();
                                     })->toArray()
                                 ),
-                                old("item.{$i}.account", $acc), [
+                                old("item.{$i}.account", $acc->getId()), [
                                     'class'    =>'form-select form-select-sm' . ($errors->has("item.{$i}.account") ? ' is-invalid': ''),
                                 ],
                                 [null => ["disabled" => true]]

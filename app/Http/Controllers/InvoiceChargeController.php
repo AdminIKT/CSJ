@@ -155,7 +155,6 @@ class InvoiceChargeController extends BaseController
                             ->getRepository(Account::class)
                             ->findOneBy($criteria);
 
-            //fixme: which subaccount
             if ($account) {
                 $subaccounts = $account->getSubaccounts();
                 if ($subaccounts->count() > 1) {
