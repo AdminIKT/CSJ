@@ -134,11 +134,16 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
      * @return Order|null
      */
     function lastest(Entities\Account $account) 
-    {
-        return $this->createQueryBuilder('o')
+    {      
+      $today = new \DateTime('today');
+      $fecha = date_create('01/01/' . $today->format('y'));
+         
+      return $this->createQueryBuilder('o')
                     ->innerJoin('o.subaccount', 's')
                     ->andWhere('s.account = :account')
                     ->setParameter('account', $account->getId())
+                    ->andWhere('o.date >= :date')
+                    ->setParameter('date', $fecha)
                     ->addOrderBy('o.date', 'desc')
                     ->addOrderBy('o.sequence', 'desc')
                     ->setMaxResults(1)
