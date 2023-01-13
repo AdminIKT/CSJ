@@ -151,8 +151,10 @@ class OrderController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
+        $this->em->delete($order);
+        $this->em->flush();
         return redirect()->route('orders.index')
                          ->with('success', __('Successfully removed'));
     }
@@ -188,7 +190,7 @@ class OrderController extends BaseController
         $orders = $this->em->getRepository(Order::class)
                         ->search(array_merge(
                             $request->all(), [
-                            'receiveIn' => Order::RECEIVE_IN_RECEPTION,
+                           // 'receiveIn' => Order::RECEIVE_IN_RECEPTION,
                             'status'    => Order::STATUS_CREATED,
                             ]
                         ), $ppg);

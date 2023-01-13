@@ -184,12 +184,12 @@
     "My orders": "Mis pedidos",
     "My activity": "Mi actividad",
     "Order receptions": "Recepción de pedidos",
-    "Credit of :credit€ exceeds the available credit of the :account account set to :available€":"El importe :credit€ excede el saldo disponible (:available€) de la cuenta :account"
-    
-    
-    
-   
-
-
+    "Credit of :credit€ exceeds the available credit of the :account account set to :available€":"El importe :credit€ excede el saldo disponible (:available€) de la cuenta :account",
+    "Copy to clipboard": "Copiar al portapapeles",
+    "Copied": "Copiado",
+    "All": "Todos",
+    "None": "Ninguno",
+    "Recepcionar": "Recepcionar",
+    "reception.confirm": "¿Estás segura/seguro de que quieres recepcionarlo?"
 
 }

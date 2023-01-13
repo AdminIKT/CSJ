@@ -37,8 +37,8 @@ class OrderPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewAny(User $user)
-    {
-        return Response::deny("You cannot show orders list");
+    {        
+        return $user->isReception()?Response::allow():Response::deny("You cannot show orders list");
     }
 
     /**
@@ -75,7 +75,7 @@ class OrderPolicy
      */
     public function update(User $user, Order $order)
     {
-        return Response::deny("You cannot update an order");
+        return $user->isReception()?Response::allow():Response::deny("You cannot update an order");
     }
 
     /**
