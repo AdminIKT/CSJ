@@ -54,6 +54,11 @@ class MovementRepository extends \Doctrine\ORM\EntityRepository
             $builder->andWhere("movement.credit {$op} :credit")
                     ->setParameter('credit', $credit);
         }
+        if (isset($filter['detail']) &&
+            null !== ($detail = $filter['detail'])) {
+            $builder->andWhere("movement.detail LIKE :detail")
+                    ->setParameter('detail', "%{$detail}%");
+        }
 
         $builder->orderBy(
             array_key_exists('sortBy', $filter) ?

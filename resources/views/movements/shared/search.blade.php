@@ -57,6 +57,14 @@
                     ], request()->input('type'), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
                 </div>
             </div>
+            @if (!(isset($exclude) && in_array('detail', $exclude)))
+            <div class="col">
+                <div class="input-group input-group-sm mb-3">
+                  <span class="input-group-text" id="basic-addon1">{{ __('Detalle') }}</span>
+                  {{ Form::text('detail', request()->input('detail'), ['class' => 'form-control']) }}
+            </div>    
+            @endif
+    </div>
         </div>
     </div>
     <div class="col-12">
