@@ -89,83 +89,89 @@
               <i class="bx bxs-dashboard"></i>
               <span class="nav_name">{{ __('Dashboard') }}</span>
             </a>
+            <!-- ------------------------------------ -->
             <hr style="margin-left:1rem; color:white;">
 
             @can('viewAny', App\Entities\Order::class)
-            <a class="nav_link {{preg_match('$orders*$', Request::path()) ? 'active' : ''}}" href="{{ route('orders.index') }}" title="{{ __('Orders') }}">
-              <i class="bx bx-file"></i>
-              <span class="nav_name">{{ __('Orders') }}</span>
-            </a>
+                <a class="nav_link {{preg_match('$orders*$', Request::path()) ? 'active' : ''}}" href="{{ route('orders.index') }}" title="{{ __('Orders') }}">
+                  <i class="bx bx-file"></i>
+                  <span class="nav_name">{{ __('Orders') }}</span>
+                </a>
             @endcan
             @can('viewAny', App\Entities\Movement::class)
-            <a class="nav_link {{request()->is('movements*') ? 'active' : ''}}" href="{{ route('movements.index') }}" title="{{ __('Movements') }}">
-              <i class="bx bx-dollar"></i>
-              <span class="nav_name">{{ __('Movements') }}</span>
-            </a>
+                <a class="nav_link {{request()->is('movements*') ? 'active' : ''}}" href="{{ route('movements.index') }}" title="{{ __('Movements') }}">
+                  <i class="bx bx-dollar"></i>
+                  <span class="nav_name">{{ __('Movements') }}</span>
+                </a>
             @endcan
             @can('viewAny', App\Entities\Supplier::class)
-            <a class="nav_link {{request()->is('suppliers*') ? 'active' : ''}}" href="{{ route('suppliers.index') }}" title="{{ __('Suppliers') }}">
-              <i class="bx bx-cart"></i>
-              <span class="nav_name">{{ __('Suppliers') }}</span>
-            </a>
-            @endcan
-            @can('viewAny', App\Entities\Order::class)
-            <a class="nav_link {{preg_match('$receptions$', Request::path()) ? 'active' : ''}}" href="{{ route('orders.receptions') }}" title="{{ __('Receptions') }}">
-              <i class="bx bxs-package"></i>
-              <span class="nav_name">{{ __('Receptions') }}</span>
-            </a>
+                <a class="nav_link {{request()->is('suppliers*') ? 'active' : ''}}" href="{{ route('suppliers.index') }}" title="{{ __('Suppliers') }}">
+                  <i class="bx bx-cart"></i>
+                  <span class="nav_name">{{ __('Suppliers') }}</span>
+                </a>
             @endcan
             @can('viewAny', App\Entities\Action::class)
-            <a class="nav_link {{request()->is('actions*') ? 'active' : ''}}" href="{{ route('actions.index') }}" title="{{ __('Activity') }}">
-              <i class="bx bx-pulse"></i>
-              <span class="nav_name">{{ __('Activity') }}</span>
-            </a>
+                <a class="nav_link {{request()->is('actions*') ? 'active' : ''}}" href="{{ route('actions.index') }}" title="{{ __('Activity') }}">
+                  <i class="bx bx-pulse"></i>
+                  <span class="nav_name">{{ __('Activity') }}</span>
+                </a>
             @else
-            <a class="nav_link {{request()->is('users/*') ? 'active' : ''}}" href="{{ route('users.show', ['user' => Auth::user()->getId()]) }}" title="{{ __('My accounts') }}">
-              <i class="bx bxs-credit-card"></i>
-              <span class="nav_name">{{ __('My accounts') }}</span>
-            </a>
-            <a class="nav_link {{request()->is('users/*/orders') ? 'active' : ''}}" href="{{ route('users.orders.index', ['user' => Auth::user()->getId()]) }}" title="{{ __('My orders') }}">
-              <i class="bx bx-file"></i>
-              <span class="nav_name">{{ __('My orders') }}</span>
-            </a>
-            <a class="nav_link {{request()->is('users/*/actions') ? 'active' : ''}}" href="{{ route('users.actions.index', ['user' => Auth::user()->getId()]) }}" title="{{ __('My activity') }}">
-              <i class="bx bx-pulse"></i>
-              <span class="nav_name">{{ __('My activity') }}</span>
-            </a>
-            <hr style="margin-left:1rem; color:white;">
-            <a class="nav_link {{request()->is('suppliers*') ? 'active' : ''}}" href="{{ route('suppliers.create', ['destination' => request()->url()]) }}" title="{{ __('New supplier') }}">
-              <i class="bx bx-cart"></i>
-              <span class="nav_name">{{ __('New supplier') }}</span>
-            </a>
+                <a class="nav_link {{request()->is('users/*') ? 'active' : ''}}" href="{{ route('users.show', ['user' => Auth::user()->getId()]) }}" title="{{ __('My accounts') }}">
+                  <i class="bx bxs-credit-card"></i>
+                  <span class="nav_name">{{ __('My accounts') }}</span>
+                </a>
+                <a class="nav_link {{request()->is('users/*/orders') ? 'active' : ''}}" href="{{ route('users.orders.index', ['user' => Auth::user()->getId()]) }}" title="{{ __('My orders') }}">
+                  <i class="bx bx-file"></i>
+                  <span class="nav_name">{{ __('My orders') }}</span>
+                </a>
+                <a class="nav_link {{request()->is('users/*/actions') ? 'active' : ''}}" href="{{ route('users.actions.index', ['user' => Auth::user()->getId()]) }}" title="{{ __('My activity') }}">
+                  <i class="bx bx-pulse"></i>
+                  <span class="nav_name">{{ __('My activity') }}</span>
+                </a>
+                <!-- ------------------------------------ -->
+                <hr style="margin-left:1rem; color:white;">
+                <a class="nav_link {{request()->is('suppliers*') ? 'active' : ''}}" href="{{ route('suppliers.create', ['destination' => request()->url()]) }}" title="{{ __('New supplier') }}">
+                  <i class="bx bx-cart"></i>
+                  <span class="nav_name">{{ __('New supplier') }}</span>
+                </a>
+            @endcan
+            @can('order-receptions')
+                <!-- ------------------------------------ -->
+                <hr style="margin-left:1rem; color:white;">
+                <a class="nav_link {{preg_match('$receptions$', Request::path()) ? 'active' : ''}}" href="{{ route('orders.receptions') }}" title="{{ __('Receptions') }}">
+                  <i class="bx bxs-package"></i>
+                  <span class="nav_name">{{ __('Receptions') }}</span>
+                </a>
             @endcan
 
             @can('viewAny', App\Entities\User::class)
-            <hr style="margin-left:1rem; color:white;">
-            <a class="nav_link {{request()->is('users*') ? 'active' : ''}}" href="{{ route('users.index') }}" title="{{ __('Users') }}">
-              <i class="bx bx-user"></i>
-              <span class="nav_name">{{ __('Users') }}</span>
-            </a>
+                <!-- ------------------------------------ -->
+                <hr style="margin-left:1rem; color:white;">
+                <a class="nav_link {{request()->is('users*') ? 'active' : ''}}" href="{{ route('users.index') }}" title="{{ __('Users') }}">
+                  <i class="bx bx-user"></i>
+                  <span class="nav_name">{{ __('Users') }}</span>
+                </a>
             @endcan
             @can('viewAny', App\Entities\Area::class)
-            <a class="nav_link {{request()->is('areas*') ? 'active' : ''}}" href="{{ route('areas.index') }}" title="{{ __('Areas') }}">
-              <i class="bx bx-globe"></i>
-              <span class="nav_name">{{ __('Areas') }}</span>
-            </a>
+                <a class="nav_link {{request()->is('areas*') ? 'active' : ''}}" href="{{ route('areas.index') }}" title="{{ __('Areas') }}">
+                  <i class="bx bx-globe"></i>
+                  <span class="nav_name">{{ __('Areas') }}</span>
+                </a>
             @endcan
             @can('viewAny', App\Entities\Account::class)
-            <a class="nav_link {{request()->is('accounts*') ? 'active' : ''}}" href="{{ route('accounts.index') }}" title="{{ __('Accounts') }}">
-              <i class="bx bxs-credit-card"></i>
-              <span class="nav_name">{{ __('Accounts') }}</span>
-            </a>
+                <a class="nav_link {{request()->is('accounts*') ? 'active' : ''}}" href="{{ route('accounts.index') }}" title="{{ __('Accounts') }}">
+                  <i class="bx bxs-credit-card"></i>
+                  <span class="nav_name">{{ __('Accounts') }}</span>
+                </a>
             @endcan
 
+            <!-- ------------------------------------ -->
             @can('viewAny', App\Entities\Settings::class)
-            <hr style="margin-left:1rem; color:white;">
-            <a class="nav_link {{request()->is('settings*') ? 'active' : ''}}" href="{{ route('settings.index') }}" title="{{ __('Settings') }}">
-              <i class="bx bxs-cog"></i>
-              <span class="nav_name">{{ __('Settings') }}</span>
-            </a>
+                <hr style="margin-left:1rem; color:white;">
+                <a class="nav_link {{request()->is('settings*') ? 'active' : ''}}" href="{{ route('settings.index') }}" title="{{ __('Settings') }}">
+                  <i class="bx bxs-cog"></i>
+                  <span class="nav_name">{{ __('Settings') }}</span>
+                </a>
             @endcan
           </div>
         </div>

@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::if('admin', function () {
             if (null !== ($user = auth()->user())) {
-                if ($role->isAdmin()) return 1;
+                if ($user->isAdmin()) return 1;
             }
             return 0;
         });

@@ -69,6 +69,10 @@ class AuthServiceProvider extends ServiceProvider
             return $e->isStatus(Order::STATUS_CHECKED_INVOICED);
         });
 
+        G::define('order-receptions', function(User $user) {
+            return $user->isAdmin() || $user->isReception();
+        });
+
         //dd(G::abilities());
     }
 }
