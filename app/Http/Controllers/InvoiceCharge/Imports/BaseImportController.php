@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\InvoiceCharge;
+namespace App\Http\Controllers\InvoiceCharge\Imports;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Rap2hpoutre\FastExcel\Facades\FastExcel;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Excel as Ex;
 
 use App\Http\Controllers\InvoiceChargeController,
     App\Http\Requests\Movement\ImportChargeRequest;
@@ -26,14 +28,24 @@ use App\Exceptions\Account\InsufficientCreditException
         as OrderInvalidStatus,
     App\Exceptions\Supplier\InvoicedLimitException;
 
-class ImportController extends InvoiceChargeController
+/**
+ * @deprecate Only accepts .xlsx extensions, 
+ * use AllExtensionsController instead 
+ */
+class BaseImportController extends InvoiceChargeController
 {
-    const COL_SEQUENCE      = "DESCRIPCION";
-    const COL_CREDIT        = "IMPORTE";
-    const COL_INVOICE       = "NUM FACTURA";
-    const COL_INVOICEDATE   = "F FACTURA";
-    const COL_HZYEAR        = "EJERCICIO";
-    const COL_HZENTRY       = "ASIENTO REAL";
+    const I_COL_SEQUENCE      = "DESCRIPCION";
+    const I_COL_CREDIT        = "IMPORTE";
+    const I_COL_INVOICE       = "NUM FACTURA";
+    const I_COL_INVOICEDATE   = "F FACTURA";
+    const I_COL_HZYEAR        = "EJERCICIO";
+    const I_COL_HZENTRY       = "ASIENTO REAL";
+    const C_COL_SEQUENCE      = "Descripción";
+    const C_COL_CREDIT        = "Importe";
+    const C_COL_INVOICE       = "Nº factura";
+    const C_COL_INVOICEDATE   = "Fecha de factura";
+    const C_COL_HZYEAR        = "Ejercicio";
+    const C_COL_HZENTRY       = "Corr.";
 
     const SESSION_FILE_DATA     = "parsed-inv-charges";
     const FILE_INVOICED_SHEET   = 1;
@@ -58,29 +70,23 @@ class ImportController extends InvoiceChargeController
     public function storeStep1(Request $rq)
     {
         $data = $rq->validate([
-            'file' => 'required|mimes:xlsx',
+            'file' => 'required|mimes:xlsx,xlsm,xltx,xltm,xls,xlt',
         ]);
         $type = $rq->get('charge', InvoiceCharge::TYPE_CASH);
         if (empty($rq->session()->get(static::SESSION_FILE_DATA))) {
-            $errors = [];
-            $path = $rq->file->path();
-            $rows = FastExcel::sheet($this->getTypeSheet($type))
-                            ->import($path);
-            if (!count($rows)) $rows = [[]];
-            foreach ($this->getTypeColumns($type) as $col) {
-                if (!array_key_exists($col, $rows[0]))
-                    $errors[] = $col;
-            }
+            $sheet  = $this->getUploadedSheet($rq, $type);
+            if (!count($sheet)) $sheet = [[]];
+            $errors = $this->getSheetErrors($sheet, $type); 
             if (count($errors)) {
                 throw ValidationException::withMessages([
                     'file' => trans("Columns ':cols' not present in file sheet :sheet", [
                         'cols' => implode(', ', $errors),
-                        'sheet' => 3
+                        'sheet' => $this->getTypeSheet($type), 
                     ])
                 ]);
             }
             
-            $rq->session()->put(static::SESSION_FILE_DATA, $rows);
+            $rq->session()->put(static::SESSION_FILE_DATA, $sheet);
         }
 
         return redirect()->route('imports.create.step2', [
@@ -165,62 +171,104 @@ class ImportController extends InvoiceChargeController
     }
 
     /**
-     * Retrieve charges
+     * @param array $row
+     * @param int $type
+     * @return Charge
      */
-    protected function getCharges($rows = [], $type)
+    protected function getCharge($row = [], $type)
+    {
+        $hzPattern  = OrderCharge::HZ_PATTERN;
+        $hzSequence = $row['sequence'];
+        $hzCode     = "{$row['hzyear']}-{$row['hzentry']}";
+        if (preg_match($hzPattern, $hzSequence, $matches)) {
+            switch (strtoupper($matches[1])) {
+                case InvoiceCharge::HZ_PREFIX:
+                    $stored = $this->em
+                        ->getRepository(InvoiceCharge::class)
+                        ->findOneBy([
+                             'hzCode' => $hzCode,
+                             'type'   => InvoiceCharge::TYPE_INVOICED,
+                         ]);
+
+                    $charge = $stored ? 
+                        clone $stored : new InvoiceCharge;
+                    $charge->hydrate($row)
+                           ->setType($type);
+                    $this->hydrateInvoicedAccount($matches[2], $charge);
+                    break;
+                case OrderCharge::HZ_PREFIX:
+                    $stored = $this->em
+                        ->getRepository(OrderCharge::class)
+                        ->findOneBy([
+                             'hzCode' => $hzCode,
+                             'type'   => OrderCharge::TYPE_ORDER_INVOICED,
+                         ]);
+
+                    $charge = $stored ? 
+                        clone $stored : new OrderCharge;
+                    $charge->hydrate($row)
+                           ->setType(OrderCharge::TYPE_ORDER_INVOICED);
+                    $this->hydrateInvoicedOrder($matches[2], $charge);
+                    break;
+            }
+        } 
+        else {
+            $charge = new Charge;
+            $charge->hydrate($row);
+            $charge->setType(Charge::TYPE_OTHER);
+            $charge->setDetail($hzSequence);
+        }
+
+        return $charge;
+    }
+
+    /**
+     * Retrieve charges
+     *
+     * @param   array $sheet
+     * @param   int $type
+     * @return  Charge[]
+     */
+    protected function getCharges($sheet = [], $type)
     {
         $collection = [];
-        $hzPattern  = OrderCharge::HZ_PATTERN;
         $cols       = $this->getTypeColumns($type);
-        foreach ($rows as $_row) {
-            $row = [];
-            foreach ($cols as $key => $col) {
-                $row[$key] = isset($_row[$col]) ? $_row[$col] : null;
+        foreach ($sheet as $row) {
+            $parsed = [];
+            foreach ($this->getTypeColumns($type) as $key => $col) {
+                $parsed[$key] = isset($row[$col]) ? $row[$col] : null;
             }
-            $hzSequence = $row['sequence'];
-            $hzCode     = "{$row['hzyear']}-{$row['hzentry']}";
-            if (preg_match($hzPattern, $hzSequence, $matches)) {
-                switch (strtoupper($matches[1])) {
-                    case InvoiceCharge::HZ_PREFIX:
-                        $stored = $this->em
-                            ->getRepository(InvoiceCharge::class)
-                            ->findOneBy([
-                                 'hzCode' => $hzCode,
-                                 'type'   => InvoiceCharge::TYPE_INVOICED,
-                             ]);
-
-                        $charge = $stored ? 
-                            clone $stored : new InvoiceCharge;
-                        $charge->hydrate($row)
-                               ->setType($type);
-                        $this->hydrateInvoicedAccount($matches[2], $charge);
-                        break;
-                    case OrderCharge::HZ_PREFIX:
-                        $stored = $this->em
-                            ->getRepository(OrderCharge::class)
-                            ->findOneBy([
-                                 'hzCode' => $hzCode,
-                                 'type'   => OrderCharge::TYPE_ORDER_INVOICED,
-                             ]);
-
-                        $charge = $stored ? 
-                            clone $stored : new OrderCharge;
-                        $charge->hydrate($row)
-                               ->setType(OrderCharge::TYPE_ORDER_INVOICED);
-                        $this->hydrateInvoicedOrder($matches[2], $charge);
-                        break;
-                }
-            } 
-            else {
-                $charge = new Charge;
-                $charge->hydrate($row);
-                $charge->setType(Charge::TYPE_OTHER);
-                $charge->setDetail($hzSequence);
-            }
-            $collection[] = $charge;
+            $collection[] = $this->getCharge($parsed, $type);
         }
         return $collection;
     }
+
+    /**
+     * Retrieve sheet from Uploaded File
+     *
+     * @param Request $rq
+     * @param int $type
+     */
+    protected function getUploadedSheet(Request $rq, $type)
+    {
+        return FastExcel::sheet($this->getTypeSheet($type))
+                        ->import($rq->file->path());
+    }
+
+    /**
+     * @param array $sheet
+     * @param int $type
+     * @throws Exception
+     */
+    protected function getSheetErrors($sheet = [], $type)
+    {
+        $errors = [];
+        foreach ($this->getTypeColumns($type) as $col) {
+            if (!array_key_exists($col, $sheet[0]))
+                $errors[] = $col;
+        }
+        return $errors;
+    }   
 
     /**
      * Get HZ file-type cols
@@ -237,14 +285,23 @@ class ImportController extends InvoiceChargeController
         ];
         switch ($type) {
             case InvoiceCharge::TYPE_INVOICED:
+                $cols = [
+                    self::I_COL_SEQUENCE,
+                    self::I_COL_CREDIT,
+                    self::I_COL_INVOICE,
+                    self::I_COL_INVOICEDATE,
+                    self::I_COL_HZYEAR,
+                    self::I_COL_HZENTRY,
+                ];
+                break;
             default:
                 $cols = [
-                    self::COL_SEQUENCE,
-                    self::COL_CREDIT,
-                    self::COL_INVOICE,
-                    self::COL_INVOICEDATE,
-                    self::COL_HZYEAR,
-                    self::COL_HZENTRY,
+                    self::C_COL_SEQUENCE,
+                    self::C_COL_CREDIT,
+                    self::C_COL_INVOICE,
+                    self::C_COL_INVOICEDATE,
+                    self::C_COL_HZYEAR,
+                    self::C_COL_HZENTRY,
                 ];
         }
         return array_combine($keys, $cols);

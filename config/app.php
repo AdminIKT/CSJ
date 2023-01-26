@@ -188,6 +188,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\GoogleDriveServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         //Custom
         Collective\Html\HtmlServiceProvider::class,
@@ -257,6 +258,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
     /**
