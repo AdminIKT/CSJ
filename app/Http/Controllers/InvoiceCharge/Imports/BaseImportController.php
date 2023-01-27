@@ -45,6 +45,7 @@ class BaseImportController extends InvoiceChargeController
     const C_COL_INVOICE       = "Nº factura";
     const C_COL_INVOICEDATE   = "Fecha de factura";
     const C_COL_HZYEAR        = "Ejercicio";
+    //FIXME: Duplicated col name
     const C_COL_HZENTRY       = "Corr.";
 
     const SESSION_FILE_DATA     = "parsed-inv-charges";
@@ -166,7 +167,7 @@ class BaseImportController extends InvoiceChargeController
 
         $this->em->flush();
 
-        return redirect()->route('imports.create.step2')
+        return redirect()->route('movements.index')
                          ->with('success', __(':count charges successfully imported', ['count' => count($charges)]));
     }
 
@@ -187,7 +188,7 @@ class BaseImportController extends InvoiceChargeController
                         ->getRepository(InvoiceCharge::class)
                         ->findOneBy([
                              'hzCode' => $hzCode,
-                             'type'   => InvoiceCharge::TYPE_INVOICED,
+                             'type'   => $type, //InvoiceCharge::TYPE_INVOICED,
                          ]);
 
                     $charge = $stored ? 

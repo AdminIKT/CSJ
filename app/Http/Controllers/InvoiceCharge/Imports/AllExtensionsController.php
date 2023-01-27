@@ -31,23 +31,6 @@ use App\Exceptions\Account\InsufficientCreditException
 class AllExtensionsController extends BaseImportController
 {
     /**
-     * @return \Illuminate\Http\Response
-     */
-    public function import(Request $rq)
-    {
-        $type = (int) $rq->get('charge', InvoiceCharge::TYPE_CASH);
-        $data = $rq->validate([
-            'file' => 'required|mimes:xlsx,xlsm,xls',
-        ]);
-
-        //$sheets = Excel::toCollection(new ChargeImport, $rq->file('file'));
-        $sheets  = Excel::toArray(new ChargeImport, $rq->file('file'));
-        $charges = $this->getCharges(array_shift($sheets), $type);
-
-        dd($charges, $sheets);
-    }
-
-    /**
      * @inheritDoc
      */
     protected function getUploadedSheet(Request $rq, $type)

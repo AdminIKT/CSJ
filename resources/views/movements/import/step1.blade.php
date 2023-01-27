@@ -16,7 +16,7 @@
             {{ Form::label('file', __('File'), ['class' => 'form-label']) }}
             {{ Form::file("file", ['class' => 'form-control form-control-sm' . ($errors->has('file') ? ' is-invalid':''), 'aria-describedby' => 'fileHelpBlock']) }}
             <div id="emailHelpBlock" class="form-text">
-                {{ __("File must be an ':extension' extension", ['extension' => 'xlsx']) }}
+                {{ __("File must be an ':extension' extension", ['extension' => 'xlsx, xls']) }}
             </div>
             @if ($errors->has('file'))
                 <div class="invalid-feedback">{!! $errors->first('file') !!}</div>
