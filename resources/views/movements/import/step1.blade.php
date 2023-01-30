@@ -17,8 +17,8 @@
             {{ Form::file("file", ['class' => 'form-control form-control-sm' . ($errors->has('file') ? ' is-invalid':''), 'aria-describedby' => 'fileHelpBlock']) }}
             <div id="emailHelpBlock" class="form-text">
                 {{ __("File must be an ':extension' extension with ':cols' cols", [
-                    'extension' => 'xlsx, xls',
-                    'cols'      => implode(', ', $cols),
+                    'extension' => implode(', ', \App\Http\Controllers\InvoiceCharge\Imports\AllExtensionsController::getSupportedMimeTypes()),
+                    'cols'      => implode(', ', \App\Http\Controllers\InvoiceCharge\Imports\AllExtensionsController::getTypeColumns($type)),
                 ]) }}
             </div>
             @if ($errors->has('file'))

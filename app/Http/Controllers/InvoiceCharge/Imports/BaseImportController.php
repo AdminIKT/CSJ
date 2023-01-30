@@ -62,7 +62,6 @@ class BaseImportController extends InvoiceChargeController
         
         return view('movements.import.step1', [
             'route' => 'imports.store.step1',
-            'cols'  => $this->getTypeColumns($type),
             'type'  => $type,
         ]); 
     }
@@ -73,7 +72,7 @@ class BaseImportController extends InvoiceChargeController
     public function storeStep1(Request $rq)
     {
         $data = $rq->validate([
-            'file' => 'required|mimes:xlsx,xlsm,xltx,xltm,xls,xlt',
+            'file' => 'required|mimes:'.implode(',', static::getSupportedMimeTypes()),
         ]);
         $type = $rq->get('charge', InvoiceCharge::TYPE_CASH);
 
@@ -85,7 +84,7 @@ class BaseImportController extends InvoiceChargeController
                 throw ValidationException::withMessages([
                     'file' => trans("Columns ':cols' not present in file sheet :sheet", [
                         'cols'  => implode(', ', $errors),
-                        'sheet' => $this->getTypeSheet($type), 
+                        'sheet' => self::getTypeSheet($type), 
                     ])
                 ]);
             }
@@ -236,10 +235,9 @@ class BaseImportController extends InvoiceChargeController
     protected function getCharges($sheet = [], $type)
     {
         $collection = [];
-        $cols       = $this->getTypeColumns($type);
         foreach ($sheet as $row) {
             $parsed = [];
-            foreach ($this->getTypeColumns($type) as $key => $col) {
+            foreach (self::getTypeColumns($type) as $key => $col) {
                 $parsed[$key] = isset($row[$col]) ? $row[$col] : null;
             }
             $collection[] = $this->getCharge($parsed, $type);
@@ -255,7 +253,7 @@ class BaseImportController extends InvoiceChargeController
      */
     protected function getUploadedSheet(Request $rq, $type)
     {
-        return FastExcel::sheet($this->getTypeSheet($type))
+        return FastExcel::sheet(self::getTypeSheet($type))
                         ->import($rq->file->path());
     }
 
@@ -267,7 +265,7 @@ class BaseImportController extends InvoiceChargeController
     protected function getSheetErrors($sheet = [], $type)
     {
         $errors = [];
-        foreach ($this->getTypeColumns($type) as $col) {
+        foreach (self::getTypeColumns($type) as $col) {
             if (!array_key_exists($col, $sheet[0]))
                 $errors[] = $col;
         }
@@ -277,7 +275,7 @@ class BaseImportController extends InvoiceChargeController
     /**
      * Get HZ file-type cols
      */
-    protected function getTypeColumns($type)
+    public static function getTypeColumns($type)
     {
         $keys = [
             'sequence',
@@ -314,7 +312,7 @@ class BaseImportController extends InvoiceChargeController
     /**
      * Get HZ file-type sheet
      */
-    protected function getTypeSheet($type)
+    public static function getTypeSheet($type)
     {
         switch ($type) {
             case InvoiceCharge::TYPE_INVOICED:
@@ -323,4 +321,12 @@ class BaseImportController extends InvoiceChargeController
                 return self::FILE_CASH_SHEET;
         }
     }
+
+    /**
+     * @return array
+     */
+    public static function getSupportedMimeTypes()
+    {
+        return ['xlsx'];
+    } 
 }

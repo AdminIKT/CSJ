@@ -37,7 +37,7 @@ class AllExtensionsController extends BaseImportController
     {
         //$sheets = Excel::toCollection(new ChargeImport, $rq->file('file'));
         $sheets = Excel::toArray(new ChargeImport, $rq->file('file'));
-        $sheet  = $sheets[$this->getTypeSheet($type)-1];
+        $sheet  = $sheets[self::getTypeSheet($type)-1];
         if ($type == InvoiceCharge::TYPE_CASH) {
             array_shift($sheet);
         }
@@ -50,7 +50,7 @@ class AllExtensionsController extends BaseImportController
     protected function getSheetErrors($sheet = [], $type)
     {
         $errors = [];
-        foreach ($this->getTypeColumns($type) as $col) {
+        foreach (self::getTypeColumns($type) as $col) {
             if (!in_array($col, $sheet[0]))
                 $errors[] = $col;
         }
@@ -73,11 +73,19 @@ class AllExtensionsController extends BaseImportController
             $parsed = [];
             $row    = array_diff_key($row, $duplicatedCols);
             $row    = array_combine($uniqueCols, $row);
-            foreach ($this->getTypeColumns($type) as $key => $col) {
+            foreach (self::getTypeColumns($type) as $key => $col) {
                 $parsed[$key] = isset($row[$col]) ? $row[$col] : null;
             }
             $collection[] = $this->getCharge($parsed, $type);
         }
         return $collection;
+    } 
+
+    /**
+     * @inheritDoc
+     */
+    public static function getSupportedMimeTypes()
+    {
+        return ['xlsx', 'xlsm', 'xltx', 'xltm', 'xls', 'xlt'];
     } 
 }
