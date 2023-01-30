@@ -45,23 +45,25 @@ class BaseImportController extends InvoiceChargeController
     const C_COL_INVOICE       = "Nº factura";
     const C_COL_INVOICEDATE   = "Fecha de factura";
     const C_COL_HZYEAR        = "Ejercicio";
-    //FIXME: Duplicated col name
     const C_COL_HZENTRY       = "Corr.";
 
-    const SESSION_FILE_DATA     = "parsed-inv-charges";
-    const FILE_INVOICED_SHEET   = 1;
-    const FILE_CASH_SHEET       = 1;
+    const SESSION_FILE_DATA    = "parsed-upload-charges";
+    const FILE_INVOICED_SHEET  = 1;
+    const FILE_CASH_SHEET      = 1;
 
     /**
      * @return \Illuminate\Http\Response
      */
     public function createStep1(Request $rq)
     {
+        $type = $rq->get('charge', InvoiceCharge::TYPE_CASH);
+
         $rq->session()->forget(static::SESSION_FILE_DATA);
         
         return view('movements.import.step1', [
             'route' => 'imports.store.step1',
-            'type'  => $rq->get('charge', InvoiceCharge::TYPE_CASH),
+            'cols'  => $this->getTypeColumns($type),
+            'type'  => $type,
         ]); 
     }
 
@@ -74,21 +76,22 @@ class BaseImportController extends InvoiceChargeController
             'file' => 'required|mimes:xlsx,xlsm,xltx,xltm,xls,xlt',
         ]);
         $type = $rq->get('charge', InvoiceCharge::TYPE_CASH);
-        if (empty($rq->session()->get(static::SESSION_FILE_DATA))) {
+
+        //if (empty($rq->session()->get(static::SESSION_FILE_DATA))) {
             $sheet  = $this->getUploadedSheet($rq, $type);
             if (!count($sheet)) $sheet = [[]];
             $errors = $this->getSheetErrors($sheet, $type); 
             if (count($errors)) {
                 throw ValidationException::withMessages([
                     'file' => trans("Columns ':cols' not present in file sheet :sheet", [
-                        'cols' => implode(', ', $errors),
+                        'cols'  => implode(', ', $errors),
                         'sheet' => $this->getTypeSheet($type), 
                     ])
                 ]);
             }
             
             $rq->session()->put(static::SESSION_FILE_DATA, $sheet);
-        }
+        //}
 
         return redirect()->route('imports.create.step2', [
                 'charge' => $type

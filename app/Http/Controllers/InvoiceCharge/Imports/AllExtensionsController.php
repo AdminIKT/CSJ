@@ -65,9 +65,14 @@ class AllExtensionsController extends BaseImportController
         $collection = [];
         $cols = array_shift($sheet);
 
+        // Avoid file duplicated column names as C_COL_HZENTRY
+        $uniqueCols     = array_unique($cols);
+        $duplicatedCols = array_diff_assoc($cols, $uniqueCols);
+
         foreach ($sheet as $row) {
             $parsed = [];
-            $row    = array_combine($cols, $row);
+            $row    = array_diff_key($row, $duplicatedCols);
+            $row    = array_combine($uniqueCols, $row);
             foreach ($this->getTypeColumns($type) as $key => $col) {
                 $parsed[$key] = isset($row[$col]) ? $row[$col] : null;
             }
