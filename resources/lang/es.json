@@ -18,6 +18,7 @@
     "New incidence": "Nueva incidencia",
     "Edit incidence": "Editar incidencia",
     "Order": "Pedido",
+    "Order nº": "Nº Pedido",
     "Order nº :number": "Pedido nº :number",
     "Orders": "Pedidos",
     "Agreed orders": "Pedidos conformes",
@@ -41,6 +42,7 @@
     "Order charge": "Cargo con pedido",
     "Invoiced": "Facturado",
     "Contacts": "Contactos",
+    "Contact": "Contacto",
     "Incidences": "Incidencias",
     "Opened incidences": "Incidencias abiertas",
     "Logout": "Cerrar sesión",
@@ -92,6 +94,7 @@
     "presupuesto": "Presupuesto",
     "detalle": "Detalle",
     "nuevo_elemento": "Nuevo elemento",
+    "elemento": "Elemento",
     "elementos": "Elementos",
     "proveedor": "Proveedor",
     "pdf": "PDF",
@@ -190,6 +193,14 @@
     "All": "Todos",
     "None": "Ninguno",
     "Recepcionar": "Recepcionar",
-    "reception.confirm": "¿Estás segura/seguro de que quieres recepcionarlo?"
+    "reception.confirm": "¿Estás segura/seguro de que quieres recepcionarlo?",
+    "OrderRequest": "SOLICITUD DE PEDIDO",
+    "Solicitante": "Solicitante",
+    "order.pdf.notas0": "Importante a tener en cuenta:",
+    "order.pdf.notas1": "1.- La entrega del material se realizará por cuenta del suministrador en el taller, laboratorio o departamento solicitante.",
+    "order.pdf.notas2": "2.- El no de pedido que consta en este impreso deberá figurar en toda la documentación relacionada con el mismo (albarán, factura, embalaje exterior, etc).",
+    "order.pdf.notas3": "3.- Por cada solicitud de pedido se emitirá a ser posible una única factura.",
+    "order.pdf.notas4": "4.- Otros requisitos: a) Para productos Químicos se exige la correspondiente Ficha de seguridad y un correcto etiquetado. b) Para maquinaria se exige marcado CE, Declaración de conformidad y Manual en castellano",
+    "order.pdf.notas5": "La emisión de está solicitud de pedido implica su autorización por el responsable del departamento/área arriba citado."
 
 }

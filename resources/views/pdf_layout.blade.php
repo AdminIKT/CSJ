@@ -14,9 +14,20 @@
     </style>-->
    
   </head>
-  <body id="body-pd" style="font-size:18px; color:#2b2f60; font-family: sans-serif;">
-      <img style="width:200px;" src="img/logo/logo.png"/>
-      <br/>
+  <body id="body-pd" style="font-size:14px; color:#2b2f60; font-family: sans-serif;">
+      <table width="100%">
+        <tr>
+            <td><img style="width:220px;" src="img/logo/logo.png"/></td>
+            <td style="font-size:12px;text-align:center"><b>CIFP SAN JORGE LHII</b><br/>
+            C/Pajares 34, 48980 Santurtzi (Bizkaia)<br/>
+            Tlf.: 944004930 Fax: 944839060<br/>
+            Web: <u>www.fpsanjorge.com</u><br/>
+            Email: <u>sanjorge@fpsanjorge.com</u><br/>
+            <b>CIF: S4833001C</b>
+            </td>
+            <td><img style="width:200px;" src="img/logo/logo_aenor.png"/></td>
+        </tr>
+      </table>    
       <br/>
       <br/>
       <div style="margin-left:30px; margin-right:30px;">
