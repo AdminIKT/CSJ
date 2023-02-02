@@ -54,7 +54,7 @@
     <div class="row">
         <div class="col-md-2 mb-2">
             {{ Form::label('zip', __('Zip'), ['class' => 'form-label']) }}
-            {{ Form::number('zip', old('zip', $entity->getZip()), ['class' => 'form-control form-control-sm' . ($errors->has('zip') ? ' is-invalid' :'')]) }}
+            {{ Form::text('zip', old('zip', $entity->getZip()), ['class' => 'form-control form-control-sm' . ($errors->has('zip') ? ' is-invalid' :'')]) }}
             @if ($errors->has('zip'))
                <div class="invalid-feedback">{!! $errors->first('zip') !!}</div>
             @endif
