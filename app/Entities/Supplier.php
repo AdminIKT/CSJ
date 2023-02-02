@@ -48,7 +48,7 @@ class Supplier
     /**
      * @var int
      *
-     * @ORM\Column(name="zip", type="integer", nullable=true)
+     * @ORM\Column(name="zip", type="string", nullable=true)
      */
     private $zip;
 
@@ -299,13 +299,13 @@ class Supplier
     /**
      * Set zip.
      *
-     * @param int $zip
+     * @param string $zip
      *
      * @return Supplier
      */
     public function setZip($zip)
     {
-        $this->zip = (int) $zip;
+        $this->zip = $zip;
 
         return $this;
     }

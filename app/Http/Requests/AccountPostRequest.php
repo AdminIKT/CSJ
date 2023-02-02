@@ -17,7 +17,8 @@ class AccountPostRequest extends AccountPutRequest
     {
         return array_merge( parent::rules(), [
                 'type' => 'required',
-                'lcode' => 'string',
+                //'lcode' => 'regex:/^[a-zA-z0-9]+$/u',
+                'lcode' => 'regex:/^\w+$/u',
                 'acronym' => 'required|max:3',
                 'accounts.0' => 'required',
                 'accounts.*' => 'required|distinct',
