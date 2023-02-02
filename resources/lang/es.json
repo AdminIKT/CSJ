@@ -167,6 +167,7 @@
     "Successfully updated": "Actualizado correctamente",
     "Successfully removed": "Eliminado correctamente",
     "Successfully created": "Creado correctamente",  
+    "Successfully closed": "Cerrado correctamente",
     "Edit area :name": "Editar área :name",
     "Lists": "Listados",
     "Region": "Provincia",
@@ -177,6 +178,7 @@
     "In evaluation": "En evaluación",   
     "No acceptable": "No aceptable",
     "Closed": "Cerrada",
+    "Close": "Cerrar",
     "Opened": "Abierta",
     "Active": "Activa",
     "Inactive": "No activa",
@@ -201,6 +203,8 @@
     "order.pdf.notas2": "2.- El no de pedido que consta en este impreso deberá figurar en toda la documentación relacionada con el mismo (albarán, factura, embalaje exterior, etc).",
     "order.pdf.notas3": "3.- Por cada solicitud de pedido se emitirá a ser posible una única factura.",
     "order.pdf.notas4": "4.- Otros requisitos: a) Para productos Químicos se exige la correspondiente Ficha de seguridad y un correcto etiquetado. b) Para maquinaria se exige marcado CE, Declaración de conformidad y Manual en castellano",
-    "order.pdf.notas5": "La emisión de está solicitud de pedido implica su autorización por el responsable del departamento/área arriba citado."
+    "order.pdf.notas5": "La emisión de está solicitud de pedido implica su autorización por el responsable del departamento/área arriba citado.",
+    "Local storage": "Almacenamiento local",
+    "Google storage": "Almacenamiento Google"
 
 }

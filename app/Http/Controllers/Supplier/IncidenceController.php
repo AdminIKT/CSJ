@@ -159,6 +159,6 @@ class IncidenceController extends BaseController
 
         $this->em->flush();
 
-        return redirect()->back()->with('success', 'Successfully closed');
+        return redirect()->back()->with('success', __('Successfully closed'));
     }
 }

@@ -25,12 +25,12 @@
                 <td>
                     <div class="btn-group btn-group-sm" role="group">
                         @can('update', $incidence)
-                        <a href="{{ route('suppliers.incidences.close', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/close") ? "active" : ""}}' data-bs-toggle="tooltip" title="close">
+                        <a href="{{ route('suppliers.incidences.close', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/close") ? "active" : ""}}' title="{{ __('Close') }}">
                             <span data-feather="x-circle"></span>
                         </a>
                         @endcan
                         @can('update', $incidence)
-                        <a href="{{ route('suppliers.incidences.edit', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/edit") ? "active" : ""}}'>
+                        <a href="{{ route('suppliers.incidences.edit', ['supplier' => $incidence->getSupplier()->getId(), 'incidence' => $incidence->getId(), 'destination' => request()->url()]) }}" class='btn btn-sm btn-outline-secondary {{request()->is("suppliers/{$incidence->getSupplier()->getId()}/incidences/{$incidence->getId()}/edit") ? "active" : ""}}'  title="{{ __('Edit') }}">
                             <span data-feather="edit-2"></span>
                         </a>
                         @endcan

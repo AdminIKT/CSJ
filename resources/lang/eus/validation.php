@@ -42,7 +42,7 @@ return [
     'digits' => 'El campo :attribute debe ser de :digits dígitos.',
     'digits_between' => 'El campo :attribute debe tener entre :min y :max dígitos.',
     'dimensions' => 'El campo :attribute no tiene una dimensión válida.',
-    'distinct' => 'El campo :attribute tiene un valor duplicado.',
+    'distinct' => ':attribute eremuak errepikatutako balore bat du.',
     'doesnt_end_with' => 'El campo :attribute no puede finalizar con uno de los siguientes valores: :values.',
     'doesnt_start_with' => 'El campo :attribute no puede comenzar con uno de los siguientes valores: :values.',
     'email' => 'El formato del :attribute no es válido.',
@@ -102,8 +102,8 @@ return [
     'min_digits' => 'El campo :attribute debe ser como mínimo de :min dígitos.',
     'multiple_of' => 'El campo :attribute debe ser un múltiplo de :value.',
     'not_in' => 'El campo :attribute seleccionado es invalido.',
-    'not_regex' => 'El formato del campo :attribute no es válido.',
-    'numeric' => 'El campo :attribute debe ser un número.',
+    'not_regex' => ':attribute eremuaren formatua ez da zuzzena.',
+    'numeric' => ':attribute eremua zenbaki bat izan behar da.',
     'password' => [
         'letters' => 'El campo :attribute debe contener al menos una letra.',
         'mixed' => 'El campo :attribute debe contener al menos una letra mayúscula y una minúscula.',
@@ -117,7 +117,7 @@ return [
     'prohibited_unless' => 'El campo :attribute no está permitido si :other no está en :values.',
     'prohibits' => 'El campo :attribute no permite que :other esté presente.',
     'regex' => 'El formato del campo :attribute no es válido.',
-    'required' => 'El campo :attribute es obligatorio.',
+    'required' => ':attribute eremua derrigorrezkoa da.',
     'required_array_keys' => 'El campo :attribute debe contener entradas para: :values.',
     'required_if' => 'El campo :attribute es obligatorio cuando el campo :other es :value.',
     'required_unless' => 'El campo :attribute es obligatorio a menos que :other esté presente en :values.',
@@ -135,7 +135,7 @@ return [
     'starts_with' => 'El :attribute debe empezar con uno de los siguientes valores :values',
     'string' => 'El campo :attribute debe ser una cadena.',
     'timezone' => 'El campo :attribute debe ser una zona válida.',
-    'unique' => 'El campo :attribute ya ha sido tomado.',
+    'unique' => ':attribute eremua jada erabiltzen da.',
     'uploaded' => 'El campo :attribute no ha podido ser cargado.',
     'url' => 'El formato de :attribute no es válido.',
     'uuid' => 'El :attribute debe ser un UUID valido.',
@@ -153,7 +153,7 @@ return [
 
     'custom' => [
       'email' => [
-        'regex' => 'El email no pertenece al dominio fpsanjorge.com'
+        'regex' => 'Emaila fpsanjorge.com domeinukoa izan behar da'
        ],
     ],
 
@@ -169,21 +169,29 @@ return [
     */
 
     'attributes' => [
-      'supplier' => 'proveedor',
-      'receive in' => 'Recibir en',
-      'acronym' => 'acrónimo',
-      'name' => 'nombre',
-      'email' => 'email',
-      'phone' => 'teléfono',
-      'detail' => 'detalle',
+      'supplier' => 'Hornitzailea',
+      'receiveIn' => 'Non jaso',
+      'acronym' => 'Akronimoa',
+      'name' => 'Izena',
+      'email' => 'Emaila',
+      'phone' => 'Telefonoa',
+      'detail' => 'Xehetasunak',
       'nif' => 'NIF',
-      'zip' => 'CP',
-      'city' => 'población',
-      'address' => 'dirección',
-      'region' => 'provincia',
+      'zip' => 'PK',
+      'city' => 'Herria',
+      'address' => 'Helbidea',
+      'region' => 'Probintzia',
       'nif' => 'NIF',
-      'nif' => 'NIF',
-      'nif' => 'NIF',
+      'estimatedCredit' => 'Aurreikusitako kostua',
+      'type' => 'Mota',
+      'lcode' => 'Kodea',
+      'file' => 'Fitxategia',
+      'contacts.*.name' => __('Name'),
+      'contacts.*.position' => __('Position'),
+      'contacts.*.email' => __('Email'),
+      'contacts.*.phone' => __('Phone'),
+      'accounts.0' => __('Areas'),
+      'accounts.1' => __('Areas')    
     ],
 
 ];
