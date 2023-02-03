@@ -28,7 +28,7 @@
                 <td>{{ $entity->getEmail() }}</td>
                 <td>{{ $entity->getName() }}</td>
                 <td>{{ implode(", ", $entity->getRoles()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
-                <td>{{ implode(", ", $entity->getAccounts()->map(function ($e) { return "{$e->getName()} ({$e->getType()})"; })->toArray()) }}</td>
+                <td>{{ implode(", ", $entity->getAccounts()->map(function ($e) { return "{$e->getSerial()} ({$e->getType()})"; })->toArray()) }}</td>
                 <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
                 <td>@if ($entity->getLastLogin()) {{ $entity->getLastLogin()->format("d/m/Y H:i") }} @endif</td>
                 <td class="m-0">
