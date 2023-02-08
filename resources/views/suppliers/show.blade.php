@@ -87,31 +87,41 @@
 </div>
    
 <ul class="nav nav-tabs justify-content-center border-0">
+  @can('viewAny', \App\Entities\Supplier\Contact::class)
   <li class="nav-item">
     <a class='nav-link {{request()->is("suppliers/{$entity->getId()}", "suppliers/{$entity->getId()}/contacts*")?" active":"" }}' href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}">
         <span data-feather="user"></span> {{ __('Contacts') }}
     </a>
   </li>
+  @endcan
+  @can('viewAny', \App\Entities\Supplier\Incidence::class)
   <li class="nav-item">
     <a class="nav-link {{request()->is('suppliers/*/incidences*')?' active':'' }}" href="{{ route('suppliers.incidences.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">
         <span data-feather="bell"></span> {{ __('Incidences') }}
     </a>
   </li>
+  @endcan
+  @can('viewany', \App\Entities\Order::class)
   <li class="nav-item">
     <a class="nav-link {{request()->is('suppliers/*/orders*')?' active':'' }}" href="{{ route('suppliers.orders.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">
         <span data-feather="file"></span> {{ __('Orders') }}
     </a>
   </li>
+  @endcan
+  @can('viewany', \App\Entities\Movement::class)
   <li class="nav-item">
     <a class="nav-link {{request()->is('suppliers/*/movements*')?' active':'' }}" href="{{ route('suppliers.movements.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">
         <span data-feather="dollar-sign"></span> {{ __('Movements') }}
     </a>
   </li>
+  @endcan
+  @can('viewany', \App\Entities\Movement::class)
   <li class="nav-item">
     <a class="nav-link {{request()->is('suppliers/*/invoiceds*')?' active':'' }}" href="{{ route('suppliers.invoiceds.index', ['supplier' => $entity->getId()]) }}" tabindex="-1" aria-disabled="true">
         <span data-feather="award"></span> {{ __('Invoiced') }}
     </a>
   </li>
+  @endcan
 </ul>
 
 <div class="bg-white border rounded rounded-5 px-2 mb-2">

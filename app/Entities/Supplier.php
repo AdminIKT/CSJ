@@ -21,6 +21,7 @@ class Supplier
     const STATUS_VALIDATED     = 1;
     const STATUS_RECOMMENDABLE = 2;
     const STATUS_NO_ACCEPTABLE = -1;
+    const STATUS_INACTIVE      = -2;
 
     /**
      * @var int
@@ -246,6 +247,14 @@ class Supplier
     public function isNoAcceptable()
     {
         return $this->isStatus(self::STATUS_NO_ACCEPTABLE);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInactive()
+    {
+        return $this->isStatus(self::STATUS_INACTIVE);
     }
 
     /**
@@ -685,6 +694,8 @@ class Supplier
                 return trans("Acceptable");
             case self::STATUS_NO_ACCEPTABLE: 
                 return trans("No acceptable");
+            case self::STATUS_INACTIVE: 
+                return trans("Inactive");
             default: return trans("Undefined");
         }
     }
@@ -702,6 +713,7 @@ class Supplier
             case self::STATUS_RECOMMENDABLE: 
                 return "bg-success";
             case self::STATUS_NO_ACCEPTABLE: 
+            case self::STATUS_INACTIVE: 
                 return "bg-danger";
             default: return "bg-light text-dark";
         }

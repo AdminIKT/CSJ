@@ -26,6 +26,7 @@
                 \App\Entities\Supplier::STATUS_VALIDATED     => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_VALIDATED),
                 \App\Entities\Supplier::STATUS_RECOMMENDABLE => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_RECOMMENDABLE),
                 \App\Entities\Supplier::STATUS_NO_ACCEPTABLE => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_NO_ACCEPTABLE),
+                \App\Entities\Supplier::STATUS_INACTIVE      => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_INACTIVE),
             ], old('status', $entity->getStatus()), ['class'=>'form-select form-select-sm' . ($errors->has('status') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
             @if ($errors->has('status'))
                <div class="invalid-feedback">{!! $errors->first('status') !!}</div>

@@ -318,6 +318,17 @@ class Supplier extends \App\Entities\Supplier implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
+    public function isInactive()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isInactive', []);
+
+        return parent::isInactive();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setNif($nif)
     {
 

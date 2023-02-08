@@ -8,10 +8,11 @@
             <span class="input-group-text" id="addon-status">{{ __('Status') }}</span>
             {{ Form::select('status', [
             null => __('selecciona'),
-            \App\Entities\Supplier::STATUS_PENDING => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_PENDING),
-            \App\Entities\Supplier::STATUS_VALIDATED => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_VALIDATED),
+            \App\Entities\Supplier::STATUS_PENDING       => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_PENDING),
+            \App\Entities\Supplier::STATUS_VALIDATED     => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_VALIDATED),
             \App\Entities\Supplier::STATUS_RECOMMENDABLE => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_RECOMMENDABLE),
             \App\Entities\Supplier::STATUS_NO_ACCEPTABLE => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_NO_ACCEPTABLE),
+            \App\Entities\Supplier::STATUS_INACTIVE      => \App\Entities\Supplier::statusName(\App\Entities\Supplier::STATUS_INACTIVE),
             ], request()->input('status'), ['class'=>'form-select', 'aria-describedby' => 'addon-status']) }}
             </div>
         </div>
