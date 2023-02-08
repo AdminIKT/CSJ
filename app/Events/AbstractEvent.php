@@ -16,7 +16,7 @@ abstract class AbstractEvent
 
     const ACTION_STORE  = 'store';
     const ACTION_UPDATE = 'update';
-    const ACTION_DELETE = 'delete';
+    const ACTION_DELETE = 'destroy';
 
     /**
      * @var mixed

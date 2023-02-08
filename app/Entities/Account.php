@@ -2,7 +2,8 @@
 
 namespace App\Entities;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM,
+    Doctrine\Common\Collections\ArrayCollection;
 use App\Entities\Account\DriveFile;
 
 /**
@@ -601,9 +602,11 @@ class Account
      */
     public function getOrders()
     {
-        return new \Doctrine\Common\Collections\ArrayCollection($this->getSubaccounts()->map(function($e) {
-            return $e->getOrder();
-        })->toArray());
+        $orders = [];
+        foreach ($this->getSubaccounts() as $acc) {
+            $orders = array_merge($orders, $acc->getOrders()->toArray());
+        }
+        return new ArrayCollection($orders);
     }
 
     /**

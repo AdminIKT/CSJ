@@ -62,6 +62,7 @@ class RestoreCredit
                 if (!$order->isCancelled()) {
                     return;
                 }
+            case $event->action ===  OrderEvent::ACTION_DELETE:
                 if ($order->hasCredit()) {
                     $order->getSubaccount()
                           ->increaseCredit($order->getCredit())

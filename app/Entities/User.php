@@ -126,7 +126,7 @@ class User implements Authenticatable, HasRolesContract
      */
     public function __construct()
     {
-        $this->accounts     = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->accounts  = new \Doctrine\Common\Collections\ArrayCollection();
         $this->orders    = new \Doctrine\Common\Collections\ArrayCollection();
         $this->suppliers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->roles     = new \Doctrine\Common\Collections\ArrayCollection();

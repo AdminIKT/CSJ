@@ -33,7 +33,8 @@ abstract class Movement
     /**
      * @var Subaccount 
      *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Subaccount", inversedBy="orderCharges")
+     * @ORM\ManyToOne(targetEntity="App\Entities\Subaccount", inversedBy="movements")
+     * @ORM\JoinColumn(name="subaccount_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $subaccount;
 

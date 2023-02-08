@@ -97,7 +97,7 @@ class Supplier
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entities\Supplier\Contact", mappedBy="supplier", cascade={"persist","merge"})
+     * @ORM\OneToMany(targetEntity="App\Entities\Supplier\Contact", mappedBy="supplier", cascade={"persist"})
      */
     private $contacts;
 

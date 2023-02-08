@@ -4,14 +4,29 @@ namespace App\Policies;
 
 use App\Entities\User;
 use App\Entities\Order;
+use App\Entities\Account;
 use App\Entities\Subaccount;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
+use Doctrine\ORM\EntityManagerInterface;
 
 class OrderPolicy
 {
     use HandlesAuthorization;
+
+    /**
+     * @EntityManagerInterface
+     */ 
+    protected $em;
+
+    /**
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
 
     /**
      * Perform pre-authorization checks.
@@ -90,8 +105,12 @@ class OrderPolicy
      */
     public function delete(User $user, Order $order)
     {
+        $last = $this->em->getRepository(Order::class)
+                     ->lastest($order->getAccount(), $order->getDate());
+
         return $user->isAdmin() &&
-               $order->isStatus(Order::STATUS_CREATED)
+               $order === $last &&
+               $order->getStatus() <= Order::STATUS_CREATED
                ? Response::allow()
                : Response::deny("The order cannot be deleted");
     }

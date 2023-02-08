@@ -44,6 +44,7 @@ class Subaccount
     private $account;
 
     /**
+     * FIXME: Not necessary
      * @var Area
      *
      * @ORM\ManyToOne(targetEntity="App\Entities\Area", inversedBy="subaccounts")

@@ -109,7 +109,7 @@
             <td>{{ number_format($order->getEstimatedCredit(), 2, ",", ".") }}€</td>
             <td>@if ($order->getCredit()) {{ number_format($order->getCredit(), 2, ",", ".") }}€ @endif</td>
             <td>
-                <span class="small text-muted">{{ $order->getDate()->format("D, d M Y H:i") }}</span>
+                <span class="small text-muted">{{ $order->getDate()->format("D, d M Y") }}</span>
             </td>
             @if (!(isset($exclude) && in_array('users', $exclude)))
             @php $trCredit++ @endphp

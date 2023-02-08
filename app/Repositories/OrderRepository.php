@@ -107,7 +107,7 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
 
         $b->addOrderBy(
             array_key_exists('sortBy', $filter) ?
-                    $filter['sortBy'] : 'orders.date',
+                    $filter['sortBy'] : 'orders.sequence',
             array_key_exists('sort', $filter) ?
                     $filter['sort'] : 'DESC'
         );
@@ -133,22 +133,22 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
      * @param Account $account
      * @return Order|null
      */
-    function lastest(Entities\Account $account) 
-    {      
-      $today = new \DateTime('today');
-      $fecha = date_create('01/01/' . $today->format('y'));
-         
-      return $this->createQueryBuilder('o')
+    function lastest(Entities\Account $account, \DateTime $date = null) 
+    { 
+        if ($date === null) {
+            $date = new \DateTime('today');
+        }
+
+        return $this->createQueryBuilder('o')
                     ->innerJoin('o.subaccount', 's')
                     ->andWhere('s.account = :account')
                     ->setParameter('account', $account->getId())
-                    ->andWhere('o.date >= :date')
-                    ->setParameter('date', $fecha)
+                    ->andWhere('YEAR(o.date) = :date')
+                    ->setParameter('date', $date->format('Y'))
                     ->addOrderBy('o.date', 'desc')
                     ->addOrderBy('o.sequence', 'desc')
                     ->setMaxResults(1)
                     ->getQuery()
                     ->getOneOrNullResult();
-    
     }
 }

@@ -19,6 +19,7 @@ class OrderAction extends Action
      * @var Order 
      *
      * @ORM\ManyToOne(targetEntity="App\Entities\Order", inversedBy="actions")
+     * @ORM\JoinColumn(name="entity_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $entity;
 

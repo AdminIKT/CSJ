@@ -56,6 +56,7 @@ class Contact
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToOne(targetEntity="App\Entities\Supplier", inversedBy="contacts")
+     * @ORM\JoinColumn(name="supplier_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $supplier;
 

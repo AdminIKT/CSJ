@@ -153,7 +153,10 @@ class OrderController extends BaseController
      */
     public function destroy(Order $order)
     {
-        $this->em->delete($order);
+        $this->em->remove($order);
+
+        OrderEvent::dispatch($order, __FUNCTION__);
+
         $this->em->flush();
         return redirect()->route('orders.index')
                          ->with('success', __('Successfully removed'));

@@ -20,7 +20,10 @@ class AccountPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdmin()) {
+        if ($ability === 'delete') {
+            return;
+        }
+        elseif ($user->isAdmin()) {
             return true;
         }
     }
@@ -82,7 +85,10 @@ class AccountPolicy
      */
     public function delete(User $user, Account $account)
     {
-        //
+        return $user->isAdmin() &&
+               $account->getOrders()->count() === 0
+               ? Response::allow()
+               : Response::deny("Order cannot be deleted");
     }
 
     /**

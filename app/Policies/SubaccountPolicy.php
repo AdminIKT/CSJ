@@ -20,7 +20,7 @@ class SubaccountPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdmin()) {
+        if ($user->isAdmin() && $ability !== 'delete') {
             return true;
         }
     }
@@ -82,7 +82,11 @@ class SubaccountPolicy
      */
     public function delete(User $user, Subaccount $subaccount)
     {
-        //
+        //FIXME: Not used
+        return $user->isAdmin() &&
+               $subaccount->getOrders()->count() === 0
+               ? Response::allow()
+               : Response::deny("Supplier cannot be deleted");
     }
 
     /**

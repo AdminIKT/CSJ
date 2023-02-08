@@ -20,7 +20,7 @@ class SupplierPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdmin()) {
+        if ($user->isAdmin() && $ability !== 'delete') {
             return true;
         }
     }
@@ -80,7 +80,10 @@ class SupplierPolicy
      */
     public function delete(User $user, Supplier $supplier)
     {
-        return Response::deny("You cannot delete suppliers");
+        return $user->isAdmin() &&
+               $supplier->getOrders()->count() === 0
+               ? Response::allow()
+               : Response::deny("Supplier cannot be deleted");
     }
 
     /**

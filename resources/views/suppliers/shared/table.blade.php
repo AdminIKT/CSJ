@@ -145,8 +145,8 @@
                   {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
                     'title'    => __('Delete'),
                     'class'    => 'btn btn-light', 
-                    'disabled' => $entity->getOrders()->count() ? true : false,
                     'onclick'  => "return confirm('".__('delete.confirm')."')",
+                    'type'     => 'submit',
                   ]) }}
                   @endcan
               </div>
