@@ -4,7 +4,8 @@ namespace App\Policies;
 
 use App\Entities\User;
 use App\Entities\Area;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\HandlesAuthorization,        
+    Illuminate\Auth\Access\Response;
 
 class AreaPolicy
 {
