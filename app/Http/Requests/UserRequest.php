@@ -25,7 +25,8 @@ class UserRequest extends FormRequest
     {
         $entity = $this->route('user');
         return [
-            'email' => [
+            'status' => 'required',
+            'email'  => [
                 'required',
                 'email',
                 'regex:/^[\w|\.|\-|\_]+@fpsanjorge.com$/i',

@@ -14,7 +14,24 @@
     @csrf
     {{ method_field($method) }}
 
-    <div class="col-md-12 mb-3">
+    <div class="col-md-4 mb-3">
+        {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
+        <div class="input-group input-group-sm">
+            <span class="input-group-text">
+                <i class="cbg {!! $entity->getStatusColor() !!}"></i>
+            </span>
+            {{ Form::select('status', [
+                null => __('Selecciona'),
+                \App\Entities\User::STATUS_INACTIVE => \App\Entities\User::statusName(\App\Entities\User::STATUS_INACTIVE),
+                \App\Entities\User::STATUS_ACTIVE => \App\Entities\User::statusName(\App\Entities\User::STATUS_ACTIVE),
+            ], old('status', $entity->getStatus()), ['class'=>'form-select form-select-sm' . ($errors->has('status') ? ' is-invalid':'')], [null => ['disabled' => true]]) }}
+            @if ($errors->has('status'))
+               <div class="invalid-feedback">{!! $errors->first('status') !!}</div>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-md-8 mb-3">
         {{ Form::label('email', __('Email'), ['class' => 'form-label']) }}
         {{ Form::email('email', old('email', $entity->getEmail()), ['class' => 'form-control form-control-sm' . ($errors->has('email')? ' is-invalid':''), 'aria-describedby' => 'emailHelpBlock']) }}
         <div id="emailHelpBlock" class="form-text">

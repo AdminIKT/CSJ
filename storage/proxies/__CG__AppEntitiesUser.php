@@ -66,10 +66,10 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\User' . "\0" . 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\User' . "\0" . 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'status', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\User' . "\0" . 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\User' . "\0" . 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'status', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
     }
 
     /**
@@ -233,6 +233,50 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPassword', []);
 
         return parent::getPassword();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setStatus(int $status)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStatus', [$status]);
+
+        return parent::setStatus($status);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStatus()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatus', []);
+
+        return parent::getStatus();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isStatus(int $status)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isStatus', [$status]);
+
+        return parent::isStatus($status);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isActive()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isActive', []);
+
+        return parent::isActive();
     }
 
     /**
@@ -552,6 +596,28 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLastLogin', []);
 
         return parent::getLastLogin();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStatusColor()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatusColor', []);
+
+        return parent::getStatusColor();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStatusName()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatusName', []);
+
+        return parent::getStatusName();
     }
 
     /**

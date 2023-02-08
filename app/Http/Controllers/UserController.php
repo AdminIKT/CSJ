@@ -151,7 +151,8 @@ class UserController extends BaseController
      */
     protected function hydrateData(User $entity, array $data)
     {
-        $entity->setEmail($data['email']);
+        $entity->setEmail($data['email'])
+               ->setStatus($data['status']);
         $entity->getRoles()->clear();
         if (isset($data['roles']) && is_array($data['roles'])) {
             $er = $this->em->getRepository(Role::class);

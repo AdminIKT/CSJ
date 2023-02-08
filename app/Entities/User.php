@@ -22,6 +22,9 @@ class User implements Authenticatable, HasRolesContract
 
     const SITE_DOMAIN = "@fpsanjorge.com";
 
+    const STATUS_INACTIVE   = 0;
+    const STATUS_ACTIVE     = 1;
+
     /**
      * @var int
      *
@@ -44,6 +47,13 @@ class User implements Authenticatable, HasRolesContract
      * @ORM\Column(name="password", type="string", nullable=true)
      */
     private $password;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="integer", options={"default":1})
+     */
+    private $status = User::STATUS_ACTIVE;
 
     /**
      * @var string
@@ -188,6 +198,50 @@ class User implements Authenticatable, HasRolesContract
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param int $status
+     *
+     * @return User
+     */
+    public function setStatus(int $status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Is status.
+     *
+     * @param int $status
+     *
+     * @return bool
+     */
+    public function isStatus(int $status)
+    {
+        return $this->getStatus() === $status;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->isStatus(User::STATUS_ACTIVE);
     }
 
     /**
@@ -506,6 +560,54 @@ class User implements Authenticatable, HasRolesContract
     public function getLastLogin()
     {
         return $this->lastLogin;
+    }
+
+    /**
+     * @return string
+     */
+    public static function statusColor($status) 
+    {
+        switch ($status) {
+            case self::STATUS_INACTIVE: 
+                return "bg-danger";
+            case self::STATUS_ACTIVE: 
+                return "bg-success";
+            default: return "bg-light text-dark";
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public static function statusName($status) 
+    {
+        switch ($status) {
+            case self::STATUS_INACTIVE: 
+                return trans("Inactive");
+            case self::STATUS_ACTIVE: 
+                return trans("Active");
+            default: return trans("Undefined");
+        }
+    }
+
+    /**
+     * Get color.
+     *
+     * @return string
+     */
+    public function getStatusColor()
+    {
+        return self::statusColor($this->getStatus());
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string
+     */
+    public function getStatusName()
+    {
+        return self::statusName($this->getStatus());
     }
 
     /**

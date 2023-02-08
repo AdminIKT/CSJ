@@ -24,7 +24,10 @@
             <tbody>
             @foreach ($collection as $entity)
             <tr>
-                <td>@if ($entity->getAvatar()) <img src="{{ $entity->getAvatar() }}" height="25" width="25" class="rounded-circle"/> @endif</td>
+                <td>
+                    <span class="me-1 cbg {{ $entity->getStatusColor() }}" title="{{ $entity->getStatusName() }}"></span>
+                    @if ($entity->getAvatar()) <img src="{{ $entity->getAvatar() }}" height="25" width="25" class="rounded-circle"/> @endif
+                </td>
                 <td>{{ $entity->getEmail() }}</td>
                 <td>{{ $entity->getName() }}</td>
                 <td>{{ implode(", ", $entity->getRoles()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
