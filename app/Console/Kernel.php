@@ -15,7 +15,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        //Illuminate/Console/Scheduling/ManagesFrequencies.php
+        $schedule->command('database:backup:create')->everyMinute();
+        $schedule->command('database:backup:remove')->everyMinute();
     }
 
     /**
