@@ -33,7 +33,7 @@ class IncidencePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return Response::allow();
     }
 
     /**

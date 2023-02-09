@@ -94,7 +94,11 @@
           </td>
           <td>
             <span class="cbg me-1 {{ $entity->getStatusColor() }}" title="{{ $entity->getStatusName() }}"></span>
-            <a href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}" class="">{{ $entity->getName() }}</a>
+            @can('view', $entity)
+                <a href="{{ route('suppliers.show', ['supplier' => $entity->getId()]) }}" class="">{{ $entity->getName() }}</a>
+            @else
+                {{ $entity->getName() }}
+            @endcan
           </td>
           <td>{{ $entity->getZip() }}</td>
           <td>

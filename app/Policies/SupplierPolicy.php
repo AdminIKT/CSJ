@@ -33,7 +33,9 @@ class SupplierPolicy
      */
     public function viewAny(User $user)
     {
-        return Response::deny("You cannot show suppliers list");
+        return $user->isSales()
+               ? Response::allow()
+               : Response::deny("You cannot show suppliers list");
     }
 
     /**
@@ -45,7 +47,9 @@ class SupplierPolicy
      */
     public function view(User $user, Supplier $supplier)
     {
-        return Response::deny("You cannot show supplier detail");
+        return !$supplier->isInactive()
+               ? Response::allow()
+               : Response::deny("You cannot show supplier detail");
     }
 
     /**

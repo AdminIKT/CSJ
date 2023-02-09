@@ -20,7 +20,7 @@ class ContactPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdmin()) {
+        if ($user->isAdmin() && $ability !== 'delete') {
             return true;
         }
     }
@@ -33,7 +33,7 @@ class ContactPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return Response::allow();
     }
 
     /**
@@ -68,7 +68,7 @@ class ContactPolicy
      */
     public function update(User $user, Contact $contact)
     {
-        //
+        return Response::allow();
     }
 
     /**
@@ -80,7 +80,9 @@ class ContactPolicy
      */
     public function delete(User $user, Contact $contact)
     {
-        //
+        return $contact->getSupplier()->getContacts()->count() > 1
+               ? Response::allow()
+               : Response::deny("Cannot delete supplier contact");
     }
 
     /**

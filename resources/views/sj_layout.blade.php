@@ -116,6 +116,8 @@
                   <span class="nav_name">{{ __('Activity') }}</span>
                 </a>
             @else
+                <!-- ------------------------------------ -->
+                <hr style="margin-left:1rem; color:white;">
                 <a class="nav_link {{request()->is('users/*') ? 'active' : ''}}" href="{{ route('users.show', ['user' => Auth::user()->getId()]) }}" title="{{ __('My accounts') }}">
                   <i class="bx bxs-credit-card"></i>
                   <span class="nav_name">{{ __('My accounts') }}</span>
@@ -127,12 +129,6 @@
                 <a class="nav_link {{request()->is('users/*/actions') ? 'active' : ''}}" href="{{ route('users.actions.index', ['user' => Auth::user()->getId()]) }}" title="{{ __('My activity') }}">
                   <i class="bx bx-pulse"></i>
                   <span class="nav_name">{{ __('My activity') }}</span>
-                </a>
-                <!-- ------------------------------------ -->
-                <hr style="margin-left:1rem; color:white;">
-                <a class="nav_link {{request()->is('suppliers*') ? 'active' : ''}}" href="{{ route('suppliers.create', ['destination' => request()->url()]) }}" title="{{ __('New supplier') }}">
-                  <i class="bx bx-cart"></i>
-                  <span class="nav_name">{{ __('New supplier') }}</span>
                 </a>
             @endcan
             @can('order-receptions')

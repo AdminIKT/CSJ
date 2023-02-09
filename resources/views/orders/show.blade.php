@@ -115,7 +115,10 @@
                     <a href="{{ route('accounts.show', ['account' => $entity->getAccount()->getId()]) }}" title="{{ $entity->getAccount()->getName() }}">{{ $entity->getAccount()->getSerial() }}</a>
                     <small class="text-muted">{{ $entity->getAccount()->getName() }}</small>
                 </td>
-                <td><a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea() }}</td>
+                <td>
+                    <a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea()->getAcronym() }}</a>
+                    <span class="small text-muted">{{ $entity->getArea() }}</span>
+                </td>
             </tr>
             <tr>
                 <th>{{ __('Supplier') }}</th>
