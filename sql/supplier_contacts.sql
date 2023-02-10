@@ -286,7 +286,3 @@ INSERT INTO `supplier_contacts` (`id`, `supplier_id`, `name`, `email`, `phone`, 
 (534, 246, 'Fernando Alvir', 'ifalvir@ibertest.es', '918845385', NULL, '2023-02-10 13:52:56', '2023-02-10 13:52:56'),
 (535, 8, 'Alicia Guerrero Carvajal', 'aguerreroc@aenor.com', '914326029', NULL, '2023-02-10 13:52:56', '2023-02-10 13:53:19');
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

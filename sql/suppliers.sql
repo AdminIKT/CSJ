@@ -436,6 +436,3 @@ INSERT INTO `suppliers` (`id`, `user_id`, `nif`, `zip`, `city`, `address`, `name
 (489, 1, 'B95404158', '48014', 'Bilbao', 'Jon Arrospide Kalea, 17, Planta 1', 'Ziorcontrol S.L.', '2023-02-10 12:58:34', '2023-02-10 13:12:06', 'Bizkaia', 2, 0, 0, '');
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
