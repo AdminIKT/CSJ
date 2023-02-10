@@ -43,12 +43,23 @@ class CapitalizeSuppliersImport extends Command
         $suppliers = $this->em->getRepository(Supplier::class)->findAll();
 
         foreach ($suppliers as $supplier) { 
-            $this->line("{$supplier->getId()}
+            /*$this->line("{$supplier->getId()}
     <fg=green>Name</>:    <fg=white;bg=black>{$supplier->getName()}</> => <fg=default;bg=black>{$this->getCapitalizedStr($supplier->getName())}</>
     <fg=green>Address</>: <fg=white;bg=black>{$supplier->getAddress()}</> => <fg=default;bg=black>{$this->getCapitalizedStr($supplier->getAddress())}</>
     <fg=green>City</>:    <fg=white;bg=black>{$supplier->getCity()} ({$supplier->getRegion()})</> => <fg=default;bg=black>{$this->getCapitalizedStr($supplier->getCity())} ({$this->getCapitalizedStr($supplier->getRegion())})</>
-            ");
+            ");*/
+
+            $supplier->setName($this->getCapitalizedStr($supplier->getName()));
+            $supplier->setAddress($this->getCapitalizedStr($supplier->getAddress()));
+            $supplier->setCity($this->getCapitalizedStr($supplier->getCity()));
+            $supplier->setRegion($this->getCapitalizedStr($supplier->getRegion()));
+            foreach ($supplier->getContacts() as $supplierContact) { 
+                $supplierContact->setName($this->getCapitalizedStr($supplierContact->getName()));
+            }
+
         }
+
+        $this->em->flush();
 
         /*foreach ($suppliers as $supplier) {
             $values = [
@@ -74,6 +85,7 @@ class CapitalizeSuppliersImport extends Command
         $replaces = [
             ' De '  => ' de ',
             ' A '   => ' a ',
+            ' Y '   => ' y ',
             'C/'    => '',
             'Coop'  => 'COOP',
             'Dpt'   => 'DPT',
