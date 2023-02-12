@@ -13,7 +13,7 @@
     {{ method_field($method) }}
 
     <div class="row">
-        @can('viewAny', App\Entities\Supplier::class)
+        @can('viewAny', App\Entities\Area::class)
         <div class="col mb-3">
             {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
             <div class="input-group input-group-sm">
