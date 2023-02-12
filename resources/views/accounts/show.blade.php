@@ -95,7 +95,9 @@
                 <td>{{ $entity->getTypeName() }}</td>
                 @if ($entity->getSubaccounts()->count() === 1)
                 <td>
-                    <a href="{{ route('areas.show', ['area' => $entity->getSubaccounts()->first()->getArea()->getId()]) }}">{{ $entity->getSubaccounts()->first()->getArea()->getAcronym() }}</a>
+                    <!--<a href="{{ route('areas.show', ['area' => $entity->getSubaccounts()->first()->getArea()->getId()]) }}">-->
+                        {{ $entity->getSubaccounts()->first()->getArea()->getAcronym() }}
+                    <!--</a>-->
                     <span class="small text-muted">{{ $entity->getSubaccounts()->first()->getArea() }}</span>
                 </td>
                 @endif
@@ -141,7 +143,9 @@
         @foreach ($entity->getSubaccounts() as $i => $subaccount)
             <tr class="table-secondary">
                 <td>
-                    <a href="{{ route('areas.show', ['area' => $subaccount->getArea()->getId()]) }}">{{ $subaccount->getArea()->getAcronym() }}</a>
+                    <!--<a href="{{ route('areas.show', ['area' => $subaccount->getArea()->getId()]) }}">-->
+                        {{ $subaccount->getArea()->getAcronym() }}
+                    <!--</a>-->
                     <span class="small text-muted">{{ $subaccount->getArea() }}</span>
                 </td>
                 <td>{{ number_format($subaccount->getCredit(), 2, ",", ".") }}€</td>

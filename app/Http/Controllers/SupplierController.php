@@ -52,11 +52,15 @@ class SupplierController extends BaseController
      */
     public function create(Request $request)
     {
+        $cities  = $this->em->getRepository(Supplier::class)->cities();
+        $regions = $this->em->getRepository(Supplier::class)->regions();
         return view('suppliers.form', [
-            'route'  => route('suppliers.store'),
-            'method' => 'POST',
-            'entity' => new Supplier,
-            'dst'    => $request->input('destination'),
+            'route'     => route('suppliers.store'),
+            'method'    => 'POST',
+            'entity'    => new Supplier,
+            'cities'    => $cities,
+            'regions'   => $regions,
+            'dst'       => $request->input('destination'),
         ]); 
     }
 
@@ -100,10 +104,14 @@ class SupplierController extends BaseController
      */
     public function edit(Supplier $supplier)
     {
+        $cities  = $this->em->getRepository(Supplier::class)->cities();
+        $regions = $this->em->getRepository(Supplier::class)->regions();
         return view('suppliers.form', [
             'route' => route('suppliers.update', ['supplier' => $supplier->getId()]),
-            'method' => 'PUT',
-            'entity' => $supplier,
+            'method'    => 'PUT',
+            'entity'    => $supplier,
+            'cities'    => $cities,
+            'regions'   => $regions,
         ]); 
     }
 

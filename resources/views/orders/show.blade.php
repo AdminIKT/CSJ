@@ -116,7 +116,9 @@
                     <small class="text-muted">{{ $entity->getAccount()->getName() }}</small>
                 </td>
                 <td>
-                    <a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">{{ $entity->getArea()->getAcronym() }}</a>
+                    <!--<a href="{{ route('areas.show', ['area' => $entity->getArea()->getId()]) }}">-->
+                        {{ $entity->getArea()->getAcronym() }}
+                    <!--</a>-->
                     <span class="small text-muted">{{ $entity->getArea() }}</span>
                 </td>
             </tr>

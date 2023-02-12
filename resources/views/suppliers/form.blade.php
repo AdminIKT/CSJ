@@ -63,18 +63,30 @@
 
         <div class="col-md-3 mb-3">
             {{ Form::label('city', __('City'), ['class' => 'form-label']) }}
-            {{ Form::text('city', old('city', $entity->getCity()), ['class' => 'form-control form-control-sm' . ($errors->has('city') ? ' is-invalid' :'')]) }}
+            {{ Form::text('city', old('city', $entity->getCity()), ['class' => 'form-control form-control-sm' . ($errors->has('city') ? ' is-invalid' :''), 'list' => 'cityOptions']) }}
             @if ($errors->has('city'))
                <div class="invalid-feedback">{!! $errors->first('city') !!}</div>
             @endif
+
+            <datalist id="cityOptions">
+                @foreach ($cities as $city) 
+                    <option value="{{ $city }}">
+                @endforeach
+            </datalist>
         </div>
 
         <div class="col-md-2 mb-3">
             {{ Form::label('region', __('Region'), ['class' => 'form-label']) }}
-            {{ Form::text('region', old('region', $entity->getRegion()), ['class' => 'form-control form-control-sm' . ($errors->has('region') ? ' is-invalid' :'')]) }}
+            {{ Form::text('region', old('region', $entity->getRegion()), ['class' => 'form-control form-control-sm' . ($errors->has('region') ? ' is-invalid' :''), 'list' => 'regionOptions']) }}
             @if ($errors->has('region'))
                <div class="invalid-feedback">{!! $errors->first('region') !!}</div>
             @endif
+
+            <datalist id="regionOptions">
+                @foreach ($regions as $region) 
+                    <option value="{{ $region }}">
+                @endforeach
+            </datalist>
         </div>
 
         <div class="col-md-5 mb-3">
