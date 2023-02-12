@@ -72,9 +72,9 @@
             </td>
             <td>
                @if ($order->getEstimated())
-               <a href='{{ asset("storage/{$order->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}">
+            <!--   <a href='{{ asset("storage/{$order->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}">
                    <i class="bx bx-xs bx-hdd"></i>
-               </a>
+               </a>-->
                @endif
             </td>
             <td>

@@ -50,7 +50,7 @@
         <span class="bx bx-xs bxs-file-pdf bx-tada-hover"></span>
     </a>
 
-    <div class="btn-group m-1">
+   <!-- <div class="btn-group m-1">
         <button id="emailBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('Email') }}">
             <span class="bx bx-xs bxs-envelope bx-tada-hover"></span> 
         </button>
@@ -65,7 +65,7 @@
                 <a class="dropdown-item" href="{{ route('suppliers.contacts.create', ['supplier' => $entity->getSupplier()->getId(), 'destination' => route('orders.show', ['order' => $entity->getId()])]) }}">{{ __('New contact') }}</a>
             </li>
         </ul>
-    </div>
+    </div>-->
 
     <a class="btn btn-sm btn-outline-secondary m-1" 
         href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getSupplier()->getId(), 'order' => $entity->getId(), 'destination' => route('orders.incidences.index', ['order' => $entity->getId()])]) }}"
@@ -130,9 +130,9 @@
                     <a href="{{ route('suppliers.show', ['supplier' => $entity->getSupplier()->getId()]) }}">{{ $entity->getSupplier()->getName() }}</a>
                 </td>
                 <td>@if ($entity->getEstimated())
-                        <a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}" class="me-2">
+                       <!-- <a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}" class="me-2">
                             <i class="bx bx-xs bx-hdd"></i>
-                        </a>
+                        </a>-->
                     @else-@endif
                 
                     @if ($entity->getFileId())
