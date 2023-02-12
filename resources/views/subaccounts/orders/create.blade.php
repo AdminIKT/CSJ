@@ -72,11 +72,11 @@
         @else
         <div class="mb-3">
             {{ Form::label('date', __('Date'), ['class' => 'form-label']) }}
-            <small class="text-muted">{{ __('Last order')}}:
+           <!-- <small class="text-muted">{{ __('Last order')}}:
             @if ($lastest->count()) 
             {{ $lastest->first()->getSequence() }} {{ Carbon\Carbon::parse($lastest->first()->getDate())->diffForHumans() }} 
             @else {{ __('None') }}  @endif
-            </small>
+            </small>-->
             {{ Form::date("date", old('date', now()), ['class' => 'form-control form-control-sm', 'disabled' => true]) }}
         </div>
         @endif
