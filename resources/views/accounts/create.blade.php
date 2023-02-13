@@ -176,7 +176,6 @@
 
     var areas = @php echo json_encode($areas); @endphp;
     function selectArea() {
-        alert('a');
         var matches = 0;
         $(":input.accounts").each(function(i, val) {
           if ($(this).val() != null) {
