@@ -24,6 +24,7 @@
 
 <div class="bg-white border rounded rounded-5 px-2 mb-2">
     @yield('body', View::make('users.body', [
+        'perPage'    => $perPage,
         'collection' => $collection, 
         'entity'     => $entity,
         'pagination' => true,
