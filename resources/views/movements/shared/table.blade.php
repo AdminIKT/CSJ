@@ -84,8 +84,8 @@
                        @endif
                     </td>
                     <td>
-                       @if ($entity->getOrder()->getFileId())
-                       <a href="{{ $entity->getOrder()->getFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                       @if ($entity->getOrder()->getEstimatedFileId())
+                       <a href="{{ $entity->getOrder()->getEstimatedFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
                            <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" width="16px">
                        </a>
                        @endif

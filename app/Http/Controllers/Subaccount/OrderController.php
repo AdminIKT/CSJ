@@ -176,7 +176,7 @@ class OrderController extends BaseController
     //FIXME: Permissions
     protected function uploadToDrive(UploadedFile $file, Order $order)
     {
-        $parent   = $order->getAccount()->getFileId();
+        $parent   = $order->getAccount()->getEstimatedFileId();
         $storage  = Storage::disk('google');
 
         $adapter = $storage->getAdapter();
@@ -190,7 +190,7 @@ class OrderController extends BaseController
         //        $folder = $child;
         //    }
         //}
-        foreach ($order->getAccount()->getFiles() as $folder) {
+        foreach ($order->getAccount()->getEstimatedFiles() as $folder) {
             if ($folder->getName() === $order->getDate()->format('Y')) {
                 $child = $folder;
             }
@@ -209,7 +209,7 @@ class OrderController extends BaseController
             $child->setName($folder->getName())
                   ->setFileId($folder->getId())
                   ->setFileUrl($folder->getWebViewLink());
-            $order->getAccount()->addFile($child);
+            $order->getAccount()->addEstimatedFile($child);
         }
 
         $fileMetadata = new \Google_Service_Drive_DriveFile([
@@ -223,8 +223,8 @@ class OrderController extends BaseController
                    'uploadType' => 'multipart',
                    'fields' => 'id, webViewLink',
             ]))) {
-            $order->setFileId($res->getId())
-                  ->setFileUrl($res->getWebViewLink());
+            $order->setEstimatedFileId($res->getId())
+                  ->setEstimatedFileUrl($res->getWebViewLink());
         }
 
         return $res;

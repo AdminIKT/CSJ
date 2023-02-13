@@ -142,16 +142,16 @@ class Order implements UserAwareInterface, \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="drive_file", type="string", nullable=true)
+     * @ORM\Column(name="e_drive_file", type="string", nullable=true)
      */
-    private $fileId;
+    private $estimatedFileId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="drive_url", type="string", nullable=true)
+     * @ORM\Column(name="e_drive_url", type="string", nullable=true)
      */
-    private $fileUrl;
+    private $estimatedFileUrl;
 
     /**
      * @var string
@@ -258,27 +258,27 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
-     * Set fileId.
+     * Set estimatedFileId.
      *
      * @param string $fileId
      *
      * @return Order 
      */
-    public function setFileId($fileId = null)
+    public function setEstimatedFileId($fileId = null)
     {
-        $this->fileId = $fileId;
+        $this->estimatedFileId = $fileId;
 
         return $this;
     }
 
     /**
-     * Get fileId.
+     * Get estimatedFileId.
      *
      * @return string|null
      */
-    public function getFileId()
+    public function getEstimatedFileId()
     {
-        return $this->fileId;
+        return $this->estimatedFileId;
     }
 
     /**
@@ -288,21 +288,21 @@ class Order implements UserAwareInterface, \JsonSerializable
      *
      * @return Order 
      */
-    public function setFileUrl($fileUrl)
+    public function setEstimatedFileUrl($fileUrl)
     {
-        $this->fileUrl = (string) $fileUrl;
+        $this->estimatedFileUrl = (string) $fileUrl;
 
         return $this;
     }
 
     /**
-     * Get fileUrl.
+     * Get estimatedFileUrl.
      *
      * @return string
      */
-    public function getFileUrl()
+    public function getEstimatedFileUrl()
     {
-        return $this->fileUrl;
+        return $this->estimatedFileUrl;
     }
 
     /**

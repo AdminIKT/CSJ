@@ -226,7 +226,7 @@ class AccountController extends BaseController
     //FIXME: Permissions
     protected function uploadToDrive(Account $account)
     {
-        if ($account->getFileId() === null) {
+        if ($account->getEstimatedFileId() === null) {
             $storage = Storage::disk('google');
             $service = $storage->getAdapter()->getService();
 
@@ -240,8 +240,8 @@ class AccountController extends BaseController
                             'fields' => 'id, webViewLink'
                         ]);
 
-            $account->setFileId($folder->getId())
-                   ->setFileUrl($folder->getWebViewLink());
+            $account->setEstimatedFileId($folder->getId())
+                    ->setEstimatedFileUrl($folder->getWebViewLink());
         }
 
         //if (false !== ($result = $storage->getAdapter()->createDir($account->getSerial(), new \League\Flysystem\Config))) {

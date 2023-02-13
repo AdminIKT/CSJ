@@ -137,8 +137,8 @@
                         </a>-->
                     @else-@endif
                 
-                    @if ($entity->getFileId())
-                        <a href="{{ $entity->getFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                    @if ($entity->getEstimatedFileId())
+                        <a href="{{ $entity->getEstimatedFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
                             <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" width="20px">
                         </a>
                     @else-@endif

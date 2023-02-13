@@ -7,22 +7,22 @@
         'route' => ['accounts.destroy', $entity->getId()], 
         'method' => 'delete',
     ]) }}
-    @if ($entity->getFileUrl())
+    @if ($entity->getEstimatedFileUrl())
     <div class="btn-group m-1">
-        <button id="filesBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button id="filesBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('Estimated files') }}">
             <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" title="{{ __('Drive storage') }}" width="20px">
         </button>
         <ul class="dropdown-menu" aria-labelledby="filesBtn">
-            @foreach ($entity->getFiles() as $file)
+            @foreach ($entity->getEstimatedFiles() as $file)
                 <li>
                     <a href="{{ $file->getFileUrl() }}" class="dropdown-item" target="_blank">{{ $file->getName() }}</a>
                 </li>
             @endforeach
-            @if ($entity->getFiles()->count())
+            @if ($entity->getEstimatedFiles()->count())
                 <li><hr class="dropdown-divider"></li>
             @endif
             <li>
-                <a href="{{ $entity->getFileUrl() }}" class="dropdown-item" target="_blank">{{ __('All') }}</a>
+                <a href="{{ $entity->getEstimatedFileUrl() }}" class="dropdown-item" target="_blank">{{ __('All') }}</a>
             </li>
         </ul>
     </div>
