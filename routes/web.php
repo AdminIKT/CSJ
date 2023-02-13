@@ -63,6 +63,7 @@ Route::resources([
 
 Route::middleware(['auth', 'user.valid'])->group(function() {
     Route::get('/', [Controllers\HomeController::class, 'home'])->name('home');
+    Route::get('/faqs', [Controllers\FAQController::class, 'index'])->name('faqs');
     Route::get('/receptions', [Controllers\OrderController::class, 'receptions'])->name('orders.receptions');
     Route::post('/orders/{order}/status', [Controllers\OrderController::class, 'status'])->name('orders.status');
     Route::get('/suppliers/{supplier}/indicence/{incidence}/close', [Controllers\Supplier\IncidenceController::class, 'close'])->name('suppliers.incidences.close');

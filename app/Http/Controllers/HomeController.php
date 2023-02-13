@@ -5,15 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
-class HomeController extends BaseController
+class HomeController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
-    protected function authorization()
-    {
-    }
-
     /**
      * Display a listing of the resource.
      *
