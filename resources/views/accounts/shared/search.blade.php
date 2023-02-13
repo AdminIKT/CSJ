@@ -82,10 +82,22 @@
                   </div>
                   {{ Form::number('available', request()->input('available'), ['class' => 'form-control', 'step' => '0.01', 'min' => 0]) }}
                   <span class="input-group-text">€</span>
-                  <button class="btn btn-primary" type="submit" id="button-addon2">
-                    <span data-feather="search"></span>
-                  </button>
                 </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="addon-status">{{ __('Pagination') }}</span>
+                {{ Form::select('perPage', [
+                    null =>  __('All'),
+                    5 => 5,
+                    10 => 10,
+                    20 => 20,
+                    50 => 50,
+                ], request()->input('perPage', $perPage), ['class'=>'form-select form-select-sm']) }}
+              <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+                    <i class="bx bx-search"></i>
+              </button>
             </div>
         </div>
     </div>
