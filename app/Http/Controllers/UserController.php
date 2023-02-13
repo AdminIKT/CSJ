@@ -52,6 +52,7 @@ class UserController extends BaseController
                                 ]), $ppg);
 
         return view('users.show', [
+            'perPage'    => $ppg,
             'entity'     => $user,
             'collection' => $accounts,
         ]); 
