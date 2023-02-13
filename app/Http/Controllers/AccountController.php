@@ -44,6 +44,7 @@ class AccountController extends BaseController
                       ->findBy([], ['name' => 'ASC']);
 
         return view('accounts.index', [
+            'perPage'  => $ppg,
             'accounts' => $accounts,
             'areas'    => Arr::pluck($areas, 'name', 'id'),
         ]); 
@@ -68,6 +69,7 @@ class AccountController extends BaseController
             'users'     => $users,
             'areas'     => $areas,
             'accounts'  => Arr::pluck($areas, 'name', 'id'),
+            'users'     => Arr::pluck($users, 'email', 'id'),
         ]); 
     }
 
@@ -142,8 +144,8 @@ class AccountController extends BaseController
             'route' => route('accounts.update', ['account' => $account->getId()]),
             'method' => 'PUT',
             'entity' => $account,
-            'users' => $users,
             'areas' => $areas,
+            'users' => Arr::pluck($users, 'email', 'id'),
         ]); 
     }
 

@@ -1,4 +1,4 @@
-<div class="product border mb-1 p-2" style="position:relative">
+<div class="group border mb-1 p-2" style="position:relative">
     <a href="#" class="bx bx-sm bxs-x-square" onclick="rmCollection(this)" style="position:absolute; top:0px; right:0px;"></a>
     <div class="row">
         {{ Form::hidden("products[{$index}][id]", old("products[{$index}][id]", $product ? $product['id'] : null)) }}

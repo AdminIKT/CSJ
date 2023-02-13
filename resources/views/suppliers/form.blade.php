@@ -112,19 +112,20 @@
         @foreach (old('contacts', [[]]) as $i => $contact)
             @include('suppliers.shared.form_contact', ['index' => $i])
         @endforeach
+        @if (!$entity->getId())
+            <button type="button" class="btn btn-sm btn-outline-primary float-end" onclick="addToCollection(this)">
+                <i class='bx bx-plus'></i><i class='bx bx-user'></i> {{__('New contact')}}
+            </button>
+        @endif
     </fieldset>
     @endif
 
+    <hr>
     <div class="col-md-12 mb-3">
         <!--{{ Form::submit(__('guardar'), ['class' => 'btn btn-sm btn-primary float-end']) }}-->
         <button type="submit" class="btn btn-sm btn-primary float-end">
             <i class='bx bxs-save'></i> {{ __('guardar') }}
         </button>
-        @if (!$entity->getId())
-            <button type="button" class="add-to-collection btn btn-sm btn-outline-primary mx-2 float-end">
-                <i class='bx bx-plus'></i><i class='bx bx-user'></i> {{__('New contact')}}
-            </button>
-        @endif
         <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-secondary">
             <i class='bx bx-x'></i> {{__('cancelar')}}
         </a>
@@ -135,23 +136,4 @@
 
     {{ Form::close() }}
 
-@endsection
-
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('.add-to-collection').on('click', function(e) {
-                e.preventDefault();
-                var container = $('.collection-container');
-                var count = container.children('.contact').length;
-                console.log(count);
-                var proto = container.data('prototype').replace(/__NAME__/g, count);
-                container.append(proto);
-            });
-        });
-
-        function rmCollection(btn) {
-            btn.closest('div').remove();
-        }
-    </script>
 @endsection

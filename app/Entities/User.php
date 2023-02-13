@@ -32,14 +32,14 @@ class User implements Authenticatable, HasRolesContract
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", unique=true)
      */
-    private $email;
+    public $email;
 
     /**
      * @var string

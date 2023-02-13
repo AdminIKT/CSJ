@@ -1,4 +1,4 @@
-<div class="area me-3">
+<div class="group mb-3 me-3">
     <div class="input-group">
         {{ Form::select("accounts[{$index}]", 
             [null => __('Selecciona')] + $accounts, 
@@ -9,7 +9,7 @@
             ],
             [null => ['disabled' => true]]
         ) }}
-        <input type="button" class="btn btn-sm btn-outline-secondary {{ $index ? '':'disabled' }}" onclick="rmCollection(this)" value="X">
+        <input type="button" class="btn btn-sm btn-outline-secondary {{ $index ? '':'disabled' }}" onclick="rmCollection(this)" data-callback="selectArea()" value="X">
         @if ($errors->has("accounts.{$index}"))
            <div class="invalid-feedback">{!! $errors->first("accounts.{$index}") !!}</div>
         @endif

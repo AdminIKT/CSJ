@@ -39,10 +39,12 @@ class AccountPutRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'   => 'required|max:255',
-            'users'  => 'required',
-            'status' => 'required',
-            'detail' => 'nullable',
+            'name'    => 'required|max:255',
+            'users'   => 'required',
+            'status'  => 'required',
+            'detail'  => 'nullable',
+            'users.0' => 'required',
+            'users.*' => 'required|distinct',
         ];
     }
 }
