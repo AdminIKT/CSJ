@@ -169,6 +169,13 @@
                   <span class="nav_name">{{ __('Settings') }}</span>
                 </a>
             @endcan
+            <!--
+            <hr style="margin-left:1rem; color:white;">
+            <a class="nav_link {{request()->is('help*') ? 'active' : ''}}" href="{{ route('faqs') }}" title="{{ __('Help') }}">
+              <i class="bx bxs-help-circle"></i>
+              <span class="nav_name">{{ __('FAQs') }}</span>
+            </a>
+            -->
           </div>
         </div>
         <a href="{{ route('logout') }}" class="nav_link" title="{{ __('Logout') }}">
