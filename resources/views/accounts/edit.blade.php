@@ -70,26 +70,18 @@
         @endif
     </div>
 
-    <fieldset class="mb-3">
-        <legend> {{ __('usuarios') }}</legend>
-        @php $cols = 10; $i=0; @endphp
-        <table class="table">
-        @for ($row=0; $row < count($users)/$cols; $row++)
-            <tr>
-            @for ($col=0; $col < $cols; $col++)
-                <td class="">
-                @if (isset($users[$i]))
-                    @php $e = $users[$i]; $i++; @endphp
-                    {{ Form::checkbox("users[]", $e->getId(), $entity->getusers()->contains($e), ['class' => 'form-check-input']) }}
-                    {{ Form::label("users[]", $e->getEmail(), ['class' => 'form-check-label']) }}
-                @endif
-                </td>
-            @endfor
-            </tr>
-        @endfor
-        </table>
+    {{ Form::label('users[]', __('Users'), ['class' => 'form-label']) }}
+    <fieldset class="collection-container d-flex flex-wrap" 
+             data-prototype='@include("accounts.shared.form_user", ["index" => "__NAME__"])'>
+        @foreach (old('users', Arr::pluck($entity->getUsers(), 'id')) as $i => $user)
+            @include('accounts.shared.form_user', ['index' => $i, 'id' => $user])
+        @endforeach
+        <button type="button" class="btn btn-sm btn-outline-secondary mb-3" onclick="addToCollection(this)">
+            <i class="bx bx-plus"></i> {{__('New user')}}
+        </button>
     </fieldset>
 
+    <hr>
     <div>
         {{ Form::submit(__('guardar'), ['class' => 'btn btn-primary btn-sm float-end']) }}
         <a href="{{ url()->previous() }}" class="btn btn-sm">

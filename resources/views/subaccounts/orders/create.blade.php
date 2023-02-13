@@ -106,14 +106,15 @@
         @foreach (old('products', []) as $i => $product)
             @include("subaccounts.orders.shared.form_product", ["index" => $i, 'product' => $product])
         @endforeach
+        <button type="button" class="btn btn-sm btn-outline-primary float-end" onclick="addToCollection(this)">
+            <i class="bx bx-plus"></i> {{__('nuevo_elemento')}}
+        </button>
     </fieldset>
 
+    <hr>
     <div class="col-md-12">
         <button type="submit" class="btn btn-sm btn-primary float-end">
             <i class='bx bxs-save'></i> {{ __('guardar') }}
-        </button>
-        <button type="button" class="btn btn-sm btn-outline-primary float-end mx-2" onclick="addToCollection()">
-            <i class="bx bx-plus"></i> {{__('nuevo_elemento')}}
         </button>
         <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-secondary">
             <i class='bx bx-x'></i> {{__('cancelar')}}
@@ -125,7 +126,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/custom/form-collections.js') }}"></script>
     <script src="{{ asset('js/custom/order-intercalate.js') }}"></script>
 
     <script>

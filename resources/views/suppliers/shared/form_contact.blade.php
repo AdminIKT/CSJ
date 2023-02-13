@@ -1,4 +1,4 @@
-<div class="contact border mb-1 p-2" style="position:relative">
+<div class="group border mb-1 p-2" style="position:relative">
     @if ($index) 
     <a href="#" class="bx bx-sm bxs-x-square" onclick="rmCollection(this)" style="position:absolute; top:0px; right:0px;"></a>
     @endif

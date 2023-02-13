@@ -38,20 +38,21 @@
         </div>
     </div>
 
-    <fieldset class="row mb-3 collection-container" 
+    <fieldset class="mb-3 collection-container" 
              data-prototype='@include("subaccounts.orders.shared.form_product", ["index" => "__NAME__", "product" => []])'>
         <legend>{{__('elementos')}}</legend>
         @foreach (old('products', $entity->getProducts()->map(function($item) { return $item->toArray(); })) as $i => $product)
             @include("subaccounts.orders.shared.form_product", ["index" => $i, 'product' => $product])
         @endforeach
+        <button type="button" class="btn btn-sm btn-outline-primary float-end" onclick="addToCollection(this)">
+            <i class="bx bx-plus"></i> {{__('nuevo_elemento')}}
+        </button>
     </fieldset>
 
+    <hr>
     <div class="col-md-12">
         <button type="submit" class="btn btn-sm btn-primary float-end">
             <i class='bx bxs-save'></i> {{ __('guardar') }}
-        </button>
-        <button type="button" class="btn btn-sm btn-outline-primary float-end mx-2" onclick="addToCollection()">
-            <i class="bx bx-plus"></i> {{__('nuevo_elemento')}}
         </button>
         <a href="{{ url()->previous() }}" class="btn btn-sm">
             <i class="bx bx-x"></i> {{__('cancelar')}}
@@ -59,7 +60,4 @@
     </div>
 
     {{ Form::close() }}
-@endsection
-@section('scripts')
-    <script src="{{ asset('js/custom/form-collections.js') }}"></script>
 @endsection

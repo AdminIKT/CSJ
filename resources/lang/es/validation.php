@@ -193,7 +193,9 @@ return [
       'products.*.detail' => __('Detail'),
       'products.*.units' => __('cantidad'),
       'accounts.0' => __('Areas'),
-      'accounts.1' => __('Areas')    
+      'accounts.1' => __('Areas'),    
+      'users.0' => __('Usuarios'),
+      'users.1' => __('Usuarios'),   
     ],
 
 ];

@@ -209,6 +209,7 @@
     <script src='{{ asset("js/feather.min.js") }}'></script>
     <script src='{{ asset("js/chart.min.js") }}'></script>
     <script src='{{ asset("/js/dashboard.js") }}'></script>
+    <script src="{{ asset('js/custom/form-collections.js') }}"></script>
     <script type="text/javascript">
       document.addEventListener("DOMContentLoaded", function (event) {
         const showNavbar = (toggleId, navId, bodyId, headerId) => {

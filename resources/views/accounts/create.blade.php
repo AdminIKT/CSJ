@@ -54,12 +54,13 @@
     </div>
 
     {{ Form::label('accounts[]', __('Areas'), ['class' => 'form-label']) }}
-    <fieldset class="mb-3 collection-container d-flex flex-wrap" 
+    <fieldset class="collection-container d-flex flex-wrap" 
+             data-callback='selectArea()'   
              data-prototype='@include("accounts.shared.form_area", ["index" => "__NAME__"])'>
         @foreach (old('accounts', [[]]) as $i => $area)
             @include('accounts.shared.form_area', ['index' => $i])
         @endforeach
-        <button type="button" class="add-to-collection btn btn-sm btn-outline-secondary">{{__('New area')}}</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary mb-3" onclick="addToCollection(this)">{{__('New area')}}</button>
     </fieldset>
 
     <div class="col-3 mb-3">
@@ -105,7 +106,6 @@
            <div class="invalid-feedback">{!! $errors->first('credit') !!}</div>
         @endif
     </div>
-    -->
 
     <fieldset class="mb-3">
         <legend> {{ __('usuarios') }}</legend>
@@ -126,7 +126,20 @@
         @endfor
         </table>
     </fieldset>
+    -->
 
+    {{ Form::label('users[]', __('Users'), ['class' => 'form-label']) }}
+    <fieldset class="collection-container d-flex flex-wrap" 
+             data-prototype='@include("accounts.shared.form_user", ["index" => "__NAME__"])'>
+        @foreach (old('users', [[]]) as $i => $user)
+            @include('accounts.shared.form_user', ['index' => $i])
+        @endforeach
+        <button type="button" class="btn btn-sm btn-outline-secondary mb-3" onclick="addToCollection(this)">
+            <i class="bx bx-plus"></i> {{__('New user')}}
+        </button>
+    </fieldset>
+
+    <hr>
     <div>
         {{ Form::button(__('guardar'), ['type' => 'submit', 'class' => 'btn btn-primary btn-sm btn-save float-end']) }}
         <a href="{{ url()->previous() }}" class="btn btn-sm">
@@ -139,17 +152,6 @@
 
 @section('scripts')
 <script>
-
-    $(document).ready(function() {
-        changeTypeInput($('#type'));
-        $('#type').change(function() {
-            changeTypeInput($(this));
-        });
-        changeCodeInput($('#lcode'));
-        $('#lcode').change(function() {
-            changeCodeInput($(this));
-        });
-    });
 
     function changeTypeInput(input) {
         var value    = input.val();
@@ -174,6 +176,7 @@
 
     var areas = @php echo json_encode($areas); @endphp;
     function selectArea() {
+        alert('a');
         var matches = 0;
         $(":input.accounts").each(function(i, val) {
           if ($(this).val() != null) {
@@ -201,20 +204,16 @@
     }
 
     $(document).ready(function() {
-        $('.add-to-collection').on('click', function(e) {
-            e.preventDefault();
-            var container = $('.collection-container');
-            var count = container.children('.area').length;
-            var proto = container.data('prototype').replace(/__NAME__/g, count);
-            container.children('.area').eq(count-1).after(proto);
-            selectArea();
+        changeTypeInput($('#type'));
+        $('#type').change(function() {
+            changeTypeInput($(this));
+        });
+        changeCodeInput($('#lcode'));
+        $('#lcode').change(function() {
+            changeCodeInput($(this));
         });
         selectArea();
     });
 
-    function rmCollection(btn) {
-        btn.closest('.area').remove();
-        selectArea();
-    }
 </script>
 @endsection
