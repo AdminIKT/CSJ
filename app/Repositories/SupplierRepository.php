@@ -19,6 +19,7 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
      *   name: string,
      *   city: string,
      *   region: string,
+     *   detail: string,
      *   sortBy: string,
      *   sort: string
      *   account: int,
@@ -104,6 +105,12 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
             null !== ($name = $filter['name'])) {
             $b->andWhere("supplier.name LIKE :name")
               ->setParameter('name', "%{$name}%");
+        }
+        
+        if (isset($filter['detail']) &&
+            null !== ($detail = $filter['detail'])) {
+            $b->andWhere("supplier.detail LIKE :detail")
+              ->setParameter('detail', "%{$detail}%");
         }
 
         if (isset($filter['city']) &&

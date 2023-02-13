@@ -74,7 +74,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-6">
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="basic-addon1">{{ __('Detail') }}</span>
+              {{ Form::text('detail', request()->input('detail'), ['class' => 'form-control']) }}
+            </div>
+        </div>
+        <div class="col-6">
             <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text" id="addon-status">{{ __('Pagination') }}</span>
                 {{ Form::select('perPage', [
