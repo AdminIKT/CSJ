@@ -51,16 +51,16 @@ class Account
     /**
      * @var string
      *
-     * @ORM\Column(name="drive_file", type="string")
+     * @ORM\Column(name="e_drive_file", type="string")
      */
-    private $fileId;
+    private $estimatedFileId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="drive_url", type="string")
+     * @ORM\Column(name="e_drive_url", type="string")
      */
-    private $fileUrl;
+    private $estimatedFileUrl;
 
     /**
      * @var string
@@ -109,7 +109,7 @@ class Account
      *
      * @ORM\OneToMany(targetEntity="App\Entities\Account\DriveFile", mappedBy="account", cascade={"persist", "remove"})
      */
-    private $files;
+    private $estimatedFiles;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -148,9 +148,9 @@ class Account
      */
     public function __construct()
     {
-        $this->subaccounts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->files    = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->users    = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subaccounts      = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->estimatedFiles   = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users            = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -449,21 +449,21 @@ class Account
      *
      * @return Account
      */
-    public function setFileId($fileId)
+    public function setEstimatedFileId($fileId)
     {
-        $this->fileId = (string) $fileId;
+        $this->estimatedFileId = (string) $fileId;
 
         return $this;
     }
 
     /**
-     * Get fileId.
+     * Get estimatedFileId.
      *
      * @return string
      */
-    public function getFileId()
+    public function getEstimatedFileId()
     {
-        return $this->fileId;
+        return $this->estimatedFileId;
     }
 
     /**
@@ -473,21 +473,21 @@ class Account
      *
      * @return Account
      */
-    public function setFileUrl($fileUrl)
+    public function setEstimatedFileUrl($fileUrl)
     {
-        $this->fileUrl = (string) $fileUrl;
+        $this->estimatedFileUrl = (string) $fileUrl;
 
         return $this;
     }
 
     /**
-     * Get fileUrl.
+     * Get estimatedFileUrl.
      *
      * @return string
      */
-    public function getFileUrl()
+    public function getEstimatedFileUrl()
     {
-        return $this->fileUrl;
+        return $this->estimatedFileUrl;
     }
 
     /**
@@ -497,21 +497,21 @@ class Account
      *
      * @return Account
      */
-    public function addFile(DriveFile $file)
+    public function addEstimatedFile(DriveFile $file)
     {
         $file->setAccount($this);
-        $this->files[] = $file;
+        $this->estimatedFiles[] = $file;
         return $this;
     }
 
     /**
-     * Get files.
+     * Get estimatedFiles.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getFiles()
+    public function getEstimatedFiles()
     {
-        return $this->files;
+        return $this->estimatedFiles;
     }
 
     /**

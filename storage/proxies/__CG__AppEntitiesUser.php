@@ -34,6 +34,7 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
      * @var array<string, null> properties to be lazy loaded, indexed by property name
      */
     public static $lazyPropertiesNames = array (
+  'email' => NULL,
 );
 
     /**
@@ -42,22 +43,67 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
      * @see \Doctrine\Common\Proxy\Proxy::__getLazyProperties
      */
     public static $lazyPropertiesDefaults = array (
+  'email' => NULL,
 );
 
 
 
     public function __construct(?\Closure $initializer = null, ?\Closure $cloner = null)
     {
+        unset($this->email);
 
         $this->__initializer__ = $initializer;
         $this->__cloner__      = $cloner;
     }
 
+    /**
+     * 
+     * @param string $name
+     */
+    public function __get($name)
+    {
+        if (\array_key_exists($name, self::$lazyPropertiesNames)) {
+            $this->__initializer__ && $this->__initializer__->__invoke($this, '__get', [$name]);
+            return $this->$name;
+        }
 
+        trigger_error(sprintf('Undefined property: %s::$%s', __CLASS__, $name), E_USER_NOTICE);
 
+    }
 
+    /**
+     * 
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function __set($name, $value)
+    {
+        if (\array_key_exists($name, self::$lazyPropertiesNames)) {
+            $this->__initializer__ && $this->__initializer__->__invoke($this, '__set', [$name, $value]);
 
+            $this->$name = $value;
 
+            return;
+        }
+
+        $this->$name = $value;
+    }
+
+    /**
+     * 
+     * @param  string $name
+     * @return boolean
+     */
+    public function __isset($name)
+    {
+        if (\array_key_exists($name, self::$lazyPropertiesNames)) {
+            $this->__initializer__ && $this->__initializer__->__invoke($this, '__isset', [$name]);
+
+            return isset($this->$name);
+        }
+
+        return false;
+    }
 
     /**
      * 
@@ -66,10 +112,10 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entities\\User' . "\0" . 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'status', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
+            return ['__isInitialized__', 'id', 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'status', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entities\\User' . "\0" . 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'email', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'status', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
+        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\User' . "\0" . 'password', '' . "\0" . 'App\\Entities\\User' . "\0" . 'status', '' . "\0" . 'App\\Entities\\User' . "\0" . 'googleId', '' . "\0" . 'App\\Entities\\User' . "\0" . 'name', '' . "\0" . 'App\\Entities\\User' . "\0" . 'avatar', '' . "\0" . 'App\\Entities\\User' . "\0" . 'remember_token', '' . "\0" . 'App\\Entities\\User' . "\0" . 'accounts', '' . "\0" . 'App\\Entities\\User' . "\0" . 'orders', '' . "\0" . 'App\\Entities\\User' . "\0" . 'suppliers', '' . "\0" . 'App\\Entities\\User' . "\0" . 'created', '' . "\0" . 'App\\Entities\\User' . "\0" . 'updated', '' . "\0" . 'App\\Entities\\User' . "\0" . 'lastLogin', 'roles'];
     }
 
     /**
@@ -91,6 +137,7 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
                 }
             };
 
+            unset($this->email);
         }
     }
 

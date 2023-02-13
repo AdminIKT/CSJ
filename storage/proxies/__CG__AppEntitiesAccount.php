@@ -112,10 +112,10 @@ class Account extends \App\Entities\Account implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'status', 'name', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'files', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
+            return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'status', 'name', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'estimatedFileId', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'estimatedFileUrl', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'estimatedFiles', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileId', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'fileUrl', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'files', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
+        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'estimatedFileId', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'estimatedFileUrl', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'acronym', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'lcode', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'type', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'compromisedCredit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'estimatedFiles', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'subaccounts', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'users', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Account' . "\0" . 'updated'];
     }
 
     /**
@@ -505,67 +505,67 @@ class Account extends \App\Entities\Account implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setFileId($fileId)
+    public function setEstimatedFileId($fileId)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFileId', [$fileId]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEstimatedFileId', [$fileId]);
 
-        return parent::setFileId($fileId);
+        return parent::setEstimatedFileId($fileId);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getFileId()
+    public function getEstimatedFileId()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFileId', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEstimatedFileId', []);
 
-        return parent::getFileId();
+        return parent::getEstimatedFileId();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setFileUrl($fileUrl)
+    public function setEstimatedFileUrl($fileUrl)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFileUrl', [$fileUrl]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEstimatedFileUrl', [$fileUrl]);
 
-        return parent::setFileUrl($fileUrl);
+        return parent::setEstimatedFileUrl($fileUrl);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getFileUrl()
+    public function getEstimatedFileUrl()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFileUrl', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEstimatedFileUrl', []);
 
-        return parent::getFileUrl();
+        return parent::getEstimatedFileUrl();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addFile(\App\Entities\Account\DriveFile $file)
+    public function addEstimatedFile(\App\Entities\Account\DriveFile $file)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addFile', [$file]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addEstimatedFile', [$file]);
 
-        return parent::addFile($file);
+        return parent::addEstimatedFile($file);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getFiles()
+    public function getEstimatedFiles()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFiles', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEstimatedFiles', []);
 
-        return parent::getFiles();
+        return parent::getEstimatedFiles();
     }
 
     /**
