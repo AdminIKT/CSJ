@@ -9,14 +9,14 @@
         'method'     => 'post',
         'enctype'    => 'multipart/form-data',
         'novalidate' => true,
-        'class'      => ' m-1 ms-0'
+        'class'      => 'm-1 ms-0'
     ]) }}
         <div class="input-group input-group-sm">
             <span class="input-group-text">
                 <i class="cbg {!! $entity->getStatusColor() !!}"></i>
             </span>
-            <select id="statusSel" name="status" class="form-select" onchange="enableForm(this)">
-                <option @if (!old('status')) selected @endif disabled="true">{{ $entity->getStatusName() }}</option>
+            <select id="statusSel" name="status" class="form-select">
+                <option value="{{ $entity->getStatus() }}" @if (!old('status')) selected @endif disabled="true">{{ $entity->getStatusName() }}</option>
                 @can('order-status-received', $entity)
                     <option value="{{ App\Entities\Order::STATUS_RECEIVED }}" @if (old('status') == \App\Entities\Order::STATUS_RECEIVED) selected @endif>{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_RECEIVED) }}</option>
                 @endcan
@@ -41,14 +41,19 @@
                 @endcan
                 -->
             </select>
-            <div class="input-group input-group-sm">
-            <span class="input-group-text invoice-control">{{ __('Invoice') }}</span>
-            {{ Form::file("invoice", ['class' => 'form-control form-control-sm invoice-control ' . ($errors->has('invoice') ? ' is-invalid':'')]) }}
-            @if ($errors->has('invoice'))
-               <div class="invalid-feedback">{!! $errors->first('invoice') !!}</div>
+            @if ($errors->has('status'))
+               <div class="invalid-feedback">{!! $errors->first('status') !!}</div>
             @endif
+            @if ($entity->isPayable())
+            <div class="input-group input-group-sm">
+                <span class="input-group-text invoice-control">{{ __('Invoice') }}</span>
+                {{ Form::file("invoice", ['class' => 'form-control form-control-sm invoice-control ' . ($errors->has('invoice') ? ' is-invalid':'')]) }}
+                @if ($errors->has('invoice'))
+                   <div class="invalid-feedback">{!! $errors->first('invoice') !!}</div>
+                @endif
             </div>
-            <button id="statusBtn" class="btn btn-outline-secondary disabled" type="submit">{{ __('guardar') }}</button>
+            @endif
+            <button id="statusBtn" class="btn btn-outline-secondary" type="submit">{{ __('guardar') }}</button>
         </div>
     {{ Form::close() }}
 
@@ -155,11 +160,16 @@
                 <td>{{ $entity->getEstimatedCredit() ? number_format($entity->getEstimatedCredit(), 2, ",", ".").'€' : '-'}}</td>
             </tr>
             <tr>
-                <th>{{ __('Invoice') }} <small class="text-muted">({{ __('Date') }})</small></th>
-                <th colspan="2">{{ __('Credit') }}</th>
+                <th colspan="2">{{ __('Invoice') }} <small class="text-muted">({{ __('Date') }})</small></th>
+                <th>{{ __('Credit') }}</th>
             </tr>
             <tr class="table-secondary">
-                <td>
+                <td colspan="2">
+                    @if ($entity->getInvoiceFileId())
+                        <a href="{{ $entity->getInvoiceFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                            <img src="{{ $entity->getInvoiceIcon() }}" alt="{{ __('Drive storage') }}" height="20px">
+                        </a>
+                    @else-@endif
                     {{ $entity->getInvoice() ?? "-" }}
                     @if ($entity->getInvoiceDate())
                     <small class="text-muted">
@@ -167,7 +177,7 @@
                     </small>
                     @endif
                 </td>
-                <td colspan="2">{{ $entity->getCredit() ? number_format($entity->getCredit(), 2, ",", ".").'€' : '-'}}</td>
+                <td>{{ $entity->getCredit() ? number_format($entity->getCredit(), 2, ",", ".").'€' : '-'}}</td>
             </tr>
         </table>
     </div>
@@ -243,29 +253,3 @@
 </div>
 @endsection
 
-@section('scripts')
-    <script>
-        function enableForm(input) {
-            var value   = $(input).val();
-            var btn     = $("#statusBtn");
-            var checked = <?php echo \App\Entities\Order::STATUS_CHECKED_INVOICED; ?>;
-            if (value) {
-                if (btn.hasClass('disabled')) btn.removeClass('disabled');
-                if (parseInt(value) == checked) {
-                    $('form .invoice-control').show();
-                }
-                else {
-                    //$('form .invoice-control').hide();
-                }
-            }
-            else {
-                if (!btn.hasClass('disabled')) btn.addClass('disabled');
-                //$('form .invoice-control').hide();
-            }
-
-        }
-        $(document).ready(function() {
-            enableForm("#statusSel");
-        });
-    </script>
-@endsection

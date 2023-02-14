@@ -3,14 +3,11 @@
     {{ __('Account :name', ['name' => $entity->getSerial()]) }} <small>({{$entity->getName()}})</small>
 @endsection
 @section('btn-toolbar')
-    {{ Form::open([
-        'route' => ['accounts.destroy', $entity->getId()], 
-        'method' => 'delete',
-    ]) }}
     @if ($entity->getFilesId(\App\Entities\Account\DriveFile::TYPE_ESTIMATE))
-        <div class="btn-group m-1">
+        <div class="input-group input-group-sm m-1">
+            <span class="input-group-text">{{ __('Presupuestos') }}</span>
             <button id="filesBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('Presupuestos') }}">
-                <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" title="{{ __('Drive storage') }}" width="20px">
+                <img src="/img/google/drive-doc.png" alt="{{ __('Drive storage') }}" title="{{ __('Drive storage') }}" height="20px">
             </button>
             <ul class="dropdown-menu" aria-labelledby="filesBtn">
                 @foreach ($entity->getFiles(\App\Entities\Account\DriveFile::TYPE_ESTIMATE) as $file)
@@ -28,9 +25,10 @@
         </div>
     @endif
     @if ($entity->getFilesId(\App\Entities\Account\DriveFile::TYPE_INVOICE))
-        <div class="btn-group m-1">
+        <div class="input-group input-group-sm m-1">
+            <span class="input-group-text">{{ __('Invoices') }}</span>
             <button id="filesBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('Invoices') }}">
-                <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" title="{{ __('Drive storage') }}" width="20px">
+                <img src="/img/google/drive-double-check.png" alt="{{ __('Drive storage') }}" title="{{ __('Drive storage') }}" height="20px">
             </button>
             <ul class="dropdown-menu" aria-labelledby="filesBtn">
                 @foreach ($entity->getFiles(\App\Entities\Account\DriveFile::TYPE_INVOICE) as $file)
@@ -76,21 +74,25 @@
             @endcan
         </div>
     @endif
-    <div class="btn-group btn-group-sm m-1" role="group">
-        @can('update', $entity)
-        <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('Edit') }}">
-            <span class="bx bxs-pencil"></span>
-        </a>
-        @endcan
-        @can('delete', $entity)
-        {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
-            'class'   => 'btn btn-outline-secondary', 
-            'type'    => 'submit',
-            'title'   => __('Delete'),
-            'onclick' => "return confirm('".__('delete.confirm')."')",
-        ]) }}
-        @endcan
-    </div>
+    {{ Form::open([
+        'route' => ['accounts.destroy', $entity->getId()], 
+        'method' => 'delete',
+    ]) }}
+        <div class="btn-group btn-group-sm m-1" role="group">
+            @can('update', $entity)
+            <a href="{{ route('accounts.edit', ['account' => $entity->getId()]) }}" class="btn btn-outline-secondary" title="{{ __('Edit') }}">
+                <span class="bx bxs-pencil"></span>
+            </a>
+            @endcan
+            @can('delete', $entity)
+            {{ Form::button('<i class="bx bxs-trash-alt"></i>', [
+                'class'   => 'btn btn-outline-secondary', 
+                'type'    => 'submit',
+                'title'   => __('Delete'),
+                'onclick' => "return confirm('".__('delete.confirm')."')",
+            ]) }}
+            @endcan
+        </div>
     {{ Form::close() }}
 @endsection
 

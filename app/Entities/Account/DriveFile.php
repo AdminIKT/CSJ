@@ -6,13 +6,17 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entities\Account;
 
 /**
- * Deparment 
- *
  * @ORM\Table(name="accounts_drive_files")
  * @ORM\Entity
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({
+ *  "estimate" = "EstimateDriveFile", 
+ *  "invoice"  = "InvoiceDriveFile"
+ * })
  * @ORM\HasLifecycleCallbacks
  */
-class DriveFile
+abstract class DriveFile
 {
     const TYPE_ESTIMATE = 'estimate';
     const TYPE_INVOICE  = 'invoice';

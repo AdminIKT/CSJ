@@ -71,16 +71,16 @@
                 <a href="{{ route('orders.show', ['order' => $order->getId()]) }}">{{ $order->getSequence() }}</a>
             </td>
             <td>
-               @if ($order->getEstimated())
-            <!--   <a href='{{ asset("storage/{$order->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}">
-                   <i class="bx bx-xs bx-hdd"></i>
-               </a>-->
+               @if ($order->getEstimateFileId())
+               <a href="{{ $order->getEstimateFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                   <img src="/img/google/drive-doc.png" alt="{{ __('Drive storage') }}" height="16px">
+               </a>
                @endif
             </td>
             <td>
-               @if ($order->getEstimateFileId())
-               <a href="{{ $order->getEstimateFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
-                   <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" width="16px">
+               @if ($order->getInvoiceFileId())
+               <a href="{{ $order->getInvoiceFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                   <img src="{{ $order->getInvoiceIcon() }}" alt="{{ __('Drive storage') }}" height="16px">
                </a>
                @endif
             </td>
