@@ -138,14 +138,14 @@
                 <td>
                     <a href="{{ route('suppliers.show', ['supplier' => $entity->getSupplier()->getId()]) }}">{{ $entity->getSupplier()->getName() }}</a>
                 </td>
-                <td>@if ($entity->getEstimated())
-                       <!-- <a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}" class="me-2">
+                <td><!--@if ($entity->getEstimated())
+                       <a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}" class="me-2">
                             <i class="bx bx-xs bx-hdd"></i>
-                        </a>-->
-                    @else-@endif
+                       </a>
+                    @else-@endif-->
                 
-                    @if ($entity->getEstimatedFileId())
-                        <a href="{{ $entity->getEstimatedFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                    @if ($entity->getEstimateFileId())
+                        <a href="{{ $entity->getEstimateFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
                             <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" width="20px">
                         </a>
                     @else-@endif
