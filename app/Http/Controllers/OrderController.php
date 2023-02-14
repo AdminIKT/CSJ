@@ -16,11 +16,28 @@ use App\Http\Requests\OrderPutRequest,
     App\Entities\Order,
     App\Entities\Order\Product,
     App\Entities\Supplier,
+    App\Entities\Account\DriveFile,
     App\Entities\Action\OrderAction as Action,
-    App\Events\OrderEvent;
+    App\Events\OrderEvent,
+    App\Services\CSJDriveService;
 
 class OrderController extends BaseController
 {
+    /**
+     * @var CSJDriveService
+     */
+    protected $drive;
+
+    /**
+     * @param EntityManagerInterface $em
+     * @param CSJDriveService $drive 
+     */
+    public function __construct(EntityManagerInterface $em, CSJDriveService $drive)
+    {
+        $this->drive = $drive;
+        parent::__construct($em);
+    }
+
     /**
      * @inheritDoc
      */
@@ -178,10 +195,26 @@ class OrderController extends BaseController
 
         $values = $request->validate([
             'status'  => ['required'],
-            'invoice' => ['required_if:status,5'],
+            'invoice' => [
+                'required_if:status,5',
+                'mimes:pdf'
+            ],
         ]);
 
         $order->setStatus($request->input('status'));
+
+        if (null !== ($f = $request->file('invoice'))) {
+            try {
+                $file = $this->drive->uploadFile($f, $order, DriveFile::TYPE_INVOICE);
+            } catch (\Exception $e) {
+                throw ValidationException::withMessages([
+                    'invoice' => $e->getMessage()
+                ]);
+            }
+
+            $order->setFileId($file->getId(), DriveFile::TYPE_INVOICE)
+                  ->setFileUrl($file->getWebViewLink(), DriveFile::TYPE_INVOICE);
+        }
 
         OrderEvent::dispatch($order, OrderEvent::ACTION_STATUS);
 

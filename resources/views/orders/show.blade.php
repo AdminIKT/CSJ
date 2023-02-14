@@ -5,9 +5,11 @@
 @section('btn-toolbar')
 
     {{ Form::open([
-        'route' => ['orders.status', $entity->getId()], 
-        'method' => 'post',
-        'class' => ' m-1 ms-0'
+        'route'      => ['orders.status', $entity->getId()], 
+        'method'     => 'post',
+        'enctype'    => 'multipart/form-data',
+        'novalidate' => true,
+        'class'      => ' m-1 ms-0'
     ]) }}
         <div class="input-group input-group-sm">
             <span class="input-group-text">
@@ -43,7 +45,7 @@
             <span class="input-group-text invoice-control">{{ __('Invoice') }}</span>
             {{ Form::file("invoice", ['class' => 'form-control form-control-sm invoice-control ' . ($errors->has('invoice') ? ' is-invalid':'')]) }}
             @if ($errors->has('invoice'))
-               <!--<div class="invalid-feedback">{!! $errors->first('invoice') !!}</div>-->
+               <div class="invalid-feedback">{!! $errors->first('invoice') !!}</div>
             @endif
             </div>
             <button id="statusBtn" class="btn btn-outline-secondary disabled" type="submit">{{ __('guardar') }}</button>
@@ -249,14 +251,16 @@
             var checked = <?php echo \App\Entities\Order::STATUS_CHECKED_INVOICED; ?>;
             if (value) {
                 if (btn.hasClass('disabled')) btn.removeClass('disabled');
-                if (parseInt(value) == checked)
+                if (parseInt(value) == checked) {
                     $('form .invoice-control').show();
-                else
-                    $('form .invoice-control').hide();
+                }
+                else {
+                    //$('form .invoice-control').hide();
+                }
             }
             else {
                 if (!btn.hasClass('disabled')) btn.addClass('disabled');
-                $('form .invoice-control').hide();
+                //$('form .invoice-control').hide();
             }
 
         }

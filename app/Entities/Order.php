@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use App\Entities\Order\Product,
     App\Entities\Supplier,
+    App\Entities\Account\DriveFile,
     App\Entities\Supplier\Incidence;
 
 /**
@@ -156,6 +157,20 @@ class Order implements UserAwareInterface, \JsonSerializable
     /**
      * @var string
      *
+     * @ORM\Column(name="i_drive_file", type="string", nullable=true)
+     */
+    private $invoiceFileId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="i_drive_url", type="string", nullable=true)
+     */
+    private $invoiceFileUrl;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="invoice", type="string", nullable=true)
      */
     private $invoice;
@@ -258,6 +273,38 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
+     * @param string $fileId
+     * @param string $type
+     * @return Order
+     */
+    public function setFileId($fileId, $type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                $this->setEstimateFileId($fileId);
+            case DriveFile::TYPE_INVOICE:
+                $this->setInvoiceFileId($fileId);
+        }
+        return $this;
+    }
+
+    /**
+     * @param string $fileUrl
+     * @param string $type
+     * @return Order
+     */
+    public function setFileUrl($fileUrl, $type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                $this->setEstimateFileUrl($fileUrl);
+            case DriveFile::TYPE_INVOICE:
+                $this->setInvoiceFileUrl($fileUrl);
+        }
+        return $this;
+    }
+
+    /**
      * Set estimateFileId.
      *
      * @param string $fileId
@@ -303,6 +350,54 @@ class Order implements UserAwareInterface, \JsonSerializable
     public function getEstimateFileUrl()
     {
         return $this->estimateFileUrl;
+    }
+
+    /**
+     * Set invoiceFileId.
+     *
+     * @param string $fileId
+     *
+     * @return Order 
+     */
+    public function setInvoiceFileId($fileId = null)
+    {
+        $this->invoiceFileId = $fileId;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceFileId.
+     *
+     * @return string|null
+     */
+    public function getInvoiceFileId()
+    {
+        return $this->invoiceFileId;
+    }
+
+    /**
+     * Set folder.
+     *
+     * @param string $fileUrl
+     *
+     * @return Order 
+     */
+    public function setInvoiceFileUrl($fileUrl)
+    {
+        $this->invoiceFileUrl = (string) $fileUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceFileUrl.
+     *
+     * @return string
+     */
+    public function getInvoiceFileUrl()
+    {
+        return $this->invoiceFileUrl;
     }
 
     /**

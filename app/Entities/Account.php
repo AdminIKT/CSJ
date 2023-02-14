@@ -65,6 +65,20 @@ class Account
     /**
      * @var string
      *
+     * @ORM\Column(name="i_drive_file", type="string")
+     */
+    private $invoicesFileId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="i_drive_url", type="string")
+     */
+    private $invoicesFileUrl;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="acronym", type="string", length=3)
      */
     private $acronym;
@@ -114,6 +128,13 @@ class Account
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\OneToMany(targetEntity="App\Entities\Account\DriveFile", mappedBy="account", cascade={"persist", "remove"})
+     */
+    private $invoiceFiles;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\OneToMany(targetEntity="Subaccount", mappedBy="account", cascade={"persist", "remove"})
      */
     private $subaccounts;
@@ -148,9 +169,10 @@ class Account
      */
     public function __construct()
     {
-        $this->subaccounts      = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->estimateFiles    = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->users            = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subaccounts   = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->estimateFiles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->invoiceFiles  = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users         = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -443,6 +465,96 @@ class Account
     }
 
     /**
+     * @param string $type
+     * @return string 
+     */
+    public function getFilesId($type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                return $this->getEstimatesFileId();
+            case DriveFile::TYPE_INVOICE:
+                return $this->getInvoicesFileId();
+        }
+    }
+
+    /**
+     * @param string $type
+     * @return string
+     */
+    public function getFilesUrl($type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                return $this->getEstimatesFileUrl();
+            case DriveFile::TYPE_INVOICE:
+                return $this->getInvoicesFileUrl();
+        }
+    }
+
+    /**
+     * @param string $type
+     * @return DriveFile[]
+     */
+    public function getFiles($type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                return $this->getEstimateFiles();
+            case DriveFile::TYPE_INVOICE:
+                return $this->getInvoiceFiles();
+        }
+    }
+
+    /**
+     * @param DriveFile $file
+     * @param string $type
+     * @return Account
+     */
+    public function addFile(DriveFile $file, $type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                $this->addEstimateFile($file);
+            case DriveFile::TYPE_INVOICE:
+                $this->addInvoiceFile($file);
+        }
+        return $this;
+    }
+
+    /**
+     * @param string $fileId
+     * @param string $type
+     * @return Account
+     */
+    public function setFileId($fileId, $type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                $this->setEstimatesFileId($fileId);
+            case DriveFile::TYPE_INVOICE:
+                $this->setInvoicesFileId($fileId);
+        }
+        return $this;
+    }
+
+    /**
+     * @param string $fileUrl
+     * @param string $type
+     * @return Account
+     */
+    public function setFileUrl($fileUrl, $type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                $this->setEstimatesFileUrl($fileUrl);
+            case DriveFile::TYPE_INVOICE:
+                $this->setInvoicesFileUrl($fileUrl);
+        }
+        return $this;
+    }
+
+    /**
      * Set folder.
      *
      * @param string $fileId
@@ -476,7 +588,6 @@ class Account
     public function setEstimatesFileUrl($fileUrl)
     {
         $this->estimatesFileUrl = (string) $fileUrl;
-
         return $this;
     }
 
@@ -512,6 +623,76 @@ class Account
     public function getEstimateFiles()
     {
         return $this->estimateFiles;
+    }
+
+    /**
+     * Add DriveFile.
+     *
+     * @param DriveFile $file
+     *
+     * @return Account
+     */
+    public function addInvoiceFile(DriveFile $file)
+    {
+        $file->setAccount($this);
+        $this->invoiceFiles[] = $file;
+        return $this;
+    }
+
+    /**
+     * Get invoiceFiles.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInvoiceFiles()
+    {
+        return $this->invoiceFiles;
+    }
+
+    /**
+     * Set folder.
+     *
+     * @param string $fileId
+     *
+     * @return Account
+     */
+    public function setInvoicesFileId($fileId)
+    {
+        $this->invoicesFileId = (string) $fileId;
+        return $this;
+    }
+
+    /**
+     * Get invoicesFileId.
+     *
+     * @return string
+     */
+    public function getInvoicesFileId()
+    {
+        return $this->invoicesFileId;
+    }
+
+    /**
+     * Set folder.
+     *
+     * @param string $fileUrl
+     *
+     * @return Account
+     */
+    public function setInvoicesFileUrl($fileUrl)
+    {
+        $this->invoicesFileUrl = (string) $fileUrl;
+        return $this;
+    }
+
+    /**
+     * Get invoicesFileUrl.
+     *
+     * @return string
+     */
+    public function getInvoicesFileUrl()
+    {
+        return $this->invoicesFileUrl;
     }
 
     /**

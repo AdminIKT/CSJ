@@ -138,15 +138,15 @@ class OrderController extends BaseController
             //$order->setEstimated($path);
 
             try {
-                $file = $this->drive->uploadEstimateFile($f, $order);
+                $file = $this->drive->uploadFile($f, $order, DriveFile::TYPE_ESTIMATE);
             } catch (\Exception $e) {
                 throw ValidationException::withMessages([
                     'estimated' => $e->getMessage()
                 ]);
             }
 
-            $order->setEstimateFileId($file->getId())
-                  ->setEstimateFileUrl($file->getWebViewLink());
+            $order->setFileId($file->getId(), DriveFile::TYPE_ESTIMATE)
+                  ->setFileUrl($file->getWebViewLink(), DriveFile::TYPE_ESTIMATE);
         }
 
         $this->em->persist($order);

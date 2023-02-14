@@ -15,6 +15,7 @@ use App\Entities\Account,
     App\Entities\Supplier,
     App\Entities\Subaccount,
     App\Entities\Area,
+    App\Entities\Account\DriveFile,
     App\Repositories\OrderRepository,
     App\Http\Requests\AccountPutRequest,
     App\Http\Requests\AccountPostRequest,
@@ -102,15 +103,18 @@ class AccountController extends BaseController
         $this->hydrateData($entity, $request->validated());
 
         try {
-            $folder = $this->drive->getEstimatesFolder($entity);
+            $estimates = $this->drive->getFolder($entity, DriveFile::TYPE_ESTIMATE);
+            $invoices  = $this->drive->getFolder($entity, DriveFile::TYPE_INVOICE);
         } catch (\Exception $e) {
             throw ValidationException::withMessages([
                 'acronym' => $e->getMessage()
             ]);
         }
 
-        $entity->setEstimatesFileId($folder->getId())
-               ->setEstimatesFileUrl($folder->getWebViewLink());
+        $entity->setFileId($estimates->getId(), DriveFile::TYPE_ESTIMATE)
+               ->setFileUrl($estimates->getWebViewLink(), DriveFile::TYPE_ESTIMATE)
+               ->setFileId($invoices->getId(), DriveFile::TYPE_INVOICE)
+               ->setFileUrl($invoices->getWebViewLink(), DriveFile::TYPE_INVOICE);
 
         $this->em->persist($entity);
         $this->em->flush();
@@ -236,6 +240,5 @@ class AccountController extends BaseController
                 $entity->addSubaccount($account);
             }
         }
-
     }
 }

@@ -84,37 +84,66 @@ class CSJDriveService
      * @param Account $account
      * @return Google\Service\Drive\DriveFile
      */
-    public function getEstimatesFolder(Account $account)
+    protected function getEstimatesFolder(Account $account)
     {
         return $this->createFolder(
             "{$account->getSerial()} ({$account->getName()})", 
-            env('GOOGLE_DRIVE_ESTIMATEDS_FOLDER_ID')
+            env('GOOGLE_DRIVE_ESTIMATES_FOLDER_ID')
         );
+    }
+
+    /**
+     * @param Account $account
+     * @return Google\Service\Drive\DriveFile
+     */
+    protected function getInvoicesFolder(Account $account)
+    {
+        return $this->createFolder(
+            "{$account->getSerial()} ({$account->getName()})", 
+            env('GOOGLE_DRIVE_INVOICES_FOLDER_ID')
+        );
+    }
+
+    /**
+     * @param Account $account
+     * @param string $type
+     * @return Google\Service\Drive\DriveFile
+     */
+    public function getFolder(Account $account, $type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                return $this->getEstimatesFolder($account);
+            case DriveFile::TYPE_INVOICE:
+                return $this->getInvoicesFolder($account);
+        }
     }
 
     /**
      * @param UploadedFile $file
      * @param Order $order
+     * @param string $type
      * @return Google\Service\Drive\DriveFile
      */
-    public function uploadEstimateFile(UploadedFile $file, Order $order)
+    public function uploadFile(UploadedFile $file, Order $order, $type)
     {
         $account = $order->getAccount();
         $name    = $order->getDate()->format('Y');
-        foreach ($account->getEstimateFiles() as $folder) {
+        $files   = $account->getFiles($type);
+        foreach ($files as $folder) {
             if ($folder->getName() === $name) {
                 $child = $folder;
             }
         }
 
         if (!isset($child)) {
-            $folder = $this->createFolder($name, $account->getEstimatesFileId());
+            $folder = $this->createFolder($name, $account->getFilesId($type));
             $child  = new DriveFile;
             $child->setName($folder->getName())
                   ->setFileId($folder->getId())
                   ->setFileUrl($folder->getWebViewLink());
 
-            $account->addEstimateFile($child);
+            $account->addFile($child, $type);
         }
 
         return $this->createFile(
