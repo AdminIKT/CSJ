@@ -17,10 +17,26 @@ use App\Entities\Account,
     App\Entities\Area,
     App\Repositories\OrderRepository,
     App\Http\Requests\AccountPutRequest,
-    App\Http\Requests\AccountPostRequest;
+    App\Http\Requests\AccountPostRequest,
+    App\Services\CSJDriveService;
 
 class AccountController extends BaseController
 {
+    /**
+     * @var CSJDriveService
+     */
+    protected $drive;
+
+    /**
+     * @param EntityManagerInterface $em
+     * @param CSJDriveService $drive 
+     */
+    public function __construct(EntityManagerInterface $em, CSJDriveService $drive)
+    {
+        $this->drive = $drive;
+        parent::__construct($em);
+    }
+
     /**
      * @inheritDoc
      */
@@ -82,20 +98,20 @@ class AccountController extends BaseController
     public function store(AccountPostRequest $request)
     {
         $entity = new Account;
+
         $this->hydrateData($entity, $request->validated());
+
         try {
-            $this->uploadToDrive($entity);
-        } catch (\Google\Exception $e) {
-            foreach ($e->getErrors() as $error) {
-                throw ValidationException::withMessages([
-                    'acronym' => $error['message']
-                ]);
-            }
+            $folder = $this->drive->getEstimatesFolder($entity);
         } catch (\Exception $e) {
             throw ValidationException::withMessages([
                 'acronym' => $e->getMessage()
             ]);
         }
+
+        $entity->setEstimatesFileId($folder->getId())
+               ->setEstimatesFileUrl($folder->getWebViewLink());
+
         $this->em->persist($entity);
         $this->em->flush();
         return redirect()->route('accounts.show', ['account' => $entity->getId()])
@@ -220,33 +236,6 @@ class AccountController extends BaseController
                 $entity->addSubaccount($account);
             }
         }
-
-    }
-
-    //FIXME: Permissions
-    protected function uploadToDrive(Account $account)
-    {
-        if ($account->getEstimatedFileId() === null) {
-            $storage = Storage::disk('google');
-            $service = $storage->getAdapter()->getService();
-
-            $parent  = env('GOOGLE_DRIVE_FOLDER_ID');
-            $fileMetadata = new \Google_Service_Drive_DriveFile([
-                'name'     => "{$account->getSerial()} ({$account->getName()})",
-                'parents'  => [$parent],
-                'mimeType' => 'application/vnd.google-apps.folder',
-            ]);
-            $folder = $service->files->create($fileMetadata, [
-                            'fields' => 'id, webViewLink'
-                        ]);
-
-            $account->setEstimatedFileId($folder->getId())
-                    ->setEstimatedFileUrl($folder->getWebViewLink());
-        }
-
-        //if (false !== ($result = $storage->getAdapter()->createDir($account->getSerial(), new \League\Flysystem\Config))) {
-        //    $account->setFolder($result['path']);
-        //}
 
     }
 }

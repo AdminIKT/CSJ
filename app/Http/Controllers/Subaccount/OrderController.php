@@ -13,6 +13,7 @@ use Illuminate\Http\Request,
 
 use App\Http\Controllers\BaseController,
     App\Http\Requests\OrderPostRequest;
+use App\Services\CSJDriveService;
 use App\Entities\Account,
     App\Entities\Subaccount,
     App\Entities\Supplier,
@@ -25,6 +26,21 @@ use App\Exceptions\Supplier\InvoicedLimitException;
 
 class OrderController extends BaseController
 {
+    /**
+     * @var CSJDriveService
+     */
+    protected $drive;
+
+    /**
+     * @param EntityManagerInterface $em
+     * @param CSJDriveService $drive 
+     */
+    public function __construct(EntityManagerInterface $em, CSJDriveService $drive)
+    {
+        $this->drive = $drive;
+        parent::__construct($em);
+    }
+
     /**
      * @inheritDoc
      */
@@ -116,23 +132,20 @@ class OrderController extends BaseController
             throw $e;
         }
 
-        if (null !== ($file = $request->file('estimated'))) {
-            $path = Storage::disk('public')->putFileAs('files', $file, "{$order->getSequence()}.pdf");
-            $order->setEstimated($path);
+        if (null !== ($f = $request->file('estimated'))) {
+            //$path = Storage::disk('public')->putFileAs('files', $f, "{$order->getSequence()}.pdf");
+            //$order->setEstimated($path);
 
             try {
-                $this->uploadToDrive($file, $order);
-            } catch (\Google\Exception $e) {
-                foreach ($e->getErrors() as $error) {
-                    throw ValidationException::withMessages([
-                        'estimated' => $error['message']
-                    ]);
-                }
+                $file = $this->drive->uploadEstimateFile($f, $order);
             } catch (\Exception $e) {
                 throw ValidationException::withMessages([
                     'estimated' => $e->getMessage()
                 ]);
             }
+
+            $order->setEstimateFileId($file->getId())
+                  ->setEstimateFileUrl($file->getWebViewLink());
         }
 
         $this->em->persist($order);
@@ -171,62 +184,5 @@ class OrderController extends BaseController
                 $entity->addProduct($product);
             }
         }
-    }
-
-    //FIXME: Permissions
-    protected function uploadToDrive(UploadedFile $file, Order $order)
-    {
-        $parent   = $order->getAccount()->getEstimatedFileId();
-        $storage  = Storage::disk('google');
-
-        $adapter = $storage->getAdapter();
-        $service = $adapter->getService();
-
-        //$children = $service->files->listFiles([
-        //                  'q' => "'{$parent}' in parents", 
-        //             ])->getFiles();
-        //foreach ($children as $child) {
-        //    if ($child->getName() == $order->getDate()->format('y')) {
-        //        $folder = $child;
-        //    }
-        //}
-        foreach ($order->getAccount()->getEstimatedFiles() as $folder) {
-            if ($folder->getName() === $order->getDate()->format('Y')) {
-                $child = $folder;
-            }
-        }
-
-        if (!isset($child)) {
-            $fileMetadata = new \Google_Service_Drive_DriveFile([
-                'name'     => $order->getDate()->format('Y'),
-                'parents'  => [$parent],
-                'mimeType' => 'application/vnd.google-apps.folder',
-            ]);
-            $folder = $service->files->create($fileMetadata, [
-                        'fields' => 'id, name, webViewLink'
-                        ]);
-            $child  = new DriveFile;
-            $child->setName($folder->getName())
-                  ->setFileId($folder->getId())
-                  ->setFileUrl($folder->getWebViewLink());
-            $order->getAccount()->addEstimatedFile($child);
-        }
-
-        $fileMetadata = new \Google_Service_Drive_DriveFile([
-            'name' => "{$order->getSequence()}.pdf",
-            'parents' => [$child->getFileId()], 
-        ]);
-
-        if (null !== ($res = $service->files->create($fileMetadata, [
-                   'data' => file_get_contents($file),
-                   'mimeType' => $file->getClientMimeType(),
-                   'uploadType' => 'multipart',
-                   'fields' => 'id, webViewLink',
-            ]))) {
-            $order->setEstimatedFileId($res->getId())
-                  ->setEstimatedFileUrl($res->getWebViewLink());
-        }
-
-        return $res;
     }
 }

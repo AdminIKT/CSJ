@@ -5,3 +5,7 @@ ALTER TABLE `accounts` CHANGE `drive_url` `e_drive_url` VARCHAR(255) CHARACTER S
 
 ALTER TABLE `orders` CHANGE `drive_file` `e_drive_file` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL; 
 ALTER TABLE `orders` CHANGE `drive_url` `e_drive_url` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL; 
+
+-- env
+
+-- doctrine:schema:update
