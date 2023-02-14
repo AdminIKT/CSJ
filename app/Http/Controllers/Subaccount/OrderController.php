@@ -43,7 +43,8 @@ class OrderController extends BaseController
     {
         $criteria = new DoctrineCriteria;
         $criteria->where(DoctrineCriteria::expr()
-                 ->gte('status', Supplier::STATUS_VALIDATED));
+                 ->gte('status', Supplier::STATUS_VALIDATED))
+                 ->orderBy(['name' => DoctrineCriteria::ASC]);
         $suppliers = $this->em->getRepository(Supplier::class)
                           ->matching($criteria)
                           ->toArray();
