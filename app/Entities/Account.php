@@ -531,7 +531,7 @@ class Account
      * @param string $type
      * @return Account
      */
-    public function setFileId($fileId, $type)
+    public function setFilesId($fileId, $type)
     {
         switch ($type) {
             case DriveFile::TYPE_ESTIMATE:
@@ -549,7 +549,7 @@ class Account
      * @param string $type
      * @return Account
      */
-    public function setFileUrl($fileUrl, $type)
+    public function setFilesUrl($fileUrl, $type)
     {
         switch ($type) {
             case DriveFile::TYPE_ESTIMATE:
