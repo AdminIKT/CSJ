@@ -7,25 +7,45 @@
         'route' => ['accounts.destroy', $entity->getId()], 
         'method' => 'delete',
     ]) }}
-    @if ($entity->getEstimatesFileUrl())
-    <div class="btn-group m-1">
-        <button id="filesBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('Estimated files') }}">
-            <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" title="{{ __('Drive storage') }}" width="20px">
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="filesBtn">
-            @foreach ($entity->getEstimateFiles() as $file)
+    @if ($entity->getFilesId(\App\Entities\Account\DriveFile::TYPE_ESTIMATE))
+        <div class="btn-group m-1">
+            <button id="filesBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('Presupuestos') }}">
+                <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" title="{{ __('Drive storage') }}" width="20px">
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="filesBtn">
+                @foreach ($entity->getFiles(\App\Entities\Account\DriveFile::TYPE_ESTIMATE) as $file)
+                    <li>
+                        <a href="{{ $file->getFileUrl() }}" class="dropdown-item" target="_blank">{{ $file->getName() }}</a>
+                    </li>
+                @endforeach
+                @if ($entity->getFiles(\App\Entities\Account\DriveFile::TYPE_ESTIMATE)->count())
+                    <li><hr class="dropdown-divider"></li>
+                @endif
                 <li>
-                    <a href="{{ $file->getFileUrl() }}" class="dropdown-item" target="_blank">{{ $file->getName() }}</a>
+                    <a href="{{ $entity->getFilesUrl(\App\Entities\Account\DriveFile::TYPE_ESTIMATE) }}" class="dropdown-item" target="_blank">{{ __('All') }}</a>
                 </li>
-            @endforeach
-            @if ($entity->getEstimateFiles()->count())
-                <li><hr class="dropdown-divider"></li>
-            @endif
-            <li>
-                <a href="{{ $entity->getEstimatesFileUrl() }}" class="dropdown-item" target="_blank">{{ __('All') }}</a>
-            </li>
-        </ul>
-    </div>
+            </ul>
+        </div>
+    @endif
+    @if ($entity->getFilesId(\App\Entities\Account\DriveFile::TYPE_INVOICE))
+        <div class="btn-group m-1">
+            <button id="filesBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('Invoices') }}">
+                <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" title="{{ __('Drive storage') }}" width="20px">
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="filesBtn">
+                @foreach ($entity->getFiles(\App\Entities\Account\DriveFile::TYPE_INVOICE) as $file)
+                    <li>
+                        <a href="{{ $file->getFileUrl() }}" class="dropdown-item" target="_blank">{{ $file->getName() }}</a>
+                    </li>
+                @endforeach
+                @if ($entity->getFiles(\App\Entities\Account\DriveFile::TYPE_INVOICE)->count())
+                    <li><hr class="dropdown-divider"></li>
+                @endif
+                <li>
+                    <a href="{{ $entity->getFilesUrl(\App\Entities\Account\DriveFile::TYPE_INVOICE) }}" class="dropdown-item" target="_blank">{{ __('All') }}</a>
+                </li>
+            </ul>
+        </div>
     @endif
     @if ($entity->getSubaccounts()->count() === 1)
         <div class="btn-group btn-group-sm m-1">

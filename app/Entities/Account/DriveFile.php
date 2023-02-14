@@ -14,6 +14,9 @@ use App\Entities\Account;
  */
 class DriveFile
 {
+    const TYPE_ESTIMATE = 'estimate';
+    const TYPE_INVOICE  = 'invoice';
+
     /**
      * @var int
      *
