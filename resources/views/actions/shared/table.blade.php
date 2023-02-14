@@ -25,13 +25,24 @@
             @foreach ($collection as $action)
             <tr>
                 @if (!(isset($exclude) && in_array('entity', $exclude)))
-                <td>@if ($action->getEntity())<a href="{{ route('orders.show', ['order' => $action->getEntity()->getId()]) }}">{{ $action->getEntity()->getSequence() }}</a>@endif</td>
+                <td>
+                    @if ($action->getEntity())
+                        <a href="{{ route('orders.show', ['order' => $action->getEntity()->getId()]) }}">{{ $action->getEntity()->getSequence() }}</a>
+                    @endif
+                </td>
                 @endif
                 <td>{{ $action->getTypeName() }}</td>
-                <td><span class="badge {{ \App\Entities\Order::statusColor($action->getAction()) }}">{{ \App\Entities\Order::statusName($action->getAction()) }}</span></td>
+                <td>
+                    <span class="badge {{ \App\Entities\Order::statusColor($action->getAction()) }}">
+                        {{ \App\Entities\Order::statusName($action->getAction()) }}
+                    </span>
+                </td>
                 <td>{{ $action->getUser()->getName() }}</td>
-                <!--<td>{{ Carbon\Carbon::parse($action->getCreated())->diffForHumans() }}</td>-->
-                <td>{{ $action->getCreated()->format(\DateTimeInterface::RFC7231) }}</td>
+                <td>
+                    <span data-bs-toggle="tooltip" title="{{ $action->getCreated()->format(\DateTimeInterface::RFC7231) }}">
+                        {{ Carbon\Carbon::parse($action->getCreated())->diffForHumans() }}</td>
+                    </span>
+                </td>
             </tr>
             @endforeach
             @if ($pagination ?? '')

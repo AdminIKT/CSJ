@@ -4,7 +4,9 @@ namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM,
     Doctrine\Common\Collections\ArrayCollection;
-use App\Entities\Account\DriveFile;
+use App\Entities\Account\DriveFile,
+    App\Entities\Account\EstimateDriveFile,
+    App\Entities\Account\InvoiceDriveFile;
 
 /**
  * Account
@@ -121,14 +123,14 @@ class Account
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entities\Account\DriveFile", mappedBy="account", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entities\Account\EstimateDriveFile", mappedBy="account", cascade={"persist", "remove"})
      */
     private $estimateFiles;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entities\Account\DriveFile", mappedBy="account", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entities\Account\InvoiceDriveFile", mappedBy="account", cascade={"persist", "remove"})
      */
     private $invoiceFiles;
 
@@ -516,8 +518,10 @@ class Account
         switch ($type) {
             case DriveFile::TYPE_ESTIMATE:
                 $this->addEstimateFile($file);
+                break;
             case DriveFile::TYPE_INVOICE:
                 $this->addInvoiceFile($file);
+                break;
         }
         return $this;
     }
@@ -532,8 +536,10 @@ class Account
         switch ($type) {
             case DriveFile::TYPE_ESTIMATE:
                 $this->setEstimatesFileId($fileId);
+                break;
             case DriveFile::TYPE_INVOICE:
                 $this->setInvoicesFileId($fileId);
+                break;
         }
         return $this;
     }
@@ -548,8 +554,10 @@ class Account
         switch ($type) {
             case DriveFile::TYPE_ESTIMATE:
                 $this->setEstimatesFileUrl($fileUrl);
+                break;
             case DriveFile::TYPE_INVOICE:
                 $this->setInvoicesFileUrl($fileUrl);
+                break;
         }
         return $this;
     }
@@ -608,7 +616,7 @@ class Account
      *
      * @return Account
      */
-    public function addEstimateFile(DriveFile $file)
+    public function addEstimateFile(EstimateDriveFile $file)
     {
         $file->setAccount($this);
         $this->estimateFiles[] = $file;
@@ -632,7 +640,7 @@ class Account
      *
      * @return Account
      */
-    public function addInvoiceFile(DriveFile $file)
+    public function addInvoiceFile(InvoiceDriveFile $file)
     {
         $file->setAccount($this);
         $this->invoiceFiles[] = $file;

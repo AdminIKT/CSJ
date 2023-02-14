@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Entities\Order,
     App\Entities\Account,
     App\Entities\Account\DriveFile,
+    App\Entities\Account\EstimateDriveFile,
+    App\Entities\Account\InvoiceDriveFile,
     App\Exceptions\Drive\FileUploadException as DriveException;
 
 use Illuminate\Http\UploadedFile,
@@ -138,7 +140,16 @@ class CSJDriveService
 
         if (!isset($child)) {
             $folder = $this->createFolder($name, $account->getFilesId($type));
-            $child  = new DriveFile;
+            switch ($type) {
+                case DriveFile::TYPE_ESTIMATE:
+                    $child = new EstimateDriveFile;
+                    break;
+                case DriveFile::TYPE_INVOICE:
+                    $child = new InvoiceDriveFile;
+                    break;
+                default:
+                    throw new \Exception("Unknown {$type} type file");
+            }
             $child->setName($folder->getName())
                   ->setFileId($folder->getId())
                   ->setFileUrl($folder->getWebViewLink());

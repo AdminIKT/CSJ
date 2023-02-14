@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entities\Order\Product,
     App\Entities\Supplier,
     App\Entities\Account\DriveFile,
+    App\Entities\Account\InvoiceDriveFile,
     App\Entities\Supplier\Incidence;
 
 /**
@@ -282,8 +283,10 @@ class Order implements UserAwareInterface, \JsonSerializable
         switch ($type) {
             case DriveFile::TYPE_ESTIMATE:
                 $this->setEstimateFileId($fileId);
+                break;
             case DriveFile::TYPE_INVOICE:
                 $this->setInvoiceFileId($fileId);
+                break;
         }
         return $this;
     }
@@ -298,10 +301,40 @@ class Order implements UserAwareInterface, \JsonSerializable
         switch ($type) {
             case DriveFile::TYPE_ESTIMATE:
                 $this->setEstimateFileUrl($fileUrl);
+                break;
             case DriveFile::TYPE_INVOICE:
                 $this->setInvoiceFileUrl($fileUrl);
+                break;
         }
         return $this;
+    }
+
+    /**
+     * @param string $type
+     * @return string 
+     */
+    public function getFileId($type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                return $this->getEstimateFileId();
+            case DriveFile::TYPE_INVOICE:
+                return $this->getInvoiceFileId();
+        }
+    }
+
+    /**
+     * @param string $type
+     * @return string
+     */
+    public function getFileUrl($type)
+    {
+        switch ($type) {
+            case DriveFile::TYPE_ESTIMATE:
+                return $this->getEstimateFileUrl();
+            case DriveFile::TYPE_INVOICE:
+                return $this->getInvoiceFileUrl();
+        }
     }
 
     /**
@@ -973,6 +1006,14 @@ class Order implements UserAwareInterface, \JsonSerializable
                 return trans("Moved");
             default: return trans("Undefined");
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getInvoiceIcon()
+    {
+        return InvoiceDriveFile::getIcon($this);
     }
 
     /**

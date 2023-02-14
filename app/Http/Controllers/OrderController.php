@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Gate,
-    Illuminate\Support\Arr;
+    Illuminate\Support\Arr,
+    Illuminate\Validation\ValidationException;
 
 use App\Http\Requests\OrderPutRequest,
     App\Entities\OrderCharge,
@@ -194,14 +195,14 @@ class OrderController extends BaseController
         */
 
         $values = $request->validate([
-            'status'  => ['required'],
+            'status'  => [
+                //'required'
+            ],
             'invoice' => [
-                'required_if:status,5',
+                //'required_if:status,5',
                 'mimes:pdf'
             ],
         ]);
-
-        $order->setStatus($request->input('status'));
 
         if (null !== ($f = $request->file('invoice'))) {
             try {
@@ -216,7 +217,17 @@ class OrderController extends BaseController
                   ->setFileUrl($file->getWebViewLink(), DriveFile::TYPE_INVOICE);
         }
 
-        OrderEvent::dispatch($order, OrderEvent::ACTION_STATUS);
+        if (isset($values['status'])) {
+            $order->setStatus($values['status']);
+            if ($order->isStatus(Order::STATUS_CHECKED_INVOICED) && 
+                $order->getFileId(DriveFile::TYPE_INVOICE) === null
+            ) {
+                throw ValidationException::withMessages([
+                    'invoice' => __("Invoice is required for order in ':status' state", ['status' => Order::statusName(Order::STATUS_CHECKED_INVOICED)]) 
+                ]);
+            } 
+            OrderEvent::dispatch($order, OrderEvent::ACTION_STATUS);
+        }
 
         $this->em->flush();
         return redirect()->back()
