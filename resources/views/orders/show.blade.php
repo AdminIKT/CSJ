@@ -137,45 +137,59 @@
                 </td>
             </tr>
             <tr>
-                <th>{{ __('Supplier') }}</th>
+                <th colspan="2">{{ __('User') }}
+                    <small class="small text-muted">({{ __('Created') }})</small>
+                </th>
+                <th>{{ __('Receive in') }}</th>
+            </tr>
+            <tr class="table-secondary">
+                <td colspan="2">
+                    {{ $entity->getUser()->getName() }}
+                    <span class="small text-muted">{{ Carbon\Carbon::parse($entity->getCreated())->diffForHumans() }}</span>
+                </td>
+                <td>{{ $entity->getReceiveInName() }}</td>
+            </tr>
+            <tr>
                 <th>{{ __('Presupuesto') }}</th>
+                <th>{{ __('Date') }}</th>
                 <th>{{ __('Estimated') }}</th>
             </tr>
             <tr class="table-secondary">
-                <td>
-                    <a href="{{ route('suppliers.show', ['supplier' => $entity->getSupplier()->getId()]) }}">{{ $entity->getSupplier()->getName() }}</a>
-                </td>
                 <td><!--@if ($entity->getEstimated())
                        <a href='{{ asset("storage/{$entity->getEstimated()}") }}' target="_blank" title="{{__('Local storage')}}" class="me-2">
                             <i class="bx bx-xs bx-hdd"></i>
                        </a>
                     @else-@endif-->
-                
                     @if ($entity->getEstimateFileId())
                         <a href="{{ $entity->getEstimateFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
-                            <img src="/img/google/drive.png" alt="{{ __('Drive storage') }}" width="20px">
+                            <img src="/img/google/drive-doc.png" alt="{{ __('Drive storage') }}" height="20px">
                         </a>
                     @else-@endif
                 </td>
+                <td>{{ $entity->getDate()->format("D, d M Y") }}</td>
                 <td>{{ $entity->getEstimatedCredit() ? number_format($entity->getEstimatedCredit(), 2, ",", ".").'€' : '-'}}</td>
             </tr>
             <tr>
-                <th colspan="2">{{ __('Invoice') }} <small class="text-muted">({{ __('Date') }})</small></th>
+                <th>{{ __('Invoice') }}</th>
+                <th>Nº <small class="text-muted">({{ __('Date') }})</small></th>
                 <th>{{ __('Credit') }}</th>
             </tr>
             <tr class="table-secondary">
-                <td colspan="2">
+                <td>
                     @if ($entity->getInvoiceFileId())
                         <a href="{{ $entity->getInvoiceFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
                             <img src="{{ $entity->getInvoiceIcon() }}" alt="{{ __('Drive storage') }}" height="20px">
                         </a>
                     @else-@endif
+                </td>
+                <td>
                     {{ $entity->getInvoice() ?? "-" }}
                     @if ($entity->getInvoiceDate())
-                    <small class="text-muted">
-                        ({{ $entity->getInvoiceDate()->format("D, d M Y") }})
-                    </small>
+                        <small class="text-muted">
+                            ({{ $entity->getInvoiceDate()->format("D, d M Y") }})
+                        </small>
                     @endif
+                </td>
                 </td>
                 <td>{{ $entity->getCredit() ? number_format($entity->getCredit(), 2, ",", ".").'€' : '-'}}</td>
             </tr>
@@ -184,19 +198,32 @@
     <div class="table-responsive col-sm-12 col-md-6">
         <table class="table table-sm align-middle table-bordered border-white">
             <tr>
-                <th>{{ __('User') }}
-                    <small class="small text-muted">({{ __('Created') }})</small>
-                </th>
-                <th>{{ __('Date') }}</th>
-                <th>{{ __('Receive in') }}</th>
+                <th>{{ __('Supplier') }}</th>
+                <th colspan="2">{{ __('Contacts') }}</th>
             </tr>
             <tr class="table-secondary">
-                <td>
-                    {{ $entity->getUser()->getName() }}
-                    <span class="small text-muted">{{ Carbon\Carbon::parse($entity->getCreated())->diffForHumans() }}</span>
+                @php $contacts = $entity->getSupplier()->getContacts()->count() 
+                                    ? $entity->getSupplier()->getContacts()
+                                    : [new \App\Entities\Supplier\Contact];
+                @endphp
+                <td rowspan="{{ count($contacts) }}">
+                    <a href="{{ route('suppliers.show', ['supplier' => $entity->getSupplier()->getId()]) }}">
+                        {{ $entity->getSupplier()->getName() }}
+                    </a>
                 </td>
-                <td>{{ $entity->getDate()->format("D, d M Y") }}</td>
-                <td>{{ $entity->getReceiveInName() }}</td>
+                @foreach ($contacts as $i => $contact)
+                    @if ($i) <tr class="table-secondary"> @endif
+                    <td colspan="2">
+                        {{ $contact->getName() }}
+                        @if ($contact->getEmail()) 
+                            <small class="text-muted"><i class='bx bx-envelope'></i> {{ $contact->getEmail() }}</small>
+                        @endif
+                        @if ($contact->getPhone()) 
+                            <small class="text-muted"><i class='bx bx-phone'></i> <small>{{ $contact->getPhone() }}</small>
+                        @endif
+                    </td>
+                    @if ($i) </tr> @endif
+                @endforeach
             </tr>
             @if (count($entity->getProducts())) 
                 <tr>

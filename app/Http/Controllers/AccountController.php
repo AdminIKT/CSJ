@@ -111,10 +111,10 @@ class AccountController extends BaseController
             ]);
         }
 
-        $entity->setFileId($estimates->getId(), DriveFile::TYPE_ESTIMATE)
-               ->setFileUrl($estimates->getWebViewLink(), DriveFile::TYPE_ESTIMATE)
-               ->setFileId($invoices->getId(), DriveFile::TYPE_INVOICE)
-               ->setFileUrl($invoices->getWebViewLink(), DriveFile::TYPE_INVOICE);
+        $entity->setFilesId($estimates->getId(), DriveFile::TYPE_ESTIMATE)
+               ->setFilesUrl($estimates->getWebViewLink(), DriveFile::TYPE_ESTIMATE)
+               ->setFilesId($invoices->getId(), DriveFile::TYPE_INVOICE)
+               ->setFilesUrl($invoices->getWebViewLink(), DriveFile::TYPE_INVOICE);
 
         $this->em->persist($entity);
         $this->em->flush();
