@@ -13,25 +13,25 @@
             <span class="input-group-text">
                 <i class="cbg {!! $entity->getStatusColor() !!}"></i>
             </span>
-            <select id="statusSel" name="status" class="form-select" onchange="enableBtn(this)">
-                <option selected="selected" disabled="true">{{ $entity->getStatusName() }}</option>
+            <select id="statusSel" name="status" class="form-select" onchange="enableForm(this)">
+                <option @if (!old('status')) selected @endif disabled="true">{{ $entity->getStatusName() }}</option>
                 @can('order-status-received', $entity)
-                    <option value="{{ App\Entities\Order::STATUS_RECEIVED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_RECEIVED) }}</option>
+                    <option value="{{ App\Entities\Order::STATUS_RECEIVED }}" @if (old('status') == \App\Entities\Order::STATUS_RECEIVED) selected @endif>{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_RECEIVED) }}</option>
                 @endcan
                 @can('order-status-checked-not-agreed', $entity)
-                    <option value="{{ App\Entities\Order::STATUS_CHECKED_NOT_AGREED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_NOT_AGREED) }}</option>
+                    <option value="{{ App\Entities\Order::STATUS_CHECKED_NOT_AGREED }}" @if (old('status') == \App\Entities\Order::STATUS_CHECKED_NOT_AGREED) selected @endif>{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_NOT_AGREED) }}</option>
                 @endcan
                 @can('order-status-checked-partial-agreed', $entity)
-                    <option value="{{ App\Entities\Order::STATUS_CHECKED_PARTIAL_AGREED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_PARTIAL_AGREED) }}</option>
+                    <option value="{{ App\Entities\Order::STATUS_CHECKED_PARTIAL_AGREED }}" @if (old('status') == \App\Entities\Order::STATUS_CHECKED_PARTIAL_AGREED) selected @endif>{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_PARTIAL_AGREED) }}</option>
                 @endcan
                 @can('order-status-checked-agreed', $entity)
-                    <option value="{{ App\Entities\Order::STATUS_CHECKED_AGREED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_AGREED) }}</option>
+                    <option value="{{ App\Entities\Order::STATUS_CHECKED_AGREED }}" @if (old('status') == \App\Entities\Order::STATUS_CHECKED_AGREED) selected @endif>{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_AGREED) }}</option>
                 @endcan
                 @can('order-status-checked-invoiced', $entity)
-                    <option value="{{ App\Entities\Order::STATUS_CHECKED_INVOICED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_INVOICED) }}</option>
+                    <option value="{{ App\Entities\Order::STATUS_CHECKED_INVOICED }}" @if (old('status') == \App\Entities\Order::STATUS_CHECKED_INVOICED) selected @endif>{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_INVOICED) }}</option>
                 @endcan
                 @can('order-status-cancelled', $entity)
-                    <option value="{{ App\Entities\Order::STATUS_CANCELLED }}">{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CANCELLED) }}</option>
+                    <option value="{{ App\Entities\Order::STATUS_CANCELLED }}" @if (old('status') == \App\Entities\Order::STATUS_CANCELLED) selected @endif>{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CANCELLED) }}</option>
                 @endcan
                 <!--
                 @can('order-status-paid', $entity)
@@ -39,6 +39,13 @@
                 @endcan
                 -->
             </select>
+            <div class="input-group input-group-sm">
+            <span class="input-group-text invoice-control">{{ __('Invoice') }}</span>
+            {{ Form::file("invoice", ['class' => 'form-control form-control-sm invoice-control ' . ($errors->has('invoice') ? ' is-invalid':'')]) }}
+            @if ($errors->has('invoice'))
+               <!--<div class="invalid-feedback">{!! $errors->first('invoice') !!}</div>-->
+            @endif
+            </div>
             <button id="statusBtn" class="btn btn-outline-secondary disabled" type="submit">{{ __('guardar') }}</button>
         </div>
     {{ Form::close() }}
@@ -236,16 +243,25 @@
 
 @section('scripts')
     <script>
-        function enableBtn(input) {
-            var value = $(input).val();
-            var btn   = $("#statusBtn");
-            if (value && btn.hasClass("disabled")) 
-                $("#statusBtn").removeClass("disabled");
-            else if (!btn.hasClass("disabled"))
-                $("statusBtn").addClass("disabled");
+        function enableForm(input) {
+            var value   = $(input).val();
+            var btn     = $("#statusBtn");
+            var checked = <?php echo \App\Entities\Order::STATUS_CHECKED_INVOICED; ?>;
+            if (value) {
+                if (btn.hasClass('disabled')) btn.removeClass('disabled');
+                if (parseInt(value) == checked)
+                    $('form .invoice-control').show();
+                else
+                    $('form .invoice-control').hide();
+            }
+            else {
+                if (!btn.hasClass('disabled')) btn.addClass('disabled');
+                $('form .invoice-control').hide();
+            }
+
         }
         $(document).ready(function() {
-            enableBtn("#statusSel");
+            enableForm("#statusSel");
         });
     </script>
 @endsection

@@ -175,6 +175,12 @@ class OrderController extends BaseController
         $perm = strtolower(str_replace("_", "-", $cons[$request->input('status')]));
         Gate::authorize("order-{$perm}", $order);
         */
+
+        $values = $request->validate([
+            'status'  => ['required'],
+            'invoice' => ['required_if:status,5'],
+        ]);
+
         $order->setStatus($request->input('status'));
 
         OrderEvent::dispatch($order, OrderEvent::ACTION_STATUS);
