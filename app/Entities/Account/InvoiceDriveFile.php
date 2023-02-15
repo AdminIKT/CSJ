@@ -11,15 +11,15 @@ use App\Entities\Order;
 class InvoiceDriveFile extends DriveFile
 {
     /**
-     * @param Order $order
+     * @param int $status
      * @return string
      */
-    public static function getIcon(Order $order)
+    public static function getIcon($status)
     {
         //FIXME
         $path = "/img/google/icon.png";
 
-        switch ($order->getStatus()) {
+        switch ($status) {
             case Order::STATUS_CREATED:
             case Order::STATUS_RECEIVED:
                 $icon = "drive-regular";

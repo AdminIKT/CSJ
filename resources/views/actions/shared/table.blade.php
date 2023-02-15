@@ -7,7 +7,7 @@
             <th>{{ __('Entity') }}</th>
             @endif
             <th>{{ __('Type') }}</th>
-            <th>{{ __('Action') }}</th>
+            <th class="text-center">{{ __('Action') }}</th>
             <th>{{ __('User') }}</th>
             @if (!(isset($exclude) && in_array('created', $exclude)))
             <th scope="col">{{ __('Created') }}
@@ -32,10 +32,16 @@
                 </td>
                 @endif
                 <td>{{ $action->getTypeName() }}</td>
-                <td>
-                    <span class="badge {{ \App\Entities\Order::statusColor($action->getAction()) }}">
-                        {{ \App\Entities\Order::statusName($action->getAction()) }}
-                    </span>
+                <td class="text-center">
+                    @if ($action->getType() === \App\Entities\Action\OrderAction::TYPE_STATUS)
+                        <span class="badge {{ \App\Entities\Order::statusColor($action->getAction()) }}">
+                            {{ \App\Entities\Order::statusName($action->getAction()) }}
+                        </span>
+                    @elseif ($action->getType() === \App\Entities\Action\OrderAction::TYPE_INVOICE)
+                        <a href="{{ $action->getDetail() }}" target="_blank" title="{{ __('Google storage') }}">
+                            <img src="{{ \App\Entities\Account\InvoiceDriveFile::getIcon($action->getAction()) }}" alt="{{ __('Drive storage') }}" height="16px">
+                        </a>
+                    @endif
                 </td>
                 <td>{{ $action->getUser()->getName() }}</td>
                 <td>

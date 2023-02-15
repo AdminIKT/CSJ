@@ -1013,7 +1013,7 @@ class Order implements UserAwareInterface, \JsonSerializable
      */
     public function getInvoiceIcon()
     {
-        return InvoiceDriveFile::getIcon($this);
+        return InvoiceDriveFile::getIcon($this->getStatus());
     }
 
     /**

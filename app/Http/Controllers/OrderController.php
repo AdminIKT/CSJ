@@ -204,6 +204,11 @@ class OrderController extends BaseController
             ],
         ]);
 
+        if (isset($values['status'])) {
+            $order->setStatus($values['status']);
+            OrderEvent::dispatch($order, OrderEvent::ACTION_STATUS);
+        }
+
         if (null !== ($f = $request->file('invoice'))) {
             try {
                 $file = $this->drive->uploadFile($f, $order, DriveFile::TYPE_INVOICE);
@@ -215,19 +220,16 @@ class OrderController extends BaseController
 
             $order->setFileId($file->getId(), DriveFile::TYPE_INVOICE)
                   ->setFileUrl($file->getWebViewLink(), DriveFile::TYPE_INVOICE);
+            OrderEvent::dispatch($order, OrderEvent::ACTION_INVOICE);
         }
 
-        if (isset($values['status'])) {
-            $order->setStatus($values['status']);
-            if ($order->isStatus(Order::STATUS_CHECKED_INVOICED) && 
-                $order->getFileId(DriveFile::TYPE_INVOICE) === null
-            ) {
-                throw ValidationException::withMessages([
-                    'invoice' => __("Invoice is required for order in ':status' state", ['status' => Order::statusName(Order::STATUS_CHECKED_INVOICED)]) 
-                ]);
-            } 
-            OrderEvent::dispatch($order, OrderEvent::ACTION_STATUS);
-        }
+        if ($order->isStatus(Order::STATUS_CHECKED_INVOICED) && 
+            $order->getFileId(DriveFile::TYPE_INVOICE) === null
+        ) {
+            throw ValidationException::withMessages([
+                'invoice' => __("Invoice is required for order in ':status' state", ['status' => Order::statusName(Order::STATUS_CHECKED_INVOICED)]) 
+            ]);
+        } 
 
         $this->em->flush();
         return redirect()->back()

@@ -1,4 +1,5 @@
 -- php artisan down --secret="1630542a-246b-4b66-afa1-dd72a4c43515"
+-- php artisan create-backup
 
 -- mysql -u root -p1turr1 -n laravel < sql/migration/drive_fields.sql
 
@@ -14,3 +15,4 @@ UPDATE `accounts_drive_files` SET `discr`='estimate' WHERE 1;
 
 -- env
 -- route
+-- event

@@ -12,7 +12,8 @@ use Illuminate\Queue\SerializesModels;
 
 class OrderEvent extends AbstractEvent implements UserAwareEvent
 {
-    const ACTION_STATUS = 'status';
+    const ACTION_STATUS  = 'status';
+    const ACTION_INVOICE = 'invoice';
 
     /**
      * @inheritDoc
