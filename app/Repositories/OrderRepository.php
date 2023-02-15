@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Entities;
+use App\Entities,
+    App\Doctrine\CastAsFloat;
+use Doctrine\ORM\Query\Expr\Func;
 
 /**
  * OrderRepository
@@ -139,16 +141,27 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
             $date = new \DateTime('today');
         }
 
+        $locate  = new Func("LOCATE", ["'/'", "o.sequence"]); 
+        $substr  = new Func("SUBSTRING", ["o.sequence", "{$locate}+4"]);
+        $replace = new Func("REPLACE", [$substr, "'-'", "'.'"]);
+
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomNumericFunction('CAST', CastAsFloat::class);
+
         return $this->createQueryBuilder('o')
                     ->innerJoin('o.subaccount', 's')
                     ->andWhere('s.account = :account')
                     ->setParameter('account', $account->getId())
                     ->andWhere('YEAR(o.date) = :date')
                     ->setParameter('date', $date->format('Y'))
-                    ->addOrderBy('o.date', 'desc')
-                    ->addOrderBy('o.sequence', 'desc')
+                    ->addOrderBy("CAST({$replace})", 'desc')
+                    ->addOrderBy("{$replace}", 'desc')
                     ->setMaxResults(1)
                     ->getQuery()
-                    ->getOneOrNullResult();
+                    ->getOneOrNullResult()
+                    ;
+
+        //$sql = $query->getSql();
+        //dd($sql);
     }
 }
