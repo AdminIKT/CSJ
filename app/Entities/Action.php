@@ -42,6 +42,13 @@ abstract class Action
     public $action;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="detail", type="string", nullable=true)
+     */
+    private $detail;
+
+    /**
      * @var User 
      *
      * @ORM\ManyToOne(targetEntity="App\Entities\User", inversedBy="actions")
@@ -111,6 +118,30 @@ abstract class Action
     public function getAction()
     {
         return $this->action;
+    }
+
+    /**
+     * Set detail.
+     *
+     * @param string|null $detail
+     *
+     * @return Action 
+     */
+    public function setDetail($detail = null)
+    {
+        $this->detail = $detail;
+
+        return $this;
+    }
+
+    /**
+     * Get detail.
+     *
+     * @return string
+     */
+    public function getDetail()
+    {
+        return $this->detail;
     }
 
     /**

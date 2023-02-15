@@ -3,8 +3,9 @@
 namespace App\Listeners\Orders;
 
 use App\Events\OrderEvent,
+    App\Entities\Order,
     App\Entities\Action\OrderAction,
-    App\Entities\Order;
+    App\Entities\Account\DriveFile;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Auth;
@@ -34,17 +35,22 @@ class ActionInjection
      */
     public function handle(OrderEvent $event)
     {
-        //if (!$event->action === OrderEvent::ACTION_STATUS) {
-        //    return;
-        //}
-
         $action = new OrderAction;
         $action->setOrder($event->entity)
-            ->setType(OrderAction::TYPE_STATUS)
-            ->setAction($event->entity->getStatus())
             ->setUser(Auth::user())
             ->setCreated(new \DateTime())
-            ;
+            ->setAction($event->entity->getStatus());
+
+        switch ($event->action) {
+
+            case OrderEvent::ACTION_INVOICE:
+                $action->setType(OrderAction::TYPE_INVOICE)
+                       ->setDetail($event->entity->getFileUrl(DriveFile::TYPE_INVOICE));
+                break;
+
+            default:
+                $action->setType(OrderAction::TYPE_STATUS);
+        }
 
         $this->em->persist($action);
     }

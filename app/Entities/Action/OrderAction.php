@@ -13,7 +13,8 @@ use App\Entities\Order;
  */
 class OrderAction extends Action 
 {
-    const TYPE_STATUS = 0;
+    const TYPE_STATUS  = 0;
+    const TYPE_INVOICE = 1;
 
     /**
      * @var Order 
@@ -70,7 +71,10 @@ class OrderAction extends Action
                         return trans('New order');
                 }
                 return trans('State changed');
-            return trans('Undefined');
+            case self::TYPE_INVOICE:
+                return trans('Save invoice');
+            default:
+                return trans('Undefined');
         }
     }
 }
