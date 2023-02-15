@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 use App\Entities,
     App\Doctrine\CastAsFloat;
-use Doctrine\ORM\Query\Expr\Func;
+
+use Doctrine\ORM\QueryBuilder,
+    Doctrine\ORM\Query\Expr\Func;
 
 /**
  * OrderRepository
@@ -109,12 +111,12 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
 
         $b->addOrderBy(
             array_key_exists('sortBy', $filter) ?
-                    $filter['sortBy'] : 'orders.sequence',
+                    $filter['sortBy'] : 'orders.date',
             array_key_exists('sort', $filter) ?
                     $filter['sort'] : 'DESC'
         );
 
-        $b->addOrderBy('orders.sequence', 'DESC');
+        $this->addSequenceOrderBy($b);
 
         if (!$perPage) {
             $perPage = clone $b;
@@ -141,27 +143,41 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
             $date = new \DateTime('today');
         }
 
-        $locate  = new Func("LOCATE", ["'/'", "o.sequence"]); 
-        $substr  = new Func("SUBSTRING", ["o.sequence", "{$locate}+4"]);
-        $replace = new Func("REPLACE", [$substr, "'-'", "'.'"]);
+        $builder = $this->createQueryBuilder('o')
+                        ->innerJoin('o.subaccount', 's')
+                        ->andWhere('s.account = :account')
+                        ->setParameter('account', $account->getId())
+                        ->andWhere('YEAR(o.date) = :date')
+                        ->setParameter('date', $date->format('Y'))
+                        ->setMaxResults(1);
 
-        $config = $this->getEntityManager()->getConfiguration();
-        $config->addCustomNumericFunction('CAST', CastAsFloat::class);
+        $this->addSequenceOrderBy($builder, "o");
 
-        return $this->createQueryBuilder('o')
-                    ->innerJoin('o.subaccount', 's')
-                    ->andWhere('s.account = :account')
-                    ->setParameter('account', $account->getId())
-                    ->andWhere('YEAR(o.date) = :date')
-                    ->setParameter('date', $date->format('Y'))
-                    ->addOrderBy("CAST({$replace})", 'desc')
-                    ->addOrderBy("{$replace}", 'desc')
-                    ->setMaxResults(1)
-                    ->getQuery()
-                    ->getOneOrNullResult()
-                    ;
+        return $builder->getQuery()
+                       ->getOneOrNullResult();
 
         //$sql = $query->getSql();
         //dd($sql);
+    }
+
+    /**
+     * @param QueryBuilder $builder
+     * @param string $alias
+     * @param string $order
+     * @return QueryBuilder
+     */
+    protected function addSequenceOrderBy(QueryBuilder $builder, $alias = "orders", $order = "DESC")
+    {
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomNumericFunction('CAST', CastAsFloat::class);
+
+        $locate  = new Func("LOCATE", ["'/'", "{$alias}.sequence"]); 
+        $substr  = new Func("SUBSTRING", ["{$alias}.sequence", "{$locate}+4"]);
+        $replace = new Func("REPLACE", [$substr, "'-'", "'.'"]);
+
+        $builder->addOrderBy("CAST({$replace})", $order)
+                ->addOrderBy("{$replace}", $order);
+                
+        return $builder;
     }
 }
