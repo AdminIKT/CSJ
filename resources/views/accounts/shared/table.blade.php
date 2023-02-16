@@ -4,10 +4,10 @@
     <thead>
     <tr>
         <th scope="col">{{ __('acronimo') }}
-            <a class="{{ request()->get('sortBy') == 'account.name' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.name', 'sort' => 'asc']) }}">
+            <a class="{{ request()->get('sortBy') == 'account.acronym' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.acronym', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
-            <a class="{{ request()->get('sortBy') == 'account.name' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.name', 'sort' => 'desc']) }}">
+            <a class="{{ request()->get('sortBy') == 'account.acronym' && request()->get('sort') == 'desc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'account.acronym', 'sort' => 'desc']) }}">
                 <span data-feather="chevron-down"></span>
             </a>
         </th>

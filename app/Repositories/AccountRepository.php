@@ -82,9 +82,9 @@ class AccountRepository extends \Doctrine\ORM\EntityRepository
         }
         $b->orderBy(
             array_key_exists('sortBy', $filter) ?
-                    $filter['sortBy'] : 'account.name',
+                    $filter['sortBy'] : 'account.acronym',
             array_key_exists('sort', $filter) ?
-                    $filter['sort'] : 'DESC'
+                    $filter['sort'] : 'ASC'
         );
 
         if (!$perPage) {
