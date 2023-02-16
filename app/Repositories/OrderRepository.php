@@ -72,9 +72,8 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
               ->setParameter('receiveIn', $receiveIn);
         }
         if (isset($filter['status']) &&
-            null !== ($status = $filter['status'])) {
-            $b->andWhere("orders.status = :status")
-              ->setParameter('status', $status);
+            null !== ($status = $filter['status'])) {           
+                $b->andWhere($b->expr()->in("orders.status", $status));         
         }
         if (isset($filter['estimated']) &&
             null !== ($estimated = $filter['estimated'])) {

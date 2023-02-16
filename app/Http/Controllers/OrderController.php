@@ -194,7 +194,7 @@ class OrderController extends BaseController
                         ->search(array_merge(
                             $request->all(), [
                            // 'receiveIn' => Order::RECEIVE_IN_RECEPTION,
-                            'status'    => Order::STATUS_CREATED,
+                            'status'    => [Order::STATUS_CREATED,Order::STATUS_CHECKED_PARTIAL_AGREED]
                             ]
                         ), $ppg);
 
