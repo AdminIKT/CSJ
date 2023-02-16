@@ -109,6 +109,7 @@
                   <i class="bx bx-cart"></i>
                   <span class="nav_name">{{ __('Suppliers') }}</span>
                 </a>
+               
             @endcan
             @can('viewAny', App\Entities\Action::class)
                 <a class="nav_link {{request()->is('actions*') ? 'active' : ''}}" href="{{ route('actions.index') }}" title="{{ __('Activity') }}">
@@ -116,8 +117,10 @@
                   <span class="nav_name">{{ __('Activity') }}</span>
                 </a>
             @else
-                <!-- ------------------------------------ -->
-                <hr style="margin-left:1rem; color:white;">
+                <!-- ------------------------------------ -->     
+                @can('viewAny', App\Entities\Supplier::class)               
+                <hr style="margin-left:1rem; color:white;">    
+                @endcan       
                 <a class="nav_link {{request()->is('users/*') ? 'active' : ''}}" href="{{ route('users.show', ['user' => Auth::user()->getId()]) }}" title="{{ __('My accounts') }}">
                   <i class="bx bxs-credit-card"></i>
                   <span class="nav_name">{{ __('My accounts') }}</span>
