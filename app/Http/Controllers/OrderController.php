@@ -195,45 +195,51 @@ class OrderController extends BaseController
         */
 
         $values = $request->validate([
-            'status'  => [
-                //'required'
-            ],
-            'invoice' => [
-                //'required_if:status,5',
-                'mimes:pdf'
-            ],
+            'status'  => ['required'],
         ]);
 
-        if (isset($values['status'])) {
-            $order->setStatus($values['status']);
-            OrderEvent::dispatch($order, OrderEvent::ACTION_STATUS);
-        }
-
-        if (null !== ($f = $request->file('invoice'))) {
-            try {
-                $file = $this->drive->uploadFile($f, $order, DriveFile::TYPE_INVOICE);
-            } catch (\Exception $e) {
-                throw ValidationException::withMessages([
-                    'invoice' => $e->getMessage()
-                ]);
-            }
-
-            $order->setFileId($file->getId(), DriveFile::TYPE_INVOICE)
-                  ->setFileUrl($file->getWebViewLink(), DriveFile::TYPE_INVOICE);
-            OrderEvent::dispatch($order, OrderEvent::ACTION_INVOICE);
-        }
-
+        $order->setStatus($values['status']);
         if ($order->isStatus(Order::STATUS_CHECKED_INVOICED) && 
             $order->getFileId(DriveFile::TYPE_INVOICE) === null
         ) {
             throw ValidationException::withMessages([
-                'invoice' => __("Invoice is required for order in ':status' state", ['status' => Order::statusName(Order::STATUS_CHECKED_INVOICED)]) 
+                'status' => __("Invoice required") 
             ]);
         } 
+
+        OrderEvent::dispatch($order, OrderEvent::ACTION_STATUS);
 
         $this->em->flush();
         return redirect()->back()
                          ->with("success", __('Successfully updated'));
+    }
+
+    /**
+     * @return \Illuminate\Http\Response
+     */
+    public function invoice(Request $request, Order $order)
+    {
+        $values = $request->validate([
+            'invoice' => ['required', 'mimes:pdf'],
+        ]);
+
+        $f = $request->file('invoice');
+        try {
+            $file = $this->drive->uploadFile($f, $order, DriveFile::TYPE_INVOICE);
+        } catch (\Exception $e) {
+            throw ValidationException::withMessages([
+                'invoice' => $e->getMessage()
+            ]);
+        }
+
+        $order->setFileId($file->getId(), DriveFile::TYPE_INVOICE)
+              ->setFileUrl($file->getWebViewLink(), DriveFile::TYPE_INVOICE);
+
+        OrderEvent::dispatch($order, OrderEvent::ACTION_INVOICE);
+
+        $this->em->flush();
+        return redirect()->back()
+                         ->with("success", __('Successfully uploaded'));
     }
 
     /**

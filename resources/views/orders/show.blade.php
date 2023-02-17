@@ -7,7 +7,6 @@
     {{ Form::open([
         'route'      => ['orders.status', $entity->getId()], 
         'method'     => 'post',
-        'enctype'    => 'multipart/form-data',
         'novalidate' => true,
         'class'      => 'm-1 ms-0'
     ]) }}
@@ -15,7 +14,7 @@
             <span class="input-group-text">
                 <i class="cbg {!! $entity->getStatusColor() !!}"></i>
             </span>
-            <select id="statusSel" name="status" class="form-select">
+            <select id="statusSel" name="status" class="form-select @if ($errors->has('status')) is-invalid @endif" onchange="enableBtn(this)">
                 <option value="{{ $entity->getStatus() }}" @if (!old('status')) selected @endif disabled="true">{{ $entity->getStatusName() }}</option>
                 @can('order-status-received', $entity)
                     <option value="{{ App\Entities\Order::STATUS_RECEIVED }}" @if (old('status') == \App\Entities\Order::STATUS_RECEIVED) selected @endif>{{ \App\Entities\Order::statusName(\App\Entities\Order::STATUS_RECEIVED) }}</option>
@@ -41,28 +40,43 @@
                 @endcan
                 -->
             </select>
+            <button id="statusBtn" class="btn btn-outline-secondary" type="submit">{{ __('guardar') }}</button>
             @if ($errors->has('status'))
                <div class="invalid-feedback">{!! $errors->first('status') !!}</div>
             @endif
-            @if ($entity->isPayable())
-            <div class="input-group input-group-sm">
-                <span class="input-group-text invoice-control">{{ __('Invoice') }}</span>
-                {{ Form::file("invoice", ['class' => 'form-control form-control-sm invoice-control ' . ($errors->has('invoice') ? ' is-invalid':'')]) }}
-                @if ($errors->has('invoice'))
-                   <div class="invalid-feedback">{!! $errors->first('invoice') !!}</div>
-                @endif
-            </div>
-            @endif
-            <button id="statusBtn" class="btn btn-outline-secondary" type="submit">{{ __('guardar') }}</button>
         </div>
+        <!--
+        <div class="form-text">
+            {{  __("Invoice is required for order in ':status' state", ['status' => \App\Entities\Order::statusName(\App\Entities\Order::STATUS_CHECKED_INVOICED)]) }}
+        </div>
+        -->
     {{ Form::close() }}
 
-    <a class="btn btn-sm btn-outline-secondary m-1" 
-        title="{{ __('Pdf') }}"
-        href="{{ route('orders.invoices.create', ['order' => $entity->getId()]) }}" 
-        target="_blank">
-        <span class="bx bx-xs bxs-file-pdf bx-tada-hover"></span>
-    </a>
+    @if ($entity->isPayable())
+    {{ Form::open([
+        'route'      => ['orders.invoice', $entity->getId()], 
+        'method'     => 'post',
+        'enctype'    => 'multipart/form-data',
+        'novalidate' => true,
+        'class'      => 'm-1 ms-0'
+    ]) }}
+        <button id="invoice-btn" class="btn btn-sm btn-outline-secondary @if ($errors->has('invoice')) d-none @endif" type="button" onclick="showFileInput()">
+            <i class="bx bxs-file"></i> {{ __('Save invoice') }}
+        </button>
+        <div id="invoice-input" class="input-group input-group-sm ms-2 @if (!$errors->has('invoice')) d-none @endif">
+            {{ Form::file("invoice", ['class' => 'form-control form-control-sm invoice-control ' . ($errors->has('invoice') ? ' is-invalid':'')]) }}
+            <button class="btn btn-sm btn-outline-secondary" type="submit">
+                <i class="bx bxs-file"></i> {{ __('Save invoice') }}
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showFileInput()" >
+                <i class="bx bx-x"></i>
+            </button>
+            @if ($errors->has('invoice'))
+               <div class="invalid-feedback">{!! $errors->first('invoice') !!}</div>
+            @endif
+        </div>
+    {{ Form::close() }}
+    @endif
 
    <!-- <div class="btn-group m-1">
         <button id="emailBtn" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('Email') }}">
@@ -81,11 +95,22 @@
         </ul>
     </div>-->
 
-    <a class="btn btn-sm btn-outline-secondary m-1" 
-        href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getSupplier()->getId(), 'order' => $entity->getId(), 'destination' => route('orders.incidences.index', ['order' => $entity->getId()])]) }}"
-        title="{{ __('New incidence') }}">
-        <span class="bx bx-xs bxs-bell bx-tada-hover"></span> {{ __('New incidence') }}
-    </a>
+    <div>
+        <a class="btn btn-sm btn-outline-secondary m-1" 
+            href="{{ route('suppliers.incidences.create', ['supplier' => $entity->getSupplier()->getId(), 'order' => $entity->getId(), 'destination' => route('orders.incidences.index', ['order' => $entity->getId()])]) }}"
+            title="{{ __('New incidence') }}">
+            <span class="bx bx-xs bxs-bell bx-tada-hover"></span> {{ __('New incidence') }}
+        </a>
+    </div>
+
+    <div>
+        <a class="btn btn-sm btn-outline-secondary m-1" 
+            title="{{ __('Pdf') }}"
+            href="{{ route('orders.invoices.create', ['order' => $entity->getId()]) }}" 
+            target="_blank">
+            <span class="bx bx-xs bxs-file-pdf bx-tada-hover"></span>
+        </a>
+    </div>
 
     {{ Form::open([
         'route' => ['orders.destroy', $entity->getId()], 
@@ -278,5 +303,39 @@
         'perPage' => $perPage
     ]))
 </div>
+@endsection
+
+@section('scripts')
+    <script>
+        function enableBtn(input)
+        {
+            var value = $(input).val();
+            var btn   = $('#statusBtn');
+
+            if (value && btn.hasClass('disabled'))
+                btn.removeClass('disabled');
+            else if (!btn.hasClass('disabled')) 
+                btn.addClass('disabled');
+
+        }
+
+        function showFileInput()
+        {
+            var $btn = $('#invoice-btn');
+            var $inp = $('#invoice-input');
+            $inp.toggleClass('d-none');
+            if (!$inp.hasClass('d-none')) {
+                $btn.hide();
+            }
+            else { 
+                $btn.show();
+            }
+        }
+
+        $(document).ready(function(){
+            enableBtn("#statusSel");
+        });
+
+    </script>
 @endsection
 
