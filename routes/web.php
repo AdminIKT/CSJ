@@ -66,6 +66,7 @@ Route::middleware(['auth', 'user.valid'])->group(function() {
     Route::get('/faqs', [Controllers\FAQController::class, 'index'])->name('faqs');
     Route::get('/receptions', [Controllers\OrderController::class, 'receptions'])->name('orders.receptions');
     Route::post('/orders/{order}/status', [Controllers\OrderController::class, 'status'])->name('orders.status');
+    Route::post('/orders/{order}/invoice', [Controllers\OrderController::class, 'invoice'])->name('orders.invoice');
     Route::get('/suppliers/{supplier}/indicence/{incidence}/close', [Controllers\Supplier\IncidenceController::class, 'close'])->name('suppliers.incidences.close');
     // Charge import
     Route::get('/movements/parse/invoice-charges', [Controllers\InvoiceCharge\Imports\AllExtensionsController::class, 'createStep1'])->name('imports.create.step1');
