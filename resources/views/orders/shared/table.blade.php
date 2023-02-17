@@ -3,7 +3,7 @@
   <table class="table table-sm align-middle">
     <thead>
     <tr>
-        <th class="small" scope="col" colspan="3">{{ __('Order') }} nº
+        <th class="small" scope="col" colspan="1">{{ __('Order') }} nº
             <a class="{{ request()->get('sortBy') == 'orders.sequence' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'orders.sequence', 'sort' => 'asc']) }}">
                 <span data-feather="chevron-up"></span>
             </a>
@@ -11,6 +11,8 @@
                 <span data-feather="chevron-down"></span>
             </a>
         </th>
+        <th class="small" title="Presupuesto">{{ ('Pre.') }}</th>
+        <th class="small" title="Factura">{{ ('Fac.') }}</th>
         @if (!(isset($exclude) && in_array('suppliers', $exclude)))
         <th class="small" scope="col">{{ __('Supplier') }}</th>
         @endif
