@@ -325,10 +325,10 @@
             var $inp = $('#invoice-input');
             $inp.toggleClass('d-none');
             if (!$inp.hasClass('d-none')) {
-                $btn.hide();
+                $btn.addClass('d-none');
             }
             else { 
-                $btn.show();
+                $btn.removeClass('d-none');
             }
         }
 
