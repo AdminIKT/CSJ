@@ -196,6 +196,7 @@ return [
       'accounts.1' => __('Areas'),    
       'users.0' => __('Usuarios'),
       'users.1' => __('Usuarios'),   
+      'invoice' => 'Factura',
     ],
 
 ];

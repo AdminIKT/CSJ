@@ -208,7 +208,12 @@
     "order.pdf.notas5": "La emisión de está solicitud de pedido implica su autorización por el responsable del departamento/área arriba citado.",
     "Local storage": "Almacenamiento local",
     "Google storage": "Almacenamiento Google",
+    "Drive storage": "Almacenamiento Google Drive",
+    "Google storage invoice": "Factura Google Drive",
+    "Google storage estimate": "Presupuesto Google Drive",
     "Equipamiento": "Equipamiento",
     "Fungible": "Fungible",
-    "Lanbide": "Lanbide"
+    "Lanbide": "Lanbide",
+    "Invoice is required for order in ':status' state": "Para pasar al estado ':status' es necesario guardar la factura.",
+    "Invoice required": "Factura obligatoria"
 }

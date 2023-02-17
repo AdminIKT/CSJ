@@ -191,7 +191,8 @@ return [
       'contacts.*.email' => __('Email'),
       'contacts.*.phone' => __('Phone'),
       'accounts.0' => __('Areas'),
-      'accounts.1' => __('Areas')    
+      'accounts.1' => __('Areas'),        
+      'invoice' => 'Faktura'    
     ],
 
 ];

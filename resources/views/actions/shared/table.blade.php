@@ -38,7 +38,7 @@
                             {{ \App\Entities\Order::statusName($action->getAction()) }}
                         </span>
                     @elseif ($action->getType() === \App\Entities\Action\OrderAction::TYPE_INVOICE)
-                        <a href="{{ $action->getDetail() }}" target="_blank" title="{{ __('Google storage') }}">
+                        <a href="{{ $action->getDetail() }}" target="_blank" title="{{ __('Google storage invoice') }}">
                             <img src="{{ \App\Entities\Account\InvoiceDriveFile::getIcon($action->getAction()) }}" alt="{{ __('Drive storage') }}" height="16px">
                         </a>
                     @endif

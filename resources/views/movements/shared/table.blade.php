@@ -78,14 +78,14 @@
                     </td>
                     <td>
                        @if ($entity->getOrder()->getEstimateFileId())
-                       <a href="{{ $entity->getOrder()->getEstimateFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                       <a href="{{ $entity->getOrder()->getEstimateFileUrl() }}" target="_blank" title="{{ __('Google storage estimate') }}">
                            <img src="/img/google/drive-doc.png" alt="{{ __('Drive storage') }}" height="16px">
                        </a>
                        @endif
                     </td>
                     <td>
                        @if ($entity->getOrder()->getInvoiceFileId())
-                       <a href="{{ $entity->getOrder()->getInvoiceFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                       <a href="{{ $entity->getOrder()->getInvoiceFileUrl() }}" target="_blank" title="{{ __('Google storage invoice') }}">
                            <img src="{{ $entity->getOrder()->getInvoiceIcon() }}" alt="{{ __('Drive storage') }}" height="16px">
                        </a>
                        @endif

@@ -186,7 +186,7 @@
                        </a>
                     @else-@endif-->
                     @if ($entity->getEstimateFileId())
-                        <a href="{{ $entity->getEstimateFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                        <a href="{{ $entity->getEstimateFileUrl() }}" target="_blank" title="{{ __('Google storage estimate') }}">
                             <img src="/img/google/drive-doc.png" alt="{{ __('Drive storage') }}" height="20px">
                         </a>
                     @else-@endif
@@ -202,7 +202,7 @@
             <tr class="table-secondary">
                 <td>
                     @if ($entity->getInvoiceFileId())
-                        <a href="{{ $entity->getInvoiceFileUrl() }}" target="_blank" title="{{ __('Google storage') }}">
+                        <a href="{{ $entity->getInvoiceFileUrl() }}" target="_blank" title="{{ __('Google storage invoice') }}">
                             <img src="{{ $entity->getInvoiceIcon() }}" alt="{{ __('Drive storage') }}" height="20px">
                         </a>
                     @else-@endif

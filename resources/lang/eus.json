@@ -49,7 +49,9 @@
     "Account": "Kontua",
     "Account :name": ":name kontua",
     "Accounts": "Kontuak",
-    "Invoice": "Faktura",
+    "Invoice": "Faktura",    
+    "Invoices": "Fakturak",
+    "Save invoice": "Faktura gorde",
     "Type": "Mota",
     "Credit": "Kostua",
     "Predicted": "Aurreikusitakoa",
@@ -206,8 +208,13 @@
     "order.pdf.notas5": "Eskaera-eskabide hau egiten bada, goian aipatutako mintegiko/arloko arduradunak baimena eman beharko du. ",
     "Local storage": "Biltegiratze lokala",
     "Google storage": "Google biltegiratzea",    
+    "Drive storage": "Google Drivebiltegiratzea",
+    "Google storage invoice": "Faktura - Google Drive",
+    "Google storage estimate": "Aurrekontua - Google Drive",
     "Equipamiento": "Ekipamendua",
     "Fungible": "Suntsikorra",
-    "Lanbide": "Lanbide"
+    "Lanbide": "Lanbide",
+    "Invoice is required for order in ':status' state": "':status' egoerara pasatzeko faktura gordetzea beharrezkoa da.",
+    "Invoice required": "Faktura derrigorrezkoa da"
 }
 
