@@ -25,7 +25,7 @@
                 <td><a href="{{ route('areas.show', ['area' => $entity->getId()]) }}">{{ $entity->getAcronym() }}</a></td>
                 <td>{{ $entity->getName() }}</td>
                 <td title='{{ implode(", ", $entity->getAccounts()->map(function ($e) { return "{$e->getName()} ({$e->getType()})"; })->toArray())}}'>
-                    {{ Str::limit(implode(", ", $entity->getAccounts()->map(function ($e) { return "{$e->getName()} ({$e->getType()})"; })->toArray()), 75, '...') }}
+                    {{ Str::limit(implode(", ", $entity->getAccounts()->map(function ($e) { return "{$e->getSerial()}"; })->toArray()), 75, '...') }}
                 </td>
                 <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
                 <td>
