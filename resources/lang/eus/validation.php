@@ -192,7 +192,15 @@ return [
       'contacts.*.phone' => __('Phone'),
       'accounts.0' => __('Areas'),
       'accounts.1' => __('Areas'),        
-      'invoice' => 'Faktura'    
+      'invoice' => 'Faktura',
+      'item.*.invoice' => __('Invoice'),      
+      'item.*.hzyear' => 'HZ kodea - Urtea',
+      'item.*.hzentry' => 'HZ kodea - Idazpena', 
+      'item.*.credit' => __('Credit'),
+      'item.*.invoiceDate' => __('Invoice date'),      
+      'credit' => 'Zenbatekoa',
+      'hzyear' => 'Urtea',
+      'hzentry' => 'Idazpena',       
     ],
 
 ];

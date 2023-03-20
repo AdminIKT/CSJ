@@ -15,7 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  *  "charge" = "Charge", 
  *  "assign" = "Assignment",
  *  "inv"    = "InvoiceCharge",
- *  "ord"    = "OrderCharge"
+ *  "ord"    = "OrderCharge",
+ *  "hz"     = "HzCharge"
  * })
  * @ORM\HasLifecycleCallbacks
  */

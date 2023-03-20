@@ -28,7 +28,7 @@
 
         <div class="col-md-12">
             <a href="{{ url()->previous() }}" class="btn btn-sm ">{{__('cancelar')}}</a>
-            {{ Form::submit(__('guardar'), ['class' => 'btn btn-sm btn-primary float-end']) }}
+            {{ Form::submit(__('cargar'), ['class' => 'btn btn-sm btn-primary float-end']) }}
         </div>
 
     {{ Form::close() }}

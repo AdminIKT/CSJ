@@ -40,6 +40,8 @@
     "Other charge": "Beste kargu batzuk",
     "Invoice charge": "Faktura kargua",
     "Order charge": "Eskaera kargua",
+    "Charge without invoice": "Faktura gabeko kargua",
+    "Transfer charge": "Transferentzia kargua",
     "Invoiced": "Fakturatutakoa",
     "Contacts": "Kontaktuak",
     "Contact": "Kontaktua",
@@ -80,6 +82,7 @@
     "usuarios": "Erabiltzaileak",
     "guardar": "Gorde",
     "cancelar": "Ezeztatu",
+    "cargar": "Kargatu",
     "departamentos": "Mintegiak",
     "Actions": "Ekintzak",
     "Receive in": "Non jaso",
@@ -215,6 +218,16 @@
     "Fungible": "Suntsikorra",
     "Lanbide": "Lanbide",
     "Invoice is required for order in ':status' state": "':status' egoerara pasatzeko faktura gordetzea beharrezkoa da.",
-    "Invoice required": "Faktura derrigorrezkoa da"
+    "Invoice required": "Faktura derrigorrezkoa da",
+    "Order not found": "Ez da eskaria aurkitu",
+    "Account not found": "Ez da kontua aurkitu",
+    "Charge :code allready imported on :created": ":code kargua :created datan inportatu zen",
+    ":area on :date, estimated in :credit€": ":area :date datan, aurreikusitakoa: :credit€",
+    ":account on :date estimated in :credit€": ":account :date datan, aurreikusitakoa: :credit€",
+    "HZ code": "HZ kodea",
+    "Hezkuntza code": "Hezkuntza kodea",
+    ":count charges successfully imported": ":count kargu importatu dira era egokian",    
+    "Unmatched a valid charge :pattern pattern":"El patrón del cargo debe coincidir con :pattern",
+    "The order credit exceeds in :credit€ the supplier's annual billing limit established on :limit€": "Eskaeraren kostua hornitzailearen urteko muga (:limit€) baino :credit€ handiagoa da."
 }
 

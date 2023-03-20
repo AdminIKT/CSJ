@@ -197,6 +197,14 @@ return [
       'users.0' => __('Usuarios'),
       'users.1' => __('Usuarios'),   
       'invoice' => 'Factura',
+      'item.*.invoice' => __('Invoice'),
+      'item.*.hzyear' => 'Código HZ - Año',
+      'item.*.hzentry' => 'Código HZ - Asiento', 
+      'item.*.credit' => __('Credit'),
+      'item.*.invoiceDate' => __('Invoice date'),
+      'credit' => 'Importe',
+      'hzyear' => 'Año',
+      'hzentry' => 'Asiento',       
     ],
 
 ];

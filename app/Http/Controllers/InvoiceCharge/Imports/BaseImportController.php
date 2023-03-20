@@ -17,6 +17,7 @@ use App\Entities\Account,
     App\Entities\Order,
     App\Entities\Charge,
     App\Entities\OrderCharge,
+    App\Entities\HzCharge,
     App\Entities\InvoiceCharge;
 
 use App\Events\MovementEvent as MEv;
@@ -122,7 +123,8 @@ class BaseImportController extends InvoiceChargeController
         $charges = [];
         $errors  = [];
         $values  = $request->all();
-        foreach ($values['item'] as $i => $raw) {
+       
+        foreach ($values['item'] as $i => $raw) {           
             switch ($raw['charge']) {
                 case OrderCharge::HZ_PREFIX:
                     $order  = $this->em->getRepository(Order::class)
@@ -141,6 +143,14 @@ class BaseImportController extends InvoiceChargeController
                     $charge = new InvoiceCharge;
                     $charge->hydrate($raw)
                            ->setSubaccount($acc);
+                    break;
+                case HzCharge::HZ_PREFIX:
+                    $acc = $this->em->getRepository(Subaccount::class)
+                                ->find($raw['account']);
+
+                    $charge = new HzCharge;
+                    $charge->hydrate($raw)
+                            ->setSubaccount($acc);
                     break;
             }    
 
@@ -212,6 +222,20 @@ class BaseImportController extends InvoiceChargeController
                     $charge->hydrate($row)
                            ->setType(OrderCharge::TYPE_ORDER_INVOICED);
                     $this->hydrateInvoicedOrder($matches[2], $charge);
+                    break;
+                case HzCharge::HZ_PREFIX:
+                    $stored = $this->em
+                        ->getRepository(HzCharge::class)
+                        ->findOneBy([
+                                'hzCode' => $hzCode,
+                                'type'   => HzCharge::TYPE_WITHOUT_INVOICED,
+                            ]);
+
+                    $charge = $stored ? 
+                        clone $stored : new HzCharge;
+                    $charge->hydrate($row)
+                            ->setType(HzCharge::TYPE_WITHOUT_INVOICED);
+                    $this->hydrateInvoicedAccount($matches[2], $charge);
                     break;
             }
         } 

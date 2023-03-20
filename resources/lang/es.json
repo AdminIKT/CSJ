@@ -40,6 +40,8 @@
     "Other charge": "Otros cargos",
     "Invoice charge": "Cargo por factura",
     "Order charge": "Cargo con pedido",
+    "Charge without invoice": "Cargo sin factura",
+    "Transfer charge": "Cargo por transferencia",
     "Invoiced": "Facturado",
     "Contacts": "Contactos",
     "Contact": "Contacto",
@@ -80,6 +82,7 @@
     "usuarios": "Usuarios",
     "guardar": "Guardar",
     "cancelar": "Cancelar",
+    "cargar": "Cargar",
     "departamentos": "Departamentos",
     "Actions": "Acciones",
     "Receive in": "Recibir en",
@@ -215,5 +218,15 @@
     "Fungible": "Fungible",
     "Lanbide": "Lanbide",
     "Invoice is required for order in ':status' state": "Para pasar al estado ':status' es necesario guardar la factura.",
-    "Invoice required": "Factura obligatoria"
+    "Invoice required": "Factura obligatoria",
+    "Order not found": "Pedido no encontrado",
+    "Account not found": "Cuenta no encontrada",
+    "Charge :code allready imported on :created": "Cargo :code importado el :created",
+    ":area on :date, estimated in :credit€": ":area el :date, estimado en :credit€",
+    ":account on :date estimated in :credit€": ":account el :date estimado en :credit€",
+    "HZ code": "Código HZ",
+    "Hezkuntza code": "Código Hezkuntza",
+    ":count charges successfully imported": ":count cargos importados correctamente",
+    "Unmatched a valid charge :pattern pattern":"El patrón del cargo debe coincidir con :pattern",
+    "The order credit exceeds in :credit€ the supplier's annual billing limit established on :limit€": "El coste del pedido excede en :credit€ el limite anual del proveedor establecido en :limit€"
 }

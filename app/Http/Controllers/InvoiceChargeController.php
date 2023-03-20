@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entities\Movement,
     App\Entities\InvoiceCharge,
     App\Entities\OrderCharge,
+    App\Entities\HzCharge,
     App\Entities\Order,
     App\Entities\Account,
     App\Events\MovementEvent,
@@ -57,7 +58,19 @@ class InvoiceChargeController extends BaseController
         preg_match($hzPattern, $detail, $matches);
 
         switch (strtoupper($matches[1])) {
-            case InvoiceCharge::HZ_PREFIX:
+            case HzCharge::HZ_PREFIX:
+                $charge = new HzCharge;
+                $charge->hydrate($data)
+                        //FIXME: 
+                       ->setType(HzCharge::TYPE_WITHOUT_INVOICED);
+                $this->hydrateInvoicedAccount($matches[2], $charge);
+                if (null === ($acc = $charge->getSubaccount())) {
+                    throw ValidationException::withMessages([
+                        "detail" => trans("Account not found in :sequence", ['sequence' => $matches[2]])
+                    ]);
+                }
+                break;
+            case InvoiceCharge::HZ_PREFIX:    
                 $charge = new InvoiceCharge;
                 $charge->hydrate($data)
                         //FIXME: 
@@ -137,10 +150,10 @@ class InvoiceChargeController extends BaseController
 
     /**
      * @param string $sequence
-     * @param InvoiceCharge $charge
-     * @return InvoiceCharge
+     * @param HzCharge $charge
+     * @return HzCharge
      */
-    protected function hydrateInvoicedAccount($sequence, InvoiceCharge $charge)
+    protected function hydrateInvoicedAccount($sequence, HzCharge $charge)
     {
         if (preg_match(Account::SEQUENCE_PATTERN, $sequence, $matches)){
             $criteria = [

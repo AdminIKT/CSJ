@@ -14,8 +14,8 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('imports.create.step1', ['charge' => \App\Entities\InvoiceCharge::TYPE_INVOICED]) }}" class="dropdown-item" title="{{__('Invoice charge')}}">
-                    {{ App\Entities\InvoiceCharge::typeName(App\Entities\InvoiceCharge::TYPE_INVOICED) }}
+                <a href="{{ route('imports.create.step1', ['charge' => \App\Entities\InvoiceCharge::TYPE_INVOICED]) }}" class="dropdown-item" title="{{__('Transfer charge')}}">
+                    {{ __('Transfer charge') }}
                 </a>
             </li>
         </ul>

@@ -10,20 +10,12 @@ use DateTime;
  *
  * @ORM\Entity(repositoryClass="App\Repositories\InvoiceChargeRepository")
  */
-class InvoiceCharge extends Charge 
+class InvoiceCharge extends HzCharge 
 {
     const TYPE_CASH     = 0;
     const TYPE_INVOICED = 5;
 
     const HZ_PREFIX = 'C';
-
-    /**
-     * TODO: code must be unique within type in DB 
-     * @var string
-     *
-     * @ORM\Column(name="hz_code", type="string")
-     */
-    private $hzCode;
 
     /**
      * @var string
@@ -38,52 +30,6 @@ class InvoiceCharge extends Charge
      * @ORM\Column(name="invoiceDate", type="datetime")
      */
     private $invoiceDate;
-
-    /**
-     * Get hzYear.
-     *
-     * @return string
-     */
-    public function getHzYear()
-    {
-        $pieces = explode("-", $this->hzCode);
-        return isset($pieces[0]) ? $pieces[0] : "";
-    }
-
-    /**
-     * Get hzEntry.
-     *
-     * @return string
-     */
-    public function getHzEntry()
-    {
-        $pieces = explode("-", $this->hzCode);
-        return isset($pieces[1]) ? $pieces[1] : "";
-    }
-
-    /**
-     * Get hzCode.
-     *
-     * @return string
-     */
-    public function getHzCode()
-    {
-        return $this->hzCode;
-    }
-
-    /**
-     * Set hzCode.
-     *
-     * @param string $hzCode
-     *
-     * @return Charge
-     */
-    public function setHzCode($hzCode)
-    {
-        $this->hzCode = $hzCode;
-
-        return $this;
-    }
 
     /**
      * Get invoice.
@@ -163,9 +109,9 @@ class InvoiceCharge extends Charge
                 $raw['invoiceDate'] : new DateTime($raw['invoiceDate']);
             $this->setInvoiceDate($date);
         }
-        if (isset($raw['hzyear']) && isset($raw['hzentry'])) { 
+        /*if (isset($raw['hzyear']) && isset($raw['hzentry'])) { 
             $this->setHzCode("{$raw['hzyear']}-{$raw['hzentry']}");
-        }
+        }*/
 
         return $this;
     }

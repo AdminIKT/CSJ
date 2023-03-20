@@ -55,6 +55,14 @@ class EnsureOfDuplicates
                                     'type'   => InvoiceCharge::TYPE_INVOICED,
                                 ]);
                 break;
+            case $movement instanceof HzCharge:
+                $stored = $this->em
+                                ->getRepository(HzCharge::class)
+                                ->findOneBy([
+                                    'hzCode' => $movement->getHzCode(),
+                                    'type'   => HzCharge::TYPE_WITHOUT_INVOICED,
+                                ]);
+                break;
             case $movement instanceof Charge:
                 //TODO
                 break;

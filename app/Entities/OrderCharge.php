@@ -15,7 +15,7 @@ class OrderCharge extends InvoiceCharge
 
     const HZ_PREFIX = 'P';
 
-    const HZ_PATTERN = "@^(".InvoiceCharge::HZ_PREFIX."|".OrderCharge::HZ_PREFIX.")#(.*)@i";
+    const HZ_PATTERN = "@^(".HzCharge::HZ_PREFIX."|".InvoiceCharge::HZ_PREFIX."|".OrderCharge::HZ_PREFIX.")#(.*)@i";
 
     /**
      * @var Account 

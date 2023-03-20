@@ -25,9 +25,12 @@
             <tr class="border-white">
                 @php $editable = $entity->getId() === null
                                   && (get_class($entity) !== App\Entities\Charge::class)
-                                  && (get_class($entity) === App\Entities\InvoiceCharge::class
+                                  && ((get_class($entity) === App\Entities\InvoiceCharge::class
                                   && $entity->getSubaccount() !== null
                                   ) 
+                                  || (get_class($entity) === App\Entities\HzCharge::class
+                                  && $entity->getSubaccount() !== null
+                                  ))
                                   || (get_class($entity) === App\Entities\OrderCharge::class
                                   && null !== ($order = $entity->getOrder())
                                   && $order->isPayable()
@@ -54,23 +57,27 @@
                         @endif
                     </div>
                 </td>
-                @if ($entity instanceof \App\Entities\InvoiceCharge)
-                <td class="editable">
-                    {{ Form::text("item[$i][invoice]", old("item.{$i}.invoice", $entity->getInvoice()), [
-                        'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.invoice") ? ' is-invalid':''),
-                    ]) }}
-                    @if ($errors->has("item.{$i}.invoice"))
-                        <div class="invalid-feedback">{!! $errors->first("item.{$i}.invoice") !!}</div>
+                @if ($entity instanceof \App\Entities\HzCharge)
+                    @if ($entity instanceof \App\Entities\InvoiceCharge)
+                    <td class="editable">
+                        {{ Form::text("item[$i][invoice]", old("item.{$i}.invoice", $entity->getInvoice()), [
+                            'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.invoice") ? ' is-invalid':''),
+                        ]) }}
+                        @if ($errors->has("item.{$i}.invoice"))
+                            <div class="invalid-feedback">{!! $errors->first("item.{$i}.invoice") !!}</div>
+                        @endif
+                    </td>
+                    <td class="editable">
+                        {{ Form::date("item[$i][invoiceDate]", old("item.{$i}.invoiceDate", $entity->getInvoiceDate()), [
+                            'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.invoiceDate") ? ' is-invalid':''), 
+                        ]) }}
+                        @if ($errors->has("item.{$i}.invoiceDate"))
+                            <div class="invalid-feedback">{!! $errors->first("item.{$i}.invoiceDate") !!}</div>
+                        @endif
+                    </td>
+                    @else
+                        <td colspan="2" class="text-center">-</td>
                     @endif
-                </td>
-                <td class="editable">
-                    {{ Form::date("item[$i][invoiceDate]", old("item.{$i}.invoiceDate", $entity->getInvoiceDate()), [
-                        'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.invoiceDate") ? ' is-invalid':''), 
-                    ]) }}
-                    @if ($errors->has("item.{$i}.invoiceDate"))
-                        <div class="invalid-feedback">{!! $errors->first("item.{$i}.invoiceDate") !!}</div>
-                    @endif
-                </td>
                 <td class="editable">
                     <div class="input-group input-group-sm">
                         {{ Form::text("item[$i][hzyear]", old("item.{$i}.hzyear", $entity->getHzYear()), [
@@ -167,6 +174,42 @@
                             <div class="invalid-feedback">{!! $errors->first("item.{$i}.detail") !!}</div>
                         @endif
                     </td>
+                @elseif (get_class($entity) === App\Entities\HzCharge::class && null !== ($acc = $entity->getSubaccount()))
+                    <td class="editable">
+                        {{ Form::hidden("item[$i][type]", $entity->getType()) }}
+                        {{ Form::hidden("item[$i][charge]", App\Entities\HzCharge::HZ_PREFIX) }}
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-white">
+                                <i class="cbg {!! $acc->getAccount()->getStatusColor() !!}"></i>
+                            </span>
+                            {{ Form::select("item[$i][account]", [null => __('selecciona')] + 
+                                array_combine(
+                                    $acc->getAccount()->getSubaccounts()->map(function($s) {
+                                        return $s->getId();
+                                    })->toArray(),
+                                    $acc->getAccount()->getSubaccounts()->map(function($s) {
+                                        return $s->getSerial();
+                                    })->toArray()
+                                ),
+                                old("item.{$i}.account", $acc->getId()), [
+                                    'class'    =>'form-select form-select-sm' . ($errors->has("item.{$i}.account") ? ' is-invalid': ''),
+                                ],
+                                [null => ["disabled" => true]]
+                            ) }}
+                            @if ($errors->has("item.{$i}.account"))
+                                <div class="invalid-feedback">{!! $errors->first("item.{$i}.account") !!}</div>
+                            @endif
+                        </div>
+                    </td>
+                    <td colspan="2" class="editable">
+                        {{ Form::textarea("item[$i][detail]", old("item.{$i}.detail", $entity->getDetail()), [
+                            'class'    => 'form-control form-control-sm' . ($errors->has("item.{$i}.detail") ? ' is-invalid': ''),
+                            'rows'     => 1,
+                        ]) }}
+                        @if ($errors->has("item.{$i}.detail"))
+                            <div class="invalid-feedback">{!! $errors->first("item.{$i}.detail") !!}</div>
+                        @endif
+                    </td>
                 @else
                     <td colspan="3">
                         {{ Form::textarea("item[$i][detail]", old("item.{$i}.detail", $entity->getDetail()), [
@@ -185,7 +228,7 @@
                         @if (null !== ($order = $entity->getOrder()))
                             <small class="text-muted">
                             {!! __(':account on :date estimated in :credit€', [
-                                'account' => $order->getAccount(),
+                                'account' => $order->getAccount()->getSerial(),
                                 'date'    => $order->getDate()->format('d/m/Y'),
                                 'credit'  => number_format($order->getEstimatedCredit(), 2, ",", "."),
                             ]) !!}
@@ -196,9 +239,9 @@
                         @else
                             <small class="text-danger">{{ __('Order not found') }}</small>
                         @endif
-                    @elseif ($entity instanceof App\Entities\InvoiceCharge) 
+                    @elseif ($entity instanceof App\Entities\HzCharge) 
                         @if (null !== ($acc = $entity->getSubaccount()))
-                            <small class="text-muted">{{ $acc->getAccount() }}</small>
+                            <small class="text-muted">{{ $acc->getAccount()->getSerial() }}</small>
                             <a href="{{route('accounts.show', ['account' => $acc->getAccount()->getId()])}}" target="_blank">
                                 <i class="bx bx-show"></i>
                             </a>
@@ -208,8 +251,8 @@
                     @endif
                     @if ($entity->getId())
                         <small class="text-danger">({{ __('Charge :code allready imported on :created', [
-                            'code'    => $entity->getHzCode(),
-                            'created' => $entity->getCreated()->format('D, d M Y H:i'),
+                            'code'    => $entity->getHzCode(),                   
+                            'created' => $entity->getCreated()->format('d/m/Y H:i'),
                         ]) }})</small>
                     @endif
                 </td>
