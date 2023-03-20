@@ -311,10 +311,9 @@
         {
             var value = $(input).val();
             var btn   = $('#statusBtn');
-
-            if (value && btn.hasClass('disabled'))
+            if (value)
                 btn.removeClass('disabled');
-            else if (!btn.hasClass('disabled')) 
+            else 
                 btn.addClass('disabled');
 
         }
