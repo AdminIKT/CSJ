@@ -112,10 +112,10 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'sequence', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'subaccount', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'supplier', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'orderCharges', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedFileId', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedFileUrl', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceDate', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'actions', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
+            return ['__isInitialized__', 'id', 'sequence', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'subaccount', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'supplier', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'orderCharges', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimateFileId', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimateFileUrl', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceFileId', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceFileUrl', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceDate', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'actions', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
         }
 
-        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'subaccount', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'supplier', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'orderCharges', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedFileId', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedFileUrl', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceDate', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'actions', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
+        return ['__isInitialized__', 'id', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'status', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'receiveIn', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'detail', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'date', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'subaccount', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'user', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'supplier', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'products', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'orderCharges', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'incidences', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimatedCredit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'credit', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimated', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimateFileId', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'estimateFileUrl', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceFileId', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceFileUrl', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoice', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'invoiceDate', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'actions', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'created', '' . "\0" . 'App\\Entities\\Order' . "\0" . 'updated'];
     }
 
     /**
@@ -285,45 +285,133 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setEstimatedFileId($fileId = NULL)
+    public function setFileId($fileId, $type)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEstimatedFileId', [$fileId]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFileId', [$fileId, $type]);
 
-        return parent::setEstimatedFileId($fileId);
+        return parent::setFileId($fileId, $type);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getEstimatedFileId()
+    public function setFileUrl($fileUrl, $type)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEstimatedFileId', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFileUrl', [$fileUrl, $type]);
 
-        return parent::getEstimatedFileId();
+        return parent::setFileUrl($fileUrl, $type);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setEstimatedFileUrl($fileUrl)
+    public function getFileId($type)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEstimatedFileUrl', [$fileUrl]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFileId', [$type]);
 
-        return parent::setEstimatedFileUrl($fileUrl);
+        return parent::getFileId($type);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getEstimatedFileUrl()
+    public function getFileUrl($type)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEstimatedFileUrl', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFileUrl', [$type]);
 
-        return parent::getEstimatedFileUrl();
+        return parent::getFileUrl($type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEstimateFileId($fileId = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEstimateFileId', [$fileId]);
+
+        return parent::setEstimateFileId($fileId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEstimateFileId()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEstimateFileId', []);
+
+        return parent::getEstimateFileId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEstimateFileUrl($fileUrl)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEstimateFileUrl', [$fileUrl]);
+
+        return parent::setEstimateFileUrl($fileUrl);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEstimateFileUrl()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEstimateFileUrl', []);
+
+        return parent::getEstimateFileUrl();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setInvoiceFileId($fileId = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setInvoiceFileId', [$fileId]);
+
+        return parent::setInvoiceFileId($fileId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getInvoiceFileId()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInvoiceFileId', []);
+
+        return parent::getInvoiceFileId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setInvoiceFileUrl($fileUrl)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setInvoiceFileUrl', [$fileUrl]);
+
+        return parent::setInvoiceFileUrl($fileUrl);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getInvoiceFileUrl()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInvoiceFileUrl', []);
+
+        return parent::getInvoiceFileUrl();
     }
 
     /**
@@ -830,6 +918,17 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'updateTimestamps', []);
 
         return parent::updateTimestamps();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getInvoiceIcon()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInvoiceIcon', []);
+
+        return parent::getInvoiceIcon();
     }
 
     /**

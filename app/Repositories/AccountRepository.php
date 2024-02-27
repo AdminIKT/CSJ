@@ -99,4 +99,62 @@ class AccountRepository extends \Doctrine\ORM\EntityRepository
             $perPage ?: Config('app.per_page'), 
             $pageName);
     }
+
+    /************************BORJA***************/
+    function totals(array $filter = [])
+    {
+        $b = $this->createQueryBuilder('account')
+                  ->select([
+                    'SUM(account.credit) AS credit',
+                    'SUM(account.compromisedCredit) AS compromised'
+                  ])
+                  ->innerJoin('account.subaccounts', 'subaccount');
+
+        if (isset($filter['name']) &&
+            null !== ($name = $filter['name'])) {
+            $b->andWhere("account.name LIKE :name")
+              ->setParameter('name', "%{$name}%");
+        }
+        if (isset($filter['status']) &&
+            null !== ($status = $filter['status'])) {
+            $b->andWhere("account.status = :status")
+              ->setParameter('status', $status);
+        }
+        if (isset($filter['type']) &&
+            null !== ($type = $filter['type'])) {
+            $b->andWhere("account.type = :type")
+              ->setParameter('type', $type);
+        }
+        if (isset($filter['area']) &&
+            null !== ($area = $filter['area'])) {
+            $b->andWhere("subaccount.area = :area")
+              ->setParameter('area', $area);
+        }
+        if (isset($filter['user']) &&
+            null !== ($user = $filter['user'])) {
+            $b->innerJoin('account.users', 'users')
+              ->andWhere("users.id IN (:user)")
+              ->setParameter('user', [$user]);
+        }
+        if (isset($filter['compromised']) &&
+            null !== ($compromised = $filter['compromised'])) {
+            $op = $filter['compromisedOp'];
+            $b->andWhere("account.compromisedCredit {$op} :compromised")
+              ->setParameter('compromised', $compromised);
+        }
+        if (isset($filter['available']) &&
+            null !== ($available = $filter['available'])) {
+            $op = $filter['availableOp'];
+            $b->andWhere("(account.credit - account.compromisedCredit) {$op} :available")
+              ->setParameter('available', $available);
+        }
+        if (isset($filter['credit']) &&
+            null !== ($credit = $filter['credit'])) {
+            $op = $filter['creditOp'];
+            $b->andWhere("account.credit {$op} :credit")
+              ->setParameter('credit', $credit);
+        }
+
+        return $b->getQuery()->getSingleResult();
+    }
 }

@@ -42,7 +42,18 @@
         <th scope="col">{{ __('Actions') }}</th>
     </tr>
     </thead>
-    <tbody> 
+    <tbody>
+         <!--borja visualizar totals  -->
+         @if (isset($totals))
+            <tr class="bg-light">
+                <td colspan="3" align="right"><strong>{{ __('Totals') }} = </strong> </td>
+                <td>{{ number_format($totals['credit'],  2, ",", ".") }}€</td>
+                <td>{{ number_format($totals['compromised'],  2, ",", ".") }}€</td>
+                <td>{{ number_format($totals['credit'] - $totals['compromised'],  2, ",", ".") }}€</td>
+                <td colspan="2"></td>
+            </tr>
+        @endif
+        <!-- fin borja -->
         @foreach ($collection as $i => $entity)
         <tr>
             <td>
