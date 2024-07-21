@@ -64,6 +64,8 @@ class AccountController extends BaseController
             'perPage'  => $ppg,
             'accounts' => $accounts,
             'areas'    => Arr::pluck($areas, 'name', 'id'),
+            // borja solicitar el calculo del total
+            'totals' => app('em')->getRepository(Account::class)->totals($request->all())
         ]); 
     }
 

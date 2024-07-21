@@ -14,6 +14,7 @@
 
     <div class="bg-white border rounded rounded-5 px-2 mb-2">
         @include('accounts.shared.table', [
+                'totals'     => $totals,
                 'collection' => $accounts, 
                 'pagination' => true,
             ])
