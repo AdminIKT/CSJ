@@ -20,7 +20,7 @@ class User implements Authenticatable, HasRolesContract
 {
     use HasRoles;
 
-    const SITE_DOMAIN = "@fpsanjorge.com";
+    const SITE_DOMAIN = "@fpsanturtzilh.eus";
 
     const STATUS_INACTIVE   = 0;
     const STATUS_ACTIVE     = 1;
