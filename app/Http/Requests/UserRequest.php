@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
             'email'  => [
                 'required',
                 'email',
-                'regex:/^[\w|\.|\-|\_]+@fpsanjorge.com$/i',
+                'regex:/^[\w|\.|\-|\_]+@fpsanturtzilh.eus$/i',
                 'unique:\App\Entities\User,email' . ($entity ? ",{$entity->getId()}" : ""),
             ],
             'roles' => 'required',
