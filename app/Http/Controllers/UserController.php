@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Laminas\Hydrator\DoctrineObject;
 use App\Http\Requests\UserRequest;
 use App\Entities\User,
     App\Entities\Role,
@@ -84,12 +85,14 @@ class UserController extends BaseController
      */
     public function store(UserRequest $request)
     {
-        $data = $request->validated();
-        $user = new User;
-        $this->hydrateData($user, $data);
+        $em = app('em');
+        $hydrator = new DoctrineObject($em);
 
-        $this->em->persist($user);
-        $this->em->flush();
+        $user = new User;
+        $hydrator->hydrate($request->validated(), $user);
+
+        $em->persist($user);
+        $em->flush();
         return redirect()->route('users.show', ['user' => $user->getId()])
                          ->with('success', __('Successfully created'));
 
@@ -123,9 +126,10 @@ class UserController extends BaseController
      */
     public function update(UserRequest $request, User $user)
     {
-        $data = $request->validated();
-        $this->hydrateData($user, $data);
-        $this->em->flush();
+        $em = app('em');
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($request->validated(), $user);
+        $em->flush();
         return redirect()->route('users.show', ['user' => $user->getId()])
                          ->with('success', __('Successfully updated'));
     }
@@ -142,24 +146,5 @@ class UserController extends BaseController
         $this->em->flush();
 
         return redirect()->back()->with('success', __('Successfully removed'));
-    }
-
-    /**
-     * @param User $entity
-     * @param array $data
-     *
-     * @return void 
-     */
-    protected function hydrateData(User $entity, array $data)
-    {
-        $entity->setEmail($data['email'])
-               ->setStatus($data['status']);
-        $entity->getRoles()->clear();
-        if (isset($data['roles']) && is_array($data['roles'])) {
-            $er = $this->em->getRepository(Role::class);
-            foreach ($data['roles'] as $id) {
-                $entity->addRole($er->find($id));
-            }
-        }
     }
 }

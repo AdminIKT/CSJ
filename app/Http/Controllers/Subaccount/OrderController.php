@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Subaccount;
 
 use Doctrine\ORM\EntityManagerInterface,
+    Doctrine\Laminas\Hydrator\DoctrineObject,
     Doctrine\Common\Collections\Criteria 
         as DoctrineCriteria;
 use Illuminate\Http\Request,
@@ -99,7 +100,9 @@ class OrderController extends BaseController
      */
     public function store(Subaccount $subaccount, OrderPostRequest $request)
     {
-        $last = $this->em->getRepository(Order::class)->lastest($subaccount->getAccount());
+        $em = app('em');
+        $last = $em->getRepository(Order::class)
+                   ->lastest($subaccount->getAccount());
 
         if ($last) {
             $matches = [];
@@ -109,9 +112,10 @@ class OrderController extends BaseController
             }
             $sequence = (int) trim($matches[5], "-") + 1;
         }
-
+        
         $order = new Order;
-        $this->hydrateData($order, $request->all());
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($request->all(), $order);
         if (!$order->getSequence()) {
             $order->setDate(new \DateTime('today'));
             $order->setSequence(implode("-", [
@@ -148,41 +152,9 @@ class OrderController extends BaseController
                   ->setFileUrl($file->getWebViewLink(), DriveFile::TYPE_ESTIMATE);
         }
 
-        $this->em->persist($order);
-        $this->em->flush();
+        $em->persist($order);
+        $em->flush();
         return redirect()->route('orders.show', $order->getId())
                          ->with('success', __('Successfully created'));
-    }
-
-    /**
-     * @param Order $entity
-     * @param array $data
-     *
-     * @return void 
-     */
-    protected function hydrateData(Order $entity, array $data = [])
-    {
-        if (isset($data['estimatedCredit']))    $entity->setEstimatedCredit($data['estimatedCredit']);
-        if (isset($data['detail']))             $entity->setDetail($data['detail']);
-        if (isset($data['sequence']))           $entity->setSequence($data['sequence']);
-        if (isset($data['date'])) {
-            $entity->setDate(new \Datetime($data['date']));
-            //FIXME: Is necessary?
-            $entity->getDate()->settime(0,0);
-        }
-        if (isset($data['supplier'])) {
-            if (null === ($e = $this->em->find(Supplier::class, $data['supplier']))) {
-                throw new \RuntimeException("Supplier {$data['supplier']} not found"); 
-            }
-            $entity->setSupplier($e);
-        }
-        if (isset($data['products'])) {
-            foreach ($data['products'] as $raw) {
-                $product = new Product;
-                if (isset($raw['detail'])) $product->setDetail($raw['detail']);
-                if (isset($raw['units']))  $product->setUnits($raw['units']);
-                $entity->addProduct($product);
-            }
-        }
     }
 }

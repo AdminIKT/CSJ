@@ -30,5 +30,14 @@ class AppServiceProvider extends ServiceProvider
             }
             return 0;
         });
+
+        //Support for JSON_ARRAY type in DBAL v3
+        //if (!\Doctrine\DBAL\Types\Type::hasType('json_array')) {
+        //    \Doctrine\DBAL\Types\Type::addType('json_array', \Doctrine\DBAL\Types\JsonType::class);
+        //}
+
+        //$platform = $this->app['db']->getDoctrineConnection()->getDatabasePlatform();
+        //$platform->markDoctrineTypeCommented(\Doctrine\DBAL\Types\Type::getType('json_array'));
+
     }
 }

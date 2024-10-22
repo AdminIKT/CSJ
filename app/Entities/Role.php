@@ -12,7 +12,7 @@ use LaravelDoctrine\ACL\Permissions\HasPermissions;
  * @ORM\Table(name="user_roles")
  * @ORM\Entity()
  */
-class Role implements RoleContract, HasPermissionContract
+class Role implements RoleContract//, HasPermissionContract
 {
     use HasPermissions;
 
@@ -40,9 +40,10 @@ class Role implements RoleContract, HasPermissionContract
     private $users;
 
     /**
+     * FIXME Type JSON_ARRAY removed from current DBAL version
      * @ACL\HasPermissions
      */
-    protected $permissions;
+    //protected $permissions;
 
     /**
      * Constructor

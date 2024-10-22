@@ -1,11 +1,21 @@
+UPDATE LARAVEL VERSION:
 
-Order EventListeners:attach:
-    Create
-    - Decrease credit
-    Pay
-    - Supplier anual invoiced 
-    - Supplier limit invoiced
-    - Recommended supplier
-    Incidence
-    - Recommended supplier
+    Replace vendor with conflicts: 
+        - "nao-pon/flysystem-google-drive" 
+    within:
+        - "masbug/flysystem-google-drive-ext" (https://packagist.org/packages/masbug/flysystem-google-drive-ext) 
+
+*****************************************************************************
+
+Replace Hydration methods includying:
+    doctrine/doctrine-laminas-hydrator
+
+*****************************************************************************
+
+Avoid proxies on remote (gitignore) and generate on deployment:
+    doctrine:generate:proxies
+
+*****************************************************************************
+
+Crear link simbolico para las imagenes (assets)
 

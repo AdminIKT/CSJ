@@ -48,13 +48,14 @@ class CSJDriveService
     }
 
     /**
-     * @param UploadedFile $file
+     * @param UploadedFile|string
      * @param string $name
      * @param string $parent
+     * @param string $local storage
      * @throws DriveException If cannot connect or create files 
      * @return Google\Service\Drive\DriveFile
      */
-    protected function createFile(UploadedFile $file, $name, $parent)
+    protected function createFile($file, $name, $parent, $local = 'local')
     {
         try {
             $storage = Storage::disk('google');
@@ -65,9 +66,23 @@ class CSJDriveService
             ]);
 
             $service = $storage->getAdapter()->getService();
+
+            if ($file instanceof UploadedFile) {
+                $data = $file->get();
+                $mimeType = $file->getClientMimeType();
+            } 
+            else {
+                $data = Storage::disk($local)->get($file);
+                $mimeType = Storage::disk($local)->mimeType($file);
+            }
+
+            if (!$data) {
+                throw new \Exception("File '{$name}' is empty");
+            }
+
             return $service->files->create($fileMetadata, [
-                        'data'       => file_get_contents($file),
-                        'mimeType'   => $file->getClientMimeType(),
+                        'data'       => $data,
+                        'mimeType'   => $mimeType,
                         'uploadType' => 'multipart',
                         'fields'     => 'id, webViewLink',
                    ]);
@@ -86,7 +101,7 @@ class CSJDriveService
      * @param Account $account
      * @return Google\Service\Drive\DriveFile
      */
-    protected function getEstimatesFolder(Account $account)
+    protected function createEstimatesFolder(Account $account)
     {
         return $this->createFolder(
             "{$account->getSerial()} ({$account->getName()})", 
@@ -98,7 +113,7 @@ class CSJDriveService
      * @param Account $account
      * @return Google\Service\Drive\DriveFile
      */
-    protected function getInvoicesFolder(Account $account)
+    protected function createInvoicesFolder(Account $account)
     {
         return $this->createFolder(
             "{$account->getSerial()} ({$account->getName()})", 
@@ -111,13 +126,13 @@ class CSJDriveService
      * @param string $type
      * @return Google\Service\Drive\DriveFile
      */
-    public function getFolder(Account $account, $type)
+    public function createAccountFolder(Account $account, $type)
     {
         switch ($type) {
             case DriveFile::TYPE_ESTIMATE:
-                return $this->getEstimatesFolder($account);
+                return $this->createEstimatesFolder($account);
             case DriveFile::TYPE_INVOICE:
-                return $this->getInvoicesFolder($account);
+                return $this->createInvoicesFolder($account);
         }
     }
 
@@ -163,6 +178,20 @@ class CSJDriveService
                    $child->getFileId(),
                 );
     }
+
+    /**
+     * @param DriveDB $db
+     * @return Google\Service\Drive\DriveFile
+     */
+    public function uploadBackup($db)
+    {
+        return $this->createFile(
+            $db->getName(), 
+            $db->getName(), 
+            env("GOOGLE_DRIVE_BACKUPS_FOLDER_ID"),
+            'backups');
+    }
+
 
     //$children = $service->files->listFiles([
     //                  'q' => "'{$parent}' in parents", 

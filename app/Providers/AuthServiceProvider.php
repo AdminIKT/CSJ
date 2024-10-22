@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         \App\Entities\Supplier\Contact::class => \App\Policies\Supplier\ContactPolicy::class,
         \App\Entities\Supplier\Incidence::class => \App\Policies\Supplier\IncidencePolicy::class,
+        \App\Entities\Backup\DriveDB::class => \App\Policies\BackupPolicy::class,
     ];
 
     /**

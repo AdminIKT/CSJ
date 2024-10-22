@@ -3,9 +3,13 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Process\Pipe;
+use Illuminate\Support\Facades\Process,
+    Illuminate\Support\Facades\Storage,
+    Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
-class DatabaseCreateBackup extends Command
+class DatabaseCreateBackup extends DatabaseBackup 
 {
     /**
      * The name and signature of the console command.
@@ -22,16 +26,6 @@ class DatabaseCreateBackup extends Command
     protected $description = 'Database complete dump';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return int
@@ -42,14 +36,42 @@ class DatabaseCreateBackup extends Command
         $pass = env("DB_PASSWORD");
         $host = env("DB_HOST");
         $name = env("DB_DATABASE");
-        $path = env("DB_BACKUP_PATH");
 
-        $filename = "backup-" . Carbon::now()->format('Y-m-d:H:i') . ".gz";
-        $filepath = storage_path() . "/{$path}/{$filename}";
+        //for ($i=0; $i<1; $i++) {
+            $now = new \DateTime;
+            //$now = \Carbon\Carbon::today()->subDays(rand(-5, 0));
+        
+            $storage = Storage::disk('backups');
+            $filename = "backup_{$now->format('Y-m-d_H:i:s')}.sql.gz";
+            $filepath = $storage->path($filename);
 
-        $command  = "mysqldump --user={$user} --password={$pass} --host={$host} $name";
-        $command .= "| gzip > {$filepath}";
+            $result = Process::pipe(function (Pipe $pipe) use ($user, $pass, $host, $name, $filepath) {
+                $pipe->command("mysqldump --user={$user} --password={$pass} --host={$host} $name");
+                $pipe->command("gzip > {$filepath}");
+            });
 
-        exec($command);
+            if ($result->successful()) {
+                $backup = new \App\Entities\Backup\DriveDB;
+                $backup->setName($filename)
+                       ->setCreated($now);
+
+                app('em')->persist($backup);
+            }
+            else {
+                Log::error(sprintf("Error al crear backup %s:{%s:%s} at %s", $filepath, $result->output(), $result->errorOutput(), __CLASS__));
+            }
+        //}
+        app('em')->flush();
+
+        /**
+         * mysqldump returns
+         * 0 for Success
+         * 1 for Warning
+         * 2 for Not Found
+         */
+        //$command  = "mysqldump --user={$user} --password={$pass} --host={$host} $name";
+        //$command .= "| gzip > {$filepath}";
+
+        //exec($command);
     }
 }

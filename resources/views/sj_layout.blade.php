@@ -27,7 +27,7 @@
       </div>
 
       <div class="gb auth-card" style="display:none"></div>
-      <div id="auth-card" class="auth-card card text-center" style="display:none">
+      <div id="auth-card" class="auth-card card text-center w-25 overflow-auto" style="display:none">
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div class="btn-group btn-group-sm">
@@ -55,11 +55,11 @@
             </a>
         </div>
         @if (Auth::user()->getAccounts()->count())
-        <div class="card-body">
+        <div class="card-body" style="max-height: 35vh; overflow-y: auto;">
             <h6 class="text-muted">{{ __('My accounts') }}</h6>
             @foreach (Auth::user()->getAccounts()->filter(function($item) { return $item->isActive(); }) as $account)
-              <a class="dropdown-item border my-1 rounded" href="{{ route('accounts.show', ['account' => $account->getId()]) }}">
-                  {{ $account->getSerial() }} ({{$account->getName()}})
+              <a class="dropdown-item border my-1 roundedi text-wrap" href="{{ route('accounts.show', ['account' => $account->getId()]) }}">
+                  {{ $account->getSerial() }} <small>({{$account->getName()}})</small>
               </a>
             @endforeach
         </div>
@@ -75,7 +75,7 @@
 
     <div class="l-navbar" id="nav-bar">
       <nav class="nav">
-        <div>
+        <div style="overflow-y:scroll">
           <!--
           <a class="nav_logo {{request()->is('/') ? 'active' : ''}}" href="{{ route('home') }}" title="{{ __('Dashboard') }}">
             <i data-feather="grid" class="nav_icon"></i>
@@ -165,8 +165,14 @@
             @endcan
 
             <!-- ------------------------------------ -->
-            @can('viewAny', App\Entities\Settings::class)
+            @can('viewAny', App\Entities\Backup\DriveDB::class)
                 <hr style="margin-left:1rem; color:white;">
+                <a class="nav_link {{request()->is('backups*') ? 'active' : ''}}" href="{{ route('backups.index') }}" title="{{ __('Backups') }}">
+                  <i class='bx bxs-data'></i>
+                  <span class="nav_name">{{ __('Backups') }}</span>
+                </a>
+            @endcan
+            @can('viewAny', App\Entities\Settings::class)
                 <a class="nav_link {{request()->is('settings*') ? 'active' : ''}}" href="{{ route('settings.index') }}" title="{{ __('Settings') }}">
                   <i class="bx bxs-cog"></i>
                   <span class="nav_name">{{ __('Settings') }}</span>
@@ -179,12 +185,13 @@
               <span class="nav_name">{{ __('FAQs') }}</span>
             </a>
             -->
+            <hr style="margin-left:1rem; color:white;">
+            <a href="{{ route('logout') }}" class="nav_link" title="{{ __('Logout') }}">
+                <i class="bx bx-log-out"></i>
+              <span class="nav_name">{{ __('Logout') }}</span>
+            </a>
           </div>
         </div>
-        <a href="{{ route('logout') }}" class="nav_link" title="{{ __('Logout') }}">
-            <i class="bx bx-log-out"></i>
-          <span class="nav_name">{{ __('Logout') }}</span>
-        </a>
       </nav>
     </div>
 

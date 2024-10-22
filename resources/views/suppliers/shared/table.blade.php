@@ -161,7 +161,7 @@
       @endforeach
       @if ($pagination ?? '')
       <tr align="center">
-          <td colspan="13">{{ $collection->links("pagination::bootstrap-4") }}</td>
+          <td colspan="13">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
       </tr>
       @endif
       </tbody>

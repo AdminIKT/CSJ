@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class Localization
 {
@@ -19,7 +20,9 @@ class Localization
     public function handle(Request $request, Closure $next)
     {
         if (Session::has('locale')) {
-            App::setLocale(Session::get('locale'));
+            $lang = Session::get('locale');
+            App::setLocale($lang);
+            Carbon::setLocale($lang == 'eus' ? 'eu' : $lang); //FIXME
         }
         return $next($request);
     }

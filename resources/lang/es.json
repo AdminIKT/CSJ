@@ -229,5 +229,16 @@
     "Hezkuntza code": "Código Hezkuntza",
     ":count charges successfully imported": ":count cargos importados correctamente",
     "Unmatched a valid charge :pattern pattern":"El patrón del cargo debe coincidir con :pattern",
-    "The order credit exceeds in :credit€ the supplier's annual billing limit established on :limit€": "El coste del pedido excede en :credit€ el limite anual del proveedor establecido en :limit€"
+    "The order credit exceeds in :credit€ the supplier's annual billing limit established on :limit€": "El coste del pedido excede en :credit€ el limite anual del proveedor establecido en :limit€",
+    "Showing :totalItems items": "Mostrando :totalItems items",
+    "View all": "Ver todos",
+    "Expires": "Expira",
+    "Day": "Día",
+    "Days": "Días",
+    "Minutes": "Minutos",
+    "Hours": "Horas",
+    "Months": "Meses",
+    "Years": "Años",
+    "Remove backups prior to": "Borrar backups anteriores a",
+    "Upload pending": "Pendiente"
 }

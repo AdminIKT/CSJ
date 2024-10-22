@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Subaccount;
 
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Laminas\Hydrator\DoctrineObject;
 
 use App\Http\Controllers\BaseController,
     App\Events\MovementEvent,
@@ -55,14 +56,18 @@ class AssignmentController extends BaseController
             'detail' => ['max:255'],
         ]);
 
+        $em = app('em');
+        $hydrator = new DoctrineObject($em);
+
         $entity = new Assignment;
-        $entity->hydrate($values);
         $entity->setSubaccount($subaccount);
+        $hydrator->hydrate($values, $entity);
 
         MovementEvent::dispatch($entity, __FUNCTION__);
 
-        $this->em->persist($entity);
-        $this->em->flush();
+        $em->persist($entity);
+        $em->flush();
+
         $dst = $request->get('destination', route('accounts.movements.index', ['account' => $subaccount->getAccount()->getId()]));
 
         return redirect()->to($dst)->with('success', __('Successfully created'));

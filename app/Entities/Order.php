@@ -795,6 +795,21 @@ class Order implements UserAwareInterface, \JsonSerializable
     }
 
     /**
+     * Add products.
+     *
+     * @param Product[] $products
+     *
+     * @return Order
+     */
+    public function addProducts($products)
+    {
+        foreach ($products as $product) {
+            $this->addProduct($product);
+        }
+        return $this;
+    }
+
+    /**
      * Add product.
      *
      * @param Product $product
@@ -805,6 +820,21 @@ class Order implements UserAwareInterface, \JsonSerializable
     {
         $product->setOrder($this);
         $this->products->add($product);
+        return $this;
+    }
+
+    /**
+     * Remove products.
+     *
+     * @param Product[] $products
+     *
+     * @return Order
+     */
+    public function removeProducts($products)
+    {
+        foreach ($products as $product) {
+            $this->removeProduct($product);
+        }
         return $this;
     }
 

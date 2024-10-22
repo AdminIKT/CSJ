@@ -24,6 +24,8 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
      *   sort: string
      *   account: int,
      *   area: int,
+     *   orderCount: int,
+     *   incidenceCount: int,
      *   orders: bool,
      *   invoices: bool,
      *   estimated: float,
@@ -76,12 +78,27 @@ class SupplierRepository extends \Doctrine\ORM\EntityRepository
               ->setParameter('year', date('Y'));
         }
 
+        if (isset($filter['orderCount']) &&
+            null !== ($orderCount = $filter['orderCount'])) {
+            $op = $filter['ordersOp'];
+            $b->andWhere("supplier.orderCount {$op} :orderCount")
+              ->setParameter('orderCount', $orderCount);
+        }
+
+        if (isset($filter['incidenceCount']) &&
+            null !== ($incidenceCount = $filter['incidenceCount'])) {
+            $op = $filter['incidencesOp'];
+            $b->andWhere("supplier.incidenceCount {$op} :incidenceCount")
+              ->setParameter('incidenceCount', $incidenceCount);
+        }
+
         if (isset($filter['estimated']) &&
             null !== ($estimated = $filter['estimated'])) {
             $op = $filter['estimatedOp'];
             $b->andWhere("invoiced.estimated {$op} :estimated")
               ->setParameter('estimated', $estimated);
         }
+
         if (isset($filter['credit']) &&
             null !== ($credit = $filter['credit'])) {
             $op = $filter['creditOp'];

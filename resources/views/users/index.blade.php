@@ -29,9 +29,23 @@
                     @if ($entity->getAvatar()) <img src="{{ $entity->getAvatar() }}" height="25" width="25" class="rounded-circle"/> @endif
                 </td>
                 <td>{{ $entity->getEmail() }}</td>
-                <td>{{ $entity->getName() }}</td>
+                <td>{{ ucwords(strtolower($entity->getName())) }}</td>
                 <td>{{ implode(", ", $entity->getRoles()->map(function ($e) { return $e->getName(); })->toArray()) }}</td>
                 <td>{{ implode(", ", $entity->getAccounts()->map(function ($e) { return "{$e->getSerial()} ({$e->getType()})"; })->toArray()) }}</td>
+                <!--<td>
+                    <div class="d-flex flex-wrap">
+                    @foreach ($entity->getAccounts() as $acc)
+                        <div class="btn-group btn-group-sm">
+                            <a href="" class="btn btn-outline-secondary" style="">
+                                {{ $acc->getSerial() }}
+                            </a>
+                            <a href="" class="btn btn-secondary" style="">
+                                {{ $acc->getType() }}
+                            </a>
+                        </div>
+                    @endforeach
+                    </div>
+                </td>-->
                 <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
                 <td>@if ($entity->getLastLogin()) {{ $entity->getLastLogin()->format("d/m/Y H:i") }} @endif</td>
                 <td class="m-0">

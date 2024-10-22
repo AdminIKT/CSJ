@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
     {
         //Illuminate/Console/Scheduling/ManagesFrequencies.php
         $schedule->command('database:backup:create')->everySixHours();
-       // $schedule->command('database:backup:remove')->everyMinute();
+        $schedule->command('database:backup:update')->everyThirtyMinutes();
+        $schedule->command('database:backup:remove')->everyThirtyMinutes();
     }
 
     /**

@@ -229,6 +229,17 @@
     "Hezkuntza code": "Hezkuntza kodea",
     ":count charges successfully imported": ":count kargu importatu dira era egokian",    
     "Unmatched a valid charge :pattern pattern":"El patrón del cargo debe coincidir con :pattern",
-    "The order credit exceeds in :credit€ the supplier's annual billing limit established on :limit€": "Eskaeraren kostua hornitzailearen urteko muga (:limit€) baino :credit€ handiagoa da."
+    "The order credit exceeds in :credit€ the supplier's annual billing limit established on :limit€": "Eskaeraren kostua hornitzailearen urteko muga (:limit€) baino :credit€ handiagoa da.",
+    "Showing :totalItems items": ":totalItems item erakusten",
+    "View all": "Guztiak ikusi",
+    "Expires": "Iraungitzea",
+    "Day": "Eguna",
+    "Days": "Egun",
+    "Minutes": "Minutu",
+    "Hours": "Ordu",
+    "Months": "Hilabete",
+    "Years": "Urte",
+    "Remove backups prior to": "Ezabatu aurretiko backup-ak",
+    "Upload pending": "Pendiente"
 }
 

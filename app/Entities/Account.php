@@ -704,6 +704,21 @@ class Account
     }
 
     /**
+     * Add Users.
+     *
+     * @param \User[] $users
+     *
+     * @return Account
+     */
+    public function addUsers($users)
+    {
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
+        return $this;
+    }
+
+    /**
      * Add User.
      *
      * @param \User $user
@@ -713,6 +728,21 @@ class Account
     public function addUser(User $user)
     {
         $this->users[] = $user;
+        return $this;
+    }
+
+    /**
+     * Remove Users.
+     *
+     * @param \User[] $users
+     *
+     * @return Account
+     */
+    public function removeUsers($users)
+    {
+        foreach ($users as $user) {
+            $this->removeUser($user);
+        }
         return $this;
     }
 

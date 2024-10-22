@@ -44,13 +44,39 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-3">
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="basic-addon1">{{ __('Orders') }}</span>
+              <div class="input-group-prepend">
+                  {{ Form::select('ordersOp', [
+                    '>=' => '>=',
+                    '=' => '=',
+                    '<=' => '<=',
+                  ], request()->input('ordersOp'), ['class'=>'form-select form-select-sm', 'aria-describedby' => 'addon-type']) }}
+              </div>
+              {{ Form::number('orderCount', request()->input('orderCount'), ['class' => 'form-control', 'min' => 0]) }}
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="basic-addon1">{{ __('Incidences') }}</span>
+              <div class="input-group-prepend">
+                  {{ Form::select('incidencesOp', [
+                    '>=' => '>=',
+                    '=' => '=',
+                    '<=' => '<=',
+                  ], request()->input('incidencesOp'), ['class'=>'form-select form-select-sm', 'aria-describedby' => 'addon-type']) }}
+              </div>
+              {{ Form::number('incidenceCount', request()->input('incidenceCount'), ['class' => 'form-control', 'min' => 0]) }}
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="basic-addon1">{{ __('Predicted') }}</span>
               <div class="input-group-prepend">
                   {{ Form::select('estimatedOp', [
                     '>=' => '>=',
-                    '==' => '==',
+                    '=' => '=',
                     '<=' => '<=',
                   ], request()->input('estimatedOp'), ['class'=>'form-select form-select-sm', 'aria-describedby' => 'addon-type']) }}
               </div>
@@ -58,13 +84,13 @@
               <span class="input-group-text">€</span>
             </div>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-3">
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="basic-addon1">{{ __('Invoiced') }}</span>
               <div class="input-group-prepend">
                   {{ Form::select('creditOp', [
                     '>=' => '>=',
-                    '==' => '==',
+                    '=' => '=',
                     '<=' => '<=',
                   ], request()->input('creditOp'), ['class'=>'form-select form-select-sm', 'aria-describedby' => 'addon-type']) }}
               </div>

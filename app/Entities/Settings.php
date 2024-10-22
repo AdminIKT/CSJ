@@ -3,10 +3,6 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
-use LaravelDoctrine\ACL\Contracts\Role as RoleContract;
-use LaravelDoctrine\ACL\Mappings as ACL;
-use LaravelDoctrine\ACL\Contracts\HasPermissions as HasPermissionContract;
-use LaravelDoctrine\ACL\Permissions\HasPermissions;
 
 /**
  * @ORM\Table(name="settings")
@@ -19,6 +15,8 @@ class Settings
     const TYPE_SUPPLIER_INVOICED_LIMIT       = 2;
     const TYPE_SUPPLIER_NO_ACCEPTABLE_LIMIT  = 3;
     const TYPE_SUPPLIER_RECOMMENDABLE_LIMIT  = 4;
+    const TYPE_BACKUP_RM_PERIOD              = 5;
+    const TYPE_BACKUP_RM_PERIOD_COUNT        = 6;
 
     /**
      * @ORM\Id

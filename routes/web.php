@@ -57,6 +57,7 @@ Route::resources([
     'suppliers.movements'     => Controllers\Supplier\MovementController::class,
     'invoiceCharges'          => Controllers\InvoiceChargeController::class,
     'settings'                => Controllers\SettingsController::class,
+    'backups'                 => Controllers\BackupsController::class,
 ], [
     'middleware' => ['auth', 'user.valid']
 ]);
@@ -78,7 +79,7 @@ Route::middleware(['auth', 'user.valid'])->group(function() {
     Route::get('/reports/movements', [Controllers\ReportController::class, 'movements'])->name('reports.movements');
     Route::get('/reports/suppliers', [Controllers\ReportController::class, 'suppliers'])->name('reports.suppliers');
     Route::get('language/{locale}', function ($locale) {
-        app()->setLocale($locale);
+        //app()->setLocale($locale);
         session()->put('locale', $locale);
         return redirect()->back();
     });

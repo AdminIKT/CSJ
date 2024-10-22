@@ -6,7 +6,6 @@
     <div class="col">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="addon-type">{{ __('tipo') }}</span>
-          </select>
           {{ Form::select('type', [
               null =>  __('selecciona'),
               \App\Entities\Account::TYPE_EQUIPAMIENTO => \App\Entities\Account::typeName(\App\Entities\Account::TYPE_EQUIPAMIENTO),

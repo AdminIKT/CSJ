@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Support\Facades\Storage,
+use Doctrine\Laminas\Hydrator\DoctrineObject;
+use Illuminate\Http\Request,
+    Illuminate\Support\Facades\Storage,
     Illuminate\Support\Facades\Gate,
     Illuminate\Support\Arr,
     Illuminate\Validation\ValidationException;
@@ -102,11 +103,13 @@ class AccountController extends BaseController
     {
         $entity = new Account;
 
-        $this->hydrateData($entity, $request->validated());
-
+        $em = app('em');
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($request->validated(), $entity);
+        $this->hydrateData($request->validated(), $entity);
         try {
-            $estimates = $this->drive->getFolder($entity, DriveFile::TYPE_ESTIMATE);
-            $invoices  = $this->drive->getFolder($entity, DriveFile::TYPE_INVOICE);
+            $estimates = $this->drive->createAccountFolder($entity, DriveFile::TYPE_ESTIMATE);
+            $invoices  = $this->drive->createAccountFolder($entity, DriveFile::TYPE_INVOICE);
         } catch (\Exception $e) {
             throw ValidationException::withMessages([
                 'acronym' => $e->getMessage()
@@ -118,8 +121,8 @@ class AccountController extends BaseController
                ->setFilesId($invoices->getId(), DriveFile::TYPE_INVOICE)
                ->setFilesUrl($invoices->getWebViewLink(), DriveFile::TYPE_INVOICE);
 
-        $this->em->persist($entity);
-        $this->em->flush();
+        $em->persist($entity);
+        $em->flush();
         return redirect()->route('accounts.show', ['account' => $entity->getId()])
                          ->with('success', __('Successfully created'));
     }
@@ -180,8 +183,12 @@ class AccountController extends BaseController
      */
     public function update(AccountPutRequest $request, Account $account)
     {
-        $this->hydrateData($account, $request->validated());
-        $this->em->flush();
+        $em = app('em');
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($request->validated(), $account);
+        $this->hydrateData($request->validated(), $account);
+        $em->flush();
+
         return redirect()->route('accounts.show', ['account' => $account->getId()])
                          ->with('success', __('Successfully updated'));
     }
@@ -201,38 +208,14 @@ class AccountController extends BaseController
     }
 
     /**
+     * FIXME
      * @param Account $entity
      * @param array $data
      *
      * @return void 
      */
-    protected function hydrateData(Account $entity, array $data)
+    protected function hydrateData(array $data, Account $entity)
     {
-        $entity->setName($data['name'])            
-            ->setDetail($data['detail'])
-            ->setStatus($data['status'])
-            ;
-
-        if (isset($data['acronym'])) {
-            $entity->setAcronym($data['acronym']);
-        }
-
-        if (isset($data['type'])) {
-            $entity->setType($data['type']);
-            $entity->setLCode();
-            if (isset($data['lcode'])) {
-                $entity->setLCode($data['lcode']);
-            }
-        }
-
-        $entity->getUsers()->clear();
-        if (isset($data['users']) && is_array($data['users'])) {
-            $er = $this->em->getRepository(User::class);
-            foreach ($data['users'] as $id) {
-                $entity->addUser($er->find($id));
-            }
-        }
-
         if (isset($data['accounts']) && is_array($data['accounts'])) {
             //$entity->getSubaccounts()->clear();
             $er = $this->em->getRepository(Area::class);

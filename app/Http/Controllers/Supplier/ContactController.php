@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Supplier;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Laminas\Hydrator\DoctrineObject;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\BaseController,
@@ -43,11 +44,15 @@ class ContactController extends BaseController
      */
     public function store(Supplier $supplier, ContactRequest $request)
     {
+        $em = app('em');
+        $hydrator = new DoctrineObject($em);
+
         $contact = new Contact;
         $contact->setSupplier($supplier);
-        $this->hydrateData($contact, $request->all());
-        $this->em->persist($contact);
-        $this->em->flush();
+        $hydrator->hydrate($request->all(), $contact);
+        $em->persist($contact);
+        $em->flush();
+
         $dst = $request->get(
             'destination', route('suppliers.show', ['supplier' => $supplier->getId()])
         );
@@ -89,8 +94,12 @@ class ContactController extends BaseController
         if (!$supplier->getContacts()->contains($contact)) {
             abort(404);
         }
-        $this->hydrateData($contact, $request->all());
-        $this->em->flush();
+
+        $em = app('em');
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($request->all(), $contact);
+        $em->flush();
+
         return redirect()->route('suppliers.show', ['supplier' => $supplier->getId()])
                          ->with('success', __('Successfully updated'));
     }
@@ -110,19 +119,5 @@ class ContactController extends BaseController
         $this->em->flush();
 
         return redirect()->back()->with('success', __('Successfully removed'));
-    }
-
-    /**
-     * @param Contact $entity
-     * @param array $data
-     *
-     * @return void 
-     */
-    protected function hydrateData(Contact $entity, array $data = [])
-    {
-        $entity->setName($data['name']);
-        $entity->setEmail($data['email']);
-        $entity->setPhone($data['phone']);
-        $entity->setPosition($data['position']);
     }
 }

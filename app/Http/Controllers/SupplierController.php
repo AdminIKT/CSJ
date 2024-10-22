@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Laminas\Hydrator\DoctrineObject;
 
 use App\Events\SupplierEvent,
     App\Entities\Supplier,
@@ -72,11 +73,15 @@ class SupplierController extends BaseController
      */
     public function store(SupplierRequest $request)
     {
+        $em = app('em');
+        $hydrator = new DoctrineObject($em);
+
         $entity = new Supplier;
-        $this->hydrateData($entity, $request->all());
+        $hydrator->hydrate($request->all(), $entity);
         SupplierEvent::dispatch($entity, SupplierEvent::ACTION_STORE);
-        $this->em->persist($entity);
-        $this->em->flush();
+        $em->persist($entity);
+        $em->flush();
+
         $dst = $request->get(
             'destination', route('suppliers.show', ['supplier' => $entity->getId()])
         );
@@ -125,12 +130,16 @@ class SupplierController extends BaseController
     public function update(SupplierRequest $request, Supplier $supplier)
     {
         $values = $request->all();
+
+        $em = app('em');
+        $hydrator = new DoctrineObject($em);
         if ($supplier->isNoAcceptable() 
             && (int) $values['status'] > $supplier->getStatus()) {
             $supplier->setIncidenceCount(0);
         }
-        $this->hydrateData($supplier, $values);
-        $this->em->flush();
+        $hydrator->hydrate($values, $supplier);
+        $em->flush();
+
         return redirect()->route('suppliers.show', ['supplier' => $supplier->getId()])
                          ->with('success', __('Successfully updated'));
     }
@@ -147,34 +156,5 @@ class SupplierController extends BaseController
         $this->em->flush();
 
         return redirect()->back()->with('success', __('Successfully removed'));
-    }
-
-    /**
-     * @param Supplier $entity
-     * @param array $data
-     *
-     * @return void 
-     */
-    protected function hydrateData(Supplier $entity, array $data = [])
-    {
-        if (isset($data['name'])) $entity->setName($data['name']);
-        if (isset($data['nif'])) $entity->setNif($data['nif']);
-        if (isset($data['zip'])) $entity->setZip($data['zip']);
-        if (isset($data['city'])) $entity->setCity($data['city']);
-        if (isset($data['address'])) $entity->setAddress($data['address']);
-        if (isset($data['region'])) $entity->setRegion($data['region']);
-        if (isset($data['status'])) $entity->setStatus($data['status']);
-        if (isset($data['detail'])) $entity->setDetail($data['detail']);
-
-        if (isset($data['contacts'])) {
-            foreach ($data['contacts'] as $raw) {
-                $contact = new Contact;
-                if (isset($raw['name'])) $contact->setName($raw['name']);
-                if (isset($raw['email'])) $contact->setEmail($raw['email']);
-                if (isset($raw['phone'])) $contact->setPhone($raw['phone']);
-                if (isset($raw['position'])) $contact->setPosition($raw['position']);
-                $entity->addContact($contact);
-            }
-        }
     }
 }

@@ -44,6 +44,11 @@ return [
             'visibility' => 'public',
         ],
 
+        'backups' => [
+            'driver' => 'local',
+            'root' => storage_path('app/backups'),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -60,7 +65,7 @@ return [
             'clientId' => env('GOOGLE_CLIENT_ID'),
             'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
             'refreshToken' => env('GOOGLE_REFRESH_TOKEN'),
-            'folderId' => env('GOOGLE_DRIVE_FOLDER_ID'),
+            'folderId' => env('GOOGLE_DRIVE_FOLDER_ID'), //// without folder is root of drive or team drive
         ],
 
     ],

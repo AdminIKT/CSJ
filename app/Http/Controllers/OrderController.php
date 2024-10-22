@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManagerInterface,
+    Doctrine\Laminas\Hydrator\DoctrineObject;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Gate,
     Illuminate\Support\Arr,
@@ -125,39 +126,10 @@ class OrderController extends BaseController
      */
     public function update(OrderPutRequest $request, Order $order)
     {
-        $values = $request->validated();
-
-        $order->setReceiveIn($values['receiveIn'])
-              ->setDetail($values['detail'])
-              ->setDate(new \DateTime($values['date']));
-
-        if (isset($values['products'])) {
-            $products = $values['products'];
-            foreach ($order->getProducts() as $product) {
-                if (false !== ($key = array_search(
-                        $product->getId(),  
-                        array_column($products, 'id')))
-                ) { 
-                    $product->setDetail($products[$key]['detail'])
-                            ->setUnits($products[$key]['units']);
-                }
-                else {
-                    $order->removeProduct($product);
-                }
-            }
-            foreach ($products as $product) {
-                if (!$product['id']) {
-                    $order->addProduct(Product::fromArray($product));
-                }
-            }
-        }
-        else {
-            foreach ($order->getProducts() as $product) {
-                $order->removeProduct($product);
-            }
-        }
-
-        $this->em->flush();
+        $em = app('em');
+        $hydrator = new DoctrineObject($em);
+        $hydrator->hydrate($request->validated(), $order);
+        $em->flush();
         return redirect()->route('orders.show', ['order' => $order->getId()])
                          ->with('success', __('Successfully updated'));
     }

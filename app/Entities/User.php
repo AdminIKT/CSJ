@@ -483,12 +483,46 @@ class User implements Authenticatable, HasRolesContract
     }
 
     /**
+     * @param Role[] $roles
+     * @return User
+     */
+    public function addRoles($roles)
+    {
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
+        return $this;
+    }
+
+    /**
      * @param Role $role
      * @return User
      */
     public function addRole(Role $role)
     {
         $this->getRoles()->add($role);
+        return $this;
+    }
+
+    /**
+     * @param Role[] $roles
+     * @return User
+     */
+    public function removeRoles($roles)
+    {
+        foreach ($roles as $role) {
+            $this->removeRole($role);
+        }
+        return $this;
+    }
+
+    /**
+     * @param Role $role
+     * @return User
+     */
+    public function removeRole(Role $role)
+    {
+        $this->getRoles()->removeElement($role);
         return $this;
     }
 

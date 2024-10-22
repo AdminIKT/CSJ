@@ -450,6 +450,21 @@ class Supplier
     }
 
     /**
+     * Add contacts.
+     *
+     * @param Supplier\Contact[] $contacts
+     *
+     * @return Supplier
+     */
+    public function addContacts($contacts)
+    {
+        foreach ($contacts as $contact) {
+            $this->addContact($contact);
+        }
+        return $this;
+    }
+
+    /**
      * Add contact.
      *
      * @param Supplier\Contact $contact
@@ -460,6 +475,21 @@ class Supplier
     {
         $contact->setSupplier($this);
         $this->contacts[] = $contact;
+        return $this;
+    }
+
+    /**
+     * Remove contacts.
+     *
+     * @param Supplier\Contact[] $contacts
+     *
+     * @return Supplier
+     */
+    public function removeContacts($contacts)
+    {
+        foreach ($contacts as $contact) {
+            $this->removeContact($contact);
+        }
         return $this;
     }
 

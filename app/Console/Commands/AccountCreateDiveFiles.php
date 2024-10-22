@@ -57,7 +57,7 @@ class AccountCreateDiveFiles extends Command
             if ($entity->getFilesId(DriveFile::TYPE_INVOICE)) continue;
 
             try {
-                $invoices  = $this->drive->getFolder($entity, DriveFile::TYPE_INVOICE);
+                $invoices  = $this->drive->createAccountFolder($entity, DriveFile::TYPE_INVOICE);
                 $this->line(__("Folder create for :acc", [
                     'acc' => $entity->getSerial(),
                 ]));

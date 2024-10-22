@@ -21,8 +21,18 @@ class SettingsController extends BaseController
      */
     public function index()
     {
+        $collection = app('em') ->getRepository(Settings::class)
+                      ->createQueryBuilder('d')
+                      ->where('d.type >= :type1')
+                      ->andWhere('d.type <= :type2')
+                      ->setParameter('type1', Settings::TYPE_ORDER_ESTIMATED_LIMIT)
+                      ->setParameter('type2', Settings::TYPE_SUPPLIER_RECOMMENDABLE_LIMIT)
+                      ->getQuery()
+                      ->getResult();
+
         return view('settings.index', [
-            'collection' => $this->em->getRepository(Settings::class)->findAll(),
+            'collection' => $collection,
+            //'collection' => $this->em->getRepository(Settings::class)->findAll(),
         ]); 
     }
 
