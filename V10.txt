@@ -1,9 +1,0 @@
-Instalar los vendors
-Actualizar la base de datos
-- ALTER TABLE user_roles DROP permissions; (JSON_ARRAY type removed from current DBAL version)
-- update doctrine
-- mysql -u root -p laravel < sql/settings_V10.sql 
-- Quitar a los admins de las cuentas
-Añadir la ruta remota de los backups del drive en .env
-route y config cache
-//Crear carpeta: storage/app/backups
