@@ -15,8 +15,10 @@ class Settings
     const TYPE_SUPPLIER_INVOICED_LIMIT       = 2;
     const TYPE_SUPPLIER_NO_ACCEPTABLE_LIMIT  = 3;
     const TYPE_SUPPLIER_RECOMMENDABLE_LIMIT  = 4;
-    const TYPE_BACKUP_RM_PERIOD              = 5;
-    const TYPE_BACKUP_RM_PERIOD_COUNT        = 6;
+    const TYPE_BACKUP_CR_PERIOD              = 5; //Database Backup create
+    const TYPE_BACKUP_CR_PERIOD_COUNT        = 6;
+    const TYPE_BACKUP_RM_PERIOD              = 7; //Database Backup remove
+    const TYPE_BACKUP_RM_PERIOD_COUNT        = 8;
 
     /**
      * @ORM\Id

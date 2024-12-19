@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Process,
     Illuminate\Support\Facades\Storage,
     Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use App\Entities\Settings,
+    App\Entities\Backup\DriveDB,
+    App\Services\CSJSettingsService; 
 
 class DatabaseCreateBackup extends DatabaseBackup 
 {
@@ -16,7 +19,7 @@ class DatabaseCreateBackup extends DatabaseBackup
      *
      * @var string
      */
-    protected $signature = 'database:backup:create';
+    protected $signature = 'database:backup:create {--force : Force backup creation}';
 
     /**
      * The console command description.
@@ -32,6 +35,23 @@ class DatabaseCreateBackup extends DatabaseBackup
      */
     public function handle()
     {
+        $em = app('em');
+        $lastBackup = $em->getRepository(DriveDB::class)
+                         ->createQueryBuilder('d')
+                         ->orderBy('d.created', 'DESC')
+                         ->setMaxResults(1)
+                         ->getQuery()
+                         ->getOneOrNullResult();
+
+        if ($lastBackup) {
+            $period      = $em->getRepository(Settings::class)->findOneBy(['type' => Settings::TYPE_BACKUP_CR_PERIOD]);
+            $periodCount = $em->getRepository(Settings::class)->findOneBy(['type' => Settings::TYPE_BACKUP_CR_PERIOD_COUNT]);
+            $expires     = CSJSettingsService::getExpirationDate($lastBackup,  $periodCount, $period);
+            if ($expires > now() && !$this->option('force')) {
+                return;
+            }
+        }
+
         $user = env("DB_USERNAME");
         $pass = env("DB_PASSWORD");
         $host = env("DB_HOST");
@@ -55,13 +75,13 @@ class DatabaseCreateBackup extends DatabaseBackup
                 $backup->setName($filename)
                        ->setCreated($now);
 
-                app('em')->persist($backup);
+                $em->persist($backup);
             }
             else {
                 Log::error(sprintf("Error al crear backup %s:{%s:%s} at %s", $filepath, $result->output(), $result->errorOutput(), __CLASS__));
             }
         //}
-        app('em')->flush();
+        $em->flush();
 
         /**
          * mysqldump returns

@@ -61,13 +61,11 @@ class CSJSettingsService
                     $periodCount->getValue()));
         }
         $expires = clone $db->getCreated();
-        $modify  = implode(" ", [
+        $expires->modify(implode(" ", [
             $negative ? "-": "+", 
             $periodCount->getValue(), 
-            $expr ]);
-        $expires->modify($modify);
-        //dd($modify);
-        //$expires->modify("+ {$periodCount->getValue()} {$expr}");
+            $expr
+        ]));
         return $expires;
     }
 }

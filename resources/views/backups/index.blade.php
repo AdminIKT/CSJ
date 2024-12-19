@@ -13,18 +13,54 @@
 
         <form action="{{ $route }}" method="POST" class="row mb-3" novalidate>
             @csrf
-            {{ method_field($method) }}
-
-                <p class="m-0"><code>CRON</code>: {{ __('Remove backups prior to') }}:</p>
+                {{ method_field($method ?? 'POST') }}
+                <label><code>CRON</code>: {{ __('Create backups every') }}:</label>
                 <div class="input-group input-group-sm mb-3">
-                    {{ Form::number('period_count', $periodCount->getValue(), ['class' => 'form-control']) }}
-                    {{ Form::select('period', [
+                    {{ Form::number('cr_period_count', $crPeriodCount->getValue(), [
+                        'class' => 'form-control' . ($errors->has('cr_period_count') ? ' is-invalid' : ''),
+                        'required' => true,
+                        'min' => 1,
+                    ]) }}
+                    @if ($errors->has('cr_period_count'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('cr_period_count') }}
+                        </div>
+                    @endif
+                    {{ Form::select('cr_period', [
                         \App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_MINUTES =>  \App\Services\CSJSettingsService::backupPeriodName(\App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_MINUTES),
                         \App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_HOURS =>  \App\Services\CSJSettingsService::backupPeriodName(\App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_HOURS),
                         \App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_DAYS =>  \App\Services\CSJSettingsService::backupPeriodName(\App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_DAYS),
                         \App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_MONTHS =>  \App\Services\CSJSettingsService::backupPeriodName(\App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_MONTHS),
-                    ], $period->getValue(), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
-                    <button class="btn btn-outline-primary" type="submit" id="button-addon2">{{ __('guardar') }}</button>
+                    ], $crPeriod->getValue(), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
+                    @if ($errors->has('cr_period'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('cr_period') }}
+                        </div>
+                    @endif
+                </div>
+
+                <label><code>CRON</code>: {{ __('Remove backups prior to') }}:</label>
+                <div class="input-group input-group-sm mb-3">
+                    {{ Form::number('rm_period_count', $rmPeriodCount->getValue(), [
+                        'class' => 'form-control' . ($errors->has('rm_period_count') ? ' is-invalid' : ''),
+                        'required' => true,
+                        'min' => 1,
+                    ]) }}
+                    @if ($errors->has('rm_period_count'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('rm_period_count') }}
+                        </div>
+                    @endif
+                    {{ Form::select('rm_period', [
+                        \App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_MINUTES =>  \App\Services\CSJSettingsService::backupPeriodName(\App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_MINUTES),
+                        \App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_HOURS =>  \App\Services\CSJSettingsService::backupPeriodName(\App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_HOURS),
+                        \App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_DAYS =>  \App\Services\CSJSettingsService::backupPeriodName(\App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_DAYS),
+                        \App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_MONTHS =>  \App\Services\CSJSettingsService::backupPeriodName(\App\Services\CSJSettingsService::BACKUP_RM_PERIOD_VALUE_MONTHS),
+                    ], $rmPeriod->getValue(), ['class'=>'form-select', 'aria-describedby' => 'addon-type']) }}
+                </div>
+
+                <div class="text-end">
+                    <button class="btn btn-sm btn-outline-primary" type="submit ">{{ __('guardar') }}</button>
                 </div>
         </form>
 
@@ -67,7 +103,7 @@
                         <tr>
                             <td title="{{ $current->translatedFormat('Y-m-d H:i:s') }}">{{ $current->translatedFormat('D d') }}, <small>{{ $current->translatedFormat('H:i') }}</small></td>
                             @php 
-                            $expires = Carbon\Carbon::parse(\App\Services\CSJSettingsService::getExpirationDate($entity, $periodCount, $period)) 
+                            $expires = Carbon\Carbon::parse(\App\Services\CSJSettingsService::getExpirationDate($entity, $rmPeriodCount, $rmPeriod)) 
                             @endphp
                             <td title="{{ $expires }}">{{ $expires->diffForHumans() }}</td>
                             <td class="text-center">

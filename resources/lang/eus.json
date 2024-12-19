@@ -239,7 +239,10 @@
     "Hours": "Ordu",
     "Months": "Hilabete",
     "Years": "Urte",
-    "Remove backups prior to": "Ezabatu aurretiko backup-ak",
+    "Backup": "Segurtasun-kopia",
+    "Database Backups": "Segurtasun-kopiak",
+    "Remove backups prior to": "Duela zenbat segurtasun-kopiak ezabatu",
+    "Create backups every": "Zenbatero segurtasun-kopiak sortu",
     "Upload pending": "Pendiente"
 }
 

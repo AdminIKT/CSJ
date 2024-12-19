@@ -239,6 +239,9 @@
     "Hours": "Horas",
     "Months": "Meses",
     "Years": "Años",
+    "Backup": "Copia de seguridad",
+    "Database Backups": "Copias de seguridad",
     "Remove backups prior to": "Borrar backups anteriores a",
+    "Create backups every": "Crear backups cada",
     "Upload pending": "Pendiente"
 }
