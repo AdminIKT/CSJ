@@ -109,7 +109,12 @@ nav .feather {
 .btn-filter.collapsed::after {
    content: "\25be";
 }
-
+#admin-page .panel > h6 {
+    background: var(--sj-color);
+    color: var(--white-color);
+    padding: .25rem .5rem;
+    border-radius: .25rem;
+}
 .cbg {
     padding: .25em;
     border-radius: 4px;

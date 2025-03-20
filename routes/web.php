@@ -64,6 +64,7 @@ Route::resources([
 
 Route::middleware(['auth', 'user.valid'])->group(function() {
     Route::get('/', [Controllers\HomeController::class, 'home'])->name('home');
+    Route::get('/admin', [Controllers\HomeController::class, 'admin'])->name('admin');
     Route::get('/faqs', [Controllers\FAQController::class, 'index'])->name('faqs');
     Route::get('/receptions', [Controllers\OrderController::class, 'receptions'])->name('orders.receptions');
     Route::post('/orders/{order}/status', [Controllers\OrderController::class, 'status'])->name('orders.status');

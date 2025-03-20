@@ -27,14 +27,14 @@
       </div>
 
       <div class="gb auth-card" style="display:none"></div>
-      <div id="auth-card" class="auth-card card text-center w-25 overflow-auto" style="display:none">
-        <div class="card-header">
+      <div id="auth-card" class="auth-card card text-center col col-md-4 col-lg-3 overflow-auto" style="display:none">
+        <div id="languajes" class="card-header">
             <div class="d-flex justify-content-between">
                 <div class="btn-group btn-group-sm">
-                    <a class="btn {{ app()->getLocale() == 'eus' ? 'disabled':'text-white' }}" href="/language/eus">eus</a>
-                    <a class="btn {{ app()->getLocale() == 'es' ? 'disabled':'text-white' }}" href="/language/es">es</a>
+                    <a class="btn btn-sm btn-light {{ app()->getLocale() == 'eus' ? 'disabled':'' }}" href="/language/eus">eus</a>
+                    <a class="btn btn-sm btn-light {{ app()->getLocale() == 'es' ? 'disabled':'' }}" href="/language/es">es</a>
                 </div>
-                <a class="btn btn-sm" href="#" onclick="authCard()">
+                <a class="btn btn-sm btn-light rounded-circle shadow" href="#" onclick="authCard()">
                     <i class="bx bx-x"></i>
                 </a>
             </div>
@@ -56,7 +56,9 @@
         </div>
         @if (Auth::user()->getAccounts()->count())
         <div class="card-body" style="max-height: 35vh; overflow-y: auto;">
-            <h6 class="text-muted">{{ __('My accounts') }}</h6>
+            <h6 class="text-muted">
+                <a href="{{ route('home') }}"><i class="bx bxs-dashboard me-1"></i>{{ __('My accounts') }}</a>
+            </h6>
             @foreach (Auth::user()->getAccounts()->filter(function($item) { return $item->isActive(); }) as $account)
               <a class="dropdown-item border my-1 roundedi text-wrap" href="{{ route('accounts.show', ['account' => $account->getId()]) }}">
                   {{ $account->getSerial() }} <small>({{$account->getName()}})</small>
@@ -85,10 +87,17 @@
           -->
           
           <div class="nav_list">
-            <a class="nav_link {{request()->is('/') ? 'active' : ''}}" href="{{ route('home') }}" title="{{ __('Dashboard') }}">
-              <i class="bx bxs-dashboard"></i>
-              <span class="nav_name">{{ __('Dashboard') }}</span>
-            </a>
+            @if (Auth::user()->isAdmin())
+                <a class="nav_link {{request()->is('admin') ? 'active' : ''}}" href="{{ route('admin') }}" title="{{ __('Control Panel') }}">
+                  <i class="bx bxs-grid"></i>
+                  <span class="nav_name">{{ __('Dashboard') }}</span>
+                </a>
+            @else
+                <a class="nav_link {{request()->is('/') ? 'active' : ''}}" href="{{ route('home') }}" title="{{ __('Dashboard') }}">
+                  <i class="bx bxs-dashboard"></i>
+                  <span class="nav_name">{{ __('Dashboard') }}</span>
+                </a>
+            @endif
             <!-- ------------------------------------ -->
             <hr style="margin-left:1rem; color:white;">
 
