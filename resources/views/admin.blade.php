@@ -232,6 +232,42 @@
             @endforeach
             </div>
         </div>
+
+        <div class="panel border shadow-sm rounded p-2 mb-4">
+            <h6><i class="bx bx-cart"></i> {{ __('Last suppliers') }}</h6>
+            <div class="accordion accordion-flush" id="suppliersAccordion">
+            @foreach ($suppliers as $entity)
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-supplier-{{ $entity->getId() }}" aria-expanded="false" aria-controls="collapse-supplier-{{ $entity->getId() }}">
+                            
+                            <div>
+                            <span class="cbg me-1 {{ $entity->getStatusColor() }}" data-bs-toggle="tooltip" title="{{ $entity->getStatusName() }}"> </span>
+                            {{ $entity->getName() }}
+                            @include('admin.accordion-user-header', ['entity' => $entity])
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapse-supplier-{{ $entity->getId() }}" class="accordion-collapse collapse" data-bs-parent="#suppliersAccordion">
+                        <div class="accordion-body d-flex justify-content-center">
+                            <div class="input-group input-group-sm justify-content-center">
+                                <span class="input-group-text"><i class="bx bx-file me-1"></i>{{ __('Agreed orders') }}</span>
+                                <a href="{{ route('suppliers.orders.index', ['supplier' => $entity->getId()]) }}" class="btn btn-outline-secondary" target="_blank" title="{{ __('Agreed orders') }}">
+                                    {{ $entity->getOrderCount() }}
+                                </a>
+                            </div>
+                            <div class="input-group input-group-sm justify-content-center">
+                                <span class="input-group-text"><i class="bx bx-bell me-1"></i>{{ __('Opened incidences') }}</span>
+                                <a href="{{ route('suppliers.incidences.index', ['supplier' => $entity->getId()]) }}" class="btn btn-outline-secondary" target="_blank" title="{{ __('Opened incidences') }}">
+                                    {{ $entity->getIncidenceCount() }}
+                                </a>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            @endforeach
+            </div>
+        </div>
     </div>
 
 </div>

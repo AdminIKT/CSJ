@@ -8,6 +8,7 @@ use App\Entities\Account,
     App\Entities\Order,
     App\Entities\Action,
     App\Entities\Action\OrderAction,
+    App\Entities\Supplier,
     App\Entities\Supplier\Incidence,
     App\Entities\Assignment,
     App\Entities\Charge;
@@ -41,6 +42,8 @@ class HomeController extends Controller
             'charges'  => $em->getRepository(Charge::class)->search([], 5),
             'totals'   => $em->getRepository(Account::class)->totals(),
             'actions'  => $em->getRepository(Action::class)->search([], 5),
+            'suppliers' => $em->getRepository(Supplier::class)->search(['sortBy' => 'supplier.created', 'sort' => 'DESC'], 5),
+
         ]); 
     }
 }
