@@ -990,23 +990,44 @@ class Order implements UserAwareInterface, \JsonSerializable
     {
         switch ($status) {
             case self::STATUS_CREATED: 
-                return "bg-dark";
             case self::STATUS_RECEIVED: 
-                return "bg-secondary";
-            case self::STATUS_CHECKED_NOT_AGREED: 
-                return "bg-danger";
-            case self::STATUS_CHECKED_PARTIAL_AGREED: 
-                return "bg-warning text-dark";
             case self::STATUS_CHECKED_AGREED: 
-                return "bg-success";
-            case self::STATUS_CHECKED_INVOICED: 
-                return "bg-info text-dark";
+            case self::STATUS_CHECKED_NOT_AGREED: 
             case self::STATUS_PAID: 
-                return "bg-primary";
             case self::STATUS_CANCELLED: 
-                return "bg-cancelled";
+                return "bg-".self::statusBGColor($status)." text-light";
+            case self::STATUS_CHECKED_PARTIAL_AGREED: 
+            case self::STATUS_CHECKED_INVOICED: 
             case self::STATUS_MOVED: 
-            default: return "bg-light text-dark";
+            default:
+                return "bg-".self::statusBGColor($status)." text-dark";
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public static function statusBgColor($status) 
+    {
+        switch ($status) {
+            case self::STATUS_CREATED: 
+                return "dark";
+            case self::STATUS_RECEIVED: 
+                return "secondary";
+            case self::STATUS_CHECKED_NOT_AGREED: 
+                return "danger";
+            case self::STATUS_CHECKED_PARTIAL_AGREED: 
+                return "warning";
+            case self::STATUS_CHECKED_AGREED: 
+                return "success";
+            case self::STATUS_CHECKED_INVOICED: 
+                return "info";
+            case self::STATUS_PAID: 
+                return "primary";
+            case self::STATUS_CANCELLED: 
+                return "cancelled";
+            case self::STATUS_MOVED: 
+            default: return "light";
         }
     }
 

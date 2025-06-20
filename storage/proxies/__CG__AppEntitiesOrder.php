@@ -781,12 +781,34 @@ class Order extends \App\Entities\Order implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function addProducts($products)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addProducts', [$products]);
+
+        return parent::addProducts($products);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function addProduct(\App\Entities\Order\Product $product)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addProduct', [$product]);
 
         return parent::addProduct($product);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeProducts($products)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeProducts', [$products]);
+
+        return parent::removeProducts($products);
     }
 
     /**

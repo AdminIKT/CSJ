@@ -43,6 +43,22 @@ class OrderAction extends Action
     }
 
     /**
+     * @return SUbaccount 
+     */
+    public function getSubaccount()
+    {
+        return $this->getOrder()->getSubaccount();
+    }
+
+    /**
+     * @return Account 
+     */
+    public function getAccount()
+    {
+        return $this->getSubaccount()->getAccount();
+    }
+
+    /**
      * @inheritDoc
      */
     public function setEntity($entity)

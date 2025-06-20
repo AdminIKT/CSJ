@@ -40,6 +40,11 @@ class ActionRepository extends \Doctrine\ORM\EntityRepository
             $builder->andWhere("action.user = :user")
                     ->setParameter('user', $user);
         }
+        if (isset($filter['action']) &&
+            null !== ($action = $filter['action'])) {
+            $builder->andWhere("action.action = :action")
+                    ->setParameter('action', $action);
+        }
 
         $builder->orderBy(
             array_key_exists('sortBy', $filter) ?
