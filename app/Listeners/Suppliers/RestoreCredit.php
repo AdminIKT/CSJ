@@ -58,9 +58,8 @@ class RestoreCredit
         if ($event->action === OrderEvent::ACTION_STORE) {
             $this->_increaseEstimated($event);
         }
-        elseif (($event->action === OrderEvent::ACTION_STATUS
-                && $order->isCancelled()) 
-                || $event->action === OrderEvent::ACTION_DELETE) {
+        elseif ($event->action === OrderEvent::ACTION_STATUS
+                && $order->isCancelled()) {
             $this->_decreaseEstimatedCredit($event);
         }         
     }

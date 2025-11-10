@@ -110,7 +110,7 @@ class OrderPolicy
 
         return $user->isAdmin() &&
                $order === $last &&
-               $order->getStatus() <= Order::STATUS_CREATED
+               $order->getStatus() < Order::STATUS_CREATED
                ? Response::allow()
                : Response::deny("The order cannot be deleted");
     }
