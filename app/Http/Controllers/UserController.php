@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Laminas\Hydrator\DoctrineObject;
+use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests\UserRequest;
 use App\Entities\User,
     App\Entities\Role,
@@ -26,14 +28,85 @@ class UserController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $collection = $this->em->getRepository(User::class)
-                               ->findBy([], ['email' => 'asc']);
+        $perPage = $request->input('perPage', Config('app.per_page'));
+        $page = max(1, (int)$request->input('page', 1));
+
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('u')
+           ->from(User::class, 'u')
+           ->orderBy('u.email', 'ASC');
+
+        // Status handling:
+        // - initial request (no 'status' param): default to Active
+        // - if 'status' param is present and non-empty: filter by that status
+        // - if 'status' param is present but empty: show both statuses (no filter)
+        if ($request->has('status')) {
+            $statusVal = $request->input('status');
+            if ($statusVal !== null && $statusVal !== '') {
+                $qb->andWhere('u.status = :status')
+                   ->setParameter('status', (int)$statusVal);
+            } // else: explicit empty -> no status filter (both types)
+        } else {
+            $qb->andWhere('u.status = :status')
+               ->setParameter('status', User::STATUS_ACTIVE);
+        }
+
+        if ($email = $request->input('email')) {
+            $qb->andWhere('LOWER(u.email) LIKE :email')
+               ->setParameter('email', '%'.strtolower($email).'%');
+        }
+
+        if ($name = $request->input('name')) {
+            $qb->andWhere('LOWER(u.name) LIKE :name')
+               ->setParameter('name', '%'.strtolower($name).'%');
+        }
+
+        if ($role = $request->input('role')) {
+            $qb->leftJoin('u.roles', 'r')
+               ->andWhere('r.id = :role')
+               ->setParameter('role', (int)$role);
+        }
+
+        // If perPage is empty/null => return all results (no pagination)
+        if (empty($perPage)) {
+            $collection = $qb->getQuery()->getResult();
+        } else {
+            $perPage = (int)$perPage;
+            $query = $qb->getQuery()
+                        ->setFirstResult(($page - 1) * $perPage)
+                        ->setMaxResults($perPage);
+
+            $doctrinePaginator = new DoctrinePaginator($query, true);
+            $total = count($doctrinePaginator);
+
+            $items = [];
+            foreach ($doctrinePaginator as $item) {
+                $items[] = $item;
+            }
+
+            $collection = new LengthAwarePaginator($items, $total, $perPage, $page, [
+                'path' => url()->current(),
+                'query' => $request->query(),
+            ]);
+        }
+
+        $roles = $this->em->getRepository(Role::class)
+                       ->findBy([], ['name' => 'asc']);
+
+        $roles = array_combine(
+            array_map(function($e) { return $e->getId(); }, $roles),
+            array_map(function($e) { return $e->getName(); }, $roles),
+        );
 
         return view('users.index', [
+            'perPage'    => $perPage,
             'collection' => $collection,
-        ]); 
+            'roles'      => $roles,
+            'pagination' => !empty($perPage),
+            'statusDefault' => $request->has('status') ? $request->input('status') : User::STATUS_ACTIVE,
+        ]);
     }
 
     /**
