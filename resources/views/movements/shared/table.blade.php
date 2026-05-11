@@ -48,6 +48,7 @@
                 </a>
             </th>
             <th class="small" scope="col">{{ __('Detail') }}</th>
+            <th class="small" scope="col">{{ __('Asiento') }}</th>
             <th class="small" scope="col">{{ __('Created') }}
                 <a class="{{ request()->get('sortBy') == 'movement.created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.created', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
@@ -117,12 +118,17 @@
             </td>
             <td>@if ($entity instanceof \App\Entities\Assignment)+@elseif ($entity instanceof \App\Entities\Charge)-@endif{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
             <td>{{ Str::limit($entity->getDetail(), 35, '...') }}</td>
+            <td>
+                @if (! $entity instanceof \App\Entities\Assignment)
+                    {{ $entity->getHzCode() }}
+                @endif
+            </td>
             <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
         </tr>
         @endforeach
         @if ($pagination ?? '')
         <tr>
-            <td class="text-center" colspan="{{ isset($exclude) ? 10 - (count($exclude)) : 10 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
+            <td class="text-center" colspan="{{ isset($exclude) ? 11 - (count($exclude)) : 11 }}">{{ $collection->appends(request()->input())->links("pagination::bootstrap-4") }}</td>
         </tr>
         @elseif ($collection->total())
         <tr style="background: #DDDDDD;">
