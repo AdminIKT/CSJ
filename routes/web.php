@@ -84,4 +84,6 @@ Route::middleware(['auth', 'user.valid'])->group(function() {
         session()->put('locale', $locale);
         return redirect()->back();
     });
+    // Account movements PDF report.
+    Route::get('/account/{account}/movements/pdf', [Controllers\Account\MovementController::class, 'pdf'])->name('accounts.movements.pdf');
 });
