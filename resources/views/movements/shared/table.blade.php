@@ -119,7 +119,7 @@
             <td>@if ($entity instanceof \App\Entities\Assignment)+@elseif ($entity instanceof \App\Entities\Charge)-@endif{{ number_format($entity->getCredit(), 2, ",", ".") }}€</td>
             <td>{{ Str::limit($entity->getDetail(), 35, '...') }}</td>
             <td>
-                @if (! $entity instanceof \App\Entities\Assignment)
+                @if (method_exists($entity, 'getHzCode'))
                     {{ $entity->getHzCode() }}
                 @endif
             </td>
