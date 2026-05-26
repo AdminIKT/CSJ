@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Http\Controllers\BaseController,
     App\Entities\OrderCharge,
     App\Entities\Movement,
@@ -53,5 +54,31 @@ class MovementController extends BaseController
             'collection' => $collection,
             'suppliers'  => Arr::pluck($suppliers, 'name', 'id'),
         ]);
+    }
+
+    /**
+     * Generate a PDF report of account movements.
+     */
+    public function pdf(Request $request, Account $account)
+    {
+        $this->authorize('view', $account);
+
+        $class = $request->input('supplier') ?
+            OrderCharge::class :
+            $request->input('movement', Movement::class);
+
+        $collection = $this->em->getRepository($class)
+                           ->search(array_merge(
+                                $request->all(),
+                                ['account' => $account->getId()]
+                            ), null);
+
+        $pdf = PDF::loadView('pdf.movements', [
+            'entity'     => $account,
+            'collection' => $collection,
+        ]);
+
+        $pdf->setPaper('a4');
+        return $pdf->stream();
     }
 }
