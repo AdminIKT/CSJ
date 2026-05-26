@@ -49,6 +49,7 @@
             </th>
             <th class="small" scope="col">{{ __('Detail') }}</th>
             <th class="small" scope="col">{{ __('Asiento') }}</th>
+            <th class="small" scope="col">{{ __('Nº Factura') }}</th>
             <th class="small" scope="col">{{ __('Created') }}
                 <a class="{{ request()->get('sortBy') == 'movement.created' && request()->get('sort') == 'asc' ? 'active':'' }}" href="{{ request()->fullUrlWithQuery(['sortBy' => 'movement.created', 'sort' => 'asc']) }}">
                     <span data-feather="chevron-up"></span>
@@ -121,6 +122,11 @@
             <td>
                 @if (method_exists($entity, 'getHzCode'))
                     {{ $entity->getHzCode() }}
+                @endif
+            </td>
+            <td>
+                @if (method_exists($entity, 'getInvoice'))
+                    {{ $entity->getInvoice() }}
                 @endif
             </td>
             <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>

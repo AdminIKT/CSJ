@@ -24,6 +24,7 @@
             <tr>
                 <th style="border:1px solid #444; padding:4px; text-align:left;">{{ __('Date') }}</th>
                 <th style="border:1px solid #444; padding:4px; text-align:left;">{{ __('Asiento') }}</th>
+                <th style="border:1px solid #444; padding:4px; text-align:left;">{{ __('Factura') }}</th>
                 <th style="border:1px solid #444; padding:4px; text-align:left;">{{ __('Supplier') }}</th>
                 <th style="border:1px solid #444; padding:4px; text-align:left;">{{ __('Detail') }}</th>
                 <th style="border:1px solid #444; padding:4px; text-align:right;">{{ __('Ingresos') }}</th>
@@ -43,7 +44,8 @@
                 <tr>
 
                     <td style="border:1px solid #444; padding:4px;">{{ $entity->getCreated()->format('d/m/Y') }}</td>
-                    <td style="border:1px solid #444; padding:4px;">@if (! $entity instanceof \App\Entities\Assignment){{ $entity->getHzCode() }}@endif</td>
+                    <td style="border:1px solid #444; padding:4px;">@if (method_exists($entity, 'getHzCode')){{ $entity->getHzCode() }}@endif</td>
+                    <td style="border:1px solid #444; padding:4px;">@if (method_exists($entity, 'getInvoice')){{ $entity->getInvoice() }}@endif</td>
                     <td style="border:1px solid #444; padding:4px;">@if ($entity instanceof \App\Entities\OrderCharge){{ $entity->getOrder()->getSupplier()->getName() }}@endif</td>
                     <td style="border:1px solid #444; padding:4px;">{{ $entity->getDetail() }}</td>
                     <td style="border:1px solid #444; padding:4px; text-align:right;">@if ($entity instanceof \App\Entities\Assignment){{ number_format($entity->getCredit(), 2, ',', '.') }}€@endif</td>
@@ -54,7 +56,7 @@
             @endforeach
             @if ($collection->total())
                 <tr>
-                    <td colspan="6" style="border:1px solid #444; padding:8px; font-weight:bold; text-align:right;">{{ __('Total') }}:</td>
+                    <td colspan="7" style="border:1px solid #444; padding:8px; font-weight:bold; text-align:right;">{{ __('Total') }}:</td>
                     <td style="border:1px solid #444; padding:8px; text-align:right; font-weight:bold;">{{ number_format($totalCredit, 2, ',', '.') }}€</td>
                 </tr>
             @endif
