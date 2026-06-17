@@ -65,7 +65,13 @@
 
                     <td style="border:1px solid #444; padding:4px;">{{ $entity->getCreated()->format('d/m/Y') }}</td>
                     <td style="border:1px solid #444; padding:4px;">@if (method_exists($entity, 'getHzCode')){{ $entity->getHzCode() }}@endif</td>
-                    <td style="border:1px solid #444; padding:4px;">@if (method_exists($entity, 'getInvoice')){{ $entity->getInvoice() }}@endif</td>
+                    <td style="border:1px solid #444; padding:4px;">
+                        @if (method_exists($entity, 'getInvoice'))
+                            {{ $entity->getInvoice() }}
+                        @elseif ($entity instanceof \App\Entities\HzCharge)
+                            {{ str_replace('-', '', $entity->getHzCode()) }}
+                        @endif  
+                    </td>
                     <td style="border:1px solid #444; padding:4px;">{{ $entity->getDetail() }}</td>
                     <td style="border:1px solid #444; padding:4px; text-align:right;">@if ($entity instanceof \App\Entities\Assignment){{ number_format($entity->getCredit(), 2, ',', '.') }}€@endif</td>
                     <td style="border:1px solid #444; padding:4px; text-align:right;">@if (! $entity instanceof \App\Entities\Assignment){{ number_format($entity->getCredit(), 2, ',', '.') }}€@endif</td>

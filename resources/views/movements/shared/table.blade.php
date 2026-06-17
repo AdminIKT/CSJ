@@ -127,8 +127,11 @@
             <td>
                 @if (method_exists($entity, 'getInvoice'))
                     {{ $entity->getInvoice() }}
-                @endif
+                @elseif ($entity instanceof \App\Entities\HzCharge)
+                    {{ str_replace('-', '', $entity->getHzCode()) }}
+                @endif               
             </td>
+
             <td>{{ $entity->getCreated()->format("d/m/Y H:i") }}</td>
         </tr>
         @endforeach
